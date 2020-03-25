@@ -150,7 +150,8 @@ $first = ($pag - 1) * $x_pag;
 
  echo "<h3>".$jsonObj->{$lang."Persone"}[0]."</h3>";//Visualizza Elenco Persone
 
- echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
+ echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br>";//Aggiungi una nuova persona 
+ echo "<a href='export.php'>Export su file excel</a><br><br>";// Export su file excel da finire con inserimento traduzioni
 
 if (isset($_POST['cod_zona'])){
    $cod_zona = $_POST['cod_zona'];
