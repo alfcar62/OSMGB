@@ -55,11 +55,11 @@
                     $psw2=mysqli_real_escape_string($conn,$psw2); 
                     $id_accesso=$_POST["accesso"];
                     if($psw1 !=$psw2) // controllo se sono diverse le psw
-                        echo "errore,le password non corrispondono";
+                       alert("le psw non corrispondono");
                     else
                     {
                         if(strlen ( $psw1 )<8){ //controllo se i caratteri sono almeno 8
-                            echo "errore,la password è troppo corta";
+                            alert("errore,la psw è troppo corta");
                         }
                         else
                          {        
@@ -76,9 +76,9 @@
                             //execute
                             $r=$stmt->execute();
                             if($r)
-                                echo "utente registrato con successo";
+                                alert("Utente registrato con successo");
                             else{
-                                echo "errore,nome utente già in uso";
+                                alert("Errore,nome utente già in uso");
                             } 
                     }
                 }

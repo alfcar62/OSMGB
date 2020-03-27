@@ -9,6 +9,8 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+$pag=$_SESSION['pag_m']['pag_m'];
+unset($_SESSION['pag_m']);
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
@@ -73,6 +75,7 @@ echo "</select>";
 
 echo "<button type='submit' >".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
 echo "</form>";
+echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione morance</a>" 
 ?>
 </body>
 </html>

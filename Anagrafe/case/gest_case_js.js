@@ -46,5 +46,5 @@ window.addEventListener("load", function(){
   // Click event to hide the lightbox
   document.getElementById("lb-back").addEventListener("click", function(){
     this.classList.remove("show");
-  })
+  });
 });

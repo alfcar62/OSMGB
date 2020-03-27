@@ -21,6 +21,7 @@ $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
 setup();
+unsetPag(basename(__FILE__)); 
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
@@ -104,7 +105,33 @@ else
 $x_pag = 10;
 // Recupero il numero di pagina corrente.
 // Generalmente si utilizza una querystring
-$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
+    
+//$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
+if(isset($_GET['pag']))
+ {//Se non è la prima volta che accedo ad una pagina
+  if(isset($_SESSION['pag_p']['pag_p']))
+	{//Se la sessione è già impostata,l'attribuisco a $pag
+      $pag=$_GET['pag'];
+      $_SESSION['pag_p']['pag_p']=$pag;        
+    }
+   else
+	{//Se la sessione non è impostata(come ad esempio quando è la prima volta che accedo alla pagina),imposto la sessione al valore corrente del get
+     $pag=$_GET['pag'];
+     $_SESSION['pag_p']['pag_p']=$pag; 
+//     echo $pag;
+	}
+   }
+   else
+   {//Se il get non è impostato(come ad esempio quando apro per la prima volta gestione case)        
+	if (isset($_SESSION['pag_p']['pag_p'])){//Se la sessione è già impostata
+      $pag=$_SESSION['pag_p']['pag_p'];          
+   }
+   else
+	{//se accedo per la primissima volta 
+     $pag=1;
+     $_SESSION['pag_p']['pag_p']=$pag;
+    }
+  }      
 
 // Controllo se $pag ? valorizzato e se ? numerico
 // ...in caso contrario gli assegno valore 1
@@ -151,7 +178,7 @@ $first = ($pag - 1) * $x_pag;
  echo "<h3>".$jsonObj->{$lang."Persone"}[0]."</h3>";//Visualizza Elenco Persone
 
  echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
-
+ echo"<a href='export.php'>Export su excel</a>";
 if (isset($_POST['cod_zona'])){
    $cod_zona = $_POST['cod_zona'];
 }

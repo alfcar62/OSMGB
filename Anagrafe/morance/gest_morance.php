@@ -10,6 +10,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+unsetPag(basename(__FILE__));
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
@@ -82,7 +83,31 @@ $x_pag = 10;
 
 // Recupero il numero di pagina corrente.
 // Generalmente si utilizza una querystring
-$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
+
+//$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
+    
+if(isset($_GET['pag'])){//Se non è la prima volta che accedo ad una pagina
+            if(isset($_SESSION['pag_m']['pag_m'])){//Se la sessione è già impostata,l'attribuisco a $pag
+                $pag=$_GET['pag'];
+                $_SESSION['pag_m']['pag_m']=$pag;
+                
+                
+            }else{//Se la sessione non è impostata(come ad esempio quando è la prima volta che accedo alla pagina),imposto la sessione al valore corrente del get
+                $pag=$_GET['pag'];
+                $_SESSION['pag_m']['pag_m']=$pag; 
+                echo $pag;
+            }
+            
+        }else{//Se il get non è impostato(come ad esempio quando apro per la prima volta gestione case)
+            
+            if (isset($_SESSION['pag_m']['pag_m'])){//Se la sessione è già impostata(ho già cambiato pagina in precedenza)l'attribuisco alla $pag
+                $pag=$_SESSION['pag_m']['pag_m'];
+                
+            }else{//se accedo per la primissima volta alla pagina e quindi compare la prima pagina di default,attribuisco alla sessione $pag
+            $pag=1;
+            $_SESSION['pag_m']['pag_m']=$pag;
+            }
+        }    
 
 // Controllo se $pag ? valorizzato e se ? numerico
 // ...in caso contrario gli assegno valore 1
@@ -128,7 +153,7 @@ for($i=0;$i<$nz;$i++)
 			echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
 }
 echo "</select>";
-echo " <input type='submit' value='".$jsonObj->{$lang."Morance"}[4]."'>";//Conferma
+echo " <input type='submit' class='button' value='".$jsonObj->{$lang."Morance"}[4]."'>";//Conferma
 echo " </form>";
 
 // ordinamento su campi (11/3/2020) A.C.

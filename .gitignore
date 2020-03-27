@@ -1,3 +1,4 @@
 *.bak
 *.sql
 db_conn.php
+/nbproject/private/

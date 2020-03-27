@@ -17,7 +17,8 @@ $util1="../util.php";
 require_once $util2;
 require_once $util1;
 setup();
-
+$pag=$_SESSION['pag_c']['pag_c'];
+unset($_SESSION['pag_p']);
 /*
 ***i nuovi valori da impostare
 */
@@ -154,8 +155,8 @@ try
     $conn->autocommit(TRUE); // i.e., end transaction
 	$conn->close();
     $mymsg = "Errore modifica  casa" . $conn->error;
-    EchoMessage($mymsg, "gest_case.php");
+    EchoMessage($mymsg, "gest_case.php?pag=$pag");
   }
    $mymsg = "Modifica casa effettuata correttamente";
-   EchoMessage($mymsg, "gest_case.php");
+   EchoMessage($mymsg, "gest_case.php?pag=$pag");
 ?>

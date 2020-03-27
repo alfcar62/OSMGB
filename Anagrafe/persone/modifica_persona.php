@@ -10,6 +10,8 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+$pag=$_SESSION['pag_p']['pag_p'];
+unset($_SESSION['pag_p']);
 
 // salvo i nuovi valori
 $nominativo_new=$_POST['nominativo'];
@@ -204,9 +206,9 @@ try
 	echo $conn->error; 
 	echo "transazione con rollback";
     $mymsg = "Errore nella modifica persona id=$id_pers_modifica " . $msg_err;
-    EchoMessage($mymsg, "gest_persone.php");
+    EchoMessage($mymsg, "gest_persone.php?pag=$pag");
   }
- EchoMessage("Modifica persona id=$id_pers_modifica effettuata correttamente", "gest_persone.php");
+ EchoMessage("Modifica persona id=$id_pers_modifica effettuata correttamente", "gest_persone.php?pag=$pag");
 ?>
 
 

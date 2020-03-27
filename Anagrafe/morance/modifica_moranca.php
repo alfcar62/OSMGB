@@ -11,6 +11,8 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+$pag=$_SESSION['pag_m']['pag_m'];
+unset($_SESSION['pag_m']);
 ?>
 <?php
 $nome=$_POST["nome_moranca"];
@@ -85,10 +87,10 @@ $cod_zona=$_POST["cod_zona"];
 	$conn->close();
     $mymsg =  "Errore nella modifica  della moranca: ";
 	$mymsg .=  $conn->error; 
-	EchoMessage($mymsg, "gest_morance.php");
+	EchoMessage($mymsg, "gest_morance.php?pag=$pag");
   }
  
- EchoMessage("Modifica moranca effettuata correttamente", "gest_morance.php");
+ EchoMessage("Modifica moranca effettuata correttamente", "gest_morance.php?pag=$pag");
   
 ?>
 

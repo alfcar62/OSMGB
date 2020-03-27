@@ -16,11 +16,13 @@ $util1="../util.php";
 require_once $util2;
 require_once $util1;
 setup();
+$pag=$_SESSION['pag_p']['pag_p'];
+unset($_SESSION['pag_p']);
 
 $id_pers_modifica=$_POST["id_pers"];
 
 if (!isset($_POST['si']))
-  header("Location:gest_persone.php");
+  header("Location:gest_persone.php?pag=$pag");
 	 
 try 
  {
@@ -169,8 +171,8 @@ try
     $conn->autocommit(TRUE); // i.e., end transaction
 	$conn->close();
 	$mymsg = "Errore nella cancellazione della persona id =$id_pers_modifica " . $msg_err;
-    EchoMessage($mymsg, "gest_persone.php");
+    EchoMessage($mymsg, "gest_persone.php?=$pag");
   }
- EchoMessage("Cancellazione persona id=$id_pers_modifica effettuata correttamente", "gest_persone.php");
+ EchoMessage("Cancellazione persona id=$id_pers_modifica effettuata correttamente", "gest_persone.php?=$pag");
 ?>
  

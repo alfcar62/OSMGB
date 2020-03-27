@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <?php
 $config_path = __DIR__;
@@ -14,7 +15,14 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 //echo json_last_error_msg();
  ?>
 <div align='center'>
-<br>
+    <br>
+   <?php 
+    if(isset($_GET['welcome']))
+    echo "<h2>Benvenuto {$_SESSION['nome']},hai i permessi di {$_SESSION['tipo']}</h2>";
+    ?>
+
+    <br>
+    
  <IMG SRC="img/bandiera.jpg" WIDTH="146" HEIGHT="74" BORDER="0" ALT="">
 </div>
  <?php 
