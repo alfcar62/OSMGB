@@ -130,29 +130,17 @@ unsetPag(basename(__FILE__));
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
 
 
-        /*$query = "SELECT count(c.id) as cont FROM casa c";
+        $query = "SELECT count(c.id) as cont FROM casa c";
         if (isset($cod_zona) && ($cod_zona != 'tutte'))
         {  
             $query .= " inner join morance m on m.id = c.id_moranca ";
             $query .= " inner join zone z on m.cod_zona = z.cod";
             $query .= " AND z.cod = '$cod_zona'"; 
         }
-        //echo $query;*/
-        
-        $query = "SELECT count(c.id) as cont";
-        $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
-        $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
-        $query .= " LEFT JOIN pers_casa pc ON c.id  = pc.id_casa ";
-        $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
-        $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
-        $query .= " WHERE c.DATA_FINE_VAL is null";
-        if (isset($cod_zona) && ($cod_zona !='tutte'))
-            $query .= " AND m.cod_zona = '{$cod_zona}'";
-        $query .= " ORDER BY c.id ASC";
+        //echo $query;
         $result = $conn->query($query);
         $row = $result->fetch_array();
         $all_rows= $row['cont'];
-        
 
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
