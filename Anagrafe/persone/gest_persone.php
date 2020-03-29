@@ -167,7 +167,6 @@ $result = $conn->query($query2);
 $row = $result->fetch_array();
 //esiste la count
 $all_rows= $row['cont'];
-
     
 //  definisco il numero totale di pagine
 $all_pages = ceil($all_rows / $x_pag);
@@ -239,7 +238,7 @@ if (isset($id_casa)&& ($id_casa !='tutte'))
 $query .= " ORDER BY $campo " . $ord ;
 $query .= " LIMIT $first, $x_pag";
 
-//echo $query;
+
 
 $result = $conn->query($query);
 
