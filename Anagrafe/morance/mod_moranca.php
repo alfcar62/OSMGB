@@ -10,7 +10,7 @@ require_once $util2;
 require_once $util1;
 setup();
 $pag=$_SESSION['pag_m']['pag_m'];
-unset($_SESSION['pag_m']);
+//unset($_SESSION['pag_m']);
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
@@ -55,7 +55,7 @@ echo  "<br><br><br>";
 echo $jsonObj->{$lang."Morance"}[18] .": <input type='text' name='nome_moranca' value='$moranca' ><br>";//Nuovo nome morança
 echo "id OSM: <input type='text' name='id_osm' value='$id_osm' ><br>";
 
-echo "<input type='hidden' name='id_moranca'  value=$id_moranca>";
+echo "<input type='hidden'  name='id_moranca'  value=$id_moranca>";
 
 //Select option per la scelta della zona
 echo   $jsonObj->{$lang."Morance"}[3].": <select name='cod_zona'>";
@@ -73,7 +73,7 @@ for($i=0;$i<$nz;$i++)
 echo "</select>";
 
 
-echo "<button type='submit' >".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
+echo "<button type='submit' class = 'button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
 echo "</form>";
 echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione morance</a>" 
 ?>

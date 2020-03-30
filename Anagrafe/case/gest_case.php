@@ -4,6 +4,7 @@
 *** 13/03/2020  Carlone: modificata la query (per visualizzare anche se non c'è il capo famiglia)
 *** 11/03/2020 Ferraiuolo  Modifica:aggiunta visualizzazione della casa con relativo zoom in caso si passi 
 *** con il cursore sopra
+***29/03/2020: Ferraiuolo: aggiunta del div modal,script js per creare lo zoom quando si clicca sulla foto della casa
 */
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
@@ -57,6 +58,17 @@ unsetPag(basename(__FILE__));
         </div>
         <div id="lb-back">
             <div id="lb-img"></div>
+        </div>
+        <!-- Modal:div che compare quando si clicca sull'immagine -->
+        <div id="myModal" class="modal">
+
+            <!-- The Close Button -->
+            <span class="close">&times;</span>
+
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" id="img01">
+
+
         </div>
         <?php 
 
@@ -208,8 +220,7 @@ unsetPag(basename(__FILE__));
                 echo "<tr>";
                 $immagine=glob('immagini/'.$row['id'].'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato è un array)
                 if($immagine != null)
-                    echo "<td><div ><img src='$immagine[0]' id='imgZoom' class='zoomD' style='display: block; 
-    margin-left: auto; margin-right: auto;'  ></div></td> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
 
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
@@ -310,4 +321,29 @@ unsetPag(basename(__FILE__));
         ?>  
 
     </body>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Prende l'immagine e le inserisce nel div modal (codice di W3Schools modificato con l'aggiunta delle classi)
+        var img = document.getElementsByClassName('modal_image');
+        for(var i=0; i<img.length; i++){
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+            img[i].addEventListener('click',function(){
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            })
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+    </script>
+
 </html>

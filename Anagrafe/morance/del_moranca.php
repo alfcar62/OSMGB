@@ -38,9 +38,9 @@ echo "<br>CANCELLAZIONE MORANCA: id: $id_moranca - moranca: $nome_moranca - zona
 
 echo "<form  method='POST' action='delete_moranca.php'>";
 echo "Si vuole davvero cancellare?<br>";
-echo "<input type='submit' name='no' value='no'>&nbsp;";
-echo "<input type='submit' name='si' value='si'>";
-echo "<input type='hidden' name='id_moranca' value='$id_moranca'>";
+echo "<input type='submit' class='button' name='no' value='no'>&nbsp;";
+echo "<input type='submit' class='button' name='si' value='si'>";
+echo "<input type='hidden' class='button' name='id_moranca' value='$id_moranca'>";
 
 echo "</form>";
 echo "</body>";
