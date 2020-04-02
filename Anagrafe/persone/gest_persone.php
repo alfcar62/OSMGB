@@ -177,7 +177,18 @@ $first = ($pag - 1) * $x_pag;
 
  echo "<h3>".$jsonObj->{$lang."Persone"}[0]."</h3>";//Visualizza Elenco Persone
 
- echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
+ //echo "<a href='ins_persona.php'>".."</a><br><br>";//Aggiungi una nuova persona 
+?>   <form action="ins_persona.php">
+
+        <input type="submit" value=<?php echo $jsonObj->{$lang."Persone"}[2] ?> >
+    </form>
+ 
+    
+     <form action="storicototale_persona.php">
+
+        <input type="submit" value="STORICO TOTALE">
+    </form>
+<?php
  echo"<a href='export.php'>Export su excel</a>";
 if (isset($_POST['cod_zona'])){
    $cod_zona = $_POST['cod_zona'];
