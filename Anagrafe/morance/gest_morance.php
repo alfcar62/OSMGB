@@ -195,7 +195,7 @@ if ($result->num_rows !=0)
   echo "<tr>";
 
   //id (con possibilità di ordinamento)
-
+   echo "<th>Foto</th>";
    echo " <form method='post' action='gest_morance.php'>";
    echo "<input type='hidden' name='ord' value= $ord>";
    echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
@@ -222,6 +222,16 @@ if ($result->num_rows !=0)
 		    $mystr = utf8_encode ($row['nome']) ;
 	
 			echo "<tr>";
+       $immagine = glob('immagini/' . $row['id'] . '.*'); //uso la funzione glob al posto di if_exist perch? permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato ? un array)
+            if ($immagine != null)
+                echo "<td><div ><img src='$immagine[0]' id='imgZoom' class='zoomD' style='display: block; 
+                    width: 30px;
+                    height: 30px;
+                    margin-left: auto; margin-right: auto;'  ></div></td> "; //$immagine ? un array che conterr? una sola stringa (ad esempio: immagini/1.png) al posto numero 0
+
+            else {
+                echo '<td><i class="fa fa-image"></i></td>';
+            }
 			echo "<td>$row[id]</td>";
 			echo "<td>$mystr</td>";
 		    echo "<td>$row[zona]</td>";
