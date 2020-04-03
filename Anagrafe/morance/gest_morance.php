@@ -141,7 +141,7 @@ $first = ($pag - 1) * $x_pag;
 echo "<h2>".$jsonObj->{$lang."Morance"}[0]."</h2>";//Villaggio Ntchangue
 echo "<h3>".$jsonObj->{$lang."Morance"}[1]."</h3>";//Elenco Morance
 echo "<a href='ins_moranca.php'>".$jsonObj->{$lang."Morance"}[2]."</a><br><br>";//Aggiungi una nuova moranca
-
+echo "<a href='export_moranca.php'>".$jsonObj->{$lang."Morance"}[2]."</a><br><br>";//Aggiungi una nuova moranca
 //Select option per la scelta della zona
 echo "<form action='gest_morance.php' method='POST'><br>";
 echo   $jsonObj->{$lang."Morance"}[3].": <select name='cod_zona'>";
