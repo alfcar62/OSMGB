@@ -4,7 +4,8 @@
 *** gest_persone.php
 *** Output. excel.php
 Questo file serve a scegliere la query da eseguire attraverso menù a tendina
-25/03/2020 M. Scursatone : Creazione file e prima implementazione
+*** 25/03/2020 M. Scursatone : Creazione file e prima implementazione
+*** 03/04/2020 M.Scursatone : Modifiche 
 */
 $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
@@ -34,24 +35,25 @@ SCEGLI IL TIPO DI EXPORT SU FILE EXCEL CHE DESIDERI
 <form action="excel.php" method="post" >
 SELEZIONARE LA ZONA:
 <select name="zona">
-<option value="%">tutto</option>   
+<option value="%">tutte</option>   
 <option value="N">nord</option>
 <option value="O">ovest</option>
 <option value="S">sud</option>
 </select>
 SELEZIONARE IL SESSO:
 <select name="sesso">
-<option value="%">maschi e femmine</option>
+<option value="%">tutti</option>
 <option value="m">maschi</option>
 <option value="f">femmine</option>
 </select>
 <br>
 SELEZIONARE LE ETA VOLUTE: 
 <select name="eta">
+<option value="%">tutte</option>
 <option value="minorenni">minorenni</option>     
 <option value="maggiorenni">maggiorenni</option>
 </select>
-SELEZIONARE L'ORDINE:
+ORDINAMENTO IN BASE A:
 <select name="order">
 <option value="nominativo">nome</option>
 <option value="data_nascita">età</option>
@@ -60,6 +62,7 @@ SELEZIONARE L'ORDINE:
 <br>
 NOME DEL FILE DA SCARICARE:
 <input type="text" name="file" placeholder="*Scrivi un nome*"  value="">
+.xls
 <br>
 <input type='submit' name='invia'>
 </form>  
