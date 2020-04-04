@@ -88,23 +88,23 @@ $x_pag = 10;
     /**Metodo di paginazione senza funzione*/
  /*   
 if(isset($_GET['pag']))
- {//Se non Ë la prima volta che accedo ad una pagina
+ {//Se non √® la prima volta che accedo ad una pagina
   if(isset($_SESSION['pag_m']['pag_m']))
-	{//Se la sessione Ë gi‡ impostata,l'attribuisco a $pag
+	{//Se la sessione √® gi√† impostata,l'attribuisco a $pag
       $pag=$_GET['pag'];
       $_SESSION['pag_m']['pag_m']=$pag;   
     }
    else
-	{//Se la sessione non Ë impostata
+	{//Se la sessione non √® impostata
       $pag=$_GET['pag'];
       $_SESSION['pag_m']['pag_m']=$pag; 
  //     echo $pag;
     }     
    }
   else
-   {//Se il get non Ë impostato(come ad esempio quando apro per la prima volta gestione case)
+   {//Se il get non √® impostato(come ad esempio quando apro per la prima volta gestione case)
     if (isset($_SESSION['pag_m']['pag_m']))
-	  {//Se la sessione Ë gi‡ impostata
+	  {//Se la sessione √® gi√† impostata
        $pag=$_SESSION['pag_m']['pag_m'];         
       }else
 	  {//se accedo per la primissima volta alla pagina 
@@ -141,7 +141,7 @@ $first = ($pag - 1) * $x_pag;
 echo "<h2>".$jsonObj->{$lang."Morance"}[0]."</h2>";//Villaggio Ntchangue
 echo "<h3>".$jsonObj->{$lang."Morance"}[1]."</h3>";//Elenco Morance
 echo "<a href='ins_moranca.php'>".$jsonObj->{$lang."Morance"}[2]."</a><br><br>";//Aggiungi una nuova moranca
-echo "<a href='export_moranca.php'>".$jsonObj->{$lang."Morance"}[2]."</a><br><br>";//Aggiungi una nuova moranca
+echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
 //Select option per la scelta della zona
 echo "<form action='gest_morance.php' method='POST'><br>";
 echo   $jsonObj->{$lang."Morance"}[3].": <select name='cod_zona'>";
@@ -197,13 +197,13 @@ if ($result->num_rows !=0)
   echo "<table border>";
   echo "<tr>";
 
-  //id (con possibilit‡ di ordinamento)
+  //id (con possibilit√† di ordinamento)
 
    echo " <form method='post' action='gest_morance.php'>";
    echo "<input type='hidden' name='ord' value= $ord>";
    echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
 
-  //nome Moranca  (con possibilit‡ di ordinamento)
+  //nome Moranca  (con possibilit√† di ordinamento)
 
   echo " <form method='post' action='gest_morance.php'>";
   echo "<input type='hidden' name='ord' value= $ord>";
