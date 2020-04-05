@@ -142,7 +142,7 @@ unsetPag(basename(__FILE__));
                 echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
         }
         echo "</select>";
-        echo " <input type='submit' value='Conferma'>";
+        echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
 
         /*
