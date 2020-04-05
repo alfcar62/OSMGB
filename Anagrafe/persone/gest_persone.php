@@ -67,7 +67,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         <?php
 
-        /*
+/*
 *** 15/3/2020: Se viene richiamato da gest_case.php (mostra persone della casa) 
 */
         // vedo se arriva da gest_casa.php o da  menu persone ";
@@ -151,8 +151,8 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag;
 
-        echo "<h3>".$jsonObj->{$lang."Persone"}[0]."</h3>";//Visualizza Elenco Persone
-
+        echo "<h2> Villaggio di NTchangue: Elenco persone</h2>";
+ 
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
         echo"<a href='export_persone.php'>Export su excel</a>";
         if (isset($_POST['cod_zona'])){
