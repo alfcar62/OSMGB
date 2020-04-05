@@ -22,9 +22,13 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
 <?php stampaIntestazione(); ?>
 <body>
-<?php stampaNavbar(); ?>
+<?php stampaNavbar(); 
+echo "<h2> Villaggio di NTchangue:";
+echo "Export su file Excel delle morance </h2>";
+?>
+
 <form action="excel_moranca.php" method="post" >
-SELEZIONARE LA ZONA:
+Selezionare la zona:
 <select name="zona">
 <option value="%">tutte</option>   
 <option value="N">nord</option>
@@ -32,9 +36,9 @@ SELEZIONARE LA ZONA:
 <option value="S">sud</option>
 </select>
 <br>
-NOME DEL FILE DA SCARICARE:
+Nome del file da scaricare:
 <input type="text" name="file" placeholder="*Scrivi un nome*"  value="">
 .xls
 <br>
-<input type='submit' name='invia'>
+<input type='submit' class = 'button' name='invia'>
 </form>  

@@ -23,46 +23,48 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 ?>
 <?php stampaIntestazione(); ?>
 <body>
-<?php stampaNavbar(); ?>
-
+<?php stampaNavbar(); 
+echo "<h2> Villaggio di NTchangue:";
+echo "Export su file Excel delle persone </h2>";
+?>
 
 <h2>
-SCEGLI IL TIPO DI EXPORT SU FILE EXCEL CHE DESIDERI
+Selezione del tipo di dato da esportare su file excel
 </h2>
 <br>
 
 <div  position="absolute"  align="center">
 <form action="excel.php" method="post" >
-SELEZIONARE LA ZONA:
+Zona:
 <select name="zona">
 <option value="%">tutte</option>   
 <option value="N">nord</option>
 <option value="O">ovest</option>
 <option value="S">sud</option>
 </select>
-SELEZIONARE IL SESSO:
+Sesso:
 <select name="sesso">
 <option value="%">tutti</option>
 <option value="m">maschi</option>
 <option value="f">femmine</option>
 </select>
 <br>
-SELEZIONARE LE ETA VOLUTE: 
+Età: 
 <select name="eta">
 <option value="%">tutte</option>
 <option value="minorenni">minorenni</option>     
 <option value="maggiorenni">maggiorenni</option>
 </select>
-ORDINAMENTO IN BASE A:
+Ordine in base a:
 <select name="order">
 <option value="nominativo">nome</option>
 <option value="data_nascita">età</option>
 <option value="id">ID</option>
 </select>
 <br>
-NOME DEL FILE DA SCARICARE:
+Nome del file da scaricare:
 <input type="text" name="file" placeholder="*Scrivi un nome*"  value="">
 .xls
 <br>
-<input type='submit' name='invia'>
+<input type='submit' class='button' name='invia'>
 </form>  
