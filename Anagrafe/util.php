@@ -39,15 +39,16 @@ function stampaNavbar()
         } ?>
 
     <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!-- statistiche --> 
-    <?php  if($_SESSION['tipo']=="admin"){
-            echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'><IMG SRC='/OSM/Anagrafe/img/ico-registrati.png' WIDTH='36' HEIGHT='33' BORDER='0' ALT='Entra'>".$jsonObj->{$lang."Navbar"}[10]."</IMG></a></li>";//Gestione Utenti
-            //			echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
-            echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
+    <?php  if($_SESSION['tipo']=="admin")
+	 {
+		  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."</a></li>";// Utenti
+
+          //			echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
+         echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
     ?>
-
-
     <?php
-        }  ?>
+      }  
+	?>
     <li><div class="dropdown">
         <button class="dropbtn">
             <?php echo $_SESSION['nome']; ?>
@@ -57,25 +58,21 @@ function stampaNavbar()
             <a href="/OSM/Anagrafe/utenti/area_personale.php">Area personale</a>
             <a href='/OSM/Anagrafe/logout.php'>Esci <IMG SRC='/OSM/Anagrafe/img/ico-logout.png' WIDTH='30' HEIGHT='28' BORDER='0' ALT='Esci'></IMG></a>
 
-
         </div>
         </div></li>
 
-
-
-
     <li>
         <a href="#" onclick="myFx()" class="globe">
-            <img src="/OSM/Anagrafe/lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
+            <img src="/OSM/Anagrafe/gestione_lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
         </a>
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>" >
-            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
+        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>">
+        <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>"   >
-            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
+        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>">
+         <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
         </a>
 
     </div>
