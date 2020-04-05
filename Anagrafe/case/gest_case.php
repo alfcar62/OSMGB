@@ -205,14 +205,16 @@ unsetPag(basename(__FILE__));
                 echo "<td>$row[nome]</td>";
                 echo "<td>$row[zona]</td>";
                 echo "<td>$row[id_moranca]</td>";
+
+			    $mystr = utf8_encode ($row['nome_moranca']) ;
+                echo "<td>$mystr</th>";
+
                 $mystr = utf8_encode ($row['nominativo']) ;
 
                 echo "<td>$mystr</td>";
                 echo "<td>$row[id_pers]</td>";
 
-                $mystr = utf8_encode ($row['nome_moranca']) ;
-                echo "<td>$mystr</th>";
-
+          
 
                 $query2="SELECT COUNT(pers_casa.ID_PERS) as persone from pers_casa WHERE ID_CASA='$row[id]'";
                 $result2 = $conn->query($query2);
