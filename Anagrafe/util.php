@@ -38,7 +38,7 @@ function stampaNavbar()
     <?php
         } ?>
 
-    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[8])?><br><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!--Report statistiche --> 
+    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!-- statistiche --> 
     <?php  if($_SESSION['tipo']=="admin"){
             echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'><IMG SRC='/OSM/Anagrafe/img/ico-registrati.png' WIDTH='36' HEIGHT='33' BORDER='0' ALT='Entra'>".$jsonObj->{$lang."Navbar"}[10]."</IMG></a></li>";//Gestione Utenti
             //			echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
