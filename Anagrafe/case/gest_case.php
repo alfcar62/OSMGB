@@ -129,6 +129,7 @@ unsetPag(basename(__FILE__));
         echo "<br> ELENCO CASE <br>";
         echo "<a href='ins_casa.php'><br>";
         echo "Aggiungi nuova casa </a><br><br>";
+        echo "<a href='export_casa.php'>Export su excel</a><br><br>";
 
 
         //Select option per la scelta della zona
