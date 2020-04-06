@@ -168,7 +168,15 @@ $result = $conn->query($query);
 $numero=$result->num_rows;
 if ($result->num_rows !=0)
  {
+
   echo "<table border>";
+  
+  echo "<span id='ttMod' class='tooltip' style='visibility:hidden'>Modifica di Nome,Id OSM e Zona di una Morança</span>";
+  echo "<span id='ttDel' class='tooltip' style='visibility:hidden'>Eliminazione di una Morança</span>";  
+  echo "<span id='ttCase' class='tooltip' style='visibility:hidden'>Visualizzazione delle case presenti nella Morança</span>";  
+  echo "<span id='ttSto' class='tooltip' style='visibility:hidden'>Visualizzazione storico modifiche della Morança</span>";   
+
+    
   echo "<tr>";
 
   //id (con possibilitÃ  di ordinamento)
@@ -187,10 +195,18 @@ if ($result->num_rows !=0)
   echo "<th>".$jsonObj->{$lang."Morance"}[7]."</th>";//progr nella zona
   echo "<th> su OpenStreetMap";
   echo "<th>data inizio val";//data_val
-  echo "<th>".$jsonObj->{$lang."Morance"}[9]."</th>";//Modifica
-  echo "<th>".$jsonObj->{$lang."Morance"}[10]."</th>";//Elimina
-  echo "<th>".$jsonObj->{$lang."Morance"}[11]."</th>";//Case
-  echo "<th>Storico";//Storico
+    
+  
+  echo "<th title='ciao' onmouseover='tooltip(event,\"ttMod\")' onmouseout='tooltip(event,\"ttMod\")'>".$jsonObj->{$lang."Morance"}[9]."</th>";//Modifica
+    
+ 
+  echo "<th onmouseover='tooltip(event,\"ttDel\")' onmouseout='tooltip(event,\"ttDel\")'>".$jsonObj->{$lang."Morance"}[10]."</th>";//Elimina
+    
+      
+  echo "<th onmouseover='tooltip(event,\"ttCase\")' onmouseout='tooltip(event,\"ttCase\")'>".$jsonObj->{$lang."Morance"}[11]."</th>";//Case
+    
+      
+  echo "<th onmouseover='tooltip(event,\"ttSto\")' onmouseout='tooltip(event,\"ttSto\")'>Storico";//Storico
 
   echo "</tr>";
 
@@ -274,5 +290,21 @@ if ($result->num_rows !=0)
   $result->free();
   $conn->close();	
  ?>
+     <script>
+                
+                function tooltip(event,x){
+                    //alert(event.target.parentElement.childNodes.item(0).attributes);
+                    //debugger;
+                    //alert(x);
+                    document.getElementById(x).style.visibility="visible";
+                    if(event.type=="mouseover"){
+                     
+                    document.getElementById(x).style.visibility="visible";
+                    }
+                    else if(event.type=="mouseout"){
+                    document.getElementById(x).style.visibility="hidden";
+                    }
+                }
+            </script>
  </body>
 </html>
