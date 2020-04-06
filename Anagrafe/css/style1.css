@@ -103,4 +103,9 @@ input:focus, select:focus {
     border: 3px solid #555;
 }
 
-
+.tooltip{
+    position:absolute;
+    top:48%;
+    left:2%;
+    
+}
