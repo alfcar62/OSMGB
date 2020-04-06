@@ -71,10 +71,10 @@ function stampaNavbar()
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>" >
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
             <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>"   >
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA"   >
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
         </a>
 
@@ -109,10 +109,10 @@ function stampaNavbar()
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>" >
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
             <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>">
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
         </a>
 
