@@ -12,7 +12,7 @@ function stampaNavbar()
 {
     //echo getcwd();
 
-    $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA"; //Se nessuna lingua Ë stata scelta,verr‡ messa come default quella italiana
+    $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA"; //Se nessuna lingua √® stata scelta,verr√† messa come default quella italiana
     $lang= strtoupper($lang);
     $jsonFile=file_get_contents(__DIR__ ."/gestione_lingue/translations.json");//Converto il file json in una stringa
     $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
@@ -67,11 +67,13 @@ function stampaNavbar()
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>">
-        <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
+
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
+            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>">
-         <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA"   >
+            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
+
         </a>
     </div>
     <?php
@@ -89,10 +91,10 @@ function stampaNavbar()
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>" >
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
             <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>">
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
         </a>
     </div>
@@ -102,7 +104,7 @@ function stampaNavbar()
 ?>
 </ul>
 <script>
-    function myFx(){//Funzione per far comparire il dropdown men˘ 
+    function myFx(){//Funzione per far comparire il dropdown men√π 
         var show=document.getElementById("dropMenu").style.display;
         console.log(show);
         if(show=="none" || show=="")document.getElementById("dropMenu").style.display="inline";
@@ -150,7 +152,7 @@ function login()
 function setup() // invocata all'inizio di tutte le pagine, tranne login e logout
 {
     // echo "entro in setup()";
-    session_start(); // avvia la sessione (usa i cookie per salvare lo stato:in questo caso, per ricordarsi se l'utente Ë loggato)
+    session_start(); // avvia la sessione (usa i cookie per salvare lo stato:in questo caso, per ricordarsi se l'utente √® loggato)
     /*
 
   if (isset($_SESSION['tempo_max']))
@@ -192,15 +194,15 @@ function unsetPag($file){
 function Paginazione($pagina,$subpag=null){
     if(is_null($subpag))$subpag=$pagina;//Se il parametro opzionale viene omesso,viene impostato al valore di $pagina
     if(isset($_GET['pag']))
-    {//Se non Ë la prima volta che accedo ad una pagina
+    {//Se non √® la prima volta che accedo ad una pagina
         if(isset($_SESSION[$pagina][$subpag]))
-        {//Se la sessione Ë gi‡ impostata,l'attribuisco a $pag
+        {//Se la sessione √® gi√† impostata,l'attribuisco a $pag
             $pag=$_GET['pag'];
             $_SESSION[$pagina][$subpag]=$pag;   
             return $pag;
         }
         else
-        {//Se la sessione non Ë impostata
+        {//Se la sessione non √® impostata
             $pag=$_GET['pag'];
             $_SESSION[$pagina][$subpag]=$pag; 
             return $pag;
@@ -208,9 +210,9 @@ function Paginazione($pagina,$subpag=null){
         }     
     }
     else
-    {//Se il get non Ë impostato(come ad esempio quando apro per la prima volta gestione case)
+    {//Se il get non √® impostato(come ad esempio quando apro per la prima volta gestione case)
         if (isset($_SESSION[$pagina][$subpag]))
-        {//Se la sessione Ë gi‡ impostata
+        {//Se la sessione √® gi√† impostata
             $pag=$_SESSION[$pagina][$subpag];    
             return $pag;
         }else
