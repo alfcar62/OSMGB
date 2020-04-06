@@ -12,7 +12,7 @@ function stampaNavbar()
 {
     //echo getcwd();
 
-    $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA"; //Se nessuna lingua Ë stata scelta,verr‡ messa come default quella italiana
+    $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA"; //Se nessuna lingua √® stata scelta,verr√† messa come default quella italiana
     $lang= strtoupper($lang);
     $jsonFile=file_get_contents(__DIR__ ."/gestione_lingue/translations.json");//Converto il file json in una stringa
     $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
@@ -27,7 +27,8 @@ function stampaNavbar()
         <?php
     if (login())
     {
-        if($_SESSION['tipo']!="utente"){
+     if($_SESSION['tipo']!="utente")
+	  {
         ?>   
     <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;e</a></li>
     <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?></a></li><!--Case --> 
@@ -36,72 +37,53 @@ function stampaNavbar()
     <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM</a></li>
 
     <?php
-        } ?>
+      } ?>
 
-    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[8])?><br><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!--Report statistiche --> 
-    <?php  if($_SESSION['tipo']=="admin"){
-            echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'><IMG SRC='/OSM/Anagrafe/img/ico-registrati.png' WIDTH='36' HEIGHT='33' BORDER='0' ALT='Entra'>".$jsonObj->{$lang."Navbar"}[10]."</IMG></a></li>";//Gestione Utenti
-            //			echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
-            echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
+    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!-- statistiche --> 
+    <?php  if($_SESSION['tipo']=="admin")
+	 {
+	  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."</a></li>";// Utenti
+
+       //echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
+      echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
     ?>
-
-
     <?php
-        }  ?>
+      }  
+	?>
     <li><div class="dropdown">
-        <button class="dropbtn">
-            <?php echo $_SESSION['nome']; ?>
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-content">
-            <a href="/OSM/Anagrafe/utenti/area_personale.php">Area personale</a>
-            <a href='/OSM/Anagrafe/logout.php'>Esci <IMG SRC='/OSM/Anagrafe/img/ico-logout.png' WIDTH='30' HEIGHT='28' BORDER='0' ALT='Esci'></IMG></a>
-
-
-        </div>
-        </div></li>
-
-
-
-
+    <button class="dropbtn">
+    <?php echo $_SESSION['nome']; ?>
+    <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+    <a href="/OSM/Anagrafe/utenti/area_personale.php">Area personale</a>
+    <a href='/OSM/Anagrafe/logout.php'>Esci <IMG SRC='/OSM/Anagrafe/img/ico-logout.png' WIDTH='30' HEIGHT='28' BORDER='0' ALT='Esci'></IMG></a>
+    </div>
+    </div></li>
     <li>
-        <a href="#" onclick="myFx()" class="globe">
-            <img src="/OSM/Anagrafe/lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
-        </a>
+    <a href="#" onclick="myFx()" class="globe">
+    <img src="/OSM/Anagrafe/gestione_lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
+    </a>
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
+
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
             <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA"   >
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
+
         </a>
-
     </div>
-
-
     <?php
-
     }
     else
     {
     ?>
     <li><a href="/OSM/Anagrafe/info/chisiamo.php"><?php echo ($jsonObj->{$lang."Navbar"}[0])?></a></li><!--Chi siamo --> 
     <li><a href="/OSM/Anagrafe/info/progetto.php"><?php echo ($jsonObj->{$lang."Navbar"}[1])?></a></li><!--Il progetto --> 
-    <li><a href="/OSM/Anagrafe/login.php"><?php echo ($jsonObj->{$lang."Navbar"}[2])?><IMG SRC="/OSM/Anagrafe/img/ico-login.png" WIDTH="36" HEIGHT="33" BORDER="0" ALT="Entra"></a></li> <!--Entra --> 
-
-
-        <!--Vecchio select per la lingua
-<form action="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php" method="post">
-<select name="lang" id="sel" onchange="this.form.submit()">
-<option value=" "></option>
-<option value="ITA">Italiano</option>
-<option value="EN">Inglese</option>
-</select>
-</form>
--->         
-
+    <li><a href="/OSM/Anagrafe/login.php"><?php echo ($jsonObj->{$lang."Navbar"}[2])?><IMG SRC="/OSM/Anagrafe/img/ico-login.png" WIDTH="36" HEIGHT="33" BORDER="0" ALT="Entra"></a></li> <!--Entra -->      
     <li>
         <a href="#" onclick="myFx()" class="globe">
             <img src="/OSM/Anagrafe/gestione_lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
@@ -115,17 +97,14 @@ function stampaNavbar()
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
         </a>
-
     </div>
-
-
 </ul>
 <?php
     }	 
 ?>
 </ul>
 <script>
-    function myFx(){//Funzione per far comparire il dropdown men˘ 
+    function myFx(){//Funzione per far comparire il dropdown men√π 
         var show=document.getElementById("dropMenu").style.display;
         console.log(show);
         if(show=="none" || show=="")document.getElementById("dropMenu").style.display="inline";
@@ -173,7 +152,7 @@ function login()
 function setup() // invocata all'inizio di tutte le pagine, tranne login e logout
 {
     // echo "entro in setup()";
-    session_start(); // avvia la sessione (usa i cookie per salvare lo stato:in questo caso, per ricordarsi se l'utente Ë loggato)
+    session_start(); // avvia la sessione (usa i cookie per salvare lo stato:in questo caso, per ricordarsi se l'utente √® loggato)
     /*
 
   if (isset($_SESSION['tempo_max']))
@@ -215,15 +194,15 @@ function unsetPag($file){
 function Paginazione($pagina,$subpag=null){
     if(is_null($subpag))$subpag=$pagina;//Se il parametro opzionale viene omesso,viene impostato al valore di $pagina
     if(isset($_GET['pag']))
-    {//Se non Ë la prima volta che accedo ad una pagina
+    {//Se non √® la prima volta che accedo ad una pagina
         if(isset($_SESSION[$pagina][$subpag]))
-        {//Se la sessione Ë gi‡ impostata,l'attribuisco a $pag
+        {//Se la sessione √® gi√† impostata,l'attribuisco a $pag
             $pag=$_GET['pag'];
             $_SESSION[$pagina][$subpag]=$pag;   
             return $pag;
         }
         else
-        {//Se la sessione non Ë impostata
+        {//Se la sessione non √® impostata
             $pag=$_GET['pag'];
             $_SESSION[$pagina][$subpag]=$pag; 
             return $pag;
@@ -231,9 +210,9 @@ function Paginazione($pagina,$subpag=null){
         }     
     }
     else
-    {//Se il get non Ë impostato(come ad esempio quando apro per la prima volta gestione case)
+    {//Se il get non √® impostato(come ad esempio quando apro per la prima volta gestione case)
         if (isset($_SESSION[$pagina][$subpag]))
-        {//Se la sessione Ë gi‡ impostata
+        {//Se la sessione √® gi√† impostata
             $pag=$_SESSION[$pagina][$subpag];    
             return $pag;
         }else

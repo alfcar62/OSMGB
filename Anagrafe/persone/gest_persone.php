@@ -106,7 +106,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         // Recupero il numero di pagina corrente.
         // Generalmente si utilizza una querystring
 
-  
+
         $pag=Paginazione("pag_p");
 
         // Controllo se $pag ? valorizzato e se ? numerico
@@ -151,10 +151,10 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag;
 
-        echo "<h3>".$jsonObj->{$lang."Persone"}[0]."</h3>";//Visualizza Elenco Persone
+        echo "<h2> Villaggio di NTchangue: Elenco persone</h2>";
 
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
-        echo"<a href='export.php'>Export su excel</a>";
+        echo"<a href='export_persone.php'>Export su excel</a>";
         if (isset($_POST['cod_zona'])){
             $cod_zona = $_POST['cod_zona'];
         }
@@ -175,7 +175,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
         }
         echo "</select>";
-        echo " <input type='submit' value='Conferma'>";//conferma
+        echo " <input type='submit' class='button' value='Conferma'>";//conferma
         echo " </form>";
 
 
@@ -244,6 +244,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
             echo "<th>".$jsonObj->{$lang."Persone"}[6]."</th>";//Ruolo in famiglia
             echo "<th>moranca</th>";//Morança
             echo "<th>".$jsonObj->{$lang."Persone"}[7]."</th>";//Casa
+            echo "<th>su OpenStreetMap</th>";
             echo "<th> data inizio val";//Data val
             echo "<th>".$jsonObj->{$lang."Morance"}[9]."</th>";//Modifica
             echo "<th>".$jsonObj->{$lang."Morance"}[10]."</th>";//Elimina   
@@ -265,6 +266,16 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $mystr = utf8_encode ($row['nome_moranca']) ;
                 echo "<td>$mystr</td>";
                 echo "<td>$row[nome_casa]</td>";
+
+                $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
+                if ($row['id_osm'] != null && $row['id_osm'] != "0")
+                { 
+                    echo "<td>$row[id_osm]<a href=$osm_link target=new><i class='fa fa-map-marker'></i></a></td>"; 
+                }
+                else
+                { 
+                    echo "<td>&nbsp;</td>";
+                }
                 echo "<td>$row[data_inizio_val]</td>";
 
                 echo " <form method='post' action='mod_persona.php'>";

@@ -90,14 +90,9 @@ unsetPag(basename(__FILE__));
 
         // Creo una variabile dove imposto il numero di record 
         // da mostrare in ogni pagina
-        $x_pag = 10;
-
-        // Recupero il numero di pagina corrente.
-        // Generalmente si utilizza una querystring
-
-      
+        $x_pag = 10;  
         
-        $pag=Paginazione("pag_c");
+        $pag=Paginazione("pag_c");// Recupero il numero di pagina corrente.
 
         // Controllo se $pag è valorizzato e se è numerico
         // ...in caso contrario gli assegno valore 1
@@ -136,10 +131,10 @@ unsetPag(basename(__FILE__));
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag;
 
-        echo "<h2> Villaggio di NTchangue</h2>";
-        echo "<br> ELENCO CASE <br>";
-        echo "<a href='ins_casa.php'><br>";
-        echo "Aggiungi nuova casa </a><br><br>";
+        echo "<h2> Villaggio di NTchangue: Elenco case</h2>";
+        echo "<a href='ins_casa.php'>";
+        echo "Inserisci una nuova casa </a><br><br>";
+        echo "<a href='export_casa.php'>Export su excel</a><br><br>";
 
 
         //Select option per la scelta della zona
@@ -158,7 +153,7 @@ unsetPag(basename(__FILE__));
                 echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
         }
         echo "</select>";
-        echo " <input type='submit' value='Conferma'>";
+        echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
 
         /*
@@ -216,14 +211,16 @@ unsetPag(basename(__FILE__));
                 echo "<td>$row[nome]</td>";
                 echo "<td>$row[zona]</td>";
                 echo "<td>$row[id_moranca]</td>";
+
+			    $mystr = utf8_encode ($row['nome_moranca']) ;
+                echo "<td>$mystr</th>";
+
                 $mystr = utf8_encode ($row['nominativo']) ;
 
                 echo "<td>$mystr</td>";
                 echo "<td>$row[id_pers]</td>";
 
-                $mystr = utf8_encode ($row['nome_moranca']) ;
-                echo "<td>$mystr</th>";
-
+          
 
                 $query2="SELECT COUNT(pers_casa.ID_PERS) as persone from pers_casa WHERE ID_CASA='$row[id]'";
                 $result2 = $conn->query($query2);

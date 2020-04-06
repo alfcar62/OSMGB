@@ -81,39 +81,9 @@ else
 // da mostrare in ogni pagina
 $x_pag = 10;
 
-// Recupero il numero di pagina corrente.
-// Generalmente si utilizza una querystring
 
 
-    /**Metodo di paginazione senza funzione*/
- /*   
-if(isset($_GET['pag']))
- {//Se non Ë la prima volta che accedo ad una pagina
-  if(isset($_SESSION['pag_m']['pag_m']))
-	{//Se la sessione Ë gi‡ impostata,l'attribuisco a $pag
-      $pag=$_GET['pag'];
-      $_SESSION['pag_m']['pag_m']=$pag;   
-    }
-   else
-	{//Se la sessione non Ë impostata
-      $pag=$_GET['pag'];
-      $_SESSION['pag_m']['pag_m']=$pag; 
- //     echo $pag;
-    }     
-   }
-  else
-   {//Se il get non Ë impostato(come ad esempio quando apro per la prima volta gestione case)
-    if (isset($_SESSION['pag_m']['pag_m']))
-	  {//Se la sessione Ë gi‡ impostata
-       $pag=$_SESSION['pag_m']['pag_m'];         
-      }else
-	  {//se accedo per la primissima volta alla pagina 
-        $pag=1;
-        $_SESSION['pag_m']['pag_m']=$pag;
-      }
-    }    
-*/
-    $pag=Paginazione("pag_m");
+$pag=Paginazione("pag_m");	// Recupero il  numero di pagina corrente
     
 // Controllo se $pag ? valorizzato e se ? numerico
 // ...in caso contrario gli assegno valore 1
@@ -138,9 +108,12 @@ $all_pages = ceil($all_rows / $x_pag);
 // Calcolo da quale record iniziare
 $first = ($pag - 1) * $x_pag;
 
-echo "<h2>".$jsonObj->{$lang."Morance"}[0]."</h2>";//Villaggio Ntchangue
-echo "<h3>".$jsonObj->{$lang."Morance"}[1]."</h3>";//Elenco Morance
-echo "<a href='ins_moranca.php'>".$jsonObj->{$lang."Morance"}[2]."</a><br><br>";//Aggiungi una nuova moranca
+echo "<h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>";
+
+echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
+
+echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
+
 
 //Select option per la scelta della zona
 echo "<form action='gest_morance.php' method='POST'><br>";
@@ -161,6 +134,7 @@ for($i=0;$i<$nz;$i++)
 echo "</select>";
 echo " <input type='submit' class='button' value='".$jsonObj->{$lang."Morance"}[4]."'>";//Conferma
 echo " </form>";
+
 
 // ordinamento su campi (11/3/2020) A.C.
 if (!isset($_POST['ord'])) 
@@ -197,13 +171,13 @@ if ($result->num_rows !=0)
   echo "<table border>";
   echo "<tr>";
 
-  //id (con possibilit‡ di ordinamento)
+  //id (con possibilit√† di ordinamento)
 
    echo " <form method='post' action='gest_morance.php'>";
    echo "<input type='hidden' name='ord' value= $ord>";
    echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
 
-  //nome Moranca  (con possibilit‡ di ordinamento)
+  //nome Moranca  (con possibilit√† di ordinamento)
 
   echo " <form method='post' action='gest_morance.php'>";
   echo "<input type='hidden' name='ord' value= $ord>";
