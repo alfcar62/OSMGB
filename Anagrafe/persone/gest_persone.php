@@ -67,7 +67,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         <?php
 
-/*
+        /*
 *** 15/3/2020: Se viene richiamato da gest_case.php (mostra persone della casa) 
 */
         // vedo se arriva da gest_casa.php o da  menu persone ";
@@ -106,7 +106,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         // Recupero il numero di pagina corrente.
         // Generalmente si utilizza una querystring
 
-  
+
         $pag=Paginazione("pag_p");
 
         // Controllo se $pag ? valorizzato e se ? numerico
@@ -152,7 +152,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $first = ($pag - 1) * $x_pag;
 
         echo "<h2> Villaggio di NTchangue: Elenco persone</h2>";
- 
+
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
         echo"<a href='export_persone.php'>Export su excel</a>";
         if (isset($_POST['cod_zona'])){
@@ -266,7 +266,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $mystr = utf8_encode ($row['nome_moranca']) ;
                 echo "<td>$mystr</td>";
                 echo "<td>$row[nome_casa]</td>";
-				
+
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
