@@ -121,7 +121,7 @@
                     if(isStrong){
                         console.log("strong");
                         $("#login").submit();
-                    }else alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale!");
+                    }else alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale tra questi:'!' '@' '#' '\$' '%' '\^' '&' '\*' '\_'");
                 }
             </script>
 
