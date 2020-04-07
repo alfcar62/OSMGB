@@ -68,7 +68,7 @@
                         {        
 
                             $utente=$_POST['user'];
-                            $bytes = random_bytes(10);
+                            $bytes = my_random_bytes(10);
                             $sale=(bin2hex($bytes));
                             $codificata=hash('sha256',$psw1.$sale);   
                             // prepare 
