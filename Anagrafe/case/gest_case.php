@@ -67,8 +67,6 @@ unsetPag(basename(__FILE__));
 
             <!-- Modal Content (The Image) -->
             <img class="modal-content" id="img01">
-
-
         </div>
         <?php 
 
@@ -193,10 +191,9 @@ unsetPag(basename(__FILE__));
             while ($row = $result->fetch_array())
             {
                 echo "<tr>";
-                $immagine=glob('immagini/'.$row['id'].'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato è un array)
+                $immagine=glob('immagini/'.$row['id'].'.*');
                 if($immagine != null)
-                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
-
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
                 }
