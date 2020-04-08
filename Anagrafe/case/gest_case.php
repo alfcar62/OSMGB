@@ -100,16 +100,6 @@ unsetPag(basename(__FILE__));
 
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
 
-
-        /*$query = "SELECT count(c.id) as cont FROM casa c";
-        if (isset($cod_zona) && ($cod_zona != 'tutte'))
-        {  
-            $query .= " inner join morance m on m.id = c.id_moranca ";
-            $query .= " inner join zone z on m.cod_zona = z.cod";
-            $query .= " AND z.cod = '$cod_zona'"; 
-        }
-        //echo $query;
-        */
         $query = "SELECT count(c.id) as cont";
         $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
         $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
@@ -134,8 +124,11 @@ unsetPag(basename(__FILE__));
         echo "<h2> Villaggio di NTchangue: Elenco case</h2>";
         echo "<a href='ins_casa.php'>";
         echo "Inserisci una nuova casa </a><br><br>";
-        echo "<a href='export_casa.php'>Export su excel</a><br><br>";
-
+       
+		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
+        
+		echo "<a href='vis_sto_tot_case.php'>";
+        echo "Visualizza la storia delle variazioni delle case </a><br><br>";
 
         //Select option per la scelta della zona
         echo "<form action='gest_case.php' method='POST'><br>";
