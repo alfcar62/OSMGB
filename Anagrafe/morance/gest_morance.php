@@ -115,7 +115,7 @@ echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>"
 echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
 
 echo "<a href='vis_sto_tot_morance.php'>";
-        echo "Visualizza la storia delle variazioni delle morance </a><br><br>";
+        echo "Storia delle morance </a><br><br>";
 
 
 //Select option per la scelta della zona
