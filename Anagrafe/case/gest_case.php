@@ -128,7 +128,7 @@ unsetPag(basename(__FILE__));
 		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
         
 		echo "<a href='vis_sto_tot_case.php'>";
-        echo "Visualizza la storia delle variazioni delle case </a><br><br>";
+        echo "Storia delle case </a><br><br>";
 
         //Select option per la scelta della zona
         echo "<form action='gest_case.php' method='POST'><br>";
