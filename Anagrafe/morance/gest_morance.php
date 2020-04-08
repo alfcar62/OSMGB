@@ -87,23 +87,23 @@ $x_pag = 10;
 //$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
     
 if(isset($_GET['pag']))
- {//Se non è la prima volta che accedo ad una pagina
+ {//Se non ï¿½ la prima volta che accedo ad una pagina
   if(isset($_SESSION['pag_m']['pag_m']))
-	{//Se la sessione è già impostata,l'attribuisco a $pag
+	{//Se la sessione ï¿½ giï¿½ impostata,l'attribuisco a $pag
       $pag=$_GET['pag'];
       $_SESSION['pag_m']['pag_m']=$pag;   
     }
    else
-	{//Se la sessione non è impostata
+	{//Se la sessione non ï¿½ impostata
       $pag=$_GET['pag'];
       $_SESSION['pag_m']['pag_m']=$pag; 
  //     echo $pag;
     }     
    }
   else
-   {//Se il get non è impostato(come ad esempio quando apro per la prima volta gestione case)
+   {//Se il get non ï¿½ impostato(come ad esempio quando apro per la prima volta gestione case)
     if (isset($_SESSION['pag_m']['pag_m']))
-	  {//Se la sessione è già impostata
+	  {//Se la sessione ï¿½ giï¿½ impostata
        $pag=$_SESSION['pag_m']['pag_m'];         
       }else
 	  {//se accedo per la primissima volta alla pagina 
@@ -137,7 +137,19 @@ $first = ($pag - 1) * $x_pag;
 
 echo "<h2>".$jsonObj->{$lang."Morance"}[0]."</h2>";//Villaggio Ntchangue
 echo "<h3>".$jsonObj->{$lang."Morance"}[1]."</h3>";//Elenco Morance
-echo "<a href='ins_moranca.php'>".$jsonObj->{$lang."Morance"}[2]."</a><br><br>";//Aggiungi una nuova moranca
+
+ //echo "<a href='ins_persona.php'>".."</a><br><br>";//Aggiungi una nuova persona 
+ ?>   <form action="ins_moranca.php">
+
+ <input type="submit" value=<?php echo $jsonObj->{$lang."Morance"}[2] ?> >
+</form>
+
+
+<form action="storicototale_morance.php">
+
+ <input type="submit" value="STORICO TOTALE">
+</form>
+<?php
 
 //Select option per la scelta della zona
 echo "<form action='gest_morance.php' method='POST'><br>";
@@ -145,7 +157,7 @@ echo   $jsonObj->{$lang."Morance"}[3].": <select name='cod_zona'>";
 $result = $conn->query("SELECT * FROM zone");
 $nz=$result->num_rows;
 
-echo "<option value='tutte'>  tutte </option>";
+echo "<option value='tutte'>  TUTTE </option>";
 for($i=0;$i<$nz;$i++)
 {
  $row = $result->fetch_array();
@@ -194,13 +206,13 @@ if ($result->num_rows !=0)
   echo "<table border>";
   echo "<tr>";
 
-  //id (con possibilità di ordinamento)
+  //id (con possibilitï¿½ di ordinamento)
    echo "<th>Foto</th>";
    echo " <form method='post' action='gest_morance.php'>";
    echo "<input type='hidden' name='ord' value= $ord>";
    echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
 
-  //nome Moranca  (con possibilità di ordinamento)
+  //nome Moranca  (con possibilitï¿½ di ordinamento)
 
   echo " <form method='post' action='gest_morance.php'>";
   echo "<input type='hidden' name='ord' value= $ord>";
