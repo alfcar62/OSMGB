@@ -1,7 +1,7 @@
 <?php
 /* Autore:Ferraiuolo
 *** Descrizione:Gestione delle case
-*** 13/03/2020  Carlone: modificata la query (per visualizzare anche se non c'è il capo famiglia)
+*** 13/03/2020  Carlone: modificata la query (per visualizzare anche se non c'ï¿½ il capo famiglia)
 *** 11/03/2020 Ferraiuolo  Modifica:aggiunta visualizzazione della casa con relativo zoom in caso si passi 
 *** con il cursore sopra
 ***29/03/2020: Ferraiuolo: aggiunta del div modal,script js per creare lo zoom quando si clicca sulla foto della casa
@@ -98,22 +98,22 @@ unsetPag(basename(__FILE__));
         //$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
 
         if(isset($_GET['pag']))
-        {//Se non è la prima volta che accedo ad una pagina
+        {//Se non ï¿½ la prima volta che accedo ad una pagina
             if(isset($_SESSION['pag_c']['pag_c']))
-            {//Se la sessione è già impostata,l'attribuisco a $pag
+            {//Se la sessione ï¿½ giï¿½ impostata,l'attribuisco a $pag
                 $pag=$_GET['pag'];
                 $_SESSION['pag_c']['pag_c']=$pag;        
             }
             else
-            {//Se la sessione non è impostata(come ad esempio quando è la prima volta che accedo alla pagina),imposto la sessione al valore corrente del get
+            {//Se la sessione non ï¿½ impostata(come ad esempio quando ï¿½ la prima volta che accedo alla pagina),imposto la sessione al valore corrente del get
                 $pag=$_GET['pag'];
                 $_SESSION['pag_c']['pag_c']=$pag; 
                 //     echo $pag;
             }
         }
         else
-        {//Se il get non è impostato(come ad esempio quando apro per la prima volta gestione case)        
-            if (isset($_SESSION['pag_c']['pag_c'])){//Se la sessione è già impostata
+        {//Se il get non ï¿½ impostato(come ad esempio quando apro per la prima volta gestione case)        
+            if (isset($_SESSION['pag_c']['pag_c'])){//Se la sessione ï¿½ giï¿½ impostata
                 $pag=$_SESSION['pag_c']['pag_c'];          
             }
             else
@@ -123,7 +123,7 @@ unsetPag(basename(__FILE__));
             }
         }
 
-        // Controllo se $pag è valorizzato e se è numerico
+        // Controllo se $pag ï¿½ valorizzato e se ï¿½ numerico
         // ...in caso contrario gli assegno valore 1
         if (!$pag || !is_numeric($pag)) $pag = 1; 
 
@@ -151,8 +151,18 @@ unsetPag(basename(__FILE__));
 
         echo "<h2> Villaggio di NTchangue</h2>";
         echo "<br> ELENCO CASE <br>";
-        echo "<a href='ins_casa.php'><br>";
-        echo "Aggiungi nuova casa </a><br><br>";
+   //echo "<a href='ins_casa.php'>".."</a><br><br>";//Aggiungi una nuova persona 
+ ?>   <form action="ins_casa.php">
+
+ <input type="submit" value="fNUOVA CASA">
+</form>
+
+
+<form action="storicototale_case.php">
+
+ <input type="submit" value="STORICO TOTALE">
+</form>
+<?php
 
 
         //Select option per la scelta della zona
@@ -218,9 +228,9 @@ unsetPag(basename(__FILE__));
             while ($row = $result->fetch_array())
             {
                 echo "<tr>";
-                $immagine=glob('immagini/'.$row['id'].'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato è un array)
+                $immagine=glob('immagini/'.$row['id'].'.*');//uso la funzione glob al posto di if_exist perchï¿½ permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato ï¿½ un array)
                 if($immagine != null)
-                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";//$immagine ï¿½ un array che conterrï¿½ una sola stringa (ad esempio: immagini/1.png) al posto numero 0
 
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
@@ -282,7 +292,7 @@ unsetPag(basename(__FILE__));
         echo "<br> Numero case: $all_rows<br>";
 
 
-        // Se le pagine totali sono più di 1...
+        // Se le pagine totali sono piï¿½ di 1...
         // stampo i link per andare avanti e indietro tra le diverse pagine!
         if ($all_pages > 1){
             if ($pag > 1){
