@@ -81,8 +81,6 @@ else
 // da mostrare in ogni pagina
 $x_pag = 10;
 
-
-
 $pag=Paginazione("pag_m");	// Recupero il  numero di pagina corrente
     
 // Controllo se $pag ? valorizzato e se ? numerico
@@ -108,11 +106,23 @@ $all_pages = ceil($all_rows / $x_pag);
 // Calcolo da quale record iniziare
 $first = ($pag - 1) * $x_pag;
 
-echo "<h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>";
 
-echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
+echo "<h2>".$jsonObj->{$lang."Morance"}[0]."</h2>";//Villaggio Ntchangue
+echo "<h3>".$jsonObj->{$lang."Morance"}[1]."</h3>";//Elenco Morance
 
-echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
+ //echo "<a href='ins_persona.php'>".."</a><br><br>";//Aggiungi una nuova persona 
+ ?>   <form action="ins_moranca.php">
+
+ <input type="submit" value=<?php echo $jsonObj->{$lang."Morance"}[2] ?> >
+</form>
+
+
+<form action="storicototale_morance.php">
+
+ <input type="submit" value="STORICO TOTALE">
+</form>
+  echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
+<?php
 
 
 //Select option per la scelta della zona
@@ -121,7 +131,7 @@ echo   $jsonObj->{$lang."Morance"}[3].": <select name='cod_zona'>";
 $result = $conn->query("SELECT * FROM zone");
 $nz=$result->num_rows;
 
-echo "<option value='tutte'>  tutte </option>";
+echo "<option value='tutte'>  TUTTE </option>";
 for($i=0;$i<$nz;$i++)
 {
  $row = $result->fetch_array();
@@ -171,13 +181,15 @@ if ($result->num_rows !=0)
   echo "<table border>";
   echo "<tr>";
 
+
   //id (con possibilità di ordinamento)
+   echo "<th>Foto</th>";
 
    echo " <form method='post' action='gest_morance.php'>";
    echo "<input type='hidden' name='ord' value= $ord>";
    echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
 
-  //nome Moranca  (con possibilità di ordinamento)
+
 
   echo " <form method='post' action='gest_morance.php'>";
   echo "<input type='hidden' name='ord' value= $ord>";
@@ -199,6 +211,16 @@ if ($result->num_rows !=0)
 		    $mystr = utf8_encode ($row['nome']) ;
 	
 			echo "<tr>";
+       $immagine = glob('immagini/' . $row['id'] . '.*'); //uso la funzione glob al posto di if_exist perch? permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato ? un array)
+            if ($immagine != null)
+                echo "<td><div ><img src='$immagine[0]' id='imgZoom' class='zoomD' style='display: block; 
+                    width: 30px;
+                    height: 30px;
+                    margin-left: auto; margin-right: auto;'  ></div></td> "; //$immagine ? un array che conterr? una sola stringa (ad esempio: immagini/1.png) al posto numero 0
+
+            else {
+                echo '<td><i class="fa fa-image"></i></td>';
+            }
 			echo "<td>$row[id]</td>";
 			echo "<td>$mystr</td>";
 		    echo "<td>$row[zona]</td>";
