@@ -57,10 +57,10 @@ require_once $util2;
     </script>
 
     <form action="" method="post">
-        Selezione del tipo di modifica
+        Selezione del tipo di variazione
         <select name="tipo_operazione">
-            <option value="mod">Modificata</option>
-            <option value="del">Eliminata</option>
+            <option value="mod">Modificate</option>
+            <option value="del">Eliminate</option>
             <option value="entrambe" selected>Tutte</option>
         </select>
         Selezione Zona
@@ -76,7 +76,7 @@ require_once $util2;
 
     // visualizzazione situazione storica
 
-    echo "<h2>Storia delle variazioni delle morance</h2>";
+    echo "<h2>Storia delle variazioni delle morance nel tempo</h2>";
     //echo $_POST['codice_zona'];
 
     $query =  "SELECT tipo_op, id_moranca, id_mor_zona,";
