@@ -59,10 +59,10 @@ require_once $util2;
   </script>
 
   <form action="" method="post">
-        Selezione del tipo modifica delle case
+        Selezione del tipo di variazione
         <select name="tipo_operazione">
-            <option value="MOD">Modificata</option>
-            <option value="DELETE">Eliminata</option>
+            <option value="MOD">Modificate</option>
+            <option value="DELETE">Eliminate</option>
             <option value="entrambe" selected>Tutte</option>
         </select>
         <input type="submit">
@@ -70,7 +70,7 @@ require_once $util2;
   <?php
 
   
-  echo "<h2>Storia delle variazioni delle case</h2>";
+  echo "<h2>Storia delle variazioni delle case nel tempo</h2>";
 
   if (isset($_POST['tipo_operazione']))
     $tipo_operazione = $_POST['tipo_operazione'];
