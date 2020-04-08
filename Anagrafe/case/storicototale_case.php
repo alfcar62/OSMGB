@@ -21,7 +21,6 @@ require_once $util2;
 <body onload="myFunction()">
   <?php stampaNavbar();
 
-  $id_casa = $_POST['id_casa'];
   // Creo una variabile dove imposto il numero di record 
   // da mostrare in ogni pagina
   $x_pag = 10;
@@ -34,7 +33,7 @@ require_once $util2;
   // ...in caso contrario gli assegno valore 1
   if (!$pag || !is_numeric($pag)) $pag = 1;
 
-  $query = "SELECT count(id) as cont FROM casa_sto where id_casa=$id_casa";
+  $query = "SELECT count(id) as cont FROM casa_sto";
   $result = $conn->query($query);
   $row = $result->fetch_array();
   $all_rows = $row['cont'];
@@ -61,8 +60,8 @@ require_once $util2;
   <form action="" method="post">
         CAMBIA IL TIPO DI MODIFICA
         <select name="tipo_operazione">
-            <option value="modificato">MODIFICATO</option>
-            <option value="eliminato">ELIMINATO</option>
+            <option value="MOD">MODIFICATO</option>
+            <option value="DELETE">ELIMINATO</option>
             <option value="entrambe" selected>ENTRAMBE</option>
         </select>
         <input type="submit">
@@ -82,12 +81,12 @@ require_once $util2;
   $query .= "id_casa, nome, id_moranca, nome_moranca,";
   $query .= "nome_capo_famiglia, id_osm ";
   $query .= " FROM casa_sto ";
-  $query .= " WHERE id_casa=$id_casa";
+
   if (isset($_POST['tipo_operazione'])) {
     $tipo_operazione = $_POST['tipo_operazione'];
     if($tipo_operazione!="entrambe")
     {
-    $query .= "and tipo_op like '".$tipo_operazione."%' ";
+    $query .= "where tipo_op like '".$tipo_operazione."%' ";
     }
 }
   $query .= " ORDER BY id_casa ASC, data_fine_val DESC";
