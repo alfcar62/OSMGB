@@ -1,7 +1,4 @@
 <?php
-//aggiunta la paginazione della tabella delle morance
-
-
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
@@ -259,7 +256,6 @@ E LA RICHIESTA:
 <option value="maggiorenni">maggiorenni</option>
 <option value="fertili">fertili</option>
 <option value="fasce">fasce</option>
-<option value="abitanti">numeo persone</option>
 </br>
 </select>
 <input type='submit' name='invia'>
@@ -392,41 +388,14 @@ echo "</h3>";
 
 
 
-<?php
- 
-    $x_pag = 10;
 
-    // Recupero il numero di pagina corrente.
-    // Generalmente si utilizza una querystring
-    $pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
+<?php 
 
-    // Controllo se $pag è valorizzato e se è numerico
-    // ...in caso contrario gli assegno valore 1
-    if (!$pag || !is_numeric($pag)) $pag = 1;
-
-    $query = "SELECT count(tab1.nom) as cont FROM (SELECT morance.nome as nom,count(persone.ID) as persone from morance 
-    inner join casa on morance.ID=casa.ID_MORANCA 
-    inner join pers_casa on casa.ID=pers_casa.ID_CASA 
-    inner join persone on pers_casa.ID_PERS=persone.ID 
-    GROUP by morance.ID )as tab1";
-    $result = $conn->query($query);
-    $row = $result->fetch_array();
-    $all_rows = $row['cont'];
-    //echo $query;
-
-    //  definisco il numero totale di pagine
-    $all_pages = ceil($all_rows / $x_pag);
-
-    // Calcolo da quale record iniziare
-    $first = ($pag - 1) * $x_pag;
-
-  //  echo $all_pages;
 $query="SELECT morance.nome,count(persone.ID) as persone from morance 
 inner join casa on morance.ID=casa.ID_MORANCA 
 inner join pers_casa on casa.ID=pers_casa.ID_CASA 
 inner join persone on pers_casa.ID_PERS=persone.ID 
-GROUP by morance.ID
-LIMIT $first, $x_pag";
+GROUP by morance.ID";
  $result=$conn->query($query);
  $nr = $result->num_rows;
 echo "<div  align='center' style='width:50%'> ";
@@ -449,37 +418,9 @@ if ($nr != 0)
 }
  echo "</table>";
  echo "</div>";
- if ($all_pages > 1) {
-    if ($pag > 1) {
-        echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-        echo "Pagina Indietro</a>&nbsp;<br>";
-    }
-    // faccio un ciclo di tutte le pagine
-    $cont = 0;
-    for ($p = 1; $p <= $all_pages; $p++) {
-        if ($cont >= 50) {
-            echo "<br>";
-            $cont = 0;
-        }
-        $cont++;
-        // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-        // all'interno della sequenza delle pagine
-        if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-        // per tutte le altre pagine stampo il link
-        else {
-            echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-            echo $p . "</a>&nbsp;";
-        }
-    }
-    if ($all_pages > $pag) {
-        echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-        echo "Pagina Avanti<br></a>";
-    }
-}
 ?>
-<!--
-script dei grafici con integrazione in php dei dati necessari
--->
+
+
 <script>
 var chart = new CanvasJS.Chart("chartContainer1",
     {

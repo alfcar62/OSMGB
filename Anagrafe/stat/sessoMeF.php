@@ -129,7 +129,7 @@ echo "<option value='sud'>sud</option>
 <input type='submit' name='invia'>
 </form>";
 echo "</br>";
-//echo "selezionato ".$_POST["zona_richiesta"];
+echo "selezionato ".$_POST["zona_richiesta"];
 
 
 ?>
@@ -152,8 +152,8 @@ var chart = new CanvasJS.Chart("chartContainer1",
             type: "pie",
             showInLegend: false,
             dataPoints: [
-                { y: 0, legendText: "prova",  },
-                { y:0, legendText: "prova", },
+                { y: 0, legendText: "360",  },
+                { y:0, legendText: "360", },
                 { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% numero femmine" ?>" }, 
                 { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% numero maschi" },
 

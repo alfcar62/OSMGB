@@ -69,7 +69,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         /*
 *** 15/3/2020: Se viene richiamato da gest_case.php (mostra persone della casa) 
-
+*/
         // vedo se arriva da gest_casa.php o da  menu persone ";
         if (isset($_POST['id_casa']))
         {
