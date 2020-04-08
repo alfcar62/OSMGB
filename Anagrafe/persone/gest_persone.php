@@ -158,7 +158,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 		echo"<a href='export_persone.php'>Export su excel</a><br><br>";
 
 		echo "<a href='vis_sto_tot_persone.php'>";
-        echo "Visualizza la storia delle variazioni delle persone </a><br><br>";
+        echo "Storia delle persone </a><br><br>";
 
         if (isset($_POST['cod_zona'])){
             $cod_zona = $_POST['cod_zona'];
