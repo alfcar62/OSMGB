@@ -63,7 +63,7 @@ require_once $util2;
         <select name="tipo_operazione">
             <option value="MOD">Modificata</option>
             <option value="DELETE">Eliminata</option>
-            <option value="entrambe" selected>Entrambe</option>
+            <option value="entrambe" selected>Tutte</option>
         </select>
         <input type="submit">
     </form>
