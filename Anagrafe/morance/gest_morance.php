@@ -20,6 +20,9 @@ $_SESSION['errore']=null;
 
 ?>
 <html>
+ <link rel="stylesheet" type="text/css" href="../css/style1.css">
+ <link rel="stylesheet" type="text/css" href="gest_morance_temp_css.css">
+
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -53,11 +56,22 @@ $(document).ready(function(){
 <?php stampaIntestazione(); ?>
 <body>
 <?php stampaNavbar(); ?>
+<div class="search-box">
+<input type="text" autocomplete="off" placeholder="Ricerca ..." />
+	<div class="result"></div>
+</div>
+<div id="lb-back">
+       <div id="lb-img"></div>
+</div>
+<!-- Modal:div che compare quando si clicca sull'immagine -->
+<div id="myModal" class="modal">
 
-    <div class="search-box">
-        <input type="text" autocomplete="off" placeholder="Ricerca ..." />
-        <div class="result"></div>
-    </div>
+<!-- The Close Button -->
+ <span class="close">&times;</span>
+
+ <!-- Modal Content (The Image) -->
+ <img class="modal-content" id="img01">
+</div>
 <?php 
 
 // modificato per la gestione corretta della paginazione (A.C. 10/3/2020)
@@ -81,37 +95,10 @@ else
 // da mostrare in ogni pagina
 $x_pag = 10;
 
-// Recupero il numero di pagina corrente.
-// Generalmente si utilizza una querystring
 
-//$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
+
+$pag=Paginazione("pag_m");	// Recupero il  numero di pagina corrente
     
-if(isset($_GET['pag']))
- {//Se non Ë la prima volta che accedo ad una pagina
-  if(isset($_SESSION['pag_m']['pag_m']))
-	{//Se la sessione Ë gi‡ impostata,l'attribuisco a $pag
-      $pag=$_GET['pag'];
-      $_SESSION['pag_m']['pag_m']=$pag;   
-    }
-   else
-	{//Se la sessione non Ë impostata
-      $pag=$_GET['pag'];
-      $_SESSION['pag_m']['pag_m']=$pag; 
- //     echo $pag;
-    }     
-   }
-  else
-   {//Se il get non Ë impostato(come ad esempio quando apro per la prima volta gestione case)
-    if (isset($_SESSION['pag_m']['pag_m']))
-	  {//Se la sessione Ë gi‡ impostata
-       $pag=$_SESSION['pag_m']['pag_m'];         
-      }else
-	  {//se accedo per la primissima volta alla pagina 
-        $pag=1;
-        $_SESSION['pag_m']['pag_m']=$pag;
-      }
-    }    
-
 // Controllo se $pag ? valorizzato e se ? numerico
 // ...in caso contrario gli assegno valore 1
 if (!$pag || !is_numeric($pag))
@@ -135,9 +122,15 @@ $all_pages = ceil($all_rows / $x_pag);
 // Calcolo da quale record iniziare
 $first = ($pag - 1) * $x_pag;
 
-echo "<h2>".$jsonObj->{$lang."Morance"}[0]."</h2>";//Villaggio Ntchangue
-echo "<h3>".$jsonObj->{$lang."Morance"}[1]."</h3>";//Elenco Morance
-echo "<a href='ins_moranca.php'>".$jsonObj->{$lang."Morance"}[2]."</a><br><br>";//Aggiungi una nuova moranca
+echo "<h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>";
+
+echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
+
+echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
+
+echo "<a href='vis_sto_tot_morance.php'>";
+        echo "Storia delle morance </a><br><br>";
+
 
 //Select option per la scelta della zona
 echo "<form action='gest_morance.php' method='POST'><br>";
@@ -158,6 +151,7 @@ for($i=0;$i<$nz;$i++)
 echo "</select>";
 echo " <input type='submit' class='button' value='".$jsonObj->{$lang."Morance"}[4]."'>";//Conferma
 echo " </form>";
+
 
 // ordinamento su campi (11/3/2020) A.C.
 if (!isset($_POST['ord'])) 
@@ -194,13 +188,17 @@ if ($result->num_rows !=0)
   echo "<table border>";
   echo "<tr>";
 
-  //id (con possibilit‡ di ordinamento)
 
+  //foto
+
+  echo "<th>Foto</th>";
+  
+  //id (con possibilit√† di ordinamento)
    echo " <form method='post' action='gest_morance.php'>";
    echo "<input type='hidden' name='ord' value= $ord>";
    echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
 
-  //nome Moranca  (con possibilit‡ di ordinamento)
+  //nome Moranca  (con possibilit√† di ordinamento)
 
   echo " <form method='post' action='gest_morance.php'>";
   echo "<input type='hidden' name='ord' value= $ord>";
@@ -220,8 +218,14 @@ if ($result->num_rows !=0)
   while ($row = $result->fetch_array())
    {
 		    $mystr = utf8_encode ($row['nome']) ;
-	
-			echo "<tr>";
+
+	        echo "<tr>";           
+                $immagine=glob('immagini/'.$row['id'].'.*');
+                if($immagine != null)
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
+                else{
+                    echo '<td><i class="fa fa-image"></i></td>';
+                }
 			echo "<td>$row[id]</td>";
 			echo "<td>$mystr</td>";
 		    echo "<td>$row[zona]</td>";

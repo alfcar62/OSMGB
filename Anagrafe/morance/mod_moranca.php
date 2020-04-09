@@ -75,6 +75,79 @@ echo "</select>";
 
 echo "<button type='submit' class = 'button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
 echo "</form>";
+    echo "<h2>MODIFICA LA FOTO DELLA MORANCA :</h2>";
+
+if(isset($_POST["caricaFoto"])) {
+	$target_dir = "immagini/";
+	$target_file = $target_dir .$id_moranca.'.'.pathinfo($_FILES["fileToUpload"]["name"] ,PATHINFO_EXTENSION);
+	$flagUpload = true; //flag che mi servirà alla fine per capire se è possibile caricare l'immagine
+	$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+	// Controllo se il file caricato è un immagine
+
+	$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);//se resituisce true è un immagine
+	if($check == true) {
+		// Check file size
+		if ($_FILES["fileToUpload"]["size"] > 500000) {
+			echo "Errore: l'immagine è troppo grande";
+			$flagUpload = false;
+		}
+		// Consento soltanto alcuni formati
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+			echo "Errore: è consentito caricare soltanto JPG,PNG o JPEG";
+			$flagUpload = false;
+		}
+		//Controllo il flag
+		if ($flagUpload == true) {
+			// Elimino eventuali file presenti con lo stesso nome (in caso stessi sostituendo l'immagine della casa)
+			$files = glob($target_dir .$id_moranca.'*');//array
+			foreach ($files as $file) {
+				unlink($file);
+			}
+			if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+				echo "L'immagine è stata caricata ";
+			}
+		} 
+
+	}else{
+		echo "Errore:si prega di caricare un immagine";    
+
+	}}
+
+
+
+
+if(isset($_POST["eliminaFoto"])) {
+	// Elimino la foto
+	$target_dir = "immagini/";
+	$files = glob($target_dir.$id_moranca.'*');//array
+	foreach ($files as $file) {
+		unlink($file);
+	}
+
+
+}
+
+
+echo '  <form action="mod_moranca.php" method="post" enctype="multipart/form-data">';//form per caricare la foto
+echo "Seleziona una foto da caricare:";
+echo   " <input type='hidden' name='id_moranca' value='$id_moranca' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
+echo '<input type="file" name="fileToUpload" id="fileToUpload" required>
+<input type="submit" value="Carica foto" name="caricaFoto">
+</form>   ';
+$immagine=glob('immagini/'.$id_moranca.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine
+if($immagine != null){
+
+	echo "Foto attuale:";
+	echo "<img src='$immagine[0]'  width='120'
+height='120' id='image' style=' display: block;
+margin-left:0;'  > ";
+	echo '  <form action="mod_moranca.php" method="post" enctype="multipart/form-data">';//form per caricare la foto
+	echo   " <input type='hidden' name='id_moranca' value='$id_moranca' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
+	echo '<input type="submit" value="Elimina foto" name="eliminaFoto"></form>   ';
+}
+else{
+	echo 'Attualmente non è presente alcuna foto';
+}
 echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione morance</a>" 
 ?>
 </body>

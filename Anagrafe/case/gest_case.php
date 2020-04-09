@@ -14,7 +14,7 @@ unsetPag(basename(__FILE__));
 
 ?>
 <html>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style1.css">
     <link rel="stylesheet" type="text/css" href="gest_case_temp_css.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -67,8 +67,6 @@ unsetPag(basename(__FILE__));
 
             <!-- Modal Content (The Image) -->
             <img class="modal-content" id="img01">
-
-
         </div>
         <?php 
 
@@ -90,38 +88,9 @@ unsetPag(basename(__FILE__));
 
         // Creo una variabile dove imposto il numero di record 
         // da mostrare in ogni pagina
-        $x_pag = 10;
-
-        // Recupero il numero di pagina corrente.
-        // Generalmente si utilizza una querystring
-
-        //$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
-
-        if(isset($_GET['pag']))
-        {//Se non è la prima volta che accedo ad una pagina
-            if(isset($_SESSION['pag_c']['pag_c']))
-            {//Se la sessione è già impostata,l'attribuisco a $pag
-                $pag=$_GET['pag'];
-                $_SESSION['pag_c']['pag_c']=$pag;        
-            }
-            else
-            {//Se la sessione non è impostata(come ad esempio quando è la prima volta che accedo alla pagina),imposto la sessione al valore corrente del get
-                $pag=$_GET['pag'];
-                $_SESSION['pag_c']['pag_c']=$pag; 
-                //     echo $pag;
-            }
-        }
-        else
-        {//Se il get non è impostato(come ad esempio quando apro per la prima volta gestione case)        
-            if (isset($_SESSION['pag_c']['pag_c'])){//Se la sessione è già impostata
-                $pag=$_SESSION['pag_c']['pag_c'];          
-            }
-            else
-            {//se accedo per la primissima volta 
-                $pag=1;
-                $_SESSION['pag_c']['pag_c']=$pag;
-            }
-        }
+        $x_pag = 10;  
+        
+        $pag=Paginazione("pag_c");// Recupero il numero di pagina corrente.
 
         // Controllo se $pag è valorizzato e se è numerico
         // ...in caso contrario gli assegno valore 1
@@ -129,15 +98,16 @@ unsetPag(basename(__FILE__));
 
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
 
-
-        $query = "SELECT count(c.id) as cont FROM casa c";
-        if (isset($cod_zona) && ($cod_zona != 'tutte'))
-        {  
-            $query .= " inner join morance m on m.id = c.id_moranca ";
-            $query .= " inner join zone z on m.cod_zona = z.cod";
-            $query .= " AND z.cod = '$cod_zona'"; 
-        }
-        //echo $query;
+        $query = "SELECT count(c.id) as cont";
+        $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
+        $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
+        $query .= " LEFT JOIN pers_casa pc ON c.id  = pc.id_casa ";
+        $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
+        $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
+        $query .= " WHERE c.DATA_FINE_VAL is null";
+        if (isset($cod_zona) && ($cod_zona !='tutte'))
+            $query .= " AND m.cod_zona = '{$cod_zona}'";
+        
         $result = $conn->query($query);
         $row = $result->fetch_array();
         $all_rows= $row['cont'];
@@ -149,11 +119,14 @@ unsetPag(basename(__FILE__));
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag;
 
-        echo "<h2> Villaggio di NTchangue</h2>";
-        echo "<br> ELENCO CASE <br>";
-        echo "<a href='ins_casa.php'><br>";
-        echo "Aggiungi nuova casa </a><br><br>";
-
+        echo "<h2> Villaggio di NTchangue: Elenco case</h2>";
+        echo "<a href='ins_casa.php'>";
+        echo "Inserisci una nuova casa </a><br><br>";
+       
+		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
+        
+		echo "<a href='vis_sto_tot_case.php'>";
+        echo "Storia delle case </a><br><br>";
 
         //Select option per la scelta della zona
         echo "<form action='gest_case.php' method='POST'><br>";
@@ -171,7 +144,7 @@ unsetPag(basename(__FILE__));
                 echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
         }
         echo "</select>";
-        echo " <input type='submit' value='Conferma'>";
+        echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
 
         /*
@@ -218,10 +191,9 @@ unsetPag(basename(__FILE__));
             while ($row = $result->fetch_array())
             {
                 echo "<tr>";
-                $immagine=glob('immagini/'.$row['id'].'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato è un array)
+                $immagine=glob('immagini/'.$row['id'].'.*');
                 if($immagine != null)
-                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
-
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
                 }
@@ -229,14 +201,16 @@ unsetPag(basename(__FILE__));
                 echo "<td>$row[nome]</td>";
                 echo "<td>$row[zona]</td>";
                 echo "<td>$row[id_moranca]</td>";
+
+			    $mystr = utf8_encode ($row['nome_moranca']) ;
+                echo "<td>$mystr</th>";
+
                 $mystr = utf8_encode ($row['nominativo']) ;
 
                 echo "<td>$mystr</td>";
                 echo "<td>$row[id_pers]</td>";
 
-                $mystr = utf8_encode ($row['nome_moranca']) ;
-                echo "<td>$mystr</th>";
-
+          
 
                 $query2="SELECT COUNT(pers_casa.ID_PERS) as persone from pers_casa WHERE ID_CASA='$row[id]'";
                 $result2 = $conn->query($query2);

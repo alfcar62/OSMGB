@@ -28,12 +28,12 @@ try
 
    $query="INSERT INTO persone (id, nominativo, sesso, data_nascita,data_inizio_val) values ($id_pers,'$nominativo','$sesso','$data_nascita','$data_odierna')";
    $result = $conn->query($query);
-   //echo $query."<br>";
+  // echo $query."<br>";
 
    $query2="INSERT INTO pers_casa (id_pers, id_casa, cod_ruolo_pers_fam, data_inizio_val)";
-   $query2 .= " VALUES ($id_pers, $id_casa, '$cod_ruolo', $data_odierna)";
+   $query2 .= " VALUES ($id_pers, $id_casa, '$cod_ruolo', '$data_odierna')";
    $result = $conn->query($query2);
-   //echo $query2."<br>";
+  // echo $query2."<br>";
    if (!$result)
      {
         $msg_err = "Errore insert pers_casa";
