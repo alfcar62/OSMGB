@@ -89,7 +89,7 @@ unsetPag(basename(__FILE__));
         // Creo una variabile dove imposto il numero di record 
         // da mostrare in ogni pagina
         $x_pag = 10;  
-        
+
         $pag=Paginazione("pag_c");// Recupero il numero di pagina corrente.
 
         // Controllo se $pag è valorizzato e se è numerico
@@ -107,7 +107,7 @@ unsetPag(basename(__FILE__));
         $query .= " WHERE c.DATA_FINE_VAL is null";
         if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";
-        
+
         $result = $conn->query($query);
         $row = $result->fetch_array();
         $all_rows= $row['cont'];
@@ -122,10 +122,10 @@ unsetPag(basename(__FILE__));
         echo "<h2> Villaggio di NTchangue: Elenco case</h2>";
         echo "<a href='ins_casa.php'>";
         echo "Inserisci una nuova casa </a><br><br>";
-       
-		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
-        
-		echo "<a href='vis_sto_tot_case.php'>";
+
+        echo "<a href='export_casa.php'>Export su excel</a><br><br>";
+
+        echo "<a href='vis_sto_tot_case.php'>";
         echo "Storia delle case </a><br><br>";
 
         //Select option per la scelta della zona
@@ -195,14 +195,14 @@ unsetPag(basename(__FILE__));
                 if($immagine != null)
                     echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
                 else{
-                    echo '<td><i class="fa fa-image"></i></td>';
+                    echo '<td><img src="../img/immagine.png" ></i></td>';
                 }
                 echo "<td>$row[id]</td>";
                 echo "<td>$row[nome]</td>";
                 echo "<td>$row[zona]</td>";
                 echo "<td>$row[id_moranca]</td>";
 
-			    $mystr = utf8_encode ($row['nome_moranca']) ;
+                $mystr = utf8_encode ($row['nome_moranca']) ;
                 echo "<td>$mystr</th>";
 
                 $mystr = utf8_encode ($row['nominativo']) ;
@@ -210,7 +210,7 @@ unsetPag(basename(__FILE__));
                 echo "<td>$mystr</td>";
                 echo "<td>$row[id_pers]</td>";
 
-          
+
 
                 $query2="SELECT COUNT(pers_casa.ID_PERS) as persone from pers_casa WHERE ID_CASA='$row[id]'";
                 $result2 = $conn->query($query2);
@@ -221,7 +221,7 @@ unsetPag(basename(__FILE__));
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
-                    echo "<td>$row[id_osm]<a href=$osm_link target=new><i class='fa fa-map-marker'></i></a></td>"; 
+                    echo "<td>$row[id_osm]<a href=$osm_link target=new><img src='../img/marker.png' > </button></i></a></td>"; 
                 }
                 else
                 { 
@@ -230,16 +230,16 @@ unsetPag(basename(__FILE__));
                 echo "<td>$row[data_val]</td>";
 
                 echo " <form method='post' action='mod_casa.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/wrench.png' > </button> ". "</th></form>";
 
                 echo " <form method='post' action='del_casa.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/trash.png' > </button> ". "</th></form>";
 
                 echo " <form method='post' action='mostra_persone.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i></button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/people.png' ></button> ". "</th></form>";
 
                 echo " <form method='post' action='vis_casa_sto.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i></button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/history.png' ></button> ". "</th></form>";
                 echo "</tr></form>";
             }
             echo "</table>";
