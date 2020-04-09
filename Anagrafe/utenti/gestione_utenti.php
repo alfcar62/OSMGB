@@ -39,26 +39,26 @@ setup();
         {
             if (isset($_POST['si'])){
 
-                if($_POST['idElimina']!=$_SESSION['nome'])
-                {
-                    $query="DELETE FROM utenti WHERE user='{$_POST['idElimina']}'";
-                    $result=$conn->query($query);
-                    if($result)
-
-        ?>  <script type="text/javascript">
-        alert("Utente eliminato con successo");
-        </script>
-        <?php
-                }
-                else {
+            if($_POST['idElimina']!=$_SESSION['nome'])
+            {
+                $query="DELETE FROM utenti WHERE user='{$_POST['idElimina']}'";
+                $result=$conn->query($query);
+                if($result)
+                 
+              ?>  <script type="text/javascript">
+     alert("Utente eliminato con successo");
+   </script>
+<?php
+            }
+            else {
         ?>
-        <script type="text/javascript">
-            alert("Impossibile eliminare l'utente attualmente in uso");
-        </script>
+                <script type="text/javascript">
+     alert("Impossibile eliminare l'utente attualmente in uso");
+   </script>
         <?php
-                }
-            }}
-
+            }
+        }}
+        
         $query = "SELECT count(user) as cont FROM utenti";
         $result = $conn->query($query);
         $row = $result->fetch_array();
@@ -122,7 +122,7 @@ setup();
                 echo "<td>$row[id_accesso]</td>";
                 echo "<td>$row[data_inizio_val]</td>";
                 echo " <form method='post' action='del_utente.php'>";
-                echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><img src='../img/trash.png' > </button> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><i class='fa fa-times'></i> </button> ". "</th></form>";
             }
             echo "</table>";
         }
