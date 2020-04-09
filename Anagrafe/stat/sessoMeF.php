@@ -6,10 +6,11 @@ setup();
 ?>
 
 <html>
+     <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
 <?php stampaIntestazione(); ?>
 <body>
-<?php stampaNavbar(); 
-?>
+<div class="dnav"  ><?php stampaNavbar(); 
+    ?></div><div class="pg">
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
@@ -165,3 +166,4 @@ chart.render();
 
 
 </script>
+    </div></div></body></html>

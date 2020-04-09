@@ -8,12 +8,12 @@ setup();
 <html>
 <?php stampaIntestazione(); ?>
 <body>
-<?php stampaNavbar(); 
+ <div class="dnav"  ><?php stampaNavbar(); 
 ?>
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
-?>
+     ?></div> <div class="pg"  >
 
 <?php
 
@@ -143,3 +143,4 @@ chart.render();
 
 
 </script>
+    </div>

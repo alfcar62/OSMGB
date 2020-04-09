@@ -8,8 +8,9 @@ setup();
 <html>
 <?php stampaIntestazione(); ?>
 <body>
-<?php stampaNavbar(); 
-?>
+     <div class="totalB">
+ <div class="dnav"  ><?php stampaNavbar(); 
+     ?></div> <div class="pg"  >
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
@@ -130,10 +131,10 @@ echo "</br>";
 
 ?>
 <form action="statistiche.php"> <input type="submit" value=TORNA> </form>
-<div>
+         </div>
 
 
-</form>
+
 
 
 <script>
@@ -159,4 +160,6 @@ var chart = new CanvasJS.Chart("chartContainer1",
 chart.render();
 
 
-</script>
+         </script></div>
+         </div>
+         </body>

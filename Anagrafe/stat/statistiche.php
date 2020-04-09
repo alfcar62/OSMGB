@@ -6,10 +6,14 @@ setup();
 ?>
 
 <html>
+    <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
 <?php stampaIntestazione(); ?>
 <body>
-<?php stampaNavbar(); 
-?>
+<link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
+<div class="dnav"  ><?php stampaNavbar(); 
+    ?></div>
+   <div class="pg">
+
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
@@ -225,50 +229,42 @@ $anno_corrente=date("yy");
 <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 
-<div position="absolute"  align="center">
+<div class="StatImg" align="center" >
 <h2>
 STATISTICHE GLOBALI
 </h2>
-<div id="chartContainer1"   left=15% style="width: 45%;  height: 300px;display: inline-block;"></div> 
-<div id="chartContainer2" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
-<div id="chartContainer3" left=15% style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="chartContainer4" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
+<div id="chartContainer1"   left=15% style="width: 45%;  height: 40%;display: inline-block;"></div> 
+<div id="chartContainer2" right=15% style="width: 45%; height: 40%;display: inline-block;"></div><br>
+<div id="chartContainer3" left=15% style="width: 45%; height: 40%;display: inline-block;"></div>
+<div id="chartContainer4" right=15% style="width: 45%; height: 40%;display: inline-block;"></div><br>
 </div>
-
-<div style=' text-align: center;'>
+<div class="Stats">
 <br><br><br>
+<div id="zone">
 <h2>
 STATISTICHE PER ZONE
 </h2>
-</div>
-<div  position="absolute"  align="center">
-<form action="utility_stat.php" method="post" >
-SELEZIONARE LA ZONA:
-<select name="zona_richiesta">
+ <form action="utility_stat.php" method="post" >
+<h4>SELEZIONARE LA ZONA:</h4>
+<select class="sel" name="zona_richiesta">
 <option value="nord">nord</option>
 <option value="ovest">ovest</option>
 <option value="sud">sud</option>
-</br>
-</select>
-E LA RICHIESTA:
-<select name="valore">
+</select><br>
+    <h4>E LA RICHIESTA:</h4>
+<select class="sel" name="valore">
 <option value="maschi">maschi e femmine</option>
 <option value="maggiorenni">maggiorenni</option>
 <option value="fertili">fertili</option>
 <option value="fasce">fasce</option>
-</br>
 </select>
 <input type='submit' name='invia'>
 </form>
 
 
-</div>
-<div style=' text-align: center;'>
-
-
 <form action="" method="post" >
 
-Nell'anno  
+    <h4>Nell'anno  </h4>
 <?php 
 
 if(isset($_POST['anno_persone'])){ 
@@ -307,22 +303,17 @@ while($anno<=$anno_corrente)
 }
 
 echo"</select>";
+
+
 echo " sono nate:";
 echo"<input type='text' readonly value='";
 if(isset($numero_persone_annata))
 {echo $numero_persone_annata;}
 echo "'>  persone";
-echo"
+ echo"
 <input type='submit' name='invia'>";
-echo "<br><h2>"."STATISTICHE PER MORTI<h2>";
+echo "<br></div><div id='morti'><h2>"."STATISTICHE PER MORTI</h2>";
 ?>
-</div>
-<div position="absolute"  align="center">
-
-
-</form>
-
-
 
 
 
@@ -331,7 +322,7 @@ echo "<br><h2>"."STATISTICHE PER MORTI<h2>";
 
 <form action="#indice1" method="post" >
 <section id="#indice1"></section>
-Nell'anno  
+ 
 <?php 
 //persone morte
 if(isset($_POST['anno_persone2'])){ 
@@ -351,8 +342,8 @@ if(isset($_POST['anno_persone2'])){
    
 ?>
 
-
-<select name="anno_persone2">
+                      </form>
+Nell'anno<br> <select name="anno_persone2">
 
 
 <?php 
@@ -368,22 +359,22 @@ while($anno2<=$anno_corrente)
    $anno2++;
 }
 
-echo"</select>";
-echo " sono morte:";
+echo"</select><br>";
+echo " sono morte:<br>";
 echo"<input type='text' readonly value='";
 if(isset($numero_persone_annata2))
 {echo $numero_persone_annata2;}
 echo "'>  persone";
 echo "
-<input type='submit' value='mostra numero'>;
-<br>
+<input type='submit' value='mostra numero'> 
+<br><br>
 visualizza le persone
 <input type='submit'  value='mostra' formaction='rappresenta.php'>";
-echo "</form>";
-echo "</br><h3  style=' text-align: center;'>numero abitanti per casa : ".(ceil($persone_casa*10))/10;
-echo "</br></br>Età media : ".(ceil($etamedia*10))/10;
-echo "</br></br>Persone Morte Dall'inizio : ".$morti;
-echo "</h3>";
+echo "</div></div></form>";
+echo "<div id='postM'><h3>numero abitanti per casa : ".(ceil($persone_casa*10))/10;
+echo "Età media : ".(ceil($etamedia*10))/10;
+echo "Persone Morte Dall'inizio : ".$morti;
+echo "</h3></div>";
 ?>
 
 
@@ -398,7 +389,8 @@ inner join persone on pers_casa.ID_PERS=persone.ID
 GROUP by morance.ID";
  $result=$conn->query($query);
  $nr = $result->num_rows;
-echo "<div  align='center' style='width:50%'> ";
+echo"</div>";
+echo "<div class='elenco' > ";
 if ($nr != 0)
  {
 	echo "<table border>";
@@ -505,3 +497,5 @@ chart.render();
 
 </script>
 
+    </select>
+    </div></form></div></div></body></html>
