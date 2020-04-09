@@ -12,7 +12,7 @@
 *** del_persona.php  (caso di cancellazione persona)
 *** mostra_casa.php  (caso di motra dati della casa della persona)
 *** vis_persona_sto.php  (caso di visualizzazione storico della persona)
-***
+***  9/4/2020: A.Carlone: visualizzazione deceduti
 *** 15/3/2020: A.Carlone: migliorata gestione zone e ordinamento su id e nome moranca
 *** 27/02/20 : Gobbi: Implementazione della gestione multilingue
 *** 2/2/2020: A. Carlone: prima implementazione
@@ -53,13 +53,15 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
             });
         });
     </script>
+
+
     <?php
     $util2 = $config_path .'/../db/db_conn.php';
     require_once $util2;
     ?>
     <?php stampaIntestazione(); ?>
     <body>
-        <?php stampaNavbar(); ?>
+    <?php stampaNavbar(); ?>
         <div class="search-box">
             <input type="text" autocomplete="off" placeholder="<?php echo $jsonObj->{$lang."Persone"}[1];?>..." /><!--Ricerca persone -->
             <div class="result"></div>
@@ -67,7 +69,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         <?php
 
-        /*
+/*
 *** 15/3/2020: Se viene richiamato da gest_case.php (mostra persone della casa) 
 */
         // vedo se arriva da gest_casa.php o da  menu persone ";
@@ -96,16 +98,19 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $cod_zona =  $_SESSION['cod_zona'];
         } 
 
-        //echo " cod_zona = ". $cod_zona;
-        //echo " SESSION(cod_zona) = ".$_SESSION['cod_zona'];
+       if (isset($_POST['decessi']))
+        {
+            $decessi = $_POST['decessi']; 
+            $_SESSION['decessi'] = $decessi;
+        }  
+        else 
+        {
+            if( isset($_SESSION['decessi']) &&  ($_SESSION['decessi'] != 'tutti'))		
+                $decessi =  $_SESSION['decessi'];
+        } 
 
-        // Paginazione:
-        // Creo una variabile dove imposto il numero di record 
-        // da mostrare in ogni pagina
         $x_pag = 10;
         // Recupero il numero di pagina corrente.
-        // Generalmente si utilizza una querystring
-
 
         $pag=Paginazione("pag_p");
 
@@ -135,10 +140,13 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
             $query2 .= " AND z.cod = '$cod_zona'";
         }
 
+       if (isset($decessi) && ($decessi == 'si'))
+            $query2 .= " AND p.data_morte IS NOT NULL";
+       if (isset($decessi) && ($decessi == 'no'))
+            $query2 .= " AND p.data_morte IS  NULL";
 
-        //echo $query2;
+//       echo $query2;
 
-        // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
         $result = $conn->query($query2);
         $row = $result->fetch_array();
         //esiste la count
@@ -147,7 +155,6 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
-
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag;
 
@@ -183,6 +190,25 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         echo " <input type='submit' class='button' value='Conferma'>";//conferma
         echo " </form>";
 
+		//Select option per la scelta visualizzazione decessi
+        echo "<form action='gest_persone.php' method='POST'><br>";
+        echo   "Visualizza: <select  name='decessi'>";    
+        echo "<option value='tutti'";
+		if(isset($decessi) && ($decessi == 'tutti'))
+		    echo " selected"; 
+		echo "> tutti </option>";
+	    echo "<option value='no'";
+		if(isset($decessi) && ($decessi == 'no'))
+		    echo " selected"; 
+		echo "> viventi </option>";
+
+	    echo "<option value='si'";
+		if(isset($decessi) && ($decessi == 'si'))
+		    echo " selected"; 
+		echo "> deceduti </option>";    
+        echo "</select>";
+        echo " <input type='submit' class='button' value='Conferma'>";//conferma
+        echo " </form>";
 
         // ordinamento su campi (11/3/2020) A.C.
         if (!isset($_GET['ord'])) 
@@ -200,6 +226,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         }
         // ordinamento
 
+        $result->free();
 
         $query = "SELECT ";
         $query .= " p.id, p.nominativo, p.sesso, p.data_nascita, p.data_morte,";
@@ -217,15 +244,19 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
             $query .= " AND m.cod_zona = '$cod_zona'"; 
         if (isset($id_casa)&& ($id_casa !='tutte'))
             $query .= " AND id_casa = $id_casa";
+		if (isset($decessi) && ($decessi == 'si'))
+            $query .= " AND p.data_morte IS NOT NULL";
+        if (isset($decessi) && ($decessi == 'no'))
+            $query .= " AND p.data_morte IS  NULL";
         $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
 
-        //echo $query;
+   //     echo $query;
 
         $result = $conn->query($query);
 
         $nr = $result->num_rows;
-
+    
         if ($nr != 0)
         {
             echo "<table border>";
@@ -305,7 +336,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         // Se le pagine totali sono pi? di 1...
         // stampo i link per andare avanti e indietro tra le diverse pagine!
 
-        echo "<br> Numero abitanti: $all_rows<br>";
+        echo "<br> Numero abitanti risultanti: $all_rows<br>";
         if ($all_pages > 1){
             if ($pag > 1){
                 echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
