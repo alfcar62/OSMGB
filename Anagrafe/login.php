@@ -142,23 +142,23 @@ if (isset($_POST['user']) && isset($_POST['psw']))
 <html>
     <?php stampaIntestazione(); ?>
     <body>
-        <?php stampaNavbar(); ?>
+       <div class="dnav"  >    <?php stampaNavbar(); ?></div>
+        <div class="pg">
         <?php
         if (!login())
         {
         ?>
         <!--<div class="container">-->
-        <div>    <h>Login<br></h>
-            <form id="login" action="login.php" method="POST">
-                Username: 
-                <input type="text" name="user"><br>
-                Password: 
-                <input type="password" name="psw" required><br>
-                <input type="submit" class="button" name="login" value="Login" required>
+        <div  id="uspw">    <h>Login<br></h>
+             <form id="login" action="login.php" method="POST">
+                <input class="camp" id="user" type="text" name="user" placeholder="User"    >
+                <input class="camp" id="psw" type="password" name="psw" placeholder="Password" required  ><br>
+                <input type="submit" class="camp" id="butto" name="login" value="Login" required>
             </form></div>
         <?php
         }
-        ?>
+            ?></div>
+
     </body>
 
 </html>
