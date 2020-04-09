@@ -69,7 +69,7 @@ require_once $util2;
 
     // visualizzazione situazione storica
 
-    echo "<h2>Storia delle variazioni delle morance nel tempo</h2>";
+    echo "<h2>Storia delle variazioni delle moran&ccedil;e nel tempo</h2>";
     //echo $_POST['codice_zona'];
 
     $query =  "SELECT tipo_op, id_moranca, id_mor_zona,";
@@ -93,9 +93,9 @@ require_once $util2;
         echo "<table border>";
         echo "<tr>";
         echo "<th>tipo modifica</th>";
-        echo "<th>id moranca</th>";
-        echo "<th>id moranca-zona</th>";
-        echo "<th>nome moranca</th>";
+        echo "<th>id moran&ccedil;a</th>";
+        echo "<th>id moran&ccedil;a-zona</th>";
+        echo "<th>nome moran&ccedil;a</th>";
         echo "<th>zona</th>";
         echo "<th>data inizio_val</th>";
         echo "<th>data fine val</th>";

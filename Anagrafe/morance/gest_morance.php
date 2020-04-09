@@ -129,7 +129,7 @@ $_SESSION['errore']=null;
         echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
 
         echo "<a href='vis_sto_tot_morance.php'>";
-        echo "Storia delle morance </a><br><br>";
+        echo "Storia delle moran&ccedil;e </a><br><br>";
 
 
         //Select option per la scelta della zona
