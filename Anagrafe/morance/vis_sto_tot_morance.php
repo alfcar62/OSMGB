@@ -63,13 +63,6 @@ require_once $util2;
             <option value="del">Eliminate</option>
             <option value="entrambe" selected>Tutte</option>
         </select>
-        Selezione Zona
-        <select name="codice_zona">
-            <option value="O">Ovest</option>
-            <option value="N">Nord</option>
-            <option value="S">Sud</option>
-            <option value="entrambe" selected>Tutte</option>
-        </select>
         <input type="submit">
     </form>
     <?php
@@ -89,19 +82,7 @@ require_once $util2;
         }
     }
 
-    if (isset($_POST['codice_zona'])) {
-        $codicezona = $_POST['codice_zona'];
-        if (isset($_POST['tipo_operazione'])) {
-            if ($codicezona != "entrambe" && $_POST['tipo_operazione'] != "entrambe") {
-                $query .= "and COD_ZONA ='" . $codicezona . "' ";
-            }
-        } else {
 
-            if ($codicezona != "entrambe") {
-                $query .= "where COD_ZONA ='" . $codicezona . "' ";
-            }
-        }
-    }
     $query .= " ORDER BY id ASC, data_fine_val DESC";
     $query .= " LIMIT $first, $x_pag";
 
