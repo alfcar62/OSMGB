@@ -20,6 +20,9 @@ $_SESSION['errore']=null;
 
 ?>
 <html>
+ <link rel="stylesheet" type="text/css" href="../css/style1.css">
+ <link rel="stylesheet" type="text/css" href="gest_morance_temp_css.css">
+
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -53,11 +56,22 @@ $(document).ready(function(){
 <?php stampaIntestazione(); ?>
 <body>
 <?php stampaNavbar(); ?>
+<div class="search-box">
+<input type="text" autocomplete="off" placeholder="Ricerca ..." />
+	<div class="result"></div>
+</div>
+<div id="lb-back">
+       <div id="lb-img"></div>
+</div>
+<!-- Modal:div che compare quando si clicca sull'immagine -->
+<div id="myModal" class="modal">
 
-    <div class="search-box">
-        <input type="text" autocomplete="off" placeholder="Ricerca ..." />
-        <div class="result"></div>
-    </div>
+<!-- The Close Button -->
+ <span class="close">&times;</span>
+
+ <!-- Modal Content (The Image) -->
+ <img class="modal-content" id="img01">
+</div>
 <?php 
 
 // modificato per la gestione corretta della paginazione (A.C. 10/3/2020)
@@ -113,6 +127,9 @@ echo "<h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>";
 echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
 
 echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
+
+echo "<a href='vis_sto_tot_morance.php'>";
+        echo "Storia delle morance </a><br><br>";
 
 
 //Select option per la scelta della zona
@@ -171,8 +188,12 @@ if ($result->num_rows !=0)
   echo "<table border>";
   echo "<tr>";
 
-  //id (con possibilità di ordinamento)
 
+  //foto
+
+  echo "<th>Foto</th>";
+  
+  //id (con possibilità di ordinamento)
    echo " <form method='post' action='gest_morance.php'>";
    echo "<input type='hidden' name='ord' value= $ord>";
    echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
@@ -197,8 +218,14 @@ if ($result->num_rows !=0)
   while ($row = $result->fetch_array())
    {
 		    $mystr = utf8_encode ($row['nome']) ;
-	
-			echo "<tr>";
+
+	        echo "<tr>";           
+                $immagine=glob('immagini/'.$row['id'].'.*');
+                if($immagine != null)
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
+                else{
+                    echo '<td><i class="fa fa-image"></i></td>';
+                }
 			echo "<td>$row[id]</td>";
 			echo "<td>$mystr</td>";
 		    echo "<td>$row[zona]</td>";

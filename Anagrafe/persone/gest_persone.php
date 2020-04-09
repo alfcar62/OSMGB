@@ -154,7 +154,12 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         echo "<h2> Villaggio di NTchangue: Elenco persone</h2>";
 
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
-        echo"<a href='export_persone.php'>Export su excel</a>";
+       
+		echo"<a href='export_persone.php'>Export su excel</a><br><br>";
+
+		echo "<a href='vis_sto_tot_persone.php'>";
+        echo "Storia delle persone </a><br><br>";
+
         if (isset($_POST['cod_zona'])){
             $cod_zona = $_POST['cod_zona'];
         }

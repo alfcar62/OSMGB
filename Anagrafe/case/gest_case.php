@@ -14,7 +14,7 @@ unsetPag(basename(__FILE__));
 
 ?>
 <html>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style1.css">
     <link rel="stylesheet" type="text/css" href="gest_case_temp_css.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -67,8 +67,6 @@ unsetPag(basename(__FILE__));
 
             <!-- Modal Content (The Image) -->
             <img class="modal-content" id="img01">
-
-
         </div>
         <?php 
 
@@ -100,16 +98,6 @@ unsetPag(basename(__FILE__));
 
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
 
-
-        /*$query = "SELECT count(c.id) as cont FROM casa c";
-        if (isset($cod_zona) && ($cod_zona != 'tutte'))
-        {  
-            $query .= " inner join morance m on m.id = c.id_moranca ";
-            $query .= " inner join zone z on m.cod_zona = z.cod";
-            $query .= " AND z.cod = '$cod_zona'"; 
-        }
-        //echo $query;
-        */
         $query = "SELECT count(c.id) as cont";
         $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
         $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
@@ -134,8 +122,11 @@ unsetPag(basename(__FILE__));
         echo "<h2> Villaggio di NTchangue: Elenco case</h2>";
         echo "<a href='ins_casa.php'>";
         echo "Inserisci una nuova casa </a><br><br>";
-        echo "<a href='export_casa.php'>Export su excel</a><br><br>";
-
+       
+		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
+        
+		echo "<a href='vis_sto_tot_case.php'>";
+        echo "Storia delle case </a><br><br>";
 
         //Select option per la scelta della zona
         echo "<form action='gest_case.php' method='POST'><br>";
@@ -200,10 +191,9 @@ unsetPag(basename(__FILE__));
             while ($row = $result->fetch_array())
             {
                 echo "<tr>";
-                $immagine=glob('immagini/'.$row['id'].'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato è un array)
+                $immagine=glob('immagini/'.$row['id'].'.*');
                 if($immagine != null)
-                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
-
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
                 }
