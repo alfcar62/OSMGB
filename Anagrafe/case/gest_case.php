@@ -210,13 +210,10 @@ unsetPag(basename(__FILE__));
                 echo "<td>$mystr</td>";
                 echo "<td>$row[id_pers]</td>";
 
-          
-
                 $query2="SELECT COUNT(pers_casa.ID_PERS) as persone from pers_casa WHERE ID_CASA='$row[id]'";
                 $result2 = $conn->query($query2);
                 $row2 = $result2->fetch_array();
                 echo "<td>$row2[persone]</th>";
-
 
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
@@ -255,40 +252,8 @@ unsetPag(basename(__FILE__));
 
         echo "<br> Numero case: $all_rows<br>";
 
-
-        // Se le pagine totali sono più di 1...
-        // stampo i link per andare avanti e indietro tra le diverse pagine!
-        if ($all_pages > 1){
-            if ($pag > 1){
-                echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-                echo "Pagina Indietro</a>&nbsp;<br>";
-            }
-            // faccio un ciclo di tutte le pagine
-            $cont=0;
-            for ($p=1; $p<=$all_pages; $p++) 
-            {
-                if ($cont>=50)
-                {
-                    echo "<br>";
-                    $cont=0;
-                }
-                $cont++;
-                // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-                // all'interno della sequenza delle pagine
-                if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-                // per tutte le altre pagine stampo il link
-                else
-                { 
-                    echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-                    echo $p . "</a>&nbsp;";
-                } 
-            }
-            if ($all_pages > $pag)
-            {
-                echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-                echo "Pagina Avanti<br></a>";
-            } 
-        }
+       $vis_pag = $config_path .'/../vis_pag.php';
+       require $vis_pag;
 
         $result->free();
         $conn->close();	

@@ -262,41 +262,10 @@ $_SESSION['errore']=null;
         else
             echo " Nessuna moran&ccedil; &egrave; presente nel database.";
 
-        // Se le pagine totali sono pi? di 1...
-        // stampo i link per andare avanti e indietro tra le diverse pagine!
-        echo "<br>".$jsonObj->{$lang."Morance"}[13].": $all_rows<br>";//Numero di morance
+		// visualizza pagine
+        $vis_pag = $config_path .'/../vis_pag.php';
+        require $vis_pag;
 
-        if ($all_pages > 1){
-            if ($pag > 1){
-                echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-                echo $jsonObj->{$lang."Morance"}[15]."</a>&nbsp;<br><br>";//Pagina indietro
-            }
-            // faccio un ciclo di tutte le pagine
-            $cont=0;
-            for ($p=1; $p<=$all_pages; $p++) 
-            {
-                if ($cont>=50)
-                {
-                    echo "<br>";
-                    $cont=0;
-                }
-                $cont++;
-                // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-                // all'interno della sequenza delle pagine
-                if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-                // per tutte le altre pagine stampo il link
-                else
-                { 
-                    echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-                    echo $p . "</a>&nbsp;";
-                } 
-            }
-            if ($all_pages > $pag)
-            {
-                echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-                echo $jsonObj->{$lang."Morance"}[14]."<br></a>";//Pagina avanti
-            } 
-        }
 
         $result->free();
         $conn->close();	
