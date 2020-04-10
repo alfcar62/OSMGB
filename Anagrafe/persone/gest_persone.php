@@ -349,6 +349,8 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         }
         else
             echo " Nessuna persona &egrave; presente.";
+       
+		echo "<br> Numero abitanti risultanti: $all_rows<br>";
 
 		// visualizza pagine
         $vis_pag = $config_path .'/../vis_pag.php';
@@ -358,7 +360,6 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $result->free();
         $conn->close();	
         ?>
-
 
     </body>
 </html>

@@ -250,8 +250,7 @@ unsetPag(basename(__FILE__));
             }
         }
 
-        echo "<br> Numero case: $all_rows<br>";
-
+       echo "<br> Numero case risultanti: $all_rows<br>";
        $vis_pag = $config_path .'/../vis_pag.php';
        require $vis_pag;
 

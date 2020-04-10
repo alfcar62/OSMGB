@@ -261,6 +261,8 @@ $_SESSION['errore']=null;
         }
         else
             echo " Nessuna moran&ccedil; &egrave; presente nel database.";
+ 
+        echo "<br> Numero moran&ccedil;e risultanti: $all_rows<br>";
 
 		// visualizza pagine
         $vis_pag = $config_path .'/../vis_pag.php';
