@@ -224,7 +224,7 @@ $_SESSION['errore']=null;
                 if($immagine != null)
                     echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
                 else{
-                    echo '<td><i class="fa fa-image"></i></td>';
+                    echo '<td><img src="../img/immagine.png" > </button></i></td>';
                 }
                 echo "<td>$row[id]</td>";
                 echo "<td>$mystr</td>";
@@ -245,16 +245,16 @@ $_SESSION['errore']=null;
                 echo "<td>$row[data_inizio_val]</td>";
 
                 echo " <form method='post' action='mod_moranca.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/wrench.png' > </button> </button> ". "</th></form>";
 
                 echo " <form method='post' action='del_moranca.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/trash.png' > </button> </button> ". "</th></form>";
 
                 echo " <form method='post' action='mostra_case.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>"; 
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/house.png' > </button> </button> ". "</th></form>"; 
 
                 echo " <form method='post' action='vis_moranca_sto.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>";    
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/history.png' > </button> </button> ". "</th></form>";    
                 echo "</tr>";
             }      
             echo "</table>";      

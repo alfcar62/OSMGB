@@ -179,10 +179,10 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         echo "<h2> Villaggio di NTchangue: Elenco persone</h2>";
 
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
-       
-		echo"<a href='export_persone.php'>Export su excel</a><br><br>";
 
-		echo "<a href='vis_sto_tot_persone.php'>";
+        echo"<a href='export_persone.php'>Export su excel</a><br><br>";
+
+        echo "<a href='vis_sto_tot_persone.php'>";
         echo "Storia delle persone </a><br><br>";
 
         if (isset($_POST['cod_zona']))
@@ -324,7 +324,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
-                    echo "<td>$row[id_osm]<a href=$osm_link target=new><i class='fa fa-map-marker'></i></a></td>"; 
+                    echo "<td>$row[id_osm]<a href=$osm_link target=new><img src='../img/marker.png' > </button></i></a></td>"; 
                 }
                 else
                 { 
@@ -333,16 +333,16 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 echo "<td>$row[data_inizio_val]</td>";
 
                 echo " <form method='post' action='mod_persona.php'>";
-                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><img src='../img/wrench.png' ></button> </button> ". "</th></form>";
 
                 echo " <form method='post' action='del_persona.php'>";
-                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";	
+                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><img src='../img/trash.png' > </button> </button> ". "</th></form>";	
 
                 echo " <form method='post' action='mostra_casa.php'>";
-                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><img src='../img/house.png' > </button> </button> ". "</th></form>";
 
                 echo " <form method='post' action='vis_persona_sto.php'>";
-                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><img src='../img/history.png' > </button> </button> ". "</th></form>";
                 echo "</tr>";
             } 
             echo "</table>";
