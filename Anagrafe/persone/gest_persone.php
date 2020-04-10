@@ -98,15 +98,23 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $cod_zona =  $_SESSION['cod_zona'];
         } 
 
-       if (isset($_POST['decessi']))
+/*
+***    9/4/2020: A. Carlone: correzione problema paginazione per cambio selezione
+*/
+       if (isset($_SESSION['decessi'])) 
+           $_SESSION['old_decessi'] =  $_SESSION['decessi'];
+
+       if (isset($_POST['decessi']))		// arriva dal form stesso
         {
-            $decessi = $_POST['decessi']; 
+            $decessi = $_POST['decessi'];
             $_SESSION['decessi'] = $decessi;
         }  
         else 
         {
             if( isset($_SESSION['decessi']) &&  ($_SESSION['decessi'] != 'tutti'))		
                 $decessi =  $_SESSION['decessi'];
+			else
+                $decessi = 'no'; 
         } 
 
         $x_pag = 10;
@@ -156,7 +164,17 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
         // Calcolo da quale record iniziare
-        $first = ($pag - 1) * $x_pag;
+
+         $first = ($pag - 1) * $x_pag;
+
+		// se è cambiato qualcosa riparto dalla prima pagina
+
+		if (isset($_SESSION['decessi']) &&
+		    isset($_SESSION['old_decessi']))
+			{
+		     if ($_SESSION['decessi'] != $_SESSION['old_decessi'])
+				 $first = 0;
+			}
 
         echo "<h2> Villaggio di NTchangue: Elenco persone</h2>";
 
@@ -167,9 +185,9 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 		echo "<a href='vis_sto_tot_persone.php'>";
         echo "Storia delle persone </a><br><br>";
 
-        if (isset($_POST['cod_zona'])){
+        if (isset($_POST['cod_zona']))
             $cod_zona = $_POST['cod_zona'];
-        }
+   
         //Select option per la scelta della zona
         echo "<form action='gest_persone.php' method='POST'><br>";
         echo   $jsonObj->{$lang."Morance"}[22].": <select name='cod_zona'>";//Selezione zona
