@@ -1,5 +1,5 @@
 <?php
-/******************* HTML *************************/
+/******************* Util.php *************************/
 //Data ultima modifica:27/02/2020
 //Descrizione:Implementazione della gestione multilingue attraverso un file .json Autore:Gobbi Dennis
 //Descrizione:Gestione degli utenti Autore:Ferraiuolo Pasquale
@@ -8,6 +8,9 @@
 
 <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
 <?php
+
+/***************************** StampaNavbar *****************************/
+
 function stampaNavbar()
 {
     //echo getcwd();
@@ -119,6 +122,9 @@ function stampaNavbar()
 </script>
 <?php
 }
+
+/***************************** StampaIntestazione *****************************/
+
 function stampaIntestazione()
 {
 ?>
@@ -132,6 +138,7 @@ function stampaIntestazione()
 <?php
 }
 
+/***************************** login *****************************/
 
 function login()
 {
@@ -173,6 +180,8 @@ function setup() // invocata all'inizio di tutte le pagine, tranne login e logou
         }
     }
 }
+
+
 /*****************Paginazione*********************/
 function unsetPag($file){ 
     switch($file){
@@ -225,24 +234,28 @@ function Paginazione($pagina,$subpag=null){
 }
 
 
-/***************************** SLERT *****************************/
 
 
-function alert($msg) {
+/***************** Alert *********************/
+
+function alert($msg)
+ {
     echo "<script type='text/javascript'>alert('$msg');</script>";
-}
+ }
 
 function EchoMessage($msg, $redirect)
-{
+ {
     echo '<script type="text/javascript">
  alert("' . $msg . '")
  window.location.href = "'.$redirect.'"
  </script>';
-}
+ }
 
+
+/***************** my_random_bytes (usato per il Salt) *********************/
 
  function my_random_bytes($length)
-    {
+   {
         $characters = '0123456789';
         $characters_length = strlen($characters);
         $output = '';
@@ -250,5 +263,5 @@ function EchoMessage($msg, $redirect)
             $output .= $characters[rand(0, $characters_length - 1)];
 
         return $output;
-    }
+   }
 ?>
