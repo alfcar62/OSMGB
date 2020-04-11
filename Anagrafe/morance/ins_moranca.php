@@ -26,12 +26,12 @@ echo "<br>".$jsonObj->{$lang."Morance"}[16]."<br><br>";//Inserimento moranca
 echo "<form action='insert_moranca.php' method='post'>";
 echo  $jsonObj->{$lang."Morance"}[5].": <input type='text' name='nome_moranca' required placeholder='".$jsonObj->{$lang."Morance"}[17]."' ><br>";//Nome
 
-echo "id OSM: <input type='text' name='id_osm' ><br>";
+echo "id OSM: <input type='text' name='id_osm'><br>";
 
-echo   $jsonObj->{$lang."Morance"}[6].": <select name='cod_zona'>";//Zona
-echo "<option value=' '></option><br>";
+echo   $jsonObj->{$lang."Morance"}[6].": <select name='cod_zona' required>";//Zona
 $result = $conn->query("SELECT * FROM zone");
 
+echo "<option> </option>";
 $nr=$result->num_rows;
 for($i=0;$i<$nr;$i++)
 {
@@ -43,7 +43,7 @@ for($i=0;$i<$nr;$i++)
 }
 echo "</select></br>";
 
-echo "<button type='submit' >".$jsonObj->{$lang."Morance"}[4]."</button>";//Invia/Conferma
+echo "<button type='submit' class='button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Invia/Conferma
 echo "</form>";
 ?>
 </body>

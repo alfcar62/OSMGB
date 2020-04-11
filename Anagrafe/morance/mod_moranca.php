@@ -52,7 +52,7 @@ echo "<br>".$jsonObj->{$lang."Morance"}[6].":". $cod_zona;//zona
 echo "<br> id OSM:". $id_osm;
 
 echo  "<br><br><br>";
-echo $jsonObj->{$lang."Morance"}[18] .": <input type='text' name='nome_moranca' value='$moranca' ><br>";//Nuovo nome morança
+echo $jsonObj->{$lang."Morance"}[18] .": <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
 echo "id OSM: <input type='text' name='id_osm' value='$id_osm' ><br>";
 
 echo "<input type='hidden'  name='id_moranca'  value=$id_moranca>";
@@ -132,7 +132,7 @@ echo '  <form action="mod_moranca.php" method="post" enctype="multipart/form-dat
 echo "Seleziona una foto da caricare:";
 echo   " <input type='hidden' name='id_moranca' value='$id_moranca' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
 echo '<input type="file" name="fileToUpload" id="fileToUpload" required>
-<input type="submit" value="Carica foto" name="caricaFoto">
+<input type="submit"  value="Carica foto" name="caricaFoto">
 </form>   ';
 $immagine=glob('immagini/'.$id_moranca.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine
 if($immagine != null){

@@ -51,8 +51,8 @@ if($nr==1)
  $cod_ruolo_mod = $row['cod_ruolo'];
 
  echo "<form action='modifica_persona.php' method='post'>";
- echo  " Nominativo : <input type='text' name='nominativo' value ='". $row['nominativo']."'<br><br>";
- echo  " Data nascita : <input type='date' name='data_nascita' value = '".$row['data_nascita']."'><br>";
+ echo  " Nominativo : <input type='text' name='nominativo' value ='". $row['nominativo']."' required><br><br>";
+ echo  " Data nascita : <input type='date' name='data_nascita' value = '".$row['data_nascita']."' required><br>";
  echo  " Data morte : <input type='date' name='data_morte' value = '".$row['data_morte']."'><br>";
  
  $query = "SELECT id, nome FROM casa c";
@@ -61,7 +61,7 @@ if($nr==1)
  $result = $conn->query($query);
  $nr=$result->num_rows;
  echo  "Residente nella casa:";
- echo "<select name='id_casa_modifica'>";
+ echo "<select name='id_casa_modifica' required>";
  for($i=0;$i<$nr;$i++)
    {
      $row = $result->fetch_array();
@@ -77,7 +77,7 @@ if($nr==1)
  $nr=$result->num_rows;
 
  echo   "Ruolo nella famiglia: ";
- echo "<select name='id_ruolo_modifica'>";
+ echo "<select name='id_ruolo_modifica' required>";
 
  for($i=0;$i<$nr;$i++)
    {
@@ -89,7 +89,7 @@ if($nr==1)
    }
  echo "</select><br>";
 
- echo "<button type='submit' >invia</button>";
+ echo "<button type='submit' class='button'>invia</button>";
  echo "</form>";
  }
 else 

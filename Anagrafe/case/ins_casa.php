@@ -21,13 +21,13 @@ echo "<h3>INSERISCI NUOVA CASA</h3>";
 ?>
 <form action="insert_casa.php" method="POST"><br>
 Inserire i dati della casa :<br>
-nome casa:&nbsp;&nbsp;<input type="text" name="nome"> <br>
+nome casa:&nbsp;&nbsp;<input type="text" name="nome" required> <br>
 <?php
 echo 'moranca:&nbsp;';
 $result = $conn->query("SELECT id, nome  FROM morance ");
 $nr=$result->num_rows;
-echo '<select name="add_moranca">';
-echo "<option value=' '></option><br>";
+echo '<select name="add_moranca" required>';
+echo "<option>  </option><br>";
 for($i=0;$i<$nr;$i++)
   {
     $row=$result->fetch_array();
@@ -44,7 +44,7 @@ $result -> free_result();
 echo "<br>";
 echo "id OSM: <input type='text' name='id_osm' ><br>";
 ?>
-<input type="submit" value="Inserisci">
+<input type="submit" class = "button" value="Inserisci">
 </form>      
 <br>
 </body>

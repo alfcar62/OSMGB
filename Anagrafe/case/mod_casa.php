@@ -65,7 +65,7 @@ $pag=$_SESSION['pag_c']['pag_c'];
     echo   " <input type='hidden' name='id_casa' value='$id_casa' >";
     echo   " <input type='hidden' name='data_inizio' value='$data_inizio' >";
     echo   " <input type='hidden' name='data_fine' value='$data_fine' >";
-    echo "nome casa:&nbsp;&nbsp;<input type='text' name='nome_casa' value='$nome_casa'><br>";         
+    echo "nome casa:&nbsp;&nbsp;<input type='text' name='nome_casa' value='$nome_casa' required><br>";         
 
     /*
 *** selezione moranca
@@ -79,7 +79,7 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $result = $conn->query($query);
 
     $nr=$result->num_rows;
-    echo '<select name="moranca" >';
+    echo '<select name="moranca" required >';
     echo "<option value='$id_moranca'>$nome_moranca</option><br>";
     for($i=0;$i<$nr;$i++)
     {
@@ -94,7 +94,7 @@ $pag=$_SESSION['pag_c']['pag_c'];
 
 
     echo "id osm :&nbsp;&nbsp;<input type='text' name='id_osm' value=$id_osm>";
-    echo "<input type='submit' value='Modifica'><br>";
+    echo "<input type='submit' class = 'button' value='Modifica'><br>";
     echo "</form>";
 
 
