@@ -83,7 +83,7 @@ $cod_zona=$_POST["cod_zona"];
      $query .= "'$row[data_inizio_val]',";
      $query .= "'$dataOggi')";
 
-   echo $query;
+ //  echo $query;
 
      $result = $conn->query($query);
 
@@ -96,7 +96,7 @@ $cod_zona=$_POST["cod_zona"];
     $query.= "ID_OSM=$id_osm "  ;
     $query.=" WHERE ID=$id_moranca "; 
 
-   echo $query;
+  // echo $query;
 
     $result = $conn->query($query);
     if (!$result) 
