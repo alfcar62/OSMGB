@@ -71,8 +71,8 @@ setup();
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag; 
 
-        echo "<h2> Visualizza utenti</h2>";
-        echo "<br> ACCOUNT IN USO: {$_SESSION['nome']} <br>";
+        echo "<h2> Elenco Utenti</h2>";
+        echo "<br> Utente collegato: {$_SESSION['nome']} - permesso: {$_SESSION['tipo']}<br>";
         echo "<a href='insert_utente.php'><br>";
         echo "Aggiungi nuovo utente </a><br><br>";
 
@@ -91,7 +91,7 @@ setup();
             echo "<option value='".$row["id_accesso"]."'>".$row["id_accesso"]."</option>";
         }
         echo "</select>";
-        echo " <input type='submit' value='Conferma'>";
+        echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
 
         //query per l'elenco degli utenti
@@ -122,7 +122,7 @@ setup();
                 echo "<td>$row[id_accesso]</td>";
                 echo "<td>$row[data_inizio_val]</td>";
                 echo " <form method='post' action='del_utente.php'>";
-                echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><i class='fa fa-times'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
             }
             echo "</table>";
         }
