@@ -21,7 +21,7 @@ $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
 //echo $jsonObj->{$lang."Morance"}[0]
-echo "<br>".$jsonObj->{$lang."Morance"}[16]."<br><br>";//Inserimento moranca
+echo "<h3>".$jsonObj->{$lang."Morance"}[16]."<h3>";//Inserimento moranca
 
 echo "<form action='insert_moranca.php' method='post'>";
 echo  $jsonObj->{$lang."Morance"}[5].": <input type='text' name='nome_moranca' required placeholder='".$jsonObj->{$lang."Morance"}[17]."' ><br>";//Nome

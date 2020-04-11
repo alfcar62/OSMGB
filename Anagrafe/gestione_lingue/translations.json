@@ -15,10 +15,10 @@
     
     "ITANavbar":["Chi siamo","Il progetto","Entra","Seleziona la lingua","Case","Persone","Mappa","Catastale","Report","Statistiche","Utenti","Utilit&agrave;","Esci"],
     
-    "ITAMorance":["Villaggio di Ntchangue","Elenco Morançe","Aggiungi una nuova morança","Selezione Zona","Conferma","Nome morança","Zona","progr nella zona","data val","Modifica","Elimina","Case","Storico","Numero morançe","Pagina avanti","Pagina indietro","INSERIMENTO NUOVA MORANCA","Inserisci un nome","Nuovo nome morança","Modifica Morança","Identificativo Morança","Ricerca morança","Selezione Zona"],
+    "ITAMorance":["Villaggio di Ntchangue","Elenco Morançe","Inserisci una nuova morança","Selezione Zona","Conferma","Nome morança","Zona","progr nella zona","data val","Modifica","Elimina","Case","Storico","Numero morançe","Pagina avanti","Pagina indietro","INSERIMENTO NUOVA MORANCA","Inserisci un nome","Nuovo nome morança","Modifica Morança","Identificativo Morança","Ricerca morança","Selezione Zona"],
     
-    "ITACase":["Foto","Elenco Case","Aggiungi una nuova casa","Nome","Id Capo Famiglia","Capo Famiglia","ID su OpenStreetMap","Persone","Visualizzazione Storico","Selezione Operazione","Selezione Valore","Nessuna operazione è stata effettuata sulla casa","Numero operazioni","Qualsiasi","Operazione","Data Operazione","Ricerca casa","Numbero di case"],
+    "ITACase":["Foto","Elenco Case","Inserisci una nuova casa","Nome","Id Capo Famiglia","Capo Famiglia","ID su OpenStreetMap","Persone","Visualizzazione Storico","Selezione Operazione","Selezione Valore","Nessuna operazione è stata effettuata sulla casa","Numero operazioni","Qualsiasi","Operazione","Data Operazione","Ricerca casa","Numbero di case"],
     
-    "ITAPersone":["Visualizza elenco persone che abitano nel villaggio","Ricerca persona","Aggiungi una nuova persona","Sesso","Data di Nascita","Età","Ruolo in Famiglia","Casa","Numero abitanti"]
+    "ITAPersone":["Visualizza elenco persone che abitano nel villaggio","Ricerca persona","Inserisci una nuova persona","Sesso","Data di Nascita","Età","Ruolo in Famiglia","Casa","Numero abitanti"]
     
 }

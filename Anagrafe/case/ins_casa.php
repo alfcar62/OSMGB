@@ -20,7 +20,6 @@ setup();
 echo "<h3>INSERISCI NUOVA CASA</h3>";
 ?>
 <form action="insert_casa.php" method="POST"><br>
-Inserire i dati della casa :<br>
 nome casa:&nbsp;&nbsp;<input type="text" name="nome" required> <br>
 <?php
 echo 'moranca:&nbsp;';

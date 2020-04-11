@@ -17,7 +17,7 @@ stampaIntestazione(); ?>
 <?php stampaNavbar(); ?>
 
 <?php
-echo "<h3>DATI DELLA PERSONA DA AGGIUNGERE</h3>";
+echo "<h3>INSERIMENTO NUOVA PERSONA</h3>";
 echo "<form action='insert_persona.php' method='post'>";
 echo  " Nominativo : <input type='text' name='nome_persona' placeholder='inserire nome ' required><br>";
 echo  " Data nascita : <input type='date' name='data_nascita' required><br>";
