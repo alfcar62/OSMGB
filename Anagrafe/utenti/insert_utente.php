@@ -36,13 +36,13 @@
                 <input type="password" name="psw2" id="psw1" required><br>
                 Tipo di utente:
                 <select name="accesso">
-                    <option value="admin">admin</option>
-                    <option value="gestore">gestore</option>
-                    <option value="utente">utente</option>
+                    <option value="admin">Amministratore</option>
+                    <option value="gestore">Gestore</option>
+                    <option value="utente">Utente generico</option>
                 </select><span id="info2"><img onmouseover="tooltip2(event)" onmouseout="tooltip2(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
-                <span id="error2" style="visibility:hidden">Admin: accesso completo |
+                <span id="error2" style="visibility:hidden">Amministratore: accesso completo |
                     Gestore: non può registrare nuovi utenti |
-                    Utente: può visualizzare solo le statistiche</span><br>
+                    Utente generico: può visualizzare solo le statistiche</span><br>
                 <input type="button" class="button" name="login" value="Aggiungi" id="log" onclick="PwChecker()">
                 <?php
                 if (isset($_POST['user']) && isset($_POST['psw1'])) 
