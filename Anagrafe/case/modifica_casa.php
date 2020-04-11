@@ -34,7 +34,7 @@ $nome_casa_new  = mysqli_real_escape_string($conn,$nome_casa_new);//protezione d
 
 $dataInizio = $_POST["data_inizio"];
 $dataFine   = $_POST["data_fine"];
-if($id_osm_new =='')
+if($id_osm_new == '')
     $id_osm_new =0;
 try 
  {
@@ -81,6 +81,12 @@ try
 
    $data_attuale = date('Y/m/d');
   
+   $dataFine   = $_POST["data_fine"];
+
+   $id_osm = $row['id_osm'];
+   if($id_osm == '')
+     $id_osm =0;
+
   /* 
 	*** Insert su "casa_sto"
 	*** sullo storico "casa_sto" teniamo traccia dei cambiamenti di una casa.
@@ -93,13 +99,13 @@ try
 	   $id_moranca_new!=$row['id_moranca'] || 
 	   $id_osm_new!=$row['id_osm'])
 	 {
-      if($nome_casa_new != $row['nome_casa'])
+      if ($nome_casa_new != $row['nome_casa'])
          $tipo_operazione.="-NOME-";
       
-	  if($id_moranca_new !=$row['id_moranca'])
+	  if ($id_moranca_new !=$row['id_moranca'])
         $tipo_operazione.="-MORANCA-";
       
-      if($id_osm_new !=$row['id_osm'])
+      if ($id_osm_new !=$id_osm)
         $tipo_operazione.="-ID OSM-";
       $tipo_operazione.=")";
   
@@ -119,12 +125,12 @@ try
       $query .= "'".$row['nome_casa']."',";
       $query .= $row['id_moranca'].",";
       $query .= "'".$row['nome_moranca']."',";
-      $query .= $row['id_osm'].",";
+      $query .= $id_osm.",";
       $query .= "'".$capo_famiglia."',";	//capo famiglia
       $query .= "'".$row['data_inizio']."',";
       $query .= "'".$data_attuale."')";		//data fine val
       $result = $conn->query($query);
- //    echo "q3:". $query . "<br>";
+    // echo "q3:". $query . "<br>";
       if (!$result)
         throw new Exception($conn->error);
      }

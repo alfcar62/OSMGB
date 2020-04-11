@@ -18,6 +18,8 @@ unset($_SESSION['pag_m']);
 $nome=$_POST["nome_moranca"];
 $id_moranca=$_POST["id_moranca"];
 $id_osm=$_POST["id_osm"];
+if ($id_osm == "")
+  $id_osm = 0;
 $cod_zona=$_POST["cod_zona"];
 
 
@@ -57,7 +59,7 @@ $cod_zona=$_POST["cod_zona"];
    $query .= "'$row[data_inizio_val]',";
    $query .= "'$dataOggi')";
 
-   //echo $query;
+   echo $query;
 
    $result = $conn->query($query);
 
@@ -70,7 +72,7 @@ $cod_zona=$_POST["cod_zona"];
     $query.= "ID_OSM=$id_osm "  ;
     $query.=" WHERE ID=$id_moranca "; 
 
-   //echo $query;
+   echo $query;
 
    $result = $conn->query($query);
    if (!$result) 
