@@ -59,33 +59,48 @@ $_SESSION['errore']=null;
     <body>
     <?php stampaNavbar(); ?>
     <?php
+    if (isset($_POST['cod_zona']))
+     {
+       $cod_zona = $_POST['cod_zona']; 
+       $_SESSION['cod_zona'] = $cod_zona;
+     }  
+    else 
+     {
+       if( isset($_SESSION['cod_zona']) &&  ($_SESSION['cod_zona'] != 'tutte'))		
+                $cod_zona =  $_SESSION['cod_zona'];
+     } 
 
-	if (isset($_SESSION['cod_zona']))
-	 $cod_zona = $_SESSION['cod_zona'];
-	else
-     $cod_zona = "tutte"; 
-
-     if (isset($_SESSION['ord']))
+     if (isset($_SESSION['ord']))		//ordinamento ASC/DESC
 	   $ord = $_SESSION['ord'];
 	 else
        $ord = "ASC";
 	 
-	 if (isset($_SESSION['campo']))
+	 if (isset($_SESSION['campo']))		// campo sul cui fare ordinamento
 	   $ord = $_SESSION['campo'];
 	 else
        $campo = "nome";
+
+	 if(isset($_GET['pag']))			// pagina corrente
+	   $pag= $_GET['pag'];
+     else
+	   $pag= 0;
 	?>
+	    <h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>
+
         <div class="search-box">
 		    <form action='gest_morance.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="Inserisci nome..." />
-            <div class="result"></div>
+            <input type="text" autocomplete="off" name='nome' placeholder="Ricerca..." />
 			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
+		    <div class="result"></div>
             </form>
          <?php
+		 $x_pag = 10;			// n. di record per pagina
          $ricerca = false;
-         if(isset($_POST['ricerca']))
+         if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
-            $ret = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo, $pag, $first); 
+            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 
+			$first = ($pag - 1) * $x_pag;
+
 			$ricerca = true;
  //			echo "pag=". $pag;
  //         echo "first=". $first;
@@ -106,30 +121,10 @@ $_SESSION['errore']=null;
         </div>
         <?php 
 
-        // modificato per la gestione corretta della paginazione (A.C. 10/3/2020)
-        // se $_POST['cod_zona'] valorizzato --> arriva  dall'action form
-        // se $_SESSION  valorizzato --> arriva  dal $SERVER[PHP_SELF]
-        if (isset($_POST['cod_zona']))
-        {
-            $cod_zona = $_POST['cod_zona']; 
-            $_SESSION['cod_zona'] = $cod_zona;
-        }  
-        else 
-        {
-            if( isset($_SESSION['cod_zona']) &&  ($_SESSION['cod_zona'] != 'tutte'))		
-                $cod_zona =  $_SESSION['cod_zona'];
-        } 
 
-        //echo " cod_zona = ". $cod_zona;
-        //echo " SESSION(cod_zona) = ".$_SESSION['cod_zona'];
+        $pag=Paginazione($pag, "pag_m");	// Recupero il  numero di pagina corrente
 
-        // Creo una variabile dove imposto il numero di record 
-        // da mostrare in ogni pagina
-        $x_pag = 10;
-
-
- //       if (!$ricerca)
-          $pag=Paginazione("pag_m");	// Recupero il  numero di pagina corrente
+	//	echo "pagina=". $pag;
 
         // Controllo se $pag ? valorizzato e se ? numerico
         // ...in caso contrario gli assegno valore 1
@@ -154,7 +149,6 @@ $_SESSION['errore']=null;
 		if (!$ricerca)
            $first = ($pag - 1) * $x_pag;
 
-        echo "<h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>";
 
         echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
 
@@ -224,9 +218,7 @@ $_SESSION['errore']=null;
             echo "<table border>";
             echo "<tr>";
 
-
-            //foto
-
+			//foto
             echo "<th>Foto</th>";
 
             //id (con possibilità di ordinamento)
@@ -309,6 +301,7 @@ $_SESSION['errore']=null;
         $conn->close();	
         ?>
     </body>
+
     <script>
         // Get the modal
         var modal = document.getElementById("myModal");
@@ -338,9 +331,11 @@ $_SESSION['errore']=null;
 <?php
 
 /*
-*** funzione che, a seguito della ricerca, imposta la pagina 
+*** funzione che, a seguito di una nuova ricerca, imposta la prima pagina da visualizzare
+*** return: $pag (pagina da visualizzare)
+***       
 */
-function get_first_pag($conn, $nome, $cod_zona, $ord, $campo, &$pag, &$first)
+function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
 { 
     // Prepare a select statement
  $query = "SELECT ";
@@ -364,10 +359,9 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo, &$pag, &$first)
  $x_pag = 10;
  $pag= intval(abs($cont/$x_pag))+1;
 
- $first = ($pag - 1) * $x_pag;
-
- return 0;
+ return $pag;
 }
 ?>
 
 </body>
+</html>

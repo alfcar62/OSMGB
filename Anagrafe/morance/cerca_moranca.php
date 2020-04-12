@@ -1,16 +1,47 @@
 <?php
 $config_path = __DIR__;
 
- $util2 = $config_path .'/../db/db_conn.php';
- require_once $util2;
+$util1 = $config_path .'/../util.php';
+require_once $util1;
+setup();
+
+$util2 = $config_path .'/../db/db_conn.php';
+require_once $util2;
+
+if (isset($_SESSION['cod_zona']))
+  $cod_zona = $_SESSION['cod_zona'];
+else 
+ $cod_zona = "tutte";
+
+//echo "cod_zona=". $cod_zona;
+if (isset($_SESSION['ord']))
+  $ord = $_SESSION['ord'];
+else 
+  $ord  = "ASC";
+
+if (isset($_SESSION['campo']))
+  $campo = $_SESSION['campo'];
+else 
+  $campo = "nome";
 
 if(isset($_REQUEST["term"])){
     // Prepare a select statement
-    $sql = "SELECT nome FROM morance WHERE nome LIKE ? ORDER BY nome";
-   
-    if($stmt = mysqli_prepare($conn, $sql)){
+ //   $sql = "SELECT nome FROM morance WHERE nome LIKE ? ORDER BY nome";
+    $query = "SELECT ";
+    $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
+    $query .= " m.data_inizio_val, m.data_fine_val";
+    $query .= " FROM morance m, zone z ";
+    $query .= " WHERE m.data_fine_val IS NULL";
+    $query .= " AND m.cod_zona = z.cod";
+    if (isset($cod_zona) && ($cod_zona !='tutte'))
+          $query .= " AND m.cod_zona = '$cod_zona'";
+    $query .= " AND m.nome LIKE ?";
+    $query .= " ORDER BY $campo " . $ord ;
+
+// echo $query;
+    if($stmt = mysqli_prepare($conn, $query)){
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "s", $param_term);
+       mysqli_stmt_bind_param($stmt, "s", $param_term);
         
         // Set parameters
         $param_term = $_REQUEST["term"] . '%';
