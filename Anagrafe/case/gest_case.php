@@ -11,7 +11,6 @@ $util = $config_path .'/../util.php';
 require $util;
 setup();
 unsetPag(basename(__FILE__)); 
-
 ?>
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style1.css">
@@ -102,6 +101,18 @@ unsetPag(basename(__FILE__));
  //           echo "first=". $first;
 		   }
          ?>
+        </div>
+		  <div id="lb-back">
+            <div id="lb-img"></div>
+        </div>
+        <!-- Modal:div che compare quando si clicca sull'immagine -->
+        <div id="myModal" class="modal">
+
+            <!-- The Close Button -->
+            <span class="close">&times;</span>
+
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" id="img01">
         </div>
         <?php 
 
