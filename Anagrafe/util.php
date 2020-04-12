@@ -200,19 +200,21 @@ function unsetPag($file){
     }
 }
 
-function Paginazione($pagina,$subpag=null){
-    if(is_null($subpag))$subpag=$pagina;//Se il parametro opzionale viene omesso,viene impostato al valore di $pagina
-    if(isset($_GET['pag']))
-    {//Se non è la prima volta che accedo ad una pagina
+function Paginazione($cur_page, $pagina, $subpag=null){
+ //  echo "cur_page = ". $cur_page;
+    if(is_null($subpag))
+		$subpag=$pagina;//Se il parametro opzionale viene omesso,viene impostato al valore di $pagina
+    if($cur_page !=0)
+    {			//Se non è la prima volta che accedo ad una pagina
         if(isset($_SESSION[$pagina][$subpag]))
         {//Se la sessione è già impostata,l'attribuisco a $pag
-            $pag=$_GET['pag'];
+            $pag=$cur_page;
             $_SESSION[$pagina][$subpag]=$pag;   
             return $pag;
         }
         else
         {//Se la sessione non è impostata
-            $pag=$_GET['pag'];
+            $pag=$cur_page;
             $_SESSION[$pagina][$subpag]=$pag; 
             return $pag;
             //     echo $pag;
