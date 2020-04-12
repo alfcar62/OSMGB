@@ -62,9 +62,75 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
     <?php stampaIntestazione(); ?>
     <body>
     <?php stampaNavbar(); ?>
-        <div class="search-box">
-            <input type="text" autocomplete="off" placeholder="<?php echo $jsonObj->{$lang."Persone"}[1];?>..." /><!--Ricerca persone -->
-            <div class="result"></div>
+	
+	<?php
+	if (isset($_SESSION['cod_zona']))
+	  $cod_zona = $_SESSION['cod_zona'];
+	else
+      $cod_zona = "tutte"; 
+
+	if (isset($_SESSION['id_casa']))
+	  $id_casa = $_SESSION['id_casa'];
+	else
+      $id_casa = "tutte"; 
+	 
+
+    if (isset($_SESSION['decessi'])) 
+           $_SESSION['old_decessi'] =  $_SESSION['decessi'];
+
+    if (isset($_POST['decessi']))		// arriva dal form stesso
+        {
+            $decessi = $_POST['decessi'];
+            $_SESSION['decessi'] = $decessi;
+        }  
+    else 
+        {
+            if( isset($_SESSION['decessi']))		
+                $decessi =  $_SESSION['decessi'];
+			else
+                $decessi = 'tutti'; 
+        }
+	 
+//	 echo "1.decessi=". $decessi;
+//	 echo "1.SESSION[decessi]=". $_SESSION['decessi'];
+
+     if (isset($_SESSION['ord']))		//ordinamento ASC/DESC
+	   $ord = $_SESSION['ord'];
+	 else
+       $ord = "ASC";
+	 
+	 if (isset($_SESSION['campo']))		// campo sul cui fare ordinamento
+	   $ord = $_SESSION['campo'];
+	 else
+       $campo = "nominativo";
+
+	 if(isset($_GET['pag']))			// pagina corrente
+	   $pag= $_GET['pag'];
+     else
+	   $pag= 0;
+
+	?>
+	   <h2> Villaggio di NTchangue: Elenco persone</h2>
+
+       <div class="search-box">
+		    <form action='gest_persone.php' method='POST'><br>
+            <input type="text" autocomplete="off" name='nome' placeholder="Ricerca..." />
+			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
+			<div class="result"></div>
+            </form>
+         <?php
+		 $x_pag = 10;			// n. di record per pagina
+         $ricerca = false;
+         if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
+		   {
+            $pag = get_first_pag($conn, $_POST['nome'],$id_casa, $decessi, $cod_zona, $ord, $campo); 
+			$first = ($pag - 1) * $x_pag;
+
+			$ricerca = true;
+ //			echo "pag=". $pag;
+ //         echo "first=". $first;
+		   }
+         ?>
         </div>
 
         <?php
@@ -98,34 +164,18 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $cod_zona =  $_SESSION['cod_zona'];
         } 
 
-/*
-***    9/4/2020: A. Carlone: correzione problema paginazione per cambio selezione
-*/
-       if (isset($_SESSION['decessi'])) 
-           $_SESSION['old_decessi'] =  $_SESSION['decessi'];
-
-       if (isset($_POST['decessi']))		// arriva dal form stesso
-        {
-            $decessi = $_POST['decessi'];
-            $_SESSION['decessi'] = $decessi;
-        }  
-        else 
-        {
-            if( isset($_SESSION['decessi']) &&  ($_SESSION['decessi'] != 'tutti'))		
-                $decessi =  $_SESSION['decessi'];
-			else
-                $decessi = 'no'; 
-        } 
+ 
 
         $x_pag = 10;
         // Recupero il numero di pagina corrente.
 
-        $pag=Paginazione("pag_p");
+        $pag=Paginazione($pag, "pag_p");	// Recupero il  numero di pagina corrente
+
+	//	echo "pagina=". $pag;
 
         // Controllo se $pag ? valorizzato e se ? numerico
         // ...in caso contrario gli assegno valore 1
         if (!$pag || !is_numeric($pag)) $pag = 1; 
-
 
         $query2 = "SELECT count(p.id) as cont FROM persone p";
         $query2 .= " inner join pers_casa pc on pc.id_pers = p.id ";
@@ -165,7 +215,8 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $all_pages = ceil($all_rows / $x_pag);
         // Calcolo da quale record iniziare
 
-         $first = ($pag - 1) * $x_pag;
+   	    if (!$ricerca)
+           $first = ($pag - 1) * $x_pag;
 
 		// se è cambiato qualcosa riparto dalla prima pagina
 
@@ -176,7 +227,8 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 				 $first = 0;
 			}
 
-        echo "<h2> Villaggio di NTchangue: Elenco persone</h2>";
+        if (!$ricerca)
+           $first = ($pag - 1) * $x_pag;
 
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
        
@@ -229,20 +281,23 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         echo " </form>";
 
         // ordinamento su campi (11/3/2020) A.C.
-        if (!isset($_GET['ord'])) 
+        if (!isset($_POST['ord'])) 
         {
-            $campo = 'id';  
-            $ord = 'ASC';	// ordinamento ascendente
+            $campo = 'nominativo';  
+            $ord = 'ASC';	// ordinamento ascendente		
         }
-        else
+        else		// inverto ordinamento
         { 
-            $campo = $_GET['campo'];
-            if ($_GET['ord'] == 'ASC')
-                $ord = 'DESC';
-            else
-                $ord = 'ASC';
+			$first = 0;
+			$pag = 0;
+			$campo = $_POST['campo'];           
+            $ord = $_POST['ord'];
+			if ($ord == "ASC")
+				$ord = "DESC";
+			else
+				$ord = "ASC";
         }
-        // ordinamento
+
 
         $result->free();
 
@@ -269,7 +324,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
 
-   //     echo $query;
+  //     echo $query;
 
         $result = $conn->query($query);
 
@@ -282,14 +337,18 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
             //echo "<th>id</th>";
 
-            //id con ordinamento
-            echo "<th>";
-            echo "id <a href=\"".$_SERVER['PHP_SELF']."?ord=".$ord. "&campo=p.id"."\"> <IMG SRC='../img/freccia.png'  ALT='ordina'></th>";
+             //id (con possibilità di ordinamento)
+            echo " <form method='post' action='gest_persone.php'>";
+            echo "<input type='hidden' name='ord' value= $ord>";
+            echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
 
-            //	echo "<th>nominativo</th>";
-            //nominativo con ordinamento
-            echo "<th>";
-            echo "nominativo <a href=\"".$_SERVER['PHP_SELF']."?ord=".$ord. "&campo=p.nominativo"."\"> <IMG SRC='../img/freccia.png'  ALT='ordina'></th>";
+
+              //nominativo (con possibilità di ordinamento)
+
+            echo " <form method='post' action='gest_persone.php'>";
+            echo "<input type='hidden' name='ord' value= $ord>";
+            echo "<th> nominativo <button class='btn center-block'  name='campo'  value='nominativo' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+
 
             echo "<th>".$jsonObj->{$lang."Persone"}[3]."</th>";//Sesso		
             echo "<th>".$jsonObj->{$lang."Persone"}[4]."</th>";//Data Nascita
@@ -359,7 +418,53 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         $result->free();
         $conn->close();	
-        ?>
 
-    </body>
+
+
+/*
+*** funzione che, a seguito di una nuova ricerca, imposta la prima pagina da visualizzare
+*** return: $pag (pagina da visualizzare)
+***       
+*/
+function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, $campo)
+{ 
+	//echo "2.decessi=". $decessi;
+      $query = "SELECT ";
+      $query .= " p.id, p.nominativo, p.sesso, p.data_nascita, p.data_morte,";
+      $query .= " c.id as id_casa, c.id_moranca,c.nome nome_casa, m.nome nome_moranca,";
+      $query .= " m.cod_zona,  c.id_casa_moranca, c.id_osm, ";
+      $query .= " pc.cod_ruolo_pers_fam, rpf.descrizione,";
+      $query .= " p.data_inizio_val, p.data_fine_val ";
+      $query .= " FROM persone p";
+      $query .= " INNER JOIN pers_casa pc ON  pc.id_pers = p.id";
+      $query .= " INNER JOIN casa c ON  pc.id_casa = c.id";
+      $query .= " INNER JOIN morance m ON  c.id_moranca = m.id";
+      $query .= " INNER JOIN ruolo_pers_fam rpf ON  pc.cod_ruolo_pers_fam = rpf.cod ";
+      $query .= " WHERE p.data_fine_val IS  NULL";
+      if (isset($cod_zona) && ($cod_zona !='tutte'))
+            $query .= " AND m.cod_zona = '$cod_zona'"; 
+      if (isset($id_casa)&& ($id_casa !='tutte'))
+            $query .= " AND id_casa = $id_casa";
+      if (isset($decessi) && ($decessi == 'si'))
+            $query .= " AND p.data_morte IS NOT NULL";
+      if (isset($decessi) && ($decessi == 'no'))
+            $query .= " AND p.data_morte IS  NULL";
+	  $query .= " AND p.nominativo <= '".$nominativo."'";
+      $query .= " ORDER BY $campo " . $ord ;
+
+// echo $query;
+
+    $result = $conn->query($query);
+    $cont=$result->num_rows;
+// echo "cont=". $cont;  
+    $result->free();
+
+    $x_pag = 10;
+    $pag= intval(abs($cont/$x_pag))+1;
+
+    return $pag;
+}
+?>
+
+</body>
 </html>
