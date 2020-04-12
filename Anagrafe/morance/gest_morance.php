@@ -9,11 +9,17 @@
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
+
+$util2 = $config_path .'/../db/db_conn.php';
+require_once $util2;
+ 
 setup();
 unsetPag(basename(__FILE__));
+
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
+
 if(isset($_SESSION['errore']) && $_SESSION['errore']=='error'){echo "<script>alert('Esistono case nella moranca: impossibile cancellare')</script>";
                                                               }
 $_SESSION['errore']=null;
@@ -22,7 +28,6 @@ $_SESSION['errore']=null;
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style1.css">
     <link rel="stylesheet" type="text/css" href="gest_morance_temp_css.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -49,16 +54,43 @@ $_SESSION['errore']=null;
             });
         });
     </script>
-    <?php
-    $util2 = $config_path .'/../db/db_conn.php';
-    require_once $util2;
-    ?>
+  
     <?php stampaIntestazione(); ?>
     <body>
-        <?php stampaNavbar(); ?>
+    <?php stampaNavbar(); ?>
+    <?php
+
+	if (isset($_SESSION['cod_zona']))
+	 $cod_zona = $_SESSION['cod_zona'];
+	else
+     $cod_zona = "tutte"; 
+
+     if (isset($_SESSION['ord']))
+	   $ord = $_SESSION['ord'];
+	 else
+       $ord = "ASC";
+	 
+	 if (isset($_SESSION['campo']))
+	   $ord = $_SESSION['campo'];
+	 else
+       $campo = "nome";
+	?>
         <div class="search-box">
-            <input type="text" autocomplete="off" placeholder="Ricerca ..." />
+		    <form action='gest_morance.php' method='POST'><br>
+            <input type="text" autocomplete="off" name='nome' placeholder="Inserisci nome..." />
             <div class="result"></div>
+			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
+            </form>
+         <?php
+         $ricerca = false;
+         if(isset($_POST['ricerca']))
+		   {
+            $ret = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo, $pag, $first); 
+			$ricerca = true;
+ //			echo "pag=". $pag;
+ //         echo "first=". $first;
+		   }
+         ?>
         </div>
         <div id="lb-back">
             <div id="lb-img"></div>
@@ -96,8 +128,8 @@ $_SESSION['errore']=null;
         $x_pag = 10;
 
 
-
-        $pag=Paginazione("pag_m");	// Recupero il  numero di pagina corrente
+ //       if (!$ricerca)
+          $pag=Paginazione("pag_m");	// Recupero il  numero di pagina corrente
 
         // Controllo se $pag ? valorizzato e se ? numerico
         // ...in caso contrario gli assegno valore 1
@@ -117,10 +149,10 @@ $_SESSION['errore']=null;
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
 
-
         //echo " all_pages=". $all_pages;
         // Calcolo da quale record iniziare
-        $first = ($pag - 1) * $x_pag;
+		if (!$ricerca)
+           $first = ($pag - 1) * $x_pag;
 
         echo "<h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>";
 
@@ -134,7 +166,7 @@ $_SESSION['errore']=null;
 
         //Select option per la scelta della zona
         echo "<form action='gest_morance.php' method='POST'><br>";
-        echo   $jsonObj->{$lang."Morance"}[3].": <select name='cod_zona'>";
+        echo  "Selezione Zona: <select name='cod_zona'>";
         $result = $conn->query("SELECT * FROM zone");
         $nz=$result->num_rows;
 
@@ -149,23 +181,27 @@ $_SESSION['errore']=null;
                 echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
         }
         echo "</select>";
-        echo " <input type='submit' class='button' value='".$jsonObj->{$lang."Morance"}[4]."'>";//Conferma
+        echo " <input type='submit' class='button' value='". $jsonObj->{$lang."Morance"}[4]."'>";//Conferma
         echo " </form>";
 
 
         // ordinamento su campi (11/3/2020) A.C.
         if (!isset($_POST['ord'])) 
         {
-            $campo = 'id';  
+            $campo = 'nome';  
             $ord = 'ASC';	// ordinamento ascendente
+			
         }
-        else
+        else		// inverto ordinamento
         { 
-            $campo = $_POST['campo'];
-            if ($_POST['ord'] == 'ASC')
-                $ord = 'DESC';
-            else
-                $ord = 'ASC';
+			$first = 0;
+			$pag = 0;
+			$campo = $_POST['campo'];           
+            $ord = $_POST['ord'];
+			if ($ord == "ASC")
+				$ord = "DESC";
+			else
+				$ord = "ASC";
         }
 
         $query = "SELECT ";
@@ -180,7 +216,7 @@ $_SESSION['errore']=null;
         $query .= " LIMIT $first, $x_pag";
 
 
-        //echo $query;
+        echo $query;
         $result = $conn->query($query);
         $numero=$result->num_rows;
         if ($result->num_rows !=0)
@@ -196,13 +232,13 @@ $_SESSION['errore']=null;
             //id (con possibilità di ordinamento)
             echo " <form method='post' action='gest_morance.php'>";
             echo "<input type='hidden' name='ord' value= $ord>";
-            echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='ordina'></i>  </button> </th></form>";
+            echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
 
             //nome Moranca  (con possibilità di ordinamento)
 
             echo " <form method='post' action='gest_morance.php'>";
             echo "<input type='hidden' name='ord' value= $ord>";
-            echo "<th>".$jsonObj->{$lang."Morance"}[5]."<button class='btn center-block'  name='campo'  value='m.nome' type='submit'><i class='fa fa-sort' title ='ordina'></i> </button> </th></form>";
+            echo "<th>".$jsonObj->{$lang."Morance"}[5]."<button class='btn center-block'  name='campo'  value='m.nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
 
             echo "<th>".$jsonObj->{$lang."Morance"}[6]."</th>";//Zona
             echo "<th>".$jsonObj->{$lang."Morance"}[7]."</th>";//progr nella zona
@@ -298,3 +334,40 @@ $_SESSION['errore']=null;
         }
     </script>
 </html>
+
+<?php
+
+/*
+*** funzione che, a seguito della ricerca, imposta la pagina 
+*/
+function get_first_pag($conn, $nome, $cod_zona, $ord, $campo, &$pag, &$first)
+{ 
+    // Prepare a select statement
+ $query = "SELECT ";
+ $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
+ $query .= " m.data_inizio_val, m.data_fine_val";
+ $query .= " FROM morance m, zone z ";
+ $query .= " WHERE m.data_fine_val IS NULL";
+ $query .= " AND m.cod_zona = z.cod";
+ if (isset($cod_zona) && ($cod_zona !='tutte'))
+      $query .= " AND m.cod_zona = '". $cod_zona."'";
+ $query .= " AND m.nome <= '".$nome."'";
+ $query .= " ORDER BY $campo " . $ord ;
+
+// echo $query;
+
+ $result = $conn->query($query);
+ $cont=$result->num_rows;
+// echo "cont=". $cont;  
+ $result->free();
+
+ $x_pag = 10;
+ $pag= intval(abs($cont/$x_pag))+1;
+
+ $first = ($pag - 1) * $x_pag;
+
+ return 0;
+}
+?>
+
+</body>

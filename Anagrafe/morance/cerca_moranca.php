@@ -6,7 +6,7 @@ $config_path = __DIR__;
 
 if(isset($_REQUEST["term"])){
     // Prepare a select statement
-    $sql = "SELECT nome FROM morance WHERE nome LIKE ?";
+    $sql = "SELECT nome FROM morance WHERE nome LIKE ? ORDER BY nome";
    
     if($stmt = mysqli_prepare($conn, $sql)){
         // Bind variables to the prepared statement as parameters
@@ -27,7 +27,7 @@ if(isset($_REQUEST["term"])){
 				echo "<p>" . $mystr . "</p>";
                 }
             } else{
-                echo "<p>No matches found</p>";
+                echo "<p>nessun risultato soddisfa la ricerca</p>";
             }
         } else{
             echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
