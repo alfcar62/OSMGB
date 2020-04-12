@@ -216,7 +216,7 @@ $_SESSION['errore']=null;
         $query .= " LIMIT $first, $x_pag";
 
 
-        echo $query;
+  //      echo $query;
         $result = $conn->query($query);
         $numero=$result->num_rows;
         if ($result->num_rows !=0)
