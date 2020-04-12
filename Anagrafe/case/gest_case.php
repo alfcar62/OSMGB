@@ -51,22 +51,57 @@ unsetPag(basename(__FILE__));
     ?>
     <?php stampaIntestazione(); ?>
     <body>
-        <?php stampaNavbar(); ?>
-        <div class="search-box">
-            <input type="text" autocomplete="off" placeholder="Ricerca casa..." />
+    <?php stampaNavbar(); ?>
+
+    <?php
+	if (isset($_POST['cod_zona']))
+     {
+       $cod_zona = $_POST['cod_zona']; 
+       $_SESSION['cod_zona'] = $cod_zona;
+     }  
+    else 
+     {
+       if( isset($_SESSION['cod_zona']) &&  ($_SESSION['cod_zona'] != 'tutte'))		
+                $cod_zona =  $_SESSION['cod_zona'];
+	   else  $cod_zona = "tutte";
+     } 
+
+     if (isset($_SESSION['ord']))		//ordinamento ASC/DESC
+	   $ord = $_SESSION['ord'];
+	 else
+       $ord = "ASC";
+	 
+	 if (isset($_SESSION['campo']))		// campo sul cui fare ordinamento
+	   $ord = $_SESSION['campo'];
+	 else
+       $campo = "nome";
+
+	 if(isset($_GET['pag']))			// pagina corrente
+	   $pag= $_GET['pag'];
+     else
+	   $pag= 0;
+	?>
+	  <h2> Villaggio di NTchangue: Elenco case</h2>
+
+     <div class="search-box">
+		    <form action='gest_case.php' method='POST'><br>
+            <input type="text" autocomplete="off" name='nome' placeholder="Ricerca..." />
+			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
             <div class="result"></div>
-        </div>
-        <div id="lb-back">
-            <div id="lb-img"></div>
-        </div>
-        <!-- Modal:div che compare quando si clicca sull'immagine -->
-        <div id="myModal" class="modal">
+			</form>
+         <?php
+		 $x_pag = 10;			// n. di record per pagina
+         $ricerca = false;
+         if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
+		   {
+            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 
+			$first = ($pag - 1) * $x_pag;
 
-            <!-- The Close Button -->
-            <span class="close">&times;</span>
-
-            <!-- Modal Content (The Image) -->
-            <img class="modal-content" id="img01">
+			$ricerca = true;
+ //			echo "pag=". $pag;
+ //           echo "first=". $first;
+		   }
+         ?>
         </div>
         <?php 
 
@@ -83,20 +118,17 @@ unsetPag(basename(__FILE__));
             $cod_zona = "tutte";
         } 
 
-        //echo " cod_zona = ". $cod_zona;
-        //echo " SESSION(cod_zona) = ".$_SESSION['cod_zona'];
-
         // Creo una variabile dove imposto il numero di record 
         // da mostrare in ogni pagina
         $x_pag = 10;  
         
-        $pag=Paginazione("pag_c");// Recupero il numero di pagina corrente.
+        $pag=Paginazione($pag, "pag_c");	// Recupero il  numero di pagina corrent
 
         // Controllo se $pag è valorizzato e se è numerico
         // ...in caso contrario gli assegno valore 1
         if (!$pag || !is_numeric($pag)) $pag = 1; 
 
-        // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
+        // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella 
 
         $query = "SELECT count(c.id) as cont";
         $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
@@ -105,9 +137,9 @@ unsetPag(basename(__FILE__));
         $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
         $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
         $query .= " WHERE c.DATA_FINE_VAL is null";
-        if (isset($cod_zona) && ($cod_zona !='tutte'))
+		if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";
-        
+      
         $result = $conn->query($query);
         $row = $result->fetch_array();
         $all_rows= $row['cont'];
@@ -116,10 +148,9 @@ unsetPag(basename(__FILE__));
         $all_pages = ceil($all_rows / $x_pag);
 
 
-        // Calcolo da quale record iniziare
-        $first = ($pag - 1) * $x_pag;
+     	if (!$ricerca)
+           $first = ($pag - 1) * $x_pag;
 
-        echo "<h2> Villaggio di NTchangue: Elenco case</h2>";
         echo "<a href='ins_casa.php'>";
         echo "Inserisci una nuova casa </a><br><br>";
        
@@ -147,7 +178,25 @@ unsetPag(basename(__FILE__));
         echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
 
-        /*
+		// ordinamento su campi (11/3/2020) A.C.
+        if (!isset($_POST['ord'])) 
+        {
+            $campo = 'nome';  
+            $ord = 'ASC';	// ordinamento ascendente
+        }
+        else		// inverto ordinamento
+        { 
+			$first = 0;
+			$pag = 0;
+			$campo = $_POST['campo'];           
+            $ord = $_POST['ord'];
+			if ($ord == "ASC")
+				$ord = "DESC";
+			else
+				$ord = "ASC";
+        }
+
+/*
 *** 13/3/2020: A. Carlone. Modificata la query, per visualizzare anche case senza capo famiglia
 */
         $query = "SELECT c.id, c.nome,";
@@ -162,10 +211,10 @@ unsetPag(basename(__FILE__));
         $query .= " WHERE c.DATA_FINE_VAL is null";
         if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";
-        $query .= " ORDER BY c.id ASC";
+        $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
         $result = $conn->query($query);  
-        //echo $query;
+//        echo $query;
 
         if ($result->num_rows !=0)
         {
@@ -284,4 +333,41 @@ unsetPag(basename(__FILE__));
         }
     </script>
 
+<?php
+/*
+*** funzione che, a seguito di una nuova ricerca, imposta la prima pagina da visualizzare
+*** return: $pag (pagina da visualizzare)
+***       
+*/
+function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
+{ 
+   $query = "SELECT c.id, c.nome,";
+   $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca,";
+   $query .= " c.nome, p.id id_pers, p.nominativo, c.id_osm as id_osm, ";
+   $query .= " c.data_inizio_val data_val, c.data_fine_val";
+   $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
+   $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
+   $query .= " LEFT JOIN pers_casa pc ON c.id  = pc.id_casa ";
+   $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
+   $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
+   $query .= " WHERE c.DATA_FINE_VAL is null";
+   if (isset($cod_zona) && ($cod_zona !='tutte'))
+            $query .= " AND m.cod_zona = '{$cod_zona}'";  
+   $query .= " AND c.nome <= '".$nome."'";
+   $query .= " ORDER BY $campo " . $ord ;
+
+//  echo $query;
+
+  $result = $conn->query($query);
+   $cont=$result->num_rows;
+ // echo "cont=". $cont;  
+  $result->free();
+
+  $x_pag = 10;
+  $pag= intval(abs($cont/$x_pag))+1;
+
+  return $pag;
+}
+?>
+</body>
 </html>
