@@ -62,6 +62,9 @@ $cod_zona=$_POST["cod_zona"];
      if ($id_osm != $row['id_osm'])
 	 	$tipo_operazione.="-ID_OSM-";
 
+     if ($row['id_osm'] == "")
+		$row['id_osm'] = 0;
+
      $tipo_operazione.=")";
 
      $query  = "INSERT INTO morance_sto (";
@@ -83,7 +86,7 @@ $cod_zona=$_POST["cod_zona"];
      $query .= "'$row[data_inizio_val]',";
      $query .= "'$dataOggi')";
 
- //  echo $query;
+  // echo $query;
 
      $result = $conn->query($query);
 
@@ -96,7 +99,7 @@ $cod_zona=$_POST["cod_zona"];
     $query.= "ID_OSM=$id_osm "  ;
     $query.=" WHERE ID=$id_moranca "; 
 
-  // echo $query;
+ //  echo $query;
 
     $result = $conn->query($query);
     if (!$result) 
