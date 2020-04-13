@@ -113,7 +113,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 	   $pag= 0;
 
 	?>
-	   <h2> Villaggio di NTchangue: Elenco persone</h2>
+	   <h2> Villaggio di N'Tchangue: elenco persone abitanti</h2>
 
        <div class="search-box">
 		    <form action='gest_persone.php' method='POST'><br>
@@ -436,10 +436,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 echo "</tr>";
             } 
             echo "</table>";
-        }
-        else
-            echo " Nessuna persona &egrave; presente.";
-       
+        }       
 		echo "<br> Numero abitanti risultanti: $all_rows<br>";
 
 		// visualizza pagine

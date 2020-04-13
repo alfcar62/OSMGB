@@ -86,7 +86,7 @@ $_SESSION['errore']=null;
      else
 	   $pag= 0;
 	?>
-	    <h2>Villaggio di NTchangue: Elenco moran&ccedil;e</h2>
+	    <h2>Villaggio di N'Tchangue: elenco moran&ccedil;e</h2>
 
         <div class="search-box">
 		    <form action='gest_morance.php' method='POST'><br>
@@ -229,20 +229,20 @@ $_SESSION['errore']=null;
             echo "<tr>";
 
 			//foto
-            echo "<th>Foto</th>";
+            echo "<th>foto</th>";
 
             //nome Moranca  (con possibilità di ordinamento)
 
             echo " <form method='post' action='gest_morance.php'>";
-            echo "<th>".$jsonObj->{$lang."Morance"}[5]."<button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
 
 			//id (con possibilità di ordinamento)
             echo " <form method='post' action='gest_morance.php'>";
             echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
 
-            echo "<th>".$jsonObj->{$lang."Morance"}[6]."</th>";//Zona
-            echo "<th>".$jsonObj->{$lang."Morance"}[7]."</th>";//progr nella zona
-            echo "<th> sulla Mappa";
+            echo "<th>zona</th>";//Zona
+            echo "<th>progr. zona</th>";//progr nella zona
+            echo "<th> sulla mappa";
             echo "<th>data inizio val";//data_val
             echo "<th>".$jsonObj->{$lang."Morance"}[9]."</th>";//Modifica
             echo "<th>".$jsonObj->{$lang."Morance"}[10]."</th>";//Elimina
@@ -296,8 +296,6 @@ $_SESSION['errore']=null;
             }      
             echo "</table>";      
         }
-        else
-            echo " Nessuna moran&ccedil; &egrave; presente nel database.";
  
         echo "<br> Numero moran&ccedil;e risultanti: $all_rows<br>";
 

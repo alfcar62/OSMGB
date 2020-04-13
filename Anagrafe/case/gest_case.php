@@ -80,7 +80,7 @@ unsetPag(basename(__FILE__));
      else
 	   $pag= 0;
 	?>
-	  <h2> Villaggio di NTchangue: Elenco case</h2>
+	  <h2> Villaggio di N'Tchangue: elenco case</h2>
 
      <div class="search-box">
 		    <form action='gest_case.php' method='POST'><br>
@@ -229,7 +229,7 @@ unsetPag(basename(__FILE__));
         {
             echo "<table border>";
             echo "<tr>";
-            echo "<th>Foto</th>";
+            echo "<th>foto</th>";
             echo "<th>nome</th>";
 			echo "<th>id</th>";
             echo "<th>zona</th>";
@@ -238,7 +238,7 @@ unsetPag(basename(__FILE__));
             echo "<th>capo famiglia</th>";
             echo "<th>id capo famiglia</th>";
             echo "<th>n.abitanti</th>";
-            echo "<th>sulla Mappa</th>";
+            echo "<th>sulla mappa</th>";
             echo "<th>data inizio val</th>";
             echo "<th>Modifica</th>";
             echo "<th>Elimina</th>";
@@ -298,14 +298,6 @@ unsetPag(basename(__FILE__));
                 echo "</tr></form>";
             }
             echo "</table>";
-        }
-        else{
-            if(isset($cod_zona)){
-                echo " Nessuna casa &egrave; presente nel database nella zona selezionata ";
-            }
-            else{
-                echo " Nessuna casa &egrave; presente nel database";
-            }
         }
 
        echo "<br> Numero case risultanti: $all_rows<br>";
