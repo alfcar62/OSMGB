@@ -62,7 +62,7 @@ try
    }
   $row=$result->fetch_array();
 
-  $tipo_operazione="MODIFICATO (";
+  $tipo_operazione="MOD (";
   $casa_cambiata=false;
   $ruolo_cambiato=false;
   $nominativo_cambiato = false;
@@ -71,13 +71,13 @@ try
 
   if($nominativo_new!=$row['nominativo'])
    {
-    $tipo_operazione.="nominativo ";
+    $tipo_operazione.="-nominativo-";
     $nominativo_cambiato=true;
    }
   
   if($id_ruolo_modifica_new != 's' && $id_ruolo_modifica_new != $row['cod_ruolo'])
    {
-    $tipo_operazione.="ruolo ";
+    $tipo_operazione.="-ruolo-";
     $ruolo_cambiato=true;
    }
   
@@ -85,7 +85,7 @@ try
 
   if($data_nascita_new != $data_nascita)
    {
-    $tipo_operazione.="data_nascita";
+    $tipo_operazione.="-data_nascita-";
     $data_nascita_cambiata=true;
    }
 
@@ -93,14 +93,14 @@ try
 
    if($data_morte_new != $data_morte)
    {
-    $tipo_operazione.="data_morte";
+    $tipo_operazione.="-data_morte-";
     $data_morte_cambiata=true;
    }
 
 
   if( $id_casa_new != 's' && $id_casa_new != $row['id_casa'])
    {
-    $tipo_operazione.="casa ";
+    $tipo_operazione.="-casa-";
     $casa_cambiata=true;
    }
       
@@ -144,7 +144,7 @@ try
  $query .= "'$data_inizio_val',";
  $query .= "'$currentdate')";
  
- echo "q2 ".$query."<br>";
+// echo "q2 ".$query."<br>";
  $result = $conn->query($query);
 
  if (!$result)
@@ -183,7 +183,7 @@ try
 
     $query .= " where id= ".$id_pers_modifica;
 	
-	echo "q3 ".$query."<br>";
+//	echo "q3 ".$query."<br>";
 
     $result = $conn->query($query);
     if (!$result)
