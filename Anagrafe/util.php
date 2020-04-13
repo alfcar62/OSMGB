@@ -130,7 +130,7 @@ function stampaIntestazione()
 ?>
 <head>
     <link rel="shortcut icon" type="image/x-icon" href="/OSM/Anagrafe/img/favicon.ico" />
-    <title>Ntchangue - Anagrafe Web</title>
+    <title>N'Tchangue - Anagrafe Web</title>
     <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
