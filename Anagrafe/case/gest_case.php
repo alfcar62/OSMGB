@@ -26,7 +26,7 @@ unsetPag(basename(__FILE__));
                 /* Get input value on change */
                 var inputVal = $(this).val();
                 var resultDropdown = $(this).siblings(".result");
-                if(inputVal.length>1){
+                if(inputVal.length>2){
                     $.get("cerca_casa.php", {term: inputVal}).done(function(data){
                         // Display the returned data in browser
                         resultDropdown.html(data);
