@@ -283,6 +283,16 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         /*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/
+	   if (isset($_SESSION['campo_p']))
+				$campo = $_SESSION['campo_p'];
+		    else 
+				$campo = "nominativo";
+
+			 if (isset($_SESSION['ord_p']))
+				$ord = $_SESSION['ord_p'];
+		    else 
+				$ord = "ASC"; 
+				
        if (isset($_POST['ord_id']) ||
 		    isset($_POST['ord_nominativo']))
          {
@@ -298,18 +308,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 		  $first = 0;			// riparto dall'inizio
           $pag = 1;
         }
-       else	
-        {
-            if (isset($_SESSION['campo_p']))
-				$campo = $_SESSION['campo_p'];
-		    else 
-				$campo = "nominativo";
-
-			 if (isset($_SESSION['ord_p']))
-				$ord = $_SESSION['ord_p'];
-		    else 
-				$ord = "ASC";  	
-         }
+      
        $_SESSION['campo_p'] = $campo;
 	   $_SESSION['ord_p'] = $ord;
 
