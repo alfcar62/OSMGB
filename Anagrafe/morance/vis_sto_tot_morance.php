@@ -72,7 +72,7 @@ require_once $util2;
     echo "<h2>Storia delle variazioni delle moran&ccedil;e nel tempo</h2>";
     //echo $_POST['codice_zona'];
 
-    $query =  "SELECT tipo_op, id_moranca, id_mor_zona,";
+    $query =  "SELECT tipo_op, id_moranca, id_mor_zona,id_osm,";
     $query .= " nome as nome_moranca, cod_zona, data_inizio_val, data_fine_val ";
     $query .= " FROM morance_sto ";
     if (isset($_POST['tipo_operazione'])) {
@@ -97,6 +97,7 @@ require_once $util2;
         echo "<th>id moran&ccedil;a-zona</th>";
         echo "<th>nome moran&ccedil;a</th>";
         echo "<th>zona</th>";
+		echo "<th>id OSM</th>";
         echo "<th>data inizio_val</th>";
         echo "<th>data fine val</th>";
         echo "</tr>";
@@ -108,6 +109,7 @@ require_once $util2;
             echo "<td>" . $row['id_mor_zona'] . "</td>";
             echo "<td>" . utf8_encode($row['nome_moranca']) . "</td>";
             echo "<td>" . $row['cod_zona'] . "</td>";
+			echo "<td>" . $row['id_osm'] . "</td>";
             echo "<td>" . $row['data_inizio_val'] . "</td>";
             echo "<td>" . $row['data_fine_val'] . "</td>";
         }
@@ -115,36 +117,10 @@ require_once $util2;
     } else
         echo " Nessuna operazione è stata effettuata sulla moranca.";
     echo "<br> Numero operazioni: $all_rows<br>";
-
-    // Se le pagine totali sono più di 1...
-    // stampo i link per andare avanti e indietro tra le diverse pagine!
-    if ($all_pages > 1) {
-        if ($pag > 1) {
-            echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-            echo "Pagina Indietro</a>&nbsp;<br>";
-        }
-        // faccio un ciclo di tutte le pagine
-        $cont = 0;
-        for ($p = 1; $p <= $all_pages; $p++) {
-            if ($cont >= 50) {
-                echo "<br>";
-                $cont = 0;
-            }
-            $cont++;
-            // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-            // all'interno della sequenza delle pagine
-            if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-            // per tutte le altre pagine stampo il link
-            else {
-                echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-                echo $p . "</a>&nbsp;";
-            }
-        }
-        if ($all_pages > $pag) {
-            echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-            echo "Pagina Avanti<br></a>";
-        }
-    }
+	
+	// visualizza pagine
+    $vis_pag = $config_path .'/../vis_pag.php';
+    require $vis_pag;
 
     $result->free();
     $conn->close();
