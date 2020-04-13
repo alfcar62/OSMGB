@@ -26,7 +26,7 @@ unsetPag(basename(__FILE__));
                 /* Get input value on change */
                 var inputVal = $(this).val();
                 var resultDropdown = $(this).siblings(".result");
-                if(inputVal.length){
+                if(inputVal.length>1){
                     $.get("cerca_casa.php", {term: inputVal}).done(function(data){
                         // Display the returned data in browser
                         resultDropdown.html(data);
@@ -65,13 +65,13 @@ unsetPag(basename(__FILE__));
 	   else  $cod_zona = "tutte";
      } 
 
-     if (isset($_SESSION['ord']))		//ordinamento ASC/DESC
-	   $ord = $_SESSION['ord'];
+     if (isset($_SESSION['ord_c']))		//ordinamento ASC/DESC
+	   $ord = $_SESSION['ord_c'];
 	 else
        $ord = "ASC";
 	 
-	 if (isset($_SESSION['campo']))		// campo sul cui fare ordinamento
-	   $ord = $_SESSION['campo'];
+	 if (isset($_SESSION['campo_c']))		// campo sul cui fare ordinamento
+	   $ord = $_SESSION['campo_c'];
 	 else
        $campo = "nome";
 
@@ -84,7 +84,7 @@ unsetPag(basename(__FILE__));
 
      <div class="search-box">
 		    <form action='gest_case.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="Ricerca..." />
+            <input type="text" autocomplete="off" name='nome' placeholder="nome casa..." />
 			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
             <div class="result"></div>
 			</form>
@@ -94,7 +94,6 @@ unsetPag(basename(__FILE__));
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
             $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 
-			$first = ($pag - 1) * $x_pag;
 
 			$ricerca = true;
  //			echo "pag=". $pag;
@@ -159,8 +158,7 @@ unsetPag(basename(__FILE__));
         $all_pages = ceil($all_rows / $x_pag);
 
 
-     	if (!$ricerca)
-           $first = ($pag - 1) * $x_pag;
+        $first = ($pag - 1) * $x_pag;
 
         echo "<a href='ins_casa.php'>";
         echo "Inserisci una nuova casa </a><br><br>";
@@ -232,16 +230,16 @@ unsetPag(basename(__FILE__));
             echo "<table border>";
             echo "<tr>";
             echo "<th>Foto</th>";
-            echo "<th>id</th>";
             echo "<th>nome</th>";
+			echo "<th>id</th>";
             echo "<th>zona</th>";
+			echo "<th>moran&ccedil;a</th>";
             echo "<th>id moranca</th>";
-            echo "<th>moran&ccedil;a</th>";
-            echo "<th>id capo famiglia</th>";
             echo "<th>capo famiglia</th>";
-            echo "<th>Abitanti</th>";
-            echo "<th>su OpenStreetMap</th>";
-            echo "<th>data val</th>";
+            echo "<th>id capo famiglia</th>";
+            echo "<th>n.abitanti</th>";
+            echo "<th>sulla Mappa</th>";
+            echo "<th>data inizio val</th>";
             echo "<th>Modifica</th>";
             echo "<th>Elimina</th>";
             echo "<th>Persone </th>";
@@ -257,16 +255,16 @@ unsetPag(basename(__FILE__));
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
                 }
-                echo "<td>$row[id]</td>";
                 echo "<td>$row[nome]</td>";
+				echo "<td>$row[id]</td>";
                 echo "<td>$row[zona]</td>";
-                echo "<td>$row[id_moranca]</td>";
 
 			    $mystr = utf8_encode ($row['nome_moranca']) ;
                 echo "<td>$mystr</th>";
 
-                $mystr = utf8_encode ($row['nominativo']) ;
+                echo "<td>$row[id_moranca]</td>";
 
+                $mystr = utf8_encode ($row['nominativo']) ;
                 echo "<td>$mystr</td>";
                 echo "<td>$row[id_pers]</td>";
 

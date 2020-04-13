@@ -126,8 +126,17 @@ try
  $query .= $id_pers_modifica.",";
  $query .= "'".$row['nominativo']."',";
  $query .= "'".$row['sesso']."',";
- $query .= "'".$data_nascita."',";
- $query .= "'".$data_morte."',";
+
+ if ($data_nascita == "0000-00-00")
+    $query .= "NULL,";
+ else
+    $query .= "'".$data_nascita."',";
+
+ if ($data_morte == "0000-00-00")
+    $query .= "NULL,";
+ else
+    $query .= "'".$data_morte."',";
+
  $query .= $row['id_casa'].",";
  $query .= "'".$row['nome_casa']."',";
  $query .= "'".$row['cod_ruolo']."',";
@@ -135,7 +144,7 @@ try
  $query .= "'$data_inizio_val',";
  $query .= "'$currentdate')";
  
- //echo "q2 ".$query."<br>";
+ echo "q2 ".$query."<br>";
  $result = $conn->query($query);
 
  if (!$result)
@@ -159,13 +168,22 @@ try
     /*
     *** UPDATE persone
     */
-    $query="UPDATE persone SET ";
-    $query=$query."nominativo="."'".$nominativo_new."'";
-    $query=$query.", data_morte= "."'".$data_morte_new."'";  
-    $query=$query.", data_nascita= "."'".$data_nascita_new."'";
-    $query=$query." where id= ".$id_pers_modifica;
+    $query= "UPDATE persone SET ";
+    $query .= "nominativo="."'".$nominativo_new."'";
+
+	if ($data_nascita_new == "0000-00-00")
+        $query .= ",data_nascita = NULL ";
+	else
+        $query .= ",data_nascita = '". $data_nascita_new . "'";
+
+    if ($data_morte_new == "0000-00-00")
+        $query .= ",data_morte = NULL ";
+	else
+        $query .= ",data_morte= '". $data_morte_new . "' ";
+
+    $query .= " where id= ".$id_pers_modifica;
 	
-	//echo "q3 ".$query."<br>";
+	echo "q3 ".$query."<br>";
 
     $result = $conn->query($query);
     if (!$result)

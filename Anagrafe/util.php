@@ -183,19 +183,34 @@ function setup() // invocata all'inizio di tutte le pagine, tranne login e logou
 
 
 /*****************Paginazione*********************/
-function unsetPag($file){ 
+function unsetPag($file){		// reset variabili di sessione
     switch($file){
         case "gest_morance.php":
             unset($_SESSION['pag_c']);
+		    unset($_SESSION['ord_c']);
+			unset($_SESSION['campo_c']);
+
             unset($_SESSION['pag_p']);
+			unset($_SESSION['ord_p']); 
+			unset($_SESSION['campo_p']);
             break;
         case "gest_case.php":
             unset($_SESSION['pag_m']);
+		    unset($_SESSION['ord_m']);
+		    unset($_SESSION['campo_m']);
+
             unset($_SESSION['pag_p']);
+		    unset($_SESSION['ord_p']);
+			unset($_SESSION['campo_p']);
             break;
         case "gest_persone.php":
             unset($_SESSION['pag_m']);
+		    unset($_SESSION['ord_m']);
+			unset($_SESSION['campo_m']);
+
             unset($_SESSION['pag_c']);
+		    unset($_SESSION['ord_c']);
+			unset($_SESSION['campo_c']);
             break;
     }
 }
@@ -249,7 +264,7 @@ function EchoMessage($msg, $redirect)
  {
     echo '<script type="text/javascript">
     alert("' . $msg . '")
-    window.location.href = "'.$redirect.'"
+ //   window.location.href = "'.$redirect.'"
     </script>';
  }
 

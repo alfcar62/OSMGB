@@ -37,7 +37,7 @@ $_SESSION['errore']=null;
                 /* Get input value on change */
                 var inputVal = $(this).val();
                 var resultDropdown = $(this).siblings(".result");
-                if(inputVal.length){
+                if(inputVal.length>1){
                     $.get("cerca_moranca.php", {term: inputVal}).done(function(data){
                         // Display the returned data in browser
                         resultDropdown.html(data);
@@ -68,15 +68,16 @@ $_SESSION['errore']=null;
      {
        if( isset($_SESSION['cod_zona']) &&  ($_SESSION['cod_zona'] != 'tutte'))		
                 $cod_zona =  $_SESSION['cod_zona'];
+	   else  $cod_zona = "tutte";
      } 
 
-     if (isset($_SESSION['ord']))		//ordinamento ASC/DESC
-	   $ord = $_SESSION['ord'];
+     if (isset($_SESSION['ord_m']))		//ordinamento ASC/DESC
+	   $ord = $_SESSION['ord_m'];
 	 else
        $ord = "ASC";
 	 
-	 if (isset($_SESSION['campo']))		// campo sul cui fare ordinamento
-	   $ord = $_SESSION['campo'];
+	 if (isset($_SESSION['campo_m']))		// campo sul cui fare ordinamento
+	   $campo = $_SESSION['campo_m'];
 	 else
        $campo = "nome";
 
@@ -89,7 +90,7 @@ $_SESSION['errore']=null;
 
         <div class="search-box">
 		    <form action='gest_morance.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="Ricerca..." />
+            <input type="text" autocomplete="off" name='nome' placeholder="nome moranca..." />
 			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
 		    <div class="result"></div>
             </form>
@@ -98,12 +99,8 @@ $_SESSION['errore']=null;
          $ricerca = false;
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
-            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 
-			$first = ($pag - 1) * $x_pag;
-
-			$ricerca = true;
+            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 			
  //			echo "pag=". $pag;
- //         echo "first=". $first;
 		   }
          ?>
         </div>
@@ -144,11 +141,10 @@ $_SESSION['errore']=null;
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
 
-        //echo " all_pages=". $all_pages;
         // Calcolo da quale record iniziare
-		if (!$ricerca)
-           $first = ($pag - 1) * $x_pag;
+        $first = ($pag - 1) * $x_pag;
 
+ //       echo "first=". $first;
 
         echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
 
@@ -179,41 +175,55 @@ $_SESSION['errore']=null;
         echo " </form>";
 
 
-        // ordinamento su campi (11/3/2020) A.C.
-        if (!isset($_POST['ord'])) 
-        {
-            $campo = 'nome';  
-            $ord = 'ASC';	// ordinamento ascendente
-			
-        }
-        else		// inverto ordinamento
-        { 
-			$first = 0;
-			$pag = 0;
-			$campo = $_POST['campo'];           
-            $ord = $_POST['ord'];
-			if ($ord == "ASC")
+		/*
+		*** caso di richiesto nuovo  ordinamento su campi id o nome
+		*/
+       if (isset($_POST['ord_id']) ||
+		    isset($_POST['ord_nome']))
+         {
+          if (isset($_POST['ord_id']))		// cambiato ordinamento su id
+		     $campo = 'id';
+		  else 
+			 $campo = 'nome';				// cambiato ordinamento su nome
+             
+          if ($ord == 'ASC')
 				$ord = "DESC";
 			else
 				$ord = "ASC";
+		  $first = 0;			// riparto dall'inizio
+          $pag = 1;
         }
+       else	
+        {
+            if (isset($_SESSION['campo_m']))
+				$campo = $_SESSION['campo_m'];
+		    else 
+				$campo = "nome";
 
-        $query = "SELECT ";
-        $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
-        $query .= " m.data_inizio_val, m.data_fine_val";
-        $query .= " FROM morance m, zone z ";
-        $query .= " WHERE m.data_fine_val IS NULL";
-        $query .= " AND m.cod_zona = z.cod";
-        if (isset($cod_zona) && ($cod_zona !='tutte'))
+			 if (isset($_SESSION['ord_m']))
+				$ord = $_SESSION['ord_m'];
+		    else 
+				$ord = "ASC";  	
+         }
+       $_SESSION['campo_m'] = $campo;
+	   $_SESSION['ord_m'] = $ord;
+
+       $query = "SELECT ";
+       $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
+       $query .= " m.data_inizio_val, m.data_fine_val";
+       $query .= " FROM morance m, zone z ";
+       $query .= " WHERE m.data_fine_val IS NULL";
+       $query .= " AND m.cod_zona = z.cod";
+       if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '$cod_zona'";
-        $query .= " ORDER BY $campo " . $ord ;
-        $query .= " LIMIT $first, $x_pag";
+       $query .= " ORDER BY $campo " . $ord ;
+       $query .= " LIMIT $first, $x_pag";
 
 
-  //      echo $query;
-        $result = $conn->query($query);
-        $numero=$result->num_rows;
-        if ($result->num_rows !=0)
+//       echo $query;
+       $result = $conn->query($query);
+       $numero=$result->num_rows;
+       if ($result->num_rows !=0)
         {
             echo "<table border>";
             echo "<tr>";
@@ -221,20 +231,18 @@ $_SESSION['errore']=null;
 			//foto
             echo "<th>Foto</th>";
 
-            //id (con possibilità di ordinamento)
-            echo " <form method='post' action='gest_morance.php'>";
-            echo "<input type='hidden' name='ord' value= $ord>";
-            echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
-
             //nome Moranca  (con possibilità di ordinamento)
 
             echo " <form method='post' action='gest_morance.php'>";
-            echo "<input type='hidden' name='ord' value= $ord>";
-            echo "<th>".$jsonObj->{$lang."Morance"}[5]."<button class='btn center-block'  name='campo'  value='m.nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+            echo "<th>".$jsonObj->{$lang."Morance"}[5]."<button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+
+			//id (con possibilità di ordinamento)
+            echo " <form method='post' action='gest_morance.php'>";
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
 
             echo "<th>".$jsonObj->{$lang."Morance"}[6]."</th>";//Zona
             echo "<th>".$jsonObj->{$lang."Morance"}[7]."</th>";//progr nella zona
-            echo "<th> su OpenStreetMap";
+            echo "<th> sulla Mappa";
             echo "<th>data inizio val";//data_val
             echo "<th>".$jsonObj->{$lang."Morance"}[9]."</th>";//Modifica
             echo "<th>".$jsonObj->{$lang."Morance"}[10]."</th>";//Elimina
@@ -245,8 +253,6 @@ $_SESSION['errore']=null;
 
             while ($row = $result->fetch_array())
             {
-                $mystr = utf8_encode ($row['nome']) ;
-
                 echo "<tr>";           
                 $immagine=glob('immagini/'.$row['id'].'.*');
                 if($immagine != null)
@@ -254,8 +260,11 @@ $_SESSION['errore']=null;
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
                 }
-                echo "<td>$row[id]</td>";
+
+                $mystr = utf8_encode ($row['nome']) ;
                 echo "<td>$mystr</td>";
+
+				echo "<td>$row[id]</td>";
                 echo "<td>$row[zona]</td>";
                 echo "<td>$row[id_mor_zona]</td>";
 
@@ -346,7 +355,12 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
  $query .= " AND m.cod_zona = z.cod";
  if (isset($cod_zona) && ($cod_zona !='tutte'))
       $query .= " AND m.cod_zona = '". $cod_zona."'";
- $query .= " AND m.nome <= '".$nome."'";
+
+ if ($ord == "ASC")
+	$query .= " AND m.nome < '".$nome."'";
+ else
+	$query .= " AND m.nome > '".$nome."'";
+
  $query .= " ORDER BY $campo " . $ord ;
 
 // echo $query;

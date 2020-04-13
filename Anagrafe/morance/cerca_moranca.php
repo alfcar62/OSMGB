@@ -14,8 +14,8 @@ else
  $cod_zona = "tutte";
 
 //echo "cod_zona=". $cod_zona;
-if (isset($_SESSION['ord']))
-  $ord = $_SESSION['ord'];
+if (isset($_SESSION['ord_m']))
+  $ord = $_SESSION['ord_m'];
 else 
   $ord  = "ASC";
 

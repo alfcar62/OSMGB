@@ -11,13 +11,13 @@ require_once $util2;
 if (isset($_SESSION['id_casa']))
   $id_casa = $_SESSION['id_casa'];
 
-if (isset($_SESSION['ord']))
-  $ord = $_SESSION['ord'];
+if (isset($_SESSION['ord_p']))
+  $ord = $_SESSION['ord_p'];
 else 
   $ord  = "ASC";
 
-if (isset($_SESSION['campo']))
-  $campo = $_SESSION['campo'];
+if (isset($_SESSION['campo_p']))
+  $campo = $_SESSION['campo_p'];
 else 
   $campo = "nominativo";
 

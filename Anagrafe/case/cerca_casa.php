@@ -12,13 +12,13 @@ if (isset($_SESSION['cod_zona']))
 else 
  $cod_zona = "tutte";
 
-if (isset($_SESSION['ord']))
-  $ord = $_SESSION['ord'];
+if (isset($_SESSION['ord_c']))
+  $ord = $_SESSION['ord_c'];
 else 
   $ord  = "ASC";
 
-if (isset($_SESSION['campo']))
-  $campo = $_SESSION['campo'];
+if (isset($_SESSION['campo_c']))
+  $campo = $_SESSION['campo_c'];
 else 
   $campo = "nome";
 

@@ -36,7 +36,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 /* Get input value on change */
                 var inputVal = $(this).val();
                 var resultDropdown = $(this).siblings(".result");
-                if(inputVal.length){
+                if(inputVal.length>1){
                     $.get("cerca_persona.php", {term: inputVal}).done(function(data){
                         // Display the returned data in browser
                         resultDropdown.html(data);
@@ -76,7 +76,10 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 	 
 
     if (isset($_SESSION['decessi'])) 
+	   {
            $_SESSION['old_decessi'] =  $_SESSION['decessi'];
+		   $decessi = $_SESSION['old_decessi'];
+		}
 
     if (isset($_POST['decessi']))		// arriva dal form stesso
         {
@@ -94,13 +97,13 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 //	 echo "1.decessi=". $decessi;
 //	 echo "1.SESSION[decessi]=". $_SESSION['decessi'];
 
-     if (isset($_SESSION['ord']))		//ordinamento ASC/DESC
-	   $ord = $_SESSION['ord'];
+     if (isset($_SESSION['ord_p']))		//ordinamento ASC/DESC
+	   $ord = $_SESSION['ord_p'];
 	 else
        $ord = "ASC";
 	 
-	 if (isset($_SESSION['campo']))		// campo sul cui fare ordinamento
-	   $ord = $_SESSION['campo'];
+	 if (isset($_SESSION['campo_p']))		// campo sul cui fare ordinamento
+	   $campo = $_SESSION['campo_p'];
 	 else
        $campo = "nominativo";
 
@@ -114,7 +117,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
        <div class="search-box">
 		    <form action='gest_persone.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="Ricerca..." />
+            <input type="text" autocomplete="off" name='nome' placeholder="nominativo..." />
 			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
 			<div class="result"></div>
             </form>
@@ -124,7 +127,6 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
             $pag = get_first_pag($conn, $_POST['nome'],$id_casa, $decessi, $cod_zona, $ord, $campo); 
-			$first = ($pag - 1) * $x_pag;
 
 			$ricerca = true;
  //			echo "pag=". $pag;
@@ -215,10 +217,9 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $all_pages = ceil($all_rows / $x_pag);
         // Calcolo da quale record iniziare
 
-   	    if (!$ricerca)
-           $first = ($pag - 1) * $x_pag;
+        $first = ($pag - 1) * $x_pag;
 
-		// se è cambiato qualcosa riparto dalla prima pagina
+		/* se è cambiato qualcosa riparto dalla prima pagina
 
 		if (isset($_SESSION['decessi']) &&
 		    isset($_SESSION['old_decessi']))
@@ -226,9 +227,8 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 		     if ($_SESSION['decessi'] != $_SESSION['old_decessi'])
 				 $first = 0;
 			}
-
-        if (!$ricerca)
-           $first = ($pag - 1) * $x_pag;
+        */
+        $first = ($pag - 1) * $x_pag;
 
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
        
@@ -280,37 +280,52 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         echo " <input type='submit' class='button' value='Conferma'>";//conferma
         echo " </form>";
 
-        // ordinamento su campi (11/3/2020) A.C.
-        if (!isset($_POST['ord'])) 
-        {
-            $campo = 'nominativo';  
-            $ord = 'ASC';	// ordinamento ascendente		
-        }
-        else		// inverto ordinamento
-        { 
-			$first = 0;
-			$pag = 0;
-			$campo = $_POST['campo'];           
-            $ord = $_POST['ord'];
-			if ($ord == "ASC")
+        /*
+		*** caso di richiesto nuovo  ordinamento su campi id o nome
+		*/
+       if (isset($_POST['ord_id']) ||
+		    isset($_POST['ord_nominativo']))
+         {
+          if (isset($_POST['ord_id']))		// cambiato ordinamento su id
+		     $campo = 'id';
+		  else 
+			 $campo = 'nominativo';				// cambiato ordinamento su nome
+             
+          if ($ord == 'ASC')
 				$ord = "DESC";
 			else
 				$ord = "ASC";
+		  $first = 0;			// riparto dall'inizio
+          $pag = 1;
         }
+       else	
+        {
+            if (isset($_SESSION['campo_p']))
+				$campo = $_SESSION['campo_p'];
+		    else 
+				$campo = "nominativo";
 
+			 if (isset($_SESSION['ord_p']))
+				$ord = $_SESSION['ord_p'];
+		    else 
+				$ord = "ASC";  	
+         }
+       $_SESSION['campo_p'] = $campo;
+	   $_SESSION['ord_p'] = $ord;
 
         $result->free();
 
         $query = "SELECT ";
         $query .= " p.id, p.nominativo, p.sesso, p.data_nascita, p.data_morte,";
         $query .= " c.id as id_casa, c.id_moranca,c.nome nome_casa, m.nome nome_moranca,";
-        $query .= " m.cod_zona,  c.id_casa_moranca, c.id_osm, ";
+        $query .= " m.cod_zona, z.nome zona , c.id_casa_moranca, c.id_osm, ";
         $query .= " pc.cod_ruolo_pers_fam, rpf.descrizione,";
         $query .= " p.data_inizio_val, p.data_fine_val ";
         $query .= " FROM persone p";
         $query .= " INNER JOIN pers_casa pc ON  pc.id_pers = p.id";
         $query .= " INNER JOIN casa c ON  pc.id_casa = c.id";
         $query .= " INNER JOIN morance m ON  c.id_moranca = m.id";
+        $query .= " INNER JOIN zone z ON  m.cod_zona = z.cod";
         $query .= " INNER JOIN ruolo_pers_fam rpf ON  pc.cod_ruolo_pers_fam = rpf.cod ";
         $query .= " WHERE p.data_fine_val IS  NULL";
         if (isset($cod_zona) && ($cod_zona !='tutte'))
@@ -330,35 +345,40 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         $nr = $result->num_rows;
     
+	    $vis_decessi = true;       
+		if (isset($decessi))
+		 {
+		   if (($decessi == 'si') || ($decessi == 'tutti'))
+		       $vis_decessi = true;
+		   else 
+		        $vis_decessi = false;
+		 }
+
         if ($nr != 0)
         {
             echo "<table border>";
             echo "<tr>";  
 
-            //echo "<th>id</th>";
-
-             //id (con possibilità di ordinamento)
-            echo " <form method='post' action='gest_persone.php'>";
-            echo "<input type='hidden' name='ord' value= $ord>";
-            echo "<th> id <button class='btn center-block'  name='campo'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
-
-
-              //nominativo (con possibilità di ordinamento)
+            //nominativo (con possibilità di ordinamento)
 
             echo " <form method='post' action='gest_persone.php'>";
-            echo "<input type='hidden' name='ord' value= $ord>";
-            echo "<th> nominativo <button class='btn center-block'  name='campo'  value='nominativo' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+            echo "<th> nominativo <button class='btn center-block'  name='ord_nominativo'  value='nominativo' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+         
+            //id (con possibilità di ordinamento)
+            echo " <form method='post' action='gest_persone.php'>";
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
 
-
-            echo "<th>".$jsonObj->{$lang."Persone"}[3]."</th>";//Sesso		
-            echo "<th>".$jsonObj->{$lang."Persone"}[4]."</th>";//Data Nascita
-            echo "<th>".$jsonObj->{$lang."Persone"}[5]."</th>";//Età
-            echo "<th>Data Morte</th>";//Data Morte
-            echo "<th>".$jsonObj->{$lang."Persone"}[6]."</th>";//Ruolo in famiglia
-            echo "<th>moranca</th>";//Morança
-            echo "<th>".$jsonObj->{$lang."Persone"}[7]."</th>";//Casa
-            echo "<th>su OpenStreetMap</th>";
-            echo "<th> data inizio val";//Data val
+            echo "<th>sesso</th>";//Sesso		
+            echo "<th>data nascita</th>";//Data Nascita
+			if ($vis_decessi)
+                 echo "<th>data decesso</th>";//Data Morte
+            echo "<th>età</th>";//Età
+            echo "<th>ruolo</th>";//Ruolo in famiglia
+            echo "<th>casa</th>";//Casa
+            echo "<th>moran&ccedil;a</th>";//Morança
+			echo "<th>zona </th>";
+            echo "<th>sulla mappa</th>";
+            echo "<th>data inizio val";//Data val
             echo "<th>".$jsonObj->{$lang."Morance"}[9]."</th>";//Modifica
             echo "<th>".$jsonObj->{$lang."Morance"}[10]."</th>";//Elimina   
             echo "<th>".$jsonObj->{$lang."Persone"}[7]."</th>";//Casa  
@@ -368,18 +388,29 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
             echo "<tr>";
             while ($row = $result->fetch_array())
             { 
-                echo "<td>$row[id]</td>";
                 $mystr = utf8_encode ($row['nominativo']) ;
                 echo "<td>$mystr</td>";
+				echo "<td>$row[id]</td>";
                 echo "<td>$row[sesso]</td>";
                 echo "<td>$row[data_nascita]</td>";
-                echo "<td>".date_diff(date_create($row['data_nascita']), date_create('today'))->y."</td>";
-                echo "<td>".$row['data_morte']."</td>";
+				if ($vis_decessi)
+                      echo "<td>".$row['data_morte']."</td>";
+
+				// calcolo età (se vivente  o se dececuto)
+				if (($row['data_morte'] != "") || ($row['data_morte'] != "0000-00-00"))
+				      echo "<td>".date_diff(date_create($row['data_nascita']),
+					              date_create($row['data_morte']))->y."</td>";
+                 else
+                       echo "<td>".date_diff(date_create($row['data_nascita']), 
+					               date_create('today'))->y."</td>";
+				
+				
+
                 echo "<td>$row[descrizione] ($row[cod_ruolo_pers_fam])</td>";
+                echo "<td>$row[nome_casa]</td>";
                 $mystr = utf8_encode ($row['nome_moranca']) ;
                 echo "<td>$mystr</td>";
-                echo "<td>$row[nome_casa]</td>";
-
+                echo "<td>$row[zona]</td>";
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
@@ -449,7 +480,10 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
             $query .= " AND p.data_morte IS NOT NULL";
       if (isset($decessi) && ($decessi == 'no'))
             $query .= " AND p.data_morte IS  NULL";
-	  $query .= " AND p.nominativo <= '".$nominativo."'";
+	  if ($ord == "ASC")
+	     $query .= " AND p.nominativo < '".$nominativo."'";
+      else
+	     $query .= " AND p.nominativo > '".$nominativo."'";
       $query .= " ORDER BY $campo " . $ord ;
 
 // echo $query;
