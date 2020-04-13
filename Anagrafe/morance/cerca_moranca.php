@@ -44,7 +44,7 @@ if(isset($_REQUEST["term"])){
        mysqli_stmt_bind_param($stmt, "s", $param_term);
         
         // Set parameters
-        $param_term = $_REQUEST["term"] . '%';
+        $param_term = '%'. $_REQUEST["term"] . '%';
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
