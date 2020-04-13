@@ -96,7 +96,6 @@ $_SESSION['errore']=null;
             </form>
          <?php
 		 $x_pag = 10;			// n. di record per pagina
-         $ricerca = false;
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
             $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 			
@@ -133,7 +132,7 @@ $_SESSION['errore']=null;
         if (isset($cod_zona) && $cod_zona != 'tutte')
             $query .= " AND cod_zona ='". $cod_zona ."'";
 
-        //echo $query;
+//         echo $query;
         $result = $conn->query($query);
         $row = $result->fetch_array();
         $all_rows= $row['cont'];
@@ -144,7 +143,7 @@ $_SESSION['errore']=null;
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag;
 
- //       echo "first=". $first;
+  //      echo "first=". $first;
 
         echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
 
@@ -178,9 +177,20 @@ $_SESSION['errore']=null;
 		/*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/
+	   if (isset($_SESSION['campo_m']))
+				$campo = $_SESSION['campo_m'];
+		    else 
+				$campo = "nome";
+
+			 if (isset($_SESSION['ord_m']))
+				$ord = $_SESSION['ord_m'];
+		    else 
+				$ord = "ASC";  
+				
        if (isset($_POST['ord_id']) ||
 		    isset($_POST['ord_nome']))
          {
+		  echo " cambiato campo o ord";
           if (isset($_POST['ord_id']))		// cambiato ordinamento su id
 		     $campo = 'id';
 		  else 
@@ -193,18 +203,7 @@ $_SESSION['errore']=null;
 		  $first = 0;			// riparto dall'inizio
           $pag = 1;
         }
-       else	
-        {
-            if (isset($_SESSION['campo_m']))
-				$campo = $_SESSION['campo_m'];
-		    else 
-				$campo = "nome";
-
-			 if (isset($_SESSION['ord_m']))
-				$ord = $_SESSION['ord_m'];
-		    else 
-				$ord = "ASC";  	
-         }
+   
        $_SESSION['campo_m'] = $campo;
 	   $_SESSION['ord_m'] = $ord;
 
@@ -219,8 +218,7 @@ $_SESSION['errore']=null;
        $query .= " ORDER BY $campo " . $ord ;
        $query .= " LIMIT $first, $x_pag";
 
-
-//       echo $query;
+ //     echo $query;
        $result = $conn->query($query);
        $numero=$result->num_rows;
        if ($result->num_rows !=0)
