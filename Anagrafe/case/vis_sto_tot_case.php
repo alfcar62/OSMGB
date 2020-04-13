@@ -90,7 +90,7 @@ require_once $util2;
     $query .= "where tipo_op like '".$tipo_operazione."%' ";
     }
 }
-  $query .= " ORDER BY id_casa ASC, data_fine_val DESC";
+  $query .= " ORDER BY id_casa DESC, data_fine_val DESC";
   $query .= " LIMIT $first, $x_pag";
   //echo $query;
   $result = $conn->query($query);

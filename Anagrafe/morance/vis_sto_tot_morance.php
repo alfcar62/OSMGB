@@ -83,7 +83,7 @@ require_once $util2;
     }
 
 
-    $query .= " ORDER BY id ASC, data_fine_val DESC";
+    $query .= " ORDER BY id DESC, data_fine_val DESC";
     $query .= " LIMIT $first, $x_pag";
 
     //echo $query;

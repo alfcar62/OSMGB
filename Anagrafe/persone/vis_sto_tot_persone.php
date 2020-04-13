@@ -98,7 +98,7 @@ require_once $util2;
         $query .= "where tipo_op like '".$tipo_operazione."%' ";
         }
     }
-    $query .= " ORDER BY id ASC,data_fine_val DESC";
+    $query .= " ORDER BY id DESC,data_fine_val DESC";
     $query .= " LIMIT $first, $x_pag";
     $result = $conn->query($query);
     //echo $query;
