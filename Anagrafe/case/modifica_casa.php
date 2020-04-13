@@ -87,6 +87,15 @@ try
    if($id_osm == '')
      $id_osm =0;
 
+  if (($nome_casa_new !=  $row['nome_casa']) ||
+      ($id_moranca_new != $row['id_moranca']) ||
+      ($id_osm_new != $id_osm))
+     $upd = true;
+  else
+     $upd = false;
+  
+   if ($upd)
+   { 
   /* 
 	*** Insert su "casa_sto"
 	*** sullo storico "casa_sto" teniamo traccia dei cambiamenti di una casa.
@@ -153,6 +162,7 @@ try
 	$conn->commit();
 	$conn->autocommit(TRUE);
     $conn->close();
+   }// upd
   } //try
  catch ( Exception $e )
   {
