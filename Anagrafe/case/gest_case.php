@@ -71,7 +71,7 @@ unsetPag(basename(__FILE__));
        $ord = "ASC";
 	 
 	 if (isset($_SESSION['campo_c']))		// campo sul cui fare ordinamento
-	   $ord = $_SESSION['campo_c'];
+	   $campo = $_SESSION['campo_c'];
 	 else
        $campo = "nome";
 
@@ -90,14 +90,9 @@ unsetPag(basename(__FILE__));
 			</form>
          <?php
 		 $x_pag = 10;			// n. di record per pagina
-         $ricerca = false;
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
             $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 
-
-			$ricerca = true;
- //			echo "pag=". $pag;
- //           echo "first=". $first;
 		   }
          ?>
         </div>
@@ -187,23 +182,37 @@ unsetPag(basename(__FILE__));
         echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
 
-		// ordinamento su campi (11/3/2020) A.C.
-        if (!isset($_POST['ord'])) 
-        {
-            $campo = 'nome';  
-            $ord = 'ASC';	// ordinamento ascendente
-        }
-        else		// inverto ordinamento
-        { 
-			$first = 0;
-			$pag = 0;
-			$campo = $_POST['campo'];           
-            $ord = $_POST['ord'];
-			if ($ord == "ASC")
+		/*
+		*** caso di richiesto nuovo  ordinamento su campi id o nome
+		*/
+	   if (isset($_SESSION['ord_c']))
+				$ord = $_SESSION['ord_c'];
+	   else 
+				$ord = "ASC"; 
+	   
+	   if (isset($_SESSION['campo_c']))
+				$campo = $_SESSION['campo_c'];
+		else 
+				$campo = "nome";
+      
+	   if (isset($_POST['ord_id']) ||
+		    isset($_POST['ord_nome']))
+         {
+          if (isset($_POST['ord_id']))		// cambiato ordinamento su id
+		     $campo = 'id';
+		  else 
+			 $campo = 'nome';				// cambiato ordinamento su nome
+             
+          if ($ord == "ASC")
 				$ord = "DESC";
 			else
 				$ord = "ASC";
+		  $first = 0;			// riparto dall'inizio
+          $pag = 1;
         }
+      
+       $_SESSION['campo_c'] = $campo;
+	   $_SESSION['ord_c'] = $ord;
 
 /*
 *** 13/3/2020: A. Carlone. Modificata la query, per visualizzare anche case senza capo famiglia
@@ -230,8 +239,16 @@ unsetPag(basename(__FILE__));
             echo "<table border>";
             echo "<tr>";
             echo "<th>foto</th>";
-            echo "<th>nome</th>";
-			echo "<th>id</th>";
+
+            //nome casa (con possibilità di ordinamento)
+
+            echo " <form method='post' action='gest_case.php'>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+
+			//id (con possibilità di ordinamento)
+            echo " <form method='post' action='gest_case.php'>";
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
+     
             echo "<th>zona</th>";
 			echo "<th>moran&ccedil;a</th>";
             echo "<th>id moranca</th>";
@@ -304,9 +321,9 @@ unsetPag(basename(__FILE__));
        $vis_pag = $config_path .'/../vis_pag.php';
        require $vis_pag;
 
-        $result->free();
-        $conn->close();	
-        ?>  
+       $result->free();
+       $conn->close();	
+      ?>  
 
     </body>
     <script>
@@ -354,7 +371,10 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
    $query .= " WHERE c.DATA_FINE_VAL is null";
    if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";  
-   $query .= " AND c.nome <= '".$nome."'";
+   if ($ord == "ASC")
+	  $query .= " AND c.nome < '".$nome."'";
+   else
+	  $query .= " AND c.nome > '".$nome."'";
    $query .= " ORDER BY $campo " . $ord ;
 
 //  echo $query;
