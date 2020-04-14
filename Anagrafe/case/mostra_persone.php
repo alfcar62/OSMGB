@@ -64,7 +64,7 @@ $query .= " ORDER BY nominativo ASC";
 
 $result = $conn->query($query);
 echo "<h3> ELENCO ABITANTI DELLA CASA: ";
-echo "id=$id_casa $nome_casa id moranca = $id_moranca $nome_moranca </h3>";
+echo "$nome_casa (id=$id_casa) della moranca:$nome_moranca  (id=$id_moranca)  </h3>";
 
 $nr = $result->num_rows;
 
