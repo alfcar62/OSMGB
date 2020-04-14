@@ -23,10 +23,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
 $id_moranca=$_POST["id_moranca"];
 
-echo "<br>".$jsonObj->{$lang."Morance"}[19]." ";//Modifica Morança
-
 //$conn->query("START TRANSACTION"); //inizio transazione
-
 
 echo "<form action='modifica_moranca.php' method='post'>";
 
@@ -44,17 +41,18 @@ $row = $result->fetch_array();
 
 $moranca = utf8_encode ($row['nome_moranca']) ;
 $cod_zona = $row['cod_zona'];
+$zona = $row['zona'];
+
 $id_osm = $row['id_osm'];
 
-echo "<br>".$jsonObj->{$lang."Morance"}[20].":". $row['id'];//Id morança
-echo "<br>".$jsonObj->{$lang."Morance"}[5].":". $moranca;//Nome morança
-echo "<br>".$jsonObj->{$lang."Morance"}[6].":". $cod_zona;//zona
-echo "<br> id OSM:". $id_osm;
+echo "<h3>Modifica moran&ccedil;a: $moranca (id =$row[id]), zona: $zona<h3>";//Inserimento moranca
 
-echo  "<br><br><br>";
-echo $jsonObj->{$lang."Morance"}[18] .": <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
-echo "id OSM: <input type='text' name='id_osm' value='$id_osm' ><br>";
+echo "Nome moran&ccedil;a: <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
+?>
+id OSM: <input type='text' name='id_osm' value =<?php echo $id_osm ?>><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+ <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap</span><br>
 
+<?php
 echo "<input type='hidden'  name='id_moranca'  value=$id_moranca>";
 
 //Select option per la scelta della zona

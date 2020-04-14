@@ -39,10 +39,10 @@ for($i=0;$i<$nr;$i++)
    }
 echo "</select><br>";
 $result -> free_result();
-
-echo "<br>";
-echo "id OSM: <input type='text' name='id_osm' ><br>";
 ?>
+<br>
+id OSM: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+ <span id="error" style="visibility:hidden">Identificativo della casa sulla mappa OpenStreetMap</span><br>
 <input type="submit" class = "button" value="Inserisci">
 </form>      
 <br>

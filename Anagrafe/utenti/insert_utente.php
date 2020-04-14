@@ -87,45 +87,6 @@
                 ?>
             </form>
 
-
-            <script>
-
-                function tooltip(event){
-                    document.getElementById("error").style.visibility="visible";
-                    if(event.type=="mouseover"){
-                        document.getElementById("error").style.visibility="visible";
-                    }
-                    else if(event.type=="mouseout"){
-                        document.getElementById("error").style.visibility="hidden";
-                    }
-                }
-                function tooltip2(event){
-                    document.getElementById("error2").style.visibility="visible";
-                    if(event.type=="mouseover"){
-                        document.getElementById("error2").style.visibility="visible";
-                    }
-                    else if(event.type=="mouseout"){
-                        document.getElementById("error2").style.visibility="hidden";
-                    }
-                }
-            </script>
-            <script>
-
-                function PwChecker(){
-                    var pw=document.getElementById("psw").value;
-                    console.log(pw);
-                    var pattern=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})","g");
-                    var isStrong=pattern.test(pw);
-                    if(isStrong){
-                        console.log("strong");
-                        $("#login").submit();
-                    }else alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale tra questi:'!' '@' '#' '\$' '%' '\^' '&' '\*' '\_'");
-                }
-            </script>
-
-
-
-
             </body>
         </div>
 </html>

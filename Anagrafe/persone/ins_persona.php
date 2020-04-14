@@ -76,7 +76,7 @@ for($i=0;$i<$nr;$i++)
   $row = $result->fetch_array();
   if($row['cod']!=null || $row['nome_casa']!="")
   {
-     echo "<option value='".$row['cod']."'>".$row['descrizione']."-".$row['cod']."</option>";
+     echo "<option value='".$row['cod']."'>".$row['descrizione']."</option>";
   }
 
 }
