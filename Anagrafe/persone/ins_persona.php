@@ -56,8 +56,10 @@ for($i=0;$i<$nr;$i++)
   {
 	$myCapoFam = utf8_encode ($row['capo_famiglia']) ;
 	$myMoranca = utf8_encode ($row['nome_moranca']) ;
-
-    echo "<option value='".$row['id_casa']."'>".$myMoranca."'-".$row['nome_casa']."'- ".$myCapoFam."'"."</option>";
+    if ($myCapoFam=="")
+		$myCapoFam = "Non Esiste";
+    echo "<option value=".$row['id_casa'].">casa:".$row['nome_casa']." (capo:".$myCapoFam. ") moranca:".$myMoranca."  </option>";
+   
   }
 }
 echo "</select><br>";
