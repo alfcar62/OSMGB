@@ -54,12 +54,6 @@ unsetPag(basename(__FILE__));
 
     <?php
 
-	if (isset($_POST['id_moranca']))	// richiesto elenco case di una determinata moranca
-     {
-       $id_moranca = $_POST['id_moranca']; 
-     }  
-    else $id_moranca=0;
-
 	if (isset($_POST['cod_zona']))
      {
        $cod_zona = $_POST['cod_zona']; 
@@ -99,7 +93,7 @@ unsetPag(basename(__FILE__));
 		 $x_pag = 10;			// n. di record per pagina
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
-            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $id_moranca, $ord, $campo); 
+            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona,  $ord, $campo); 
 		   }
          ?>
         </div>
@@ -151,8 +145,6 @@ unsetPag(basename(__FILE__));
         $query .= " WHERE c.DATA_FINE_VAL is null";
 		if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";
-      	if (isset($id_moranca))
-            $query .= " AND m.id = '{$id_moranca}'";
         $result = $conn->query($query);
         $row = $result->fetch_array();
         $all_rows= $row['cont'];
@@ -237,8 +229,6 @@ unsetPag(basename(__FILE__));
         $query .= " WHERE c.DATA_FINE_VAL is null";
         if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";
-	    if ($id_moranca!=0)
-            $query .= " AND m.id = '{$id_moranca}'";
         $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
         $result = $conn->query($query);  
@@ -367,7 +357,7 @@ unsetPag(basename(__FILE__));
 *** return: $pag (pagina da visualizzare)
 ***       
 */
-function get_first_pag($conn, $nome, $cod_zona, $id_moranca, $ord, $campo)
+function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
 { 
    $query = "SELECT c.id, c.nome,";
    $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca,";
@@ -381,8 +371,7 @@ function get_first_pag($conn, $nome, $cod_zona, $id_moranca, $ord, $campo)
    $query .= " WHERE c.DATA_FINE_VAL is null";
    if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";  
-   if ($id_moranca !=0)
-            $query .= " AND m.id = '{$id_moranca}'";  
+
    if ($ord == "ASC")
 	  $query .= " AND c.nome < '".$nome."'";
    else
