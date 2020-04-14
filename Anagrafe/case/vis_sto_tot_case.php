@@ -95,6 +95,7 @@ require_once $util2;
   //echo $query;
   $result = $conn->query($query);
 
+
   if ($result->num_rows != 0) {
     echo "<table border>";
     echo "<tr>";
@@ -106,7 +107,7 @@ require_once $util2;
     echo "<th>id moranca</th>";
     echo "<th>nome moranca</th>";
     echo "<th>capo famiglia</th>";
-    echo "<th>id OSM</th>";
+    echo "<th>sulla mappa</th>";
     echo "</tr>";
 
     while ($row = $result->fetch_array()) {
@@ -121,13 +122,16 @@ require_once $util2;
       echo "<td>$mystr</td>";
       echo "<td>" . $row['nome_capo_famiglia'] . "</th>";
 
-      $osm_link = "https://www.openstreetmap.org/way/" . $row['id_osm'];
-      if ($row['id_osm'] != null) {
-        echo "<td>" . $row['id_osm'] . "&nbsp;<a href=$osm_link target=new>vai alla mappa&nbsp;";
-        echo "<IMG SRC=../css/osm.png WIDTH=20 HEIGHT=20 BORDER=0></a></td>";
-      } else {
-        echo "<td>" . $row['id_osm'] . "&nbsp;</td>";
-      }
+      // va sulla mappa OSM con id_OSM
+       $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
+       if ($row['id_osm'] != null && $row['id_osm'] != "0")
+         { 
+           echo "<td>idOSM=$row[id_osm]". " <a href=$osm_link target=new> <i class='fa fa-map-marker' title ='vai sulla mappa'></i></a></td>"; 	   
+         }
+         else
+         { 
+           echo "<td>&nbsp;</td>";
+         }  
     }
     echo "</tr></table>";
   } else
