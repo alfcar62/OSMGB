@@ -45,14 +45,15 @@ setup();
                 $result=$conn->query($query);
                 if($result)
                  
-              ?>  <script type="text/javascript">
+              ?> 
+	 <script type="text/javascript">
      alert("Utente eliminato con successo");
    </script>
 <?php
             }
             else {
         ?>
-                <script type="text/javascript">
+    <script type="text/javascript">
      alert("Impossibile eliminare l'utente attualmente in uso");
    </script>
         <?php
@@ -71,8 +72,15 @@ setup();
         // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag; 
 
-        echo "<h2> Elenco Utenti</h2>";
-        echo "<br> Utente collegato: {$_SESSION['nome']} - permesso: {$_SESSION['tipo']}<br>";
+        echo "<h3> Elenco Utenti che hanno accesso al sistema</h3>";
+        $perm = $_SESSION['tipo'];
+		if ($perm == "admin")
+			$perm = "amministratore ";
+		else if ($perm == "gestore")
+			$perm = "gestore";
+		else if ($perm == "utente")
+			$perm = "utente generico";
+        echo "<br> Utente collegato: {$_SESSION['nome']} - permesso: $perm <br>";
         echo "<a href='insert_utente.php'><br>";
         echo "Aggiungi nuovo utente </a><br><br>";
 
@@ -117,9 +125,18 @@ setup();
 
             while ($row = $result->fetch_array())
             {
+                $perm = $row['id_accesso'];
+				if ($perm == "admin")
+					$perm = "amministratore (accesso completo)";
+				else if ($perm == "gestore")
+					$perm = "gestore (non può registrare nuovi utenti)";
+				else if ($perm == "utente")
+					$perm = "utente generico (può visualizzare solo le statistiche)";
+                else 
+					$perm = "sconosciuto";
                 echo "<tr>";
                 echo "<td>$row[user]</td>";
-                echo "<td>$row[id_accesso]</td>";
+                echo "<td>$perm</td>";
                 echo "<td>$row[data_inizio_val]</td>";
                 echo " <form method='post' action='del_utente.php'>";
                 echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
@@ -130,39 +147,9 @@ setup();
             echo " Nessun utente &egrave; presente nel database.";
         echo "<br> Numero di utenti: $all_rows<br>";
 
-        // Se le pagine totali sono più di 1...
-        // stampo i link per andare avanti e indietro tra le diverse pagine!
-        if ($all_pages > 1){
-            if ($pag > 1){
-                echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-                echo "Pagina Indietro</a>&nbsp;<br>";
-            }
-            // faccio un ciclo di tutte le pagine
-            $cont=0;
-            for ($p=1; $p<=$all_pages; $p++) 
-            {
-                if ($cont>=50)
-                {
-                    echo "<br>";
-                    $cont=0;
-                }
-                $cont++;
-                // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-                // all'interno della sequenza delle pagine
-                if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-                // per tutte le altre pagine stampo il link
-                else
-                { 
-                    echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-                    echo $p . "</a>&nbsp;";
-                } 
-            }
-            if ($all_pages > $pag)
-            {
-                echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-                echo "Pagina Avanti<br></a>";
-            } 
-        }
+     	// visualizza pagine
+        $vis_pag = $config_path .'/../vis_pag.php';
+        require $vis_pag;
 
         $result->free();
         $conn->close();	
