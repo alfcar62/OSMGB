@@ -94,10 +94,9 @@ require_once $util2;
         echo "<tr>";
         echo "<th>tipo modifica</th>";
         echo "<th>id moran&ccedil;a</th>";
-        echo "<th>id moran&ccedil;a-zona</th>";
         echo "<th>nome moran&ccedil;a</th>";
         echo "<th>zona</th>";
-		echo "<th>id OSM</th>";
+		echo "<th>sulla mappa</th>";
         echo "<th>data inizio_val</th>";
         echo "<th>data fine val</th>";
         echo "</tr>";
@@ -106,10 +105,19 @@ require_once $util2;
             echo "<tr>";
             echo "<td>" . $row['tipo_op'] . "</td>";
             echo "<td>" . $row['id_moranca'] . "</td>";
-            echo "<td>" . $row['id_mor_zona'] . "</td>";
             echo "<td>" . utf8_encode($row['nome_moranca']) . "</td>";
             echo "<td>" . $row['cod_zona'] . "</td>";
-			echo "<td>" . $row['id_osm'] . "</td>";
+			
+			 // va sulla mappa OSM con id_OSM
+          $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
+          if ($row['id_osm'] != null && $row['id_osm'] != "0")
+            { 
+              echo "<td>idOSM=$row[id_osm]". " <a href=$osm_link target=new> <i class='fa fa-map-marker' title ='vai sulla mappa'></i></a></td>"; 	   
+            }
+           else
+            { 
+              echo "<td>&nbsp;</td>";
+            }  
             echo "<td>" . $row['data_inizio_val'] . "</td>";
             echo "<td>" . $row['data_fine_val'] . "</td>";
         }
