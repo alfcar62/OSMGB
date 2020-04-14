@@ -1,3 +1,5 @@
+<html>
+
 <?php
 /*
 *** Autore:Ferraiuolo
@@ -80,7 +82,7 @@ setup();
 			$perm = "gestore";
 		else if ($perm == "utente")
 			$perm = "utente generico";
-        echo "<br> Utente collegato: {$_SESSION['nome']} - permesso: $perm <br>";
+        echo "<br> Utente collegato: {$_SESSION['nome']} <br> permesso: $perm <br>";
         echo "<a href='insert_utente.php'><br>";
         echo "Aggiungi nuovo utente </a><br><br>";
 
