@@ -106,13 +106,13 @@ $id_moranca=$_POST["id_moranca"];
             echo "<td>$row2[persone]</th>";
 
             $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
-            if ($row['id_osm'] != null)
+            if (($row['id_osm'] != null) && ($row['id_osm'] != 0))
              { 
 			  echo "<td>$row[id_osm]&nbsp;<a href=$osm_link target=new>vai alla mappa&nbsp;<IMG SRC=../css/osm.png WIDTH=20 HEIGHT=20 BORDER=0></a></td>"; 
 		     }
 		    else
              { 
-              echo "<td>$row[id_osm]&nbsp;</td>";
+              echo "<td>&nbsp;</td>";
              }
 			echo "<td>$row[data_inizio_val]</td>";
 			echo "<td>$row[data_fine_val]</td>";

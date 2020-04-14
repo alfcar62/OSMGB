@@ -43,8 +43,8 @@ for($i=0;$i<$nr;$i++)
 echo "</select></br>";
 ?>
 
-id OSM: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
- <span id="error" style="visibility:hidden">Identificativo della moranca sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moranca,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca elementi' <br>4.  copia qui il numero dell'oggetto relativo</span><br>
+sulla mappa: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+ <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moran&ccedil;a,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
 <?php
 
