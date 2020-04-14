@@ -52,25 +52,22 @@ setup();
 
         $mystr = utf8_encode ($row1['nome_moranca']) ;
 
-        echo "<br>ELENCO ABITANTI DELLA CASA CON ID $id_casa<br>";
+        echo "<br>Elenco abitanti della casa: $row1[nome_casa] (id=$id_casa), moranca='$mystr' (id=$row1[id_moranca]) , zona:$row1[nome_zona] - ";
         $immagine=glob('../case/immagini/'.$id_casa.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato è un array)
         if($immagine != null)
             echo "<div><img src='$immagine[0]' class='modal_image' style='display: block; margin-left:0px; margin-right: auto;width:100px;height:100px'></div> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
 
 
-        echo "<br>NOME: '$row1[nome_casa]'<br><br>
-        MORANCA: '$mystr'<br><br>
-        ZONA: '$row1[nome_zona]'<br><br>";
-
         $osm_link = "https://www.openstreetmap.org/way/$row1[id_osm]";
         if ($row1['id_osm'] != null && $row1['id_osm'] != "0")
         { 
-            echo "SU OPENSTREETMAP: $row1[id_osm]<a href=$osm_link target=new><i class='fa fa-map-marker'></i></a>"; 
+            echo "sulla mappa: $row1[id_osm]<a href=$osm_link target=new><i class='fa fa-map-marker'></i></a>"; 
         }
         else
         { 
-            echo "SU OPENSTREETMAP: NON PRESENTE";
+            echo "sulla mappa: non presente";
         }
+       echo "<br>";
 
         // elenco delle persone che abitano in quella casa
         $query = "SELECT c.id, c.nome,";
