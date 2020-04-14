@@ -48,11 +48,7 @@ $id_osm = $row['id_osm'];
 echo "<h3>Modifica moran&ccedil;a: $moranca (id =$row[id]), zona: $zona<h3>";//Inserimento moranca
 
 echo "Nome moran&ccedil;a: <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
-?>
-id OSM: <input type='text' name='id_osm' value =<?php echo $id_osm ?>><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
- <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap</span><br>
 
-<?php
 echo "<input type='hidden'  name='id_moranca'  value=$id_moranca>";
 
 //Select option per la scelta della zona
@@ -70,7 +66,11 @@ for($i=0;$i<$nz;$i++)
 }
 echo "</select>";
 
+?>
+id OSM: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+ <span id="error" style="visibility:hidden">Identificativo della moranca sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moranca,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca elementi' <br>4.  copia qui il numero dell'oggetto relativo</span><br>
 
+<?php
 echo "<button type='submit' class = 'button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
 echo "</form>";
     echo "<h2>MODIFICA LA FOTO DELLA MORANCA :</h2>";

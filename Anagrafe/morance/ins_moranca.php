@@ -25,12 +25,7 @@ echo "<h3>".$jsonObj->{$lang."Morance"}[16]."<h3>";//Inserimento moranca
 
 echo "<form action='insert_moranca.php' method='post'>";
 echo  $jsonObj->{$lang."Morance"}[5].": <input type='text' name='nome_moranca' required placeholder='".$jsonObj->{$lang."Morance"}[17]."' ><br>";//Nome
-?>
 
-id OSM: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
- <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap</span><br>
-
-<?php
 // selezione zona
 echo   $jsonObj->{$lang."Morance"}[6].": <select name='cod_zona' required>";//Zona
 $result = $conn->query("SELECT * FROM zone");
@@ -46,8 +41,12 @@ for($i=0;$i<$nr;$i++)
    }
 }
 echo "</select></br>";
+?>
 
+id OSM: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+ <span id="error" style="visibility:hidden">Identificativo della moranca sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moranca,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca elementi' <br>4.  copia qui il numero dell'oggetto relativo</span><br>
 
+<?php
 
 echo "<button type='submit' class='button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Invia/Conferma
 echo "</form>";
