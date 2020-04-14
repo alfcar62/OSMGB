@@ -240,6 +240,9 @@ $_SESSION['errore']=null;
 
             echo "<th>zona</th>";//Zona
             echo "<th>progr. zona</th>";//progr nella zona
+			echo "<th>numero case</th>"; 
+			echo "<th>numero abitanti</th>"; 
+
             echo "<th> sulla mappa";
             echo "<th>data inizio val";//data_val
             echo "<th>".$jsonObj->{$lang."Morance"}[9]."</th>";//Modifica
@@ -266,6 +269,15 @@ $_SESSION['errore']=null;
                 echo "<td>$row[zona]</td>";
                 echo "<td>$row[id_mor_zona]</td>";
 
+                $id_moranca = $row['id'];
+
+                $n_case = get_num_case($conn, $id_moranca);
+                echo "<td>$n_case</th>";
+
+                $n_abitanti = get_num_abitanti($conn, $id_moranca);
+                echo "<td>$n_abitanti</th>";
+
+              
                 // va sulla mappa OSM con id_OSM
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
@@ -371,6 +383,27 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
 
  return $pag;
 }
+
+function get_num_case($conn, $id_moranca)
+{ 
+ $query2 = "SELECT COUNT(id) as n_case from casa WHERE id_moranca= $id_moranca";
+ $result2 = $conn->query($query2);
+ $row2 = $result2->fetch_array();
+ return($row2['n_case']);
+}
+
+function get_num_abitanti($conn, $id_moranca)
+{ 
+  $query2 =	"SELECT count(persone.id) as n_persone  from persone ";
+  $query2 .= " inner join pers_casa on pers_casa.ID_PERS=persone.ID ";
+  $query2 .= " inner join casa on pers_casa.ID_casa=casa.ID";
+  $query2 .= " inner join morance on casa.ID_moranca=morance.ID";
+  $query2 .= " AND morance.id = $id_moranca";
+  $result2 = $conn->query($query2);
+  $row2 = $result2->fetch_array();
+  return($row2['n_persone']);
+}
+
 ?>
 
 </body>
