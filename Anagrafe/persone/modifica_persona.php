@@ -69,16 +69,27 @@ try
   $data_nascita_cambiata = false;
   $data_morte_cambiata = false;
 
-  if($nominativo_new!=$row['nominativo'])
+  $sesso_old =$row['sesso']; 
+  $nome_casa_old =$row['nome_casa']; 
+  $desc_ruolo_old =$row['desc_ruolo']; 
+  $nominativo_old =$row['nominativo'];
+  $cod_ruolo_old = $row['cod_ruolo']; 
+  $data_nascita_old =  $row['data_nascita'];
+  $data_morte_old =  $row['data_morte'];
+  $id_casa_old = $row['id_casa'];
+
+  if($nominativo_new != $row['nominativo'])
    {
     $tipo_operazione.="-nominativo-";
-    $nominativo_cambiato=true;
+    $nominativo_cambiato=true; 
    }
   
-  if($id_ruolo_modifica_new != 's' && $id_ruolo_modifica_new != $row['cod_ruolo'])
+  if($id_ruolo_modifica_new != $row['cod_ruolo'])
    {
     $tipo_operazione.="-ruolo-";
     $ruolo_cambiato=true;
+//	echo $row['cod_ruolo'];
+//	echo "ruolo cambiato";
    }
   
   $data_nascita =($row['data_nascita'] != '') ? $row['data_nascita']:"0000-00-00";
@@ -108,6 +119,32 @@ try
 
   $data_inizio_val=$row['data_inizio_val'];
   $currentdate=date('Y/m/d');
+
+
+  // se la nuova casa ha già un capo famiglia, non posso scegliere come ruolo capo famiglia
+  if ($ruolo_cambiato  && $id_ruolo_modifica_new == 'CF')
+   {
+    $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc ";
+    $query .=  " WHERE pc.id_casa = c.id ";
+    $query .=  " AND c.id =". $id_casa_new;
+    $query .=  " AND pc.cod_ruolo_pers_fam = 'CF'";
+//	echo $query;
+
+    $result = $conn->query($query);
+
+	if (!$result)
+     {
+      $msg_err = "Errore select n.2";
+      throw new Exception($conn->error);
+     }
+    $row = $result->fetch_array();
+    if ($row['cont']>0)
+     {
+        $msg_err = "Errore: Esiste un capo famiglia nella casa";
+        throw new Exception($conn->error);
+     }
+   }
+
 /*
 *** INSERT su persone_sto (vecchi valori)
 */
@@ -124,8 +161,8 @@ try
  $query .= " VALUES(";
  $query .= "'$tipo_operazione',";
  $query .= $id_pers_modifica.",";
- $query .= "'".$row['nominativo']."',";
- $query .= "'".$row['sesso']."',";
+ $query .= "'".$nominativo_old."',";
+ $query .= "'".$sesso_old."',";
 
  if ($data_nascita == "0000-00-00")
     $query .= "NULL,";
@@ -137,10 +174,10 @@ try
  else
     $query .= "'".$data_morte."',";
 
- $query .= $row['id_casa'].",";
- $query .= "'".$row['nome_casa']."',";
- $query .= "'".$row['cod_ruolo']."',";
- $query .= "'".$row['desc_ruolo']."',";
+ $query .= $id_casa_old .",";
+ $query .= "'".$nome_casa_old."',";
+ $query .= "'".$cod_ruolo_old."',";
+ $query .= "'".$desc_ruolo_old."',";
  $query .= "'$data_inizio_val',";
  $query .= "'$currentdate')";
  
@@ -202,7 +239,7 @@ try
       $query=$query.", id_casa=".$id_casa_new;
 	  $query=$query." WHERE pers_casa.id_pers=".$id_pers_modifica;
    
-     // echo "q4 ".$query."<br>";;
+//      echo "q4 ".$query."<br>";;
       $result = $conn->query($query);
       if (!$result)
        {
@@ -218,12 +255,12 @@ try
   {
 	$conn->rollback(); 
     $conn->autocommit(TRUE); // i.e., end transaction
+//	echo $conn->error; 
 	$conn->close();
-	echo $msg_err;
-    echo "Errore nella modifica della persona";
-	echo $conn->error; 
-	echo "transazione con rollback";
-    $mymsg = "Errore nella modifica persona id=$id_pers_modifica " . $msg_err;
+//	echo $msg_err;
+ //   echo "Errore nella modifica della persona";
+//	echo "transazione con rollback";
+    $mymsg = "Modifica persona id=$id_pers_modifica " . $msg_err;
     EchoMessage($mymsg, "gest_persone.php?pag=$pag");
   }
  EchoMessage("Modifica persona id=$id_pers_modifica effettuata correttamente", "gest_persone.php?pag=$pag");
