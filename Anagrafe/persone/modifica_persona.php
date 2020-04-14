@@ -10,8 +10,9 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
-$pag=$_SESSION['pag_p']['pag_p'];
-unset($_SESSION['pag_p']);
+if (isset($_SESSION['pag_p']['pag_p']))
+   $pag=$_SESSION['pag_p']['pag_p'];
+unset($_SESSION['pag_c']);
 
 // salvo i nuovi valori
 $nominativo_new=$_POST['nominativo'];
@@ -138,10 +139,10 @@ try
       throw new Exception($conn->error);
      }
     $row = $result->fetch_array();
-    if ($row['cont']>0)
-     {
-        $msg_err = "Errore: Esiste un capo famiglia nella casa";
-        throw new Exception($conn->error);
+    if ($row['cont']>0) 
+	 {
+       $msg_err = "Esiste un capo famiglia: selezionare altro ruolo";
+       throw new Exception($msg_err);
      }
    }
 
@@ -258,8 +259,8 @@ try
 //	echo $conn->error; 
 	$conn->close();
 //	echo $msg_err;
- //   echo "Errore nella modifica della persona";
-//	echo "transazione con rollback";
+    echo "Errore nella modifica della persona";
+	echo "transazione con rollback";
     $mymsg = "Modifica persona id=$id_pers_modifica " . $msg_err;
     EchoMessage($mymsg, "gest_persone.php?pag=$pag");
   }
