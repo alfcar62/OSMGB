@@ -1,7 +1,6 @@
 <html>
-
-    <?php
-    /*
+<?php
+/*
 *** ins_utente.php
 *** 21/3/2020: Gobbi Dennis: Aggiunta funzione PwChecker() e tooltip()
 *** 19/3/2020: A. Carlone. Corretta indentazione
