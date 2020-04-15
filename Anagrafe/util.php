@@ -1,5 +1,5 @@
 <?php
-/******************* HTML *************************/
+/******************* Util.php *************************/
 //Data ultima modifica:27/02/2020
 //Descrizione:Implementazione della gestione multilingue attraverso un file .json Autore:Gobbi Dennis
 //Descrizione:Gestione degli utenti Autore:Ferraiuolo Pasquale
@@ -8,6 +8,9 @@
 
 <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
 <?php
+
+/***************************** StampaNavbar *****************************/
+
 function stampaNavbar()
 {
     //echo getcwd();
@@ -117,14 +120,63 @@ function stampaNavbar()
         }
     }
 </script>
+
+<script>
+
+function tooltip(event)	// gestione tooltip
+{
+  document.getElementById("error").style.visibility="visible";
+  if(event.type=="mouseover")
+   {
+    document.getElementById("error").style.visibility="visible";
+   }
+  else if(event.type=="mouseout")
+	  {
+        document.getElementById("error").style.visibility="hidden";
+      }
+ }
+
+function tooltip2(event)	// gestione tooltip
+	{
+      document.getElementById("error2").style.visibility="visible";
+      if(event.type=="mouseover")
+		{
+           document.getElementById("error2").style.visibility="visible";
+        }
+       else if(event.type=="mouseout")
+		{
+          document.getElementById("error2").style.visibility="hidden";
+        }
+     }
+ </script>
+
+<script> 
+function PwChecker()		// controllo password
+ {
+  var pw=document.getElementById("psw").value;
+  console.log(pw);
+  var pattern=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})","g");
+  var isStrong=pattern.test(pw);
+  if(isStrong){
+  console.log("strong");
+  $("#login").submit();
+  }
+  else 
+   alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale tra questi:'!' '@' '#' '\$' '%' '\^' '&' '\*' '\_'");
+ }
+</script>
+
 <?php
 }
+
+/***************************** StampaIntestazione *****************************/
+
 function stampaIntestazione()
 {
 ?>
 <head>
     <link rel="shortcut icon" type="image/x-icon" href="/OSM/Anagrafe/img/favicon.ico" />
-    <title>Ntchangue - Anagrafe Web</title>
+    <title>N'Tchangue - Anagrafe Web</title>
     <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -132,6 +184,7 @@ function stampaIntestazione()
 <?php
 }
 
+/***************************** login *****************************/
 
 function login()
 {
@@ -173,37 +226,56 @@ function setup() // invocata all'inizio di tutte le pagine, tranne login e logou
         }
     }
 }
+
+
 /*****************Paginazione*********************/
-function unsetPag($file){ 
+function unsetPag($file){		// reset variabili di sessione
     switch($file){
         case "gest_morance.php":
             unset($_SESSION['pag_c']);
+		    unset($_SESSION['ord_c']);
+			unset($_SESSION['campo_c']);
+
             unset($_SESSION['pag_p']);
+			unset($_SESSION['ord_p']); 
+			unset($_SESSION['campo_p']);
             break;
         case "gest_case.php":
             unset($_SESSION['pag_m']);
+		    unset($_SESSION['ord_m']);
+		    unset($_SESSION['campo_m']);
+
             unset($_SESSION['pag_p']);
+		    unset($_SESSION['ord_p']);
+			unset($_SESSION['campo_p']);
             break;
         case "gest_persone.php":
             unset($_SESSION['pag_m']);
+		    unset($_SESSION['ord_m']);
+			unset($_SESSION['campo_m']);
+
             unset($_SESSION['pag_c']);
+		    unset($_SESSION['ord_c']);
+			unset($_SESSION['campo_c']);
             break;
     }
 }
 
-function Paginazione($pagina,$subpag=null){
-    if(is_null($subpag))$subpag=$pagina;//Se il parametro opzionale viene omesso,viene impostato al valore di $pagina
-    if(isset($_GET['pag']))
-    {//Se non è la prima volta che accedo ad una pagina
+function Paginazione($cur_page, $pagina, $subpag=null){
+ //  echo "cur_page = ". $cur_page;
+    if(is_null($subpag))
+		$subpag=$pagina;//Se il parametro opzionale viene omesso,viene impostato al valore di $pagina
+    if($cur_page !=0)
+    {			//Se non è la prima volta che accedo ad una pagina
         if(isset($_SESSION[$pagina][$subpag]))
         {//Se la sessione è già impostata,l'attribuisco a $pag
-            $pag=$_GET['pag'];
+            $pag=$cur_page;
             $_SESSION[$pagina][$subpag]=$pag;   
             return $pag;
         }
         else
         {//Se la sessione non è impostata
-            $pag=$_GET['pag'];
+            $pag=$cur_page;
             $_SESSION[$pagina][$subpag]=$pag; 
             return $pag;
             //     echo $pag;
@@ -225,24 +297,28 @@ function Paginazione($pagina,$subpag=null){
 }
 
 
-/***************************** SLERT *****************************/
 
 
-function alert($msg) {
+/***************** Alert *********************/
+
+function alert($msg)
+ {
     echo "<script type='text/javascript'>alert('$msg');</script>";
-}
+ }
 
 function EchoMessage($msg, $redirect)
-{
+ {
     echo '<script type="text/javascript">
- alert("' . $msg . '")
- window.location.href = "'.$redirect.'"
- </script>';
-}
+    alert("' . $msg . '")
+    window.location.href = "'.$redirect.'"
+    </script>';
+ }
 
+
+/***************** my_random_bytes (usato per il Salt) *********************/
 
  function my_random_bytes($length)
-    {
+   {
         $characters = '0123456789';
         $characters_length = strlen($characters);
         $output = '';
@@ -250,5 +326,5 @@ function EchoMessage($msg, $redirect)
             $output .= $characters[rand(0, $characters_length - 1)];
 
         return $output;
-    }
+   }
 ?>
