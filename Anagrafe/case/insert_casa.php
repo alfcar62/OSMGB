@@ -15,6 +15,7 @@ require_once $util2;
 require_once $util1;
 setup();
 $id_moranca=$_POST["add_moranca"];
+isLogged("utente");
 
 $id_osm=$_POST["id_osm"];
 $id_osm=stripslashes($id_osm);						//protezione da sql injection

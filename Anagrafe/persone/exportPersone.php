@@ -10,6 +10,7 @@ Questo file serve a scegliere la query da eseguire attraverso menù a tendina
 $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
+isLogged("utente");
 setup();
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa

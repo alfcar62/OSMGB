@@ -19,6 +19,7 @@ require_once $util2;
 require_once $util1;
 setup();
 $pag=$_SESSION['pag_c']['pag_c'];
+isLogged("utente");
 ?>
 <?php stampaIntestazione(); ?>
 <body>

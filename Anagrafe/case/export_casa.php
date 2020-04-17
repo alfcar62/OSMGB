@@ -14,6 +14,7 @@ setup();
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
+isLogged("utente");
 ?>
  <?php
  $util2 = $config_path .'/../db/db_conn.php';

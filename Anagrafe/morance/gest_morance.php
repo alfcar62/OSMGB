@@ -17,6 +17,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 if(isset($_SESSION['errore']) && $_SESSION['errore']=='error'){echo "<script>alert('Esistono case nella moranca: impossibile cancellare')</script>";
                                                                          }
 $_SESSION['errore']=null;
+isLogged("utente");
 
 ?>
 <html>

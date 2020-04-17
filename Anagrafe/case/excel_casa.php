@@ -18,6 +18,7 @@ require_once $util1;
  require_once $util2;
 ?>
 <?php
+isLogged("utente");
 $zona=$_POST["zona"] ;
 $filename=$_POST["file"];
 $oraoggi=date("Y/m/d");

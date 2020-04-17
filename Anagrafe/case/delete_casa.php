@@ -17,7 +17,7 @@ require_once $util1;
 setup();
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_c']);
-
+isLogged("utente");
 if (!isset($_POST['si']))
    header("Location:gest_case.php?pag=$pag");
 

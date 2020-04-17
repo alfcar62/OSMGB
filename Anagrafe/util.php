@@ -173,6 +173,24 @@ function setup() // invocata all'inizio di tutte le pagine, tranne login e logou
         }
     }
 }
+
+
+function isLogged($utente=null){//Se il parametro viene passato,significa che è un utente "Utente" o "Amministratore". Se non viene passato viene impostato di default a NULL 
+    if(!isset($_SESSION['loggato']) || !$_SESSION['loggato']){
+        header("Location: /OSM/Anagrafe/index.php");
+    }
+    if($utente=="amministratore"){//Se $utente è amministratore, bisogna negare l'accesso agli amministratori e utenti alla pagina in cui la funzione viene richiamata
+        if($_SESSION['tipo']=='gestore' || $_SESSION['tipo']=='utente'){
+            header("Location: /OSM/Anagrafe/index.php");
+        } 
+    }
+    if($utente=='utente'){//Se $utente è utente, bisogna negare l'accesso agli utenti alla pagina in cui la funzione viene richiamata
+        if($_SESSION['tipo']=='utente'){
+            header("Location: /OSM/Anagrafe/index.php");
+        }
+    }
+}
+
 /*****************Paginazione*********************/
 function unsetPag($file){ 
     switch($file){

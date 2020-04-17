@@ -2,6 +2,7 @@
 $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
+isLogged();
 setup();
 ?>
 <html>

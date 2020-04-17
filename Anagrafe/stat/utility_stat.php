@@ -1,4 +1,5 @@
 <?php
+isLogged();
 $valore=$_POST["valore"] ;
 $zona=$_POST["zona_richiesta"] ;
 if($valore=="maschi")

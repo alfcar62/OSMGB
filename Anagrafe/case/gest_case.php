@@ -11,7 +11,7 @@ $util = $config_path .'/../util.php';
 require $util;
 setup();
 unsetPag(basename(__FILE__)); 
-
+isLogged("utente");
 ?>
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style.css">

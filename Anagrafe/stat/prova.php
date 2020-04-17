@@ -1,4 +1,4 @@
-
+<?php isLogged(); ?>
 <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <div id="chartContainer1" style="width: 45%; height: 300px;display: inline-block;"></div> 
 <div id="chartContainer2" style="width: 45%; height: 300px;display: inline-block;"></div><br/>

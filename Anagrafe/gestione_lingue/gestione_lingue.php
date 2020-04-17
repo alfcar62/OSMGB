@@ -2,6 +2,7 @@
 //Data ultima modifica:12/03/2020    Autore:Gobbi Dennis
 //Descrizione:Adattamento al nuovo metodo di selezione per la lingua
 session_start();
+isLogged("gestore");
 //$lang=$_POST['lang'];per il vecchio select,tengo in caso di backup
 $langs=$_GET['lang'];
 echo "Prova:$langs<br>";

@@ -3,7 +3,7 @@ $config_path = __DIR__;
 
  $util2 = $config_path .'/../db/db_conn.php';
  require_once $util2;
-
+ isLogged("utente");
 if(isset($_REQUEST["term"])){
     // Prepare a select statement
     $sql = "SELECT nome FROM casa WHERE nome LIKE ?";

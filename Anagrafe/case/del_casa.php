@@ -15,7 +15,7 @@ setup();
 ?>
 <?php stampaIntestazione(); ?>
 <?php stampaNavbar(); 
-
+isLogged("utente");
 $id_casa = $_POST['id_casa'];
 
 // controllare che non vi siano persone nella casa

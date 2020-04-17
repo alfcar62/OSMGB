@@ -13,6 +13,7 @@ setup();
 <?php
  $util2 = $config_path .'/../db/db_conn.php';
  require_once $util2;
+    isLogged("utente");
 ?>
 <?php stampaIntestazione(); ?>
 <body>

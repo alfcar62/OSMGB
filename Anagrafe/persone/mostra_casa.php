@@ -6,6 +6,7 @@ Descrizione:mostra informazioni della casa in cui risiede la persona selezionata
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
+isLogged("utente");
 setup();
 ?>
 <html>

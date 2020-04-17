@@ -13,6 +13,7 @@
     $util2="../db/db_conn.php";
     require_once $util2;
     require_once $util1;
+    isLogged("gestore");
     setup();
     stampaIntestazione(); ?>
 
