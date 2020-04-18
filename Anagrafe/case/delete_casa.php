@@ -8,10 +8,8 @@
 *** 01/3/2020: Ferraiuolo: aggiunta delle transazioni
 */
 $config_path = __DIR__;
-//$util1 = "E:/xampp/htdocs/OSM/Anagrafe/util.php";
 $util1="../util.php";
-//$util2 = "E:/xampp/htdocs/OSM/Anagrafe/db/db_conn.php";
- $util2="../db/db_conn.php";
+$util2="../db/db_conn.php";
 require_once $util2;
 require_once $util1;
 setup();
@@ -19,13 +17,14 @@ isLogged("utente");
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_c']);
 
-if (!isset($_POST['si']))
-   header("Location:gest_case.php?pag=$pag");
 
+if (isset($_POST['si']) && $_POST['si'] =='si')
+{
 $id_casa=$_POST["id_casa"];
 
 try 
  {
+	
   /*
   *** verifica esistenza di id_casa su pers_casa
   */
@@ -160,4 +159,8 @@ catch ( Exception $e )
     EchoMessage($mymsg, "gest_case.php?pag=$pag");
    }
   EchoMessage("Cancellazione casa effettuata correttamente", "gest_case.php?pag=$pag");
+ }
+  else
+    header("Location:gest_case.php?pag=$pag");
+
 ?>

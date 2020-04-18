@@ -22,9 +22,8 @@ unset($_SESSION['pag_p']);
 
 $id_pers_modifica=$_POST["id_pers"];
 
-if (!isset($_POST['si']))
-  header("Location:gest_persone.php?pag=$pag");
-	 
+if (isset($_POST['si']) && $_POST['si'] =='si')
+{	 
 try 
  {
   $conn->query("START TRANSACTION"); //inizio transazione
@@ -175,5 +174,9 @@ try
     EchoMessage($mymsg, "gest_persone.php?=$pag");
   }
  EchoMessage("Cancellazione persona id=$id_pers_modifica effettuata correttamente", "gest_persone.php?=$pag");
+}
+else
+   header("Location:gest_persone.php?pag=$pag");
+
 ?>
  

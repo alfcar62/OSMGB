@@ -17,9 +17,9 @@ $pag=$_SESSION['pag_m']['pag_m'];
 unset($_SESSION['pag_m']);
 ?>
 <?php
-if (!isset($_POST['si']))
-  header("Location:gest_morance.php?pag=$pag");
 
+if (isset($_POST['si']) && $_POST['si'] =='si')
+{
 $id_moranca=$_POST["id_moranca"];
 $dataOggi=date("Y/m/d");
 try 
@@ -89,5 +89,8 @@ try
 	EchoMessage($mymsg, "gest_morance.php?pag=$pag");
   }
 
-EchoMessage("Cancellazione moranca effettuata correttamente", "gest_morance.php?pag=$pag");
+ EchoMessage("Cancellazione moranca effettuata correttamente", "gest_morance.php?pag=$pag");
+}
+else
+ header("Location:gest_morance.php?pag=$pag");
 ?>
