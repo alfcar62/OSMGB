@@ -12,6 +12,7 @@ $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
 setup();
+isLogged("utente");
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
