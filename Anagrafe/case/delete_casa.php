@@ -15,6 +15,7 @@ $util1="../util.php";
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("utente");
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_c']);
 

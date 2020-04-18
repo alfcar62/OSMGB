@@ -3,6 +3,7 @@ $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
 setup();
+isLogged();
 //Data ultima modifica:1/03/2020    Autore:Gobbi Dennis
 //Descrizione:modifica della query che stampa la tabella(non stampa le persone con data_fine_val a null)
 //Modifica barra di ricerca dinamica(attualmente non funzionante e quindi commentato)

@@ -9,6 +9,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("utente");
 $nominativo=$_POST["nome_persona"];
 $data_nascita=$_POST["data_nascita"];
 $id_casa=$_POST["id_casa_nuova"];

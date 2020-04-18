@@ -8,6 +8,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+isLogged("utente");
 ?>
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
