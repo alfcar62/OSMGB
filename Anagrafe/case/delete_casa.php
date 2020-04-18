@@ -19,6 +19,14 @@ isLogged("utente");
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_c']);
 
+$token=isset($_SESSION['csrf']) ? $_SESSION['csrf'] : null;//Token generato dalla pagina precedente
+$token2=isset($_POST['csrf']) ? $_POST['csrf'] : "err";//Token dell'input hidden type
+
+if(!($token == $token2)){
+    echo "<script>alert('Errore Token Anti-CSRF')</script>";
+    header("Location: ../index.php");
+}
+
 if (!isset($_POST['si']))
    header("Location:gest_case.php?pag=$pag");
 

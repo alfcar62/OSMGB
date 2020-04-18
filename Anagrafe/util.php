@@ -340,7 +340,7 @@ function EchoMessage($msg, $redirect)
 
  function my_random_bytes($length)
    {
-        $characters = '0123456789';
+        $characters = '0123456789ABCDEFGHILMNOPQRSTUVZJKWXZabcdefghilmnopqrstuvzjkwxz';
         $characters_length = strlen($characters);
         $output = '';
         for ($i = 0; $i < $length; $i++)
@@ -348,4 +348,11 @@ function EchoMessage($msg, $redirect)
 
         return $output;
    }
+
+function csrfToken(){
+    $bytes=my_random_bytes(16);
+    $token=(bin2hex($bytes));
+    $csrfToken=hash('sha256',$token);  
+    return $csrfToken;
+}
 ?>

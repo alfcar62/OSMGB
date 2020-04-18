@@ -17,6 +17,9 @@ isLogged("utente");
 <?php stampaIntestazione(); ?>
 <?php stampaNavbar(); 
 
+$token=csrfToken();
+$_SESSION['csrf']=$token
+    
 $id_casa = $_POST['id_casa'];
 
 // controllare che non vi siano persone nella casa
@@ -25,6 +28,7 @@ echo "<br>CANCELLAZIONE CASA: identificativo: $id_casa <br><br>";
 
 echo "<form  method='POST' action='delete_casa.php'>";
 echo "Si vuole davvero cancellare?<br>";
+echo "<input type='hidden' name='csrf' value=$token>"
 echo "<input type='submit' name='no' value='no'>&nbsp;";
 echo "<input type='submit' name='si' value='si'>";
 echo "<input type='hidden' name='id_casa' value='$id_casa'>";
