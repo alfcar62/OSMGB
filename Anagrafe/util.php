@@ -302,8 +302,8 @@ function Paginazione($cur_page, $pagina, $subpag=null){
 // Se non viene passato viene impostato di default a NULL 
 function isLogged($utente=null)
  {
-	 echo "loggato=". $_SESSION['loggato'];
-    echo "utente=". $utente;
+//	 echo "loggato=". $_SESSION['loggato'];
+//    echo "utente=". $utente;
   if(!isset($_SESSION['loggato']) || !$_SESSION['loggato'])
       header("Location: /OSM/Anagrafe/index.php");
          
