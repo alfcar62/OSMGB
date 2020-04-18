@@ -1,0 +1,5 @@
+# Prevent Directory Listing
+Options -Indexes
+
+# Redirect 
+Redirect 301 /index.html /OSM/Anagrafe/index.php

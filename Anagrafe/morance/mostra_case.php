@@ -42,6 +42,11 @@ $all_pages = ceil($all_rows / $x_pag);
 $first = ($pag - 1) * $x_pag;
 $id_moranca=$_POST["id_moranca"];
 
+ $query = "SELECT  nome FROM morance WHERE id = ". $id_moranca;
+ $result = $conn->query($query);
+ $row = $result->fetch_array();
+ $nome_moranca = $row['nome'];
+ $result->free();
 
   $query = "SELECT c.id, c.nome,";
   $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca, c.nome, p.id id_pers, p.nominativo, m.id_osm, ";
@@ -53,30 +58,16 @@ $id_moranca=$_POST["id_moranca"];
   $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
   $query .= " WHERE m.id = $id_moranca ";
   $query .= " ORDER BY c.id ASC";
-  $query .= " LIMIT $first, $x_pag";
   $result = $conn->query($query);
 
-/*
-   $query = "SELECT c.id, c.nome,";
-   $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca, c.nome, p.id id_pers, p.nominativo, c.id_osm, ";
-   $query .= " c.data_inizio_val, c.data_fine_val";
-   $query .= " FROM casa c INNER JOIN morance m  ON  c.id_moranca = m.id ";
-   $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
-   $query .= " INNER JOIN pers_casa pc  ON  pc.id_casa = c.id ";
-   $query .= " INNER JOIN persone p  ON  pc.id_pers = p.id ";
-   $query .= " AND c.id_moranca = $id_moranca ";
-   $query .= " AND pc.cod_ruolo_pers_fam = 'CF'";
-   $query .= " ORDER BY c.id ASC";
-   $query .= " LIMIT $first, $x_pag";
-   $result = $conn->query($query);
-*/   
-   //echo $query;
+//echo $query;
 
     echo "<h2> Villaggio di NTchangue</h2>";
-    echo "<h3> ELENCO CASE DELLA MORANCA: id=$id_moranca </h3>";
+	echo "<h3> ELENCO CASE DELLA MORANCA: $nome_moranca (id=$id_moranca)  </h3>";
 
 	if ($result->num_rows !=0)
 	{     
+
 		echo "<table border>";
 		echo "<tr>";
 		echo "<th>id</th>";
@@ -86,6 +77,7 @@ $id_moranca=$_POST["id_moranca"];
 		echo "<th>moran&ccedil;a</th>";
 		echo "<th>id_capo_famiglia</th>";
 		echo "<th>capo_famiglia</th>";
+		echo "<th>n.abitanti</th>";
 		echo "<th>id su OSM</th>";
         echo "<th>data inizio val</th>";
         echo "<th>data fine val</th>";
@@ -93,7 +85,7 @@ $id_moranca=$_POST["id_moranca"];
         echo "<th>Elimina</th>";
         echo "<th>Persone </th>";
 
-			echo "</tr>";
+	    echo "</tr>";
 
 	    while ($row = $result->fetch_array())
 		 {
@@ -107,14 +99,20 @@ $id_moranca=$_POST["id_moranca"];
 			echo "<td>$row[id_pers]</th>";
 			$mystr = utf8_encode ($row['nominativo']) ;
 			echo "<td>$mystr</th>";
+
+			$query2="SELECT COUNT(pers_casa.ID_PERS) as persone from pers_casa WHERE ID_CASA='$row[id]'";
+            $result2 = $conn->query($query2);
+            $row2 = $result2->fetch_array();
+            echo "<td>$row2[persone]</th>";
+
             $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
-            if ($row['id_osm'] != null)
+            if (($row['id_osm'] != null) && ($row['id_osm'] != 0))
              { 
 			  echo "<td>$row[id_osm]&nbsp;<a href=$osm_link target=new>vai alla mappa&nbsp;<IMG SRC=../css/osm.png WIDTH=20 HEIGHT=20 BORDER=0></a></td>"; 
 		     }
 		    else
              { 
-              echo "<td>$row[id_osm]&nbsp;</td>";
+              echo "<td>&nbsp;</td>";
              }
 			echo "<td>$row[data_inizio_val]</td>";
 			echo "<td>$row[data_fine_val]</td>";

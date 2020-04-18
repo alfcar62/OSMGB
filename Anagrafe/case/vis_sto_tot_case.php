@@ -90,10 +90,11 @@ require_once $util2;
     $query .= "where tipo_op like '".$tipo_operazione."%' ";
     }
 }
-  $query .= " ORDER BY id_casa ASC, data_fine_val DESC";
+  $query .= " ORDER BY id_casa DESC, data_fine_val DESC";
   $query .= " LIMIT $first, $x_pag";
   //echo $query;
   $result = $conn->query($query);
+
 
   if ($result->num_rows != 0) {
     echo "<table border>";
@@ -106,7 +107,7 @@ require_once $util2;
     echo "<th>id moranca</th>";
     echo "<th>nome moranca</th>";
     echo "<th>capo famiglia</th>";
-    echo "<th>id OSM</th>";
+    echo "<th>sulla mappa</th>";
     echo "</tr>";
 
     while ($row = $result->fetch_array()) {
@@ -121,48 +122,25 @@ require_once $util2;
       echo "<td>$mystr</td>";
       echo "<td>" . $row['nome_capo_famiglia'] . "</th>";
 
-      $osm_link = "https://www.openstreetmap.org/way/" . $row['id_osm'];
-      if ($row['id_osm'] != null) {
-        echo "<td>" . $row['id_osm'] . "&nbsp;<a href=$osm_link target=new>vai alla mappa&nbsp;";
-        echo "<IMG SRC=../css/osm.png WIDTH=20 HEIGHT=20 BORDER=0></a></td>";
-      } else {
-        echo "<td>" . $row['id_osm'] . "&nbsp;</td>";
-      }
+      // va sulla mappa OSM con id_OSM
+       $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
+       if ($row['id_osm'] != null && $row['id_osm'] != "0")
+         { 
+           echo "<td>idOSM=$row[id_osm]". " <a href=$osm_link target=new> <i class='fa fa-map-marker' title ='vai sulla mappa'></i></a></td>"; 	   
+         }
+         else
+         { 
+           echo "<td>&nbsp;</td>";
+         }  
     }
     echo "</tr></table>";
   } else
     echo " Nessuna operazione è stata effettuata sulla casa.";
   echo "<br> Numero operazioni: $all_rows<br>";
 
-  // Se le pagine totali sono più di 1...
-  // stampo i link per andare avanti e indietro tra le diverse pagine!
-  if ($all_pages > 1) {
-    if ($pag > 1) {
-      echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-      echo "Pagina Indietro</a>&nbsp;<br>";
-    }
-    // faccio un ciclo di tutte le pagine
-    $cont = 0;
-    for ($p = 1; $p <= $all_pages; $p++) {
-      if ($cont >= 50) {
-        echo "<br>";
-        $cont = 0;
-      }
-      $cont++;
-      // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-      // all'interno della sequenza delle pagine
-      if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-      // per tutte le altre pagine stampo il link
-      else {
-        echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-        echo $p . "</a>&nbsp;";
-      }
-    }
-    if ($all_pages > $pag) {
-      echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-      echo "Pagina Avanti<br></a>";
-    }
-  }
+ // visualizza pagine
+  $vis_pag = $config_path .'/../vis_pag.php';
+  require $vis_pag;
 
   $result->free();
   $conn->close();
