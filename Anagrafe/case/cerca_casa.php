@@ -39,7 +39,7 @@ if(isset($_REQUEST["term"])){
    $query .= " AND c.nome LIKE ?";
    $query .= " ORDER BY $campo " . $ord ;
    
- //  echo $query;
+//   echo "cerca_casa:". $query;
    if($stmt = mysqli_prepare($conn, $query)){
         // Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "s", $param_term);
