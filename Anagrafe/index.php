@@ -18,7 +18,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
     <br>
    <?php 
     if(isset($_GET['welcome']))
-    echo "<h2>Benvenuto {$_SESSION['nome']},hai i permessi di {$_SESSION['tipo']}</h2>";
+    echo "<h2>Benvenuto {$_SESSION['nome']}</h2>";
     ?>
 
     <br>
@@ -30,7 +30,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
  //echo "<h1>Anagrafe Web e Mappa OpenStreetMap ";
  //echo "<h1>di moran&ccedil;e, case e strade <br> del villaggio di Ntchangue (Guinea Bissau)</h1>";
     echo "<h1>".$jsonObj->{$lang."Index"}[0]."</h1>"; 
- echo "<br><br><br>";
+ echo "<br>";
  //echo "<h2>Un progetto realizzato per  AbalaLite</h1>";
  //echo "<h2>dalla classe 5A sez. Informatica a.s. 2019/20 dell'IIS A. Avogadro di Torino</h1>"; 
     echo "<h2>".$jsonObj->{$lang."Index"}[1]."</h2>";

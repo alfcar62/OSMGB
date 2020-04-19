@@ -13,6 +13,7 @@
     require_once $util2;
     require_once $util1;
     setup();
+	isLogged("amministratore");
     stampaIntestazione(); ?>
 
     <body>

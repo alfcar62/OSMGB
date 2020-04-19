@@ -10,9 +10,9 @@ Questo file serve  a Scaricare in locale con estensione.xls una tabella ricevuta
 $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
+setup();
+isLogged("gestore");
 ?>
-
-
  <?php
  $util2 = $config_path .'/../db/db_conn.php';
  require_once $util2;

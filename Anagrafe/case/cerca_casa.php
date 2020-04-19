@@ -3,10 +3,9 @@ $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
 setup();
-
 $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
-
+isLogged("gestore");
 if (isset($_SESSION['cod_zona']))
   $cod_zona = $_SESSION['cod_zona'];
 else 
@@ -40,7 +39,7 @@ if(isset($_REQUEST["term"])){
    $query .= " AND c.nome LIKE ?";
    $query .= " ORDER BY $campo " . $ord ;
    
- //  echo $query;
+//   echo "cerca_casa:". $query;
    if($stmt = mysqli_prepare($conn, $query)){
         // Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "s", $param_term);

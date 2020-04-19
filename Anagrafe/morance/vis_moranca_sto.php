@@ -8,6 +8,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+isLogged("gestore");
 ?>
 <html>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -167,7 +168,7 @@ if ($result->num_rows !=0)
 	   echo "</table>";
 	}
 	else
-		echo " Nessuna operazione è stata effettuata sulla moranca.";
+		echo "Non vi sono state variazioni per la moranca.";
   echo "<br> Numero operazioni: $all_rows<br>";
 
    // visualizza pagine
@@ -176,7 +177,10 @@ if ($result->num_rows !=0)
 
 
   $result->free();
-  $conn->close();	
+  $conn->close();
+
+  echo "<br><a href='gest_morance.php'>Torna a gestione moran&ccedil;e</a>" 
+
  ?>  
  
  </body>

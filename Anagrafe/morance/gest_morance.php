@@ -14,6 +14,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
  
 setup();
+isLogged("gestore");
 unsetPag(basename(__FILE__));
 
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
@@ -352,8 +353,16 @@ $_SESSION['errore']=null;
 *** return: $pag (pagina da visualizzare)
 ***       
 */
-function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
+function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
 { 
+
+	// recupero l'id moranca
+ $query = "SELECT id id_m FROM morance  WHERE nome = '{$nome}'";
+ $result = $conn->query($query);
+ $row = $result->fetch_array();
+ $id = $row['id_m'];
+ $result->free();
+
     // Prepare a select statement
  $query = "SELECT ";
  $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
@@ -364,12 +373,27 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
  if (isset($cod_zona) && ($cod_zona !='tutte'))
       $query .= " AND m.cod_zona = '". $cod_zona."'";
 
- if ($ord == "ASC")
-	$query .= " AND m.nome < '".$nome."'";
+ if ($campo_ord == "nome")
+	   $campo_ord = "m.nome";
  else
-	$query .= " AND m.nome > '".$nome."'";
+       $campo_ord = "m.id";
 
- $query .= " ORDER BY $campo " . $ord ;
+ if ($campo_ord == "m.nome")
+   {
+      if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= '".$nome."'";
+      else
+	      $query .= " AND $campo_ord >= '".$nome."'";
+   }
+ else
+   {
+      if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= ".$id;
+      else
+	      $query .= " AND  $campo_ord>= ".$id;
+   }
+//	  $query .= " AND c.nome >= '".$nome."'";
+   $query .= " ORDER BY $campo_ord " . $ord ;
 
 // echo $query;
 

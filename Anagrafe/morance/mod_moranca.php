@@ -9,6 +9,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $pag=$_SESSION['pag_m']['pag_m'];
 //unset($_SESSION['pag_m']);
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
@@ -67,7 +68,8 @@ for($i=0;$i<$nz;$i++)
 echo "</select>";
 
 ?>
-sulla mappa: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> >
+<span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
  <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moran&ccedil;a,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
 <?php

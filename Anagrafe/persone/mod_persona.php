@@ -10,6 +10,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $pag=$_SESSION['pag_p']['pag_p'];
 //unset($_SESSION['pag_p']);
 ?>
@@ -17,10 +18,10 @@ $pag=$_SESSION['pag_p']['pag_p'];
 <body>
 <?php stampaNavbar(); ?>
 <?php
-echo  " <br>MODIFICA PERSONA <br>"; 
 $id_pers = $_POST['id_pers'];
-echo "id pers = ". $id_pers;
+//echo "id pers = ". $id_pers;
 $_SESSION["id_persona_modifica"]= $_POST['id_pers'];
+
 
 //$result = $conn->query("START TRANSACTION");
 $conn->begin_transaction();
@@ -49,9 +50,12 @@ if($nr==1)
  $row = $result->fetch_array();
  $id_casa_mod = $row['id_casa'];
  $cod_ruolo_mod = $row['cod_ruolo'];
+ 
+ $nominativo = utf8_encode ($row['nominativo']);
+ echo "<h3>Modifica persona: $nominativo  (id= $id_pers)</h3>";
 
  echo "<form action='modifica_persona.php' method='post'>";
- echo  " Nominativo : <input type='text' name='nominativo' value ='". $row['nominativo']."' required><br><br>";
+ echo  " Nominativo : <input type='text' name='nominativo' value ='". $nominativo."' required><br><br>";
  echo  " Data nascita : <input type='date' name='data_nascita' value = '".$row['data_nascita']."' required><br>";
  echo  " Data morte : <input type='date' name='data_morte' value = '".$row['data_morte']."'><br>";
  

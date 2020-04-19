@@ -261,6 +261,13 @@ function unsetPag($file){		// reset variabili di sessione
     }
 }
 
+/*
+*** Paginazione(): ritorna la pagina che deve essere visualizzata
+*** cur_page = pagina corrente
+*** pagina =
+*** subpag =
+*** return pag: pagina da visualizzare
+*/
 function Paginazione($cur_page, $pagina, $subpag=null){
  //  echo "cur_page = ". $cur_page;
     if(is_null($subpag))
@@ -296,7 +303,33 @@ function Paginazione($cur_page, $pagina, $subpag=null){
     }    
 }
 
+/************  IsLogged: controllo che l'utente loggato possa accedere alle funzionalità **********/
 
+// Se il parametro viene passato,significa che è un utente "Utente" o "Amministratore".
+// Se non viene passato viene impostato di default a NULL 
+// $perm_rich = permesso utente richiesto per accedere alla funzionalità
+function isLogged($perm_rich=null)
+ {
+//	 echo "loggato=". $_SESSION['loggato'];
+//	 echo "permesso =".$_SESSION['tipo'];
+//   echo "permeso richiesto=". $perm_rich;
+
+  if(!isset($_SESSION['loggato']) || !$_SESSION['loggato'])
+      header("Location: /OSM/Anagrafe/index.php");
+         
+  if($perm_rich == "amministratore")
+	{
+     if($_SESSION['tipo']== "gestore" || $_SESSION['tipo']== "utente")
+        header("Location: /OSM/Anagrafe/index.php");
+    }
+  else
+  if($perm_rich == "gestore")
+   {
+     if($_SESSION['tipo']=="utente")
+        header("Location: /OSM/Anagrafe/index.php");
+   }
+
+ }
 
 
 /***************** Alert *********************/
