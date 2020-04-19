@@ -261,6 +261,13 @@ function unsetPag($file){		// reset variabili di sessione
     }
 }
 
+/*
+*** Paginazione(): ritorna la pagina che deve essere visualizzata
+*** cur_page = pagina corrente
+*** pagina =
+*** subpag =
+*** return pag: pagina da visualizzare
+*/
 function Paginazione($cur_page, $pagina, $subpag=null){
  //  echo "cur_page = ". $cur_page;
     if(is_null($subpag))
