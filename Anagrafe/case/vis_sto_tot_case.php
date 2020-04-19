@@ -81,7 +81,7 @@ require_once $util2;
 
   $query =  "SELECT tipo_op, data_inizio_val, data_fine_val,";
   $query .= "id_casa, nome, id_moranca, nome_moranca,";
-  $query .= "nome_capo_famiglia, id_osm ";
+  $query .= "nome_capo_famiglia,nome_persona,  id_osm ";
   $query .= " FROM casa_sto ";
 
   if (isset($_POST['tipo_operazione'])) {
@@ -108,6 +108,7 @@ require_once $util2;
     echo "<th>id moranca</th>";
     echo "<th>nome moranca</th>";
     echo "<th>capo famiglia</th>";
+	echo "<th>nome persona</th>";
     echo "<th>sulla mappa</th>";
     echo "</tr>";
 
@@ -122,6 +123,7 @@ require_once $util2;
       $mystr = utf8_encode($row['nome_moranca']);
       echo "<td>$mystr</td>";
       echo "<td>" . $row['nome_capo_famiglia'] . "</th>";
+      echo "<td>" . $row['nome_persona'] . "</th>";
 
       // va sulla mappa OSM con id_OSM
        $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
