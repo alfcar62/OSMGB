@@ -93,9 +93,12 @@ isLogged("utente");
 			</form>
          <?php
 		 $x_pag = 10;			// n. di record per pagina
+		 $ricerca= false;
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
             $pag = get_first_pag($conn, $_POST['nome'], $cod_zona,  $ord, $campo); 
+			$ricerca = true;
+//			echo "ricerca: pag=". $pag;
 		   }
          ?>
         </div>
@@ -132,6 +135,8 @@ isLogged("utente");
         
         $pag=Paginazione($pag, "pag_c");	// Recupero il  numero di pagina corrent
 
+	 //  echo "paginazionea: pag=". $pag;
+
         // Controllo se $pag è valorizzato e se è numerico
         // ...in caso contrario gli assegno valore 1
         if (!$pag || !is_numeric($pag)) $pag = 1; 
@@ -153,7 +158,6 @@ isLogged("utente");
 
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
-
 
         $first = ($pag - 1) * $x_pag;
 
@@ -234,7 +238,7 @@ isLogged("utente");
         $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
         $result = $conn->query($query);  
-//        echo $query;
+  //      echo $query;
 
         if ($result->num_rows !=0)
         {
@@ -359,11 +363,19 @@ isLogged("utente");
 *** return: $pag (pagina da visualizzare)
 ***       
 */
-function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
+function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
 { 
+// recupero l'id casa
+   $query = "SELECT id FROM casa  WHERE nome = '{$nome}'";
+   $result = $conn->query($query);
+   $row = $result->fetch_array();
+   $id = $row['id'];
+   $result->free();
+
+
    $query = "SELECT c.id, c.nome,";
    $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca,";
-   $query .= " c.nome, p.id id_pers, p.nominativo, c.id_osm as id_osm, ";
+   $query .= " p.id id_pers, p.nominativo, c.id_osm as id_osm, ";
    $query .= " c.data_inizio_val data_val, c.data_fine_val";
    $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
    $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
@@ -374,16 +386,32 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo)
    if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";  
 
-   if ($ord == "ASC")
-	  $query .= " AND c.nome < '".$nome."'";
+   if ($campo_ord == "nome")
+	   $campo_ord = "c.nome";
    else
-	  $query .= " AND c.nome > '".$nome."'";
-   $query .= " ORDER BY $campo " . $ord ;
+       $campo_ord = "c.id";
 
-//  echo $query;
+   if ($campo_ord == "c.nome")
+    {
+      if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= '".$nome."'";
+      else
+	      $query .= " AND $campo_ord >= '".$nome."'";
+    }
+   else
+    {
+      if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= ".$id;
+      else
+	      $query .= " AND  $campo_ord>= ".$id;
+    }
+//	  $query .= " AND c.nome >= '".$nome."'";
+   $query .= " ORDER BY $campo_ord " . $ord ;
+
+//  echo "get_first_pag:". $query;
 
   $result = $conn->query($query);
-   $cont=$result->num_rows;
+  $cont=$result->num_rows;
  // echo "cont=". $cont;  
   $result->free();
 
