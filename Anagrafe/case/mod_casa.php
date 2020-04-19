@@ -52,8 +52,9 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $nome_casa=$row["nome_casa"];
     $data_inizio=$row["data_inizio"];
     $data_fine=$row["data_fine"];
-    $id_moranca=$row["id_moranca"];          
-    $nome_moranca=$row["nome_moranca"];
+    $id_moranca=$row["id_moranca"]; 
+	
+    $nome_moranca=utf8_encode ($row['nome_moranca']);
     $id_osm=$row["id_osm"];
     if ($id_osm == '')
         $id_osm = 0;
