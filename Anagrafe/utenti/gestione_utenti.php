@@ -75,7 +75,7 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h3> Elenco Utenti che hanno accesso al sistema</h3>";
+            echo "<h3> Elenco Utenti che hanno effettuato il login al sistema</h3>";
             $perm = $_SESSION['tipo'];
             if ($perm == "admin")
                 $perm = "amministratore ";
@@ -85,10 +85,10 @@
                 $perm = "utente generico";
             echo "<br> Utente collegato: {$_SESSION['nome']} <br> permesso: $perm <br>";
             echo "<a href='insert_utente.php'><br>";
-            echo "Aggiungi nuovo utente </a><br><br>";
-            echo '<form action="login_logs.php">
-                  <input type="submit" class="button" value="Logs login" />
-                  </form>';
+            echo "Inserisci nuovo utente </a><br><br>";
+
+			echo "<a href='vis_login.php'><br>";
+            echo "Visualizza gli accessi </a><br><br>";
 
             if (isset($_POST['tipo']))
                 if($_POST['tipo']!='tutti')
