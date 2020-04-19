@@ -12,18 +12,14 @@ $pag=$_SESSION['pag_p']['pag_p'];
 unset($_SESSION['pag_p']);
 ?>
 <html>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="mostra_casa_temp_css.css">
-    <?php //stampaIntestazione(); ?>
-    <body>
-
-        <?php //stampaNavbar(); ?>
         <?php
         $util2 = $config_path .'/../db/db_conn.php';
         require_once $util2;
         ?>
         <?php stampaIntestazione(); ?>
+		<body>
         <?php stampaNavbar(); ?>
         <div id="myModal" class="modal">
 
@@ -56,9 +52,6 @@ unset($_SESSION['pag_p']);
         $mystr = utf8_encode ($row1['nome_moranca']) ;
 
         echo "<br>Elenco abitanti della casa: $row1[nome_casa] (id=$id_casa), moranca='$mystr' (id=$row1[id_moranca]) , zona:$row1[nome_zona] - ";
-        $immagine=glob('../case/immagini/'.$id_casa.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato è un array)
-        if($immagine != null)
-            echo "<div><img src='$immagine[0]' class='modal_image' style='display: block; margin-left:0px; margin-right: auto;width:100px;height:100px'></div> ";//$immagine è un array che conterrà una sola stringa (ad esempio: immagini/1.png) al posto numero 0
 
 
         $osm_link = "https://www.openstreetmap.org/way/$row1[id_osm]";
