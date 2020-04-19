@@ -8,6 +8,8 @@ $util = $config_path .'/../util.php';
 require $util;
 setup();
 isLogged("utente");
+$pag=$_SESSION['pag_p']['pag_p'];
+unset($_SESSION['pag_p']);
 ?>
 <html>
 
@@ -111,6 +113,9 @@ isLogged("utente");
 
         $result->free();
         $conn->close();	
+
+		echo "<br><a href='gest_persone.php?pag=$pag'>Torna a gestione persone</a>" 
+
         ?>
         <br>  
 
