@@ -168,7 +168,7 @@ if ($result->num_rows !=0)
 	   echo "</table>";
 	}
 	else
-		echo " Nessuna operazione è stata effettuata sulla moranca.";
+		echo "Non vi sono state variazioni per la moranca.";
   echo "<br> Numero operazioni: $all_rows<br>";
 
    // visualizza pagine
