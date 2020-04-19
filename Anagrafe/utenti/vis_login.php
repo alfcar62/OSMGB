@@ -71,7 +71,7 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h3> Elenco dei logs di accesso</h3>";
+            echo "<h3> Elenco degli accessi al sistema</h3>";
             //Select option per la scelta della zona
             echo "<form action='vis_login.php' method='POST'><br>";
             echo   "Visualizza : <select name='filtro'>";
@@ -129,8 +129,8 @@
                 echo "</table>";
             }
             else
-                echo " Nessun log &egrave; presente nel database.";
-            echo "<br> Numero di logs: $all_rows<br>";
+                echo " Nessun accesso al sistema &egrave; presente nel database.";
+            echo "<br> Numero di accessi: $all_rows<br>";
 
             // visualizza pagine
             $vis_pag = $config_path .'/../vis_pag.php';
