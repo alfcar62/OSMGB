@@ -74,11 +74,11 @@ try
      $conn->rollback(); 
      $conn->autocommit(TRUE);	// end transaction
 	 $conn->close();
-     echo "Errore in inserimento della persona";
+//     echo "Errore in inserimento della persona";
 //	 echo $conn->error; 
 //	 echo "transazione con rollback";
 	 $mymsg = "Errore inserimento persona id=$id_pers " . $msg_err;
      EchoMessage($mymsg, "gest_persone.php");
    }
-   EchoMessage("Inserimento  persona id=$id_pers effettuato correttamnete", "gest_persone.php");
+   EchoMessage("Inserimento  persona id=$id_pers effettuato correttamente", "gest_persone.php");
 ?>
