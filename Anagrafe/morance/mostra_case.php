@@ -33,7 +33,7 @@ $id_moranca=$_POST["id_moranca"];
  $query = "SELECT  nome FROM morance WHERE id = ". $id_moranca;
  $result = $conn->query($query);
  $row = $result->fetch_array();
- $nome_moranca = $row['nome'];
+ $nome_moranca = utf8_encode ($row['nome']);
  $result->free();
 
   $query = "SELECT c.id, c.nome,";
