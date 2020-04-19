@@ -177,7 +177,10 @@ if ($result->num_rows !=0)
 
 
   $result->free();
-  $conn->close();	
+  $conn->close();
+
+  echo "<br><a href='gest_morance.php'>Torna a gestione moran&ccedil;e</a>" 
+
  ?>  
  
  </body>

@@ -193,7 +193,7 @@ if ($result->num_rows !=0)
 		 echo "</tr></table>";
 	}
 	else
-		echo " Nessuna operazione è stata effettuata sulla casa.";
+		echo " Non vi sono variazioni sulla casa.";
   echo "<br> Numero operazioni: $all_rows<br>";
 
 // visualizza pagine
@@ -202,6 +202,8 @@ if ($result->num_rows !=0)
 
   $result->free();
   $conn->close();	
+  echo "<br><a href='gest_case.php'>Torna a gestione case</a>" 
+
  ?>  
  
  </body>
