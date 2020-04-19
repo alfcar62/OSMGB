@@ -59,12 +59,11 @@ for($i=0;$i<$nr;$i++)
 	$myMoranca = utf8_encode ($row['nome_moranca']) ;
     if ($myCapoFam=="")
 		$myCapoFam = "Non Esiste";
-    echo "<option value=".$row['id_casa'].">casa:".$row['nome_casa']." (capo:".$myCapoFam. ") moranca:".$myMoranca."  </option>";
+    echo "<option value=".$row['id_casa'].">casa:".$row['nome_casa']." (capo famiglia:".$myCapoFam. ") moranca:".$myMoranca."  </option>";
    
   }
 }
 echo "</select><br>";
-
 
 $result = $conn->query("SELECT distinct cod, descrizione FROM ruolo_pers_fam");
 $nr=$result->num_rows;
