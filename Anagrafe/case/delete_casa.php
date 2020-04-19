@@ -13,7 +13,7 @@ $util2="../db/db_conn.php";
 require_once $util2;
 require_once $util1;
 setup();
-isLogged("utente");
+isLogged("gestore");
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_c']);
 

@@ -3,20 +3,19 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
-isLogged("utente");
+isLogged("gestore");
 $pag=$_SESSION['pag_m']['pag_m'];
 unset($_SESSION['pag_m']);
 ?>
 <html>
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<?php //stampaIntestazione(); ?>
-<body>
-<?php //stampaNavbar(); ?>
+
  <?php
  $util2 = $config_path .'/../db/db_conn.php';
  require_once $util2;
 ?>
 <?php stampaIntestazione(); ?>
+<body>
 <?php stampaNavbar(); ?>
 <?php 
 

@@ -11,7 +11,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
-isLogged("gestore");
+isLogged("amministratore");
 ?>
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style.css">

@@ -5,7 +5,7 @@ require_once $util1;
 setup();
 $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
-isLogged("utente");
+isLogged("gestore");
 if (isset($_SESSION['cod_zona']))
   $cod_zona = $_SESSION['cod_zona'];
 else 

@@ -8,7 +8,7 @@ $config_path = __DIR__;
 $util = $config_path . '/../util.php';
 require $util;
 setup();
-isLogged("utente");
+isLogged("gestore");
 ?>
 <html>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -138,7 +138,7 @@ require_once $util2;
     }
     echo "</tr></table>";
   } else
-    echo " Nessuna operazione è stata effettuata sulla casa.";
+    echo " Non vi sono variazioni sulle case.";
   echo "<br> Numero operazioni: $all_rows<br>";
 
  // visualizza pagine
@@ -147,6 +147,9 @@ require_once $util2;
 
   $result->free();
   $conn->close();
+
+  echo "<br><a href='gest_case.php'>Torna a gestione case</a>" 
+
   ?>
 
 </body>

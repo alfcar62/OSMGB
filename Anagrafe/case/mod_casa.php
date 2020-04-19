@@ -18,6 +18,7 @@ $util2="../db/db_conn.php";
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $pag=$_SESSION['pag_c']['pag_c'];
 ?>
 <?php stampaIntestazione(); ?>

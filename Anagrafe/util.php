@@ -307,23 +307,28 @@ function Paginazione($cur_page, $pagina, $subpag=null){
 
 // Se il parametro viene passato,significa che è un utente "Utente" o "Amministratore".
 // Se non viene passato viene impostato di default a NULL 
-function isLogged($utente=null)
+// $perm_rich = permesso utente richiesto per accedere alla funzionalità
+function isLogged($perm_rich=null)
  {
 //	 echo "loggato=". $_SESSION['loggato'];
-//    echo "utente=". $utente;
+//	 echo "permesso =".$_SESSION['tipo'];
+//   echo "permeso richiesto=". $perm_rich;
+
   if(!isset($_SESSION['loggato']) || !$_SESSION['loggato'])
       header("Location: /OSM/Anagrafe/index.php");
          
-  if($utente=="amministratore")
+  if($perm_rich == "amministratore")
 	{
      if($_SESSION['tipo']== "gestore" || $_SESSION['tipo']== "utente")
         header("Location: /OSM/Anagrafe/index.php");
     }
-  if($utente=="utente")
+  else
+  if($perm_rich == "gestore")
    {
      if($_SESSION['tipo']=="utente")
         header("Location: /OSM/Anagrafe/index.php");
    }
+
  }
 
 

@@ -7,7 +7,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
-isLogged("utente");
+isLogged("gestore");
 $pag=$_SESSION['pag_p']['pag_p'];
 unset($_SESSION['pag_p']);
 ?>

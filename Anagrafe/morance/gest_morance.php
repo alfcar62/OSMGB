@@ -14,7 +14,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
  
 setup();
-isLogged("utente");
+isLogged("gestore");
 unsetPag(basename(__FILE__));
 
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";

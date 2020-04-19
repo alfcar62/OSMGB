@@ -11,7 +11,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
-isLogged("gestore");
+isLogged("amministratore");
 ?>
 <?php stampaIntestazione(); ?>
 <?php stampaNavbar(); 

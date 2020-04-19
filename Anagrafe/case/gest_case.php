@@ -12,7 +12,7 @@ require $util;
 
 setup();
 unsetPag(basename(__FILE__)); 
-isLogged("utente");
+isLogged("gestore");
 ?>
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style1.css">
