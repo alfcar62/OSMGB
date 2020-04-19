@@ -3,15 +3,31 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+unsetPag(basename(__FILE__)); 
 ?>
-<html>
 <?php stampaIntestazione(); ?>
 <body>
-<?php stampaNavbar(); ?>
- <?php
- $util = $config_path .'/../db/db_conn.php';
- require $util;
-		echo " Da fare";
+<?php stampaNavbar(); 
 ?>
- </body>
+<center>
+<h1> Chi siamo <br></h1>
+
+<div align="center">
+<IMG SRC="../img/gruppo.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+<IMG SRC="../img/lavoro2.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+</div>
+<div align="center">
+<IMG SRC="../img/lavoro3.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+<IMG SRC="../img/lavoro4.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+</div>
+<div align="center">
+<IMG SRC="../img/ntchangue1.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+<IMG SRC="../img/ntchangue2.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+</div>
+<div align="center">
+<IMG SRC="../img/ntchangue3.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+<IMG SRC="../img/ntchangue4.jpeg" WIDTH="30%"  BORDER="0" ALT="">
+</div>
+</center>
+</body>
 </html>

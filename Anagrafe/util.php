@@ -22,7 +22,7 @@ function stampaNavbar()
 ?>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <ul>
-    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>Ntchangue<br> AnagrafeWEB</a></li>
+    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>
         <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
