@@ -1,9 +1,13 @@
 <?php
 $config_path = __DIR__;
-$util1 = $config_path .'/../util.php';
+$util1="../util.php";
+$util2="../db/db_conn.php";
+require_once $util2;
 require_once $util1;
 setup();
 isLogged("utente");
+$pag=$_SESSION['pag_c']['pag_c'];
+unset($_SESSION['pag_c']);
 ?>
 <html>
 <?php //stampaIntestazione(); ?>
@@ -106,6 +110,9 @@ if ($nr != 0)
 
   $result->free();
   $conn->close();	
+
+   echo "<br><a href='gest_case.php?pag=$pag'>Torna a gestione case</a>" 
+
  ?>
  <br>
  
