@@ -21,6 +21,31 @@ try
  {
    $conn->query("START TRANSACTION"); //inizio transazione
 
+// se la  casa ha già un capo famiglia, non posso scegliere come ruolo capo famiglia
+  if ($cod_ruolo == 'CF')
+   {
+    $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc ";
+    $query .=  " WHERE pc.id_casa = c.id ";
+    $query .=  " AND c.id =". $id_casa;
+    $query .=  " AND pc.cod_ruolo_pers_fam = 'CF'";
+//	echo $query;
+
+    $result = $conn->query($query);
+
+	if (!$result)
+     {
+      $msg_err = "Errore select n.2";
+      throw new Exception($conn->error);
+     }
+    $row = $result->fetch_array();
+    if ($row['cont']>0) 
+	 {
+       $msg_err = "Esiste un capo famiglia: selezionare altro ruolo";
+       throw new Exception($msg_err);
+     }
+   }
+
+
    $query="select  max(id) as max_id_pers from persone";
    $result=$conn->query($query);
    $row=$result->fetch_array();
@@ -50,8 +75,8 @@ try
      $conn->autocommit(TRUE);	// end transaction
 	 $conn->close();
      echo "Errore in inserimento della persona";
-	 echo $conn->error; 
-	 echo "transazione con rollback";
+//	 echo $conn->error; 
+//	 echo "transazione con rollback";
 	 $mymsg = "Errore inserimento persona id=$id_pers " . $msg_err;
      EchoMessage($mymsg, "gest_persone.php");
    }
