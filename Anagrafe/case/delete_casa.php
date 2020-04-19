@@ -20,7 +20,7 @@ unset($_SESSION['pag_c']);
 
 if (isset($_POST['si']) && $_POST['si'] =='si')
 {
-$id_casa=$_POST["id_casa"];
+ $id_casa=$_POST["id_casa"];
 
 try 
  {
@@ -35,7 +35,8 @@ try
    $num = $row['cont'];
    if ($num >0)
 	 EchoMessage("Impossibile cancellare: verificare se vi sono persone presenti", "gest_case.php");
-
+   else
+    {
    /*
    *** recupero dei dati da inserire nello storico casa_sto
    */
@@ -149,6 +150,7 @@ try
 	$conn->autocommit(TRUE);
     $conn->close();
   } //try
+ }
 catch ( Exception $e )
   {
     $conn->rollback(); 
@@ -158,9 +160,9 @@ catch ( Exception $e )
     $mymsg = "Errore cancellazione casa id=" . $id_casa . "err:" . $msg_err;
     EchoMessage($mymsg, "gest_case.php?pag=$pag");
    }
-  EchoMessage("Cancellazione casa effettuata correttamente", "gest_case.php?pag=$pag");
+  EchoMessage("Cancellazione casa effettuata correttamente", "gest_case.php?pag=$pag");  
  }
-  else
+else
     header("Location:gest_case.php?pag=$pag");
-
+ 
 ?>
