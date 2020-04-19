@@ -18,7 +18,7 @@ isLogged("gestore");
 <body>
 <?php stampaNavbar(); ?>
 <?php
-echo "<h3>INSERISCI NUOVA CASA</h3>";
+echo "<h3>Inserimento di una nuova casa</h3>";
 ?>
 <form action="insert_casa.php" method="POST"><br>
 nome casa:&nbsp;&nbsp;<input type="text" name="nome" required> <br>
