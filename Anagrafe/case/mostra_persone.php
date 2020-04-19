@@ -39,8 +39,8 @@ $result = $conn->query($query);
 $nr = $result->num_rows;
 
 $row = $result->fetch_array();
-$nome_casa = $row['nome_casa'];
-$nome_moranca= $row['nome_moranca'];
+$nome_casa = utf8_encode ($row['nome_casa']);
+$nome_moranca= utf8_encode ($row['nome_moranca']);
 $id_moranca= $row['id_moranca'];
 $zona= $row['zona'];
 
@@ -68,7 +68,7 @@ $query .= " ORDER BY nominativo ASC";
 //echo $query;
 
 $result = $conn->query($query);
-echo "<h3> ELENCO ABITANTI DELLA CASA: ";
+echo "<h3> Elenco abitanti della casa: ";
 echo "$nome_casa (id=$id_casa) della moranca:$nome_moranca  (id=$id_moranca)  </h3>";
 
 $nr = $result->num_rows;
