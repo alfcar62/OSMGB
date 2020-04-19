@@ -64,6 +64,10 @@ try
   $tipo_operazione = "DELETE (persona)";
   $data_inizio_val=$row['data_inizio_val'];
   $currentdate=date('Y/m/d'); 
+  $id_osm = $row['id_osm'];
+  if ($id_osm == '')
+	$id_osm =0;
+
 /*
 *** INSERT su persone_sto (vecchi valori)
 */
@@ -83,7 +87,10 @@ try
  $query .= "'".$row['nominativo']."',";
  $query .= "'".$row['sesso']."',";
  $query .= "'".$row['data_nascita']."',";
- $query .= "'".$row['data_morte']."',";
+   if ($row['data_morte'] == '')
+	 $query .= "NULL,";
+   else
+     $query .= "'".$row['data_morte']."',";
  $query .= "'".$row['id_casa']."',";
  $query .= "'".$row['nome_casa']."',";
  $query .= "'".$row['cod_ruolo']."',";
@@ -91,6 +98,7 @@ try
  $query .= "'$data_inizio_val',";
  $query .= "'$currentdate');";
 
+//echo $query;
  $result = $conn->query($query);
  if (!$result)
    {
@@ -123,7 +131,7 @@ try
  $query2 .= "'".$row['nome_casa']."',";
  $query2 .= $row['id_moranca'].",";
  $query2 .= "'".$row['nome_moranca']."',";
- $query2 .= $row['id_osm'].",";
+ $query2 .= $id_osm .",";
  $query2 .= "'".$capo_famiglia."',";
  $query2 .= "'".$nome_persona."',";
  $query2 .= "'".$data_inizio_val."',"; 
