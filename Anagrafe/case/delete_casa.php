@@ -8,23 +8,23 @@
 *** 01/3/2020: Ferraiuolo: aggiunta delle transazioni
 */
 $config_path = __DIR__;
-//$util1 = "E:/xampp/htdocs/OSM/Anagrafe/util.php";
 $util1="../util.php";
-//$util2 = "E:/xampp/htdocs/OSM/Anagrafe/db/db_conn.php";
- $util2="../db/db_conn.php";
+$util2="../db/db_conn.php";
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_c']);
 
-if (!isset($_POST['si']))
-   header("Location:gest_case.php?pag=$pag");
 
-$id_casa=$_POST["id_casa"];
+if (isset($_POST['si']) && $_POST['si'] =='si')
+{
+ $id_casa=$_POST["id_casa"];
 
 try 
  {
+	
   /*
   *** verifica esistenza di id_casa su pers_casa
   */
@@ -35,7 +35,8 @@ try
    $num = $row['cont'];
    if ($num >0)
 	 EchoMessage("Impossibile cancellare: verificare se vi sono persone presenti", "gest_case.php");
-
+   else
+    {
    /*
    *** recupero dei dati da inserire nello storico casa_sto
    */
@@ -149,6 +150,7 @@ try
 	$conn->autocommit(TRUE);
     $conn->close();
   } //try
+ }
 catch ( Exception $e )
   {
     $conn->rollback(); 
@@ -158,5 +160,9 @@ catch ( Exception $e )
     $mymsg = "Errore cancellazione casa id=" . $id_casa . "err:" . $msg_err;
     EchoMessage($mymsg, "gest_case.php?pag=$pag");
    }
-  EchoMessage("Cancellazione casa effettuata correttamente", "gest_case.php?pag=$pag");
+  EchoMessage("Cancellazione casa effettuata correttamente", "gest_case.php?pag=$pag");  
+ }
+else
+    header("Location:gest_case.php?pag=$pag");
+ 
 ?>

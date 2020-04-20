@@ -1,19 +1,51 @@
 <?php
 $config_path = __DIR__;
+$util1 = $config_path .'/../util.php';
+require_once $util1;
+setup();
+$util2 = $config_path .'/../db/db_conn.php';
+require_once $util2;
+isLogged("gestore");
+if (isset($_SESSION['cod_zona']))
+  $cod_zona = $_SESSION['cod_zona'];
+else 
+ $cod_zona = "tutte";
 
- $util2 = $config_path .'/../db/db_conn.php';
- require_once $util2;
+if (isset($_SESSION['ord_c']))
+  $ord = $_SESSION['ord_c'];
+else 
+  $ord  = "ASC";
+
+if (isset($_SESSION['campo_c']))
+  $campo = $_SESSION['campo_c'];
+else 
+  $campo = "nome";
 
 if(isset($_REQUEST["term"])){
     // Prepare a select statement
-    $sql = "SELECT nome FROM casa WHERE nome LIKE ?";
+//    $sql = "SELECT nome FROM casa WHERE nome LIKE ?";
+   $query = "SELECT c.id, c.nome,";
+   $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca,";
+   $query .= " c.nome, p.id id_pers, p.nominativo, c.id_osm as id_osm, ";
+   $query .= " c.data_inizio_val data_val, c.data_fine_val";
+   $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
+   $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
+   $query .= " LEFT JOIN pers_casa pc ON c.id  = pc.id_casa ";
+   $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
+   $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
+   $query .= " WHERE c.DATA_FINE_VAL is null";
+   if (isset($cod_zona) && ($cod_zona !='tutte'))
+            $query .= " AND m.cod_zona = '{$cod_zona}'";  
+   $query .= " AND c.nome LIKE ?";
+   $query .= " ORDER BY $campo " . $ord ;
    
-    if($stmt = mysqli_prepare($conn, $sql)){
+//   echo "cerca_casa:". $query;
+   if($stmt = mysqli_prepare($conn, $query)){
         // Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "s", $param_term);
         
         // Set parameters
-        $param_term = $_REQUEST["term"] . '%';
+        $param_term = '%'. $_REQUEST["term"] . '%';
         
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){

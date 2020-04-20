@@ -8,6 +8,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+isLogged("gestore");
 ?>
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -178,45 +179,18 @@ if ($result->num_rows !=0)
 		 echo "</table>";
 	}
 	else
-		echo " Nessuna operazione è stata effettuata.";
+		echo " Non vi sono variazioni sulla persona";
   echo "<br> Numero operazioni: $all_rows<br>";
 
-// Se le pagine totali sono più di 1...
-// stampo i link per andare avanti e indietro tra le diverse pagine!
-  if ($all_pages > 1){
-  if ($pag > 1){
-    echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-    echo "Pagina Indietro</a>&nbsp;<br>";
-  }
-  // faccio un ciclo di tutte le pagine
-  $cont=0;
-  for ($p=1; $p<=$all_pages; $p++) 
-   {
-	 if ($cont>=50)
-		 {
-		  echo "<br>";
-		  $cont=0;
-         }
-	  $cont++;
-    // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-    // all'interno della sequenza delle pagine
-    if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-    // per tutte le altre pagine stampo il link
-    else
-	 { 
-      echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-      echo $p . "</a>&nbsp;";
-     } 
-  }
-  if ($all_pages > $pag)
-   {
-    echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-    echo "Pagina Avanti<br></a>";
-   } 
-}
+// visualizza pagine
+  $vis_pag = $config_path .'/../vis_pag.php';
+  require $vis_pag;
 
   $result->free();
-  $conn->close();	
+  $conn->close();
+  
+  echo "<br><a href='gest_persone.php'>Torna a gestione persone</a>" 
+
  ?>  
  
  </body>

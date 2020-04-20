@@ -1,5 +1,5 @@
 <?php
-/******************* HTML *************************/
+/******************* Util.php *************************/
 //Data ultima modifica:27/02/2020
 //Descrizione:Implementazione della gestione multilingue attraverso un file .json Autore:Gobbi Dennis
 //Descrizione:Gestione degli utenti Autore:Ferraiuolo Pasquale
@@ -8,18 +8,21 @@
 
 <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
 <?php
+
+/***************************** StampaNavbar *****************************/
+
 function stampaNavbar()
 {
     //echo getcwd();
 
-    $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA"; //Se nessuna lingua � stata scelta,verr� messa come default quella italiana
+    $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA"; //Se nessuna lingua è stata scelta,verrà messa come default quella italiana
     $lang= strtoupper($lang);
     $jsonFile=file_get_contents(__DIR__ ."/gestione_lingue/translations.json");//Converto il file json in una stringa
     $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
 ?>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <ul>
-    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>Ntchangue<br> AnagrafeWEB</a></li>
+    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>
         <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -27,7 +30,8 @@ function stampaNavbar()
         <?php
     if (login())
     {
-        if($_SESSION['tipo']!="utente"){
+     if($_SESSION['tipo']!="utente")
+	  {
         ?>   
     <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;e</a></li>
     <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?></a></li><!--Case --> 
@@ -36,72 +40,53 @@ function stampaNavbar()
     <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM</a></li>
 
     <?php
-        } ?>
+      } ?>
 
-    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[8])?><br><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!--Report statistiche --> 
-    <?php  if($_SESSION['tipo']=="admin"){
-            echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'><IMG SRC='/OSM/Anagrafe/img/ico-registrati.png' WIDTH='36' HEIGHT='33' BORDER='0' ALT='Entra'>".$jsonObj->{$lang."Navbar"}[10]."</IMG></a></li>";//Gestione Utenti
-            //			echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
-            echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
-            ?>
+    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!-- statistiche --> 
+    <?php  if($_SESSION['tipo']=="admin")
+	 {
+	  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."</a></li>";// Utenti
 
-          
-                <?php
-        }  ?>
-          <li><div class="dropdown">
+       //echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
+      echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
+    ?>
+    <?php
+      }  
+	?>
+    <li><div class="dropdown">
     <button class="dropbtn">
-        <?php echo $_SESSION['nome']; ?>
-      <i class="fa fa-caret-down"></i>
+    <?php echo $_SESSION['nome']; ?>
+    <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-content">
-        <a href="/OSM/Anagrafe/utenti/area_personale.php">Area personale</a>
-        <a href='/OSM/Anagrafe/logout.php'>Esci <IMG SRC='/OSM/Anagrafe/img/ico-logout.png' WIDTH='30' HEIGHT='28' BORDER='0' ALT='Esci'></IMG></a>
-      
-    
+    <a href="/OSM/Anagrafe/utenti/area_personale.php">Area personale</a>
+    <a href='/OSM/Anagrafe/logout.php'>Esci <IMG SRC='/OSM/Anagrafe/img/ico-logout.png' WIDTH='30' HEIGHT='28' BORDER='0' ALT='Esci'></IMG></a>
     </div>
-  </div></li>
-       
-
-    
-
+    </div></li>
     <li>
-        <a href="#" onclick="myFx()" class="globe">
-            <img src="/OSM/Anagrafe/lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
-        </a>
+    <a href="#" onclick="myFx()" class="globe">
+    <img src="/OSM/Anagrafe/gestione_lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
+    </a>
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>" >
+
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
             <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>"   >
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA"   >
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
+
         </a>
-
     </div>
-
-
     <?php
-
     }
     else
     {
     ?>
     <li><a href="/OSM/Anagrafe/info/chisiamo.php"><?php echo ($jsonObj->{$lang."Navbar"}[0])?></a></li><!--Chi siamo --> 
     <li><a href="/OSM/Anagrafe/info/progetto.php"><?php echo ($jsonObj->{$lang."Navbar"}[1])?></a></li><!--Il progetto --> 
-    <li><a href="/OSM/Anagrafe/login.php"><?php echo ($jsonObj->{$lang."Navbar"}[2])?><IMG SRC="/OSM/Anagrafe/img/ico-login.png" WIDTH="36" HEIGHT="33" BORDER="0" ALT="Entra"></a></li> <!--Entra --> 
-
-
-        <!--Vecchio select per la lingua
-<form action="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php" method="post">
-<select name="lang" id="sel" onchange="this.form.submit()">
-<option value=" "></option>
-<option value="ITA">Italiano</option>
-<option value="EN">Inglese</option>
-</select>
-</form>
--->         
-
+    <li><a href="/OSM/Anagrafe/login.php"><?php echo ($jsonObj->{$lang."Navbar"}[2])?><IMG SRC="/OSM/Anagrafe/img/ico-login.png" WIDTH="36" HEIGHT="33" BORDER="0" ALT="Entra"></a></li> <!--Entra -->      
     <li>
         <a href="#" onclick="myFx()" class="globe">
             <img src="/OSM/Anagrafe/gestione_lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
@@ -109,23 +94,20 @@ function stampaNavbar()
     </li>
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=EN&dir=<?php echo getcwd();?>" >
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
             <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
         </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gest_lingue.php?lang=ITA&dir=<?php echo getcwd();?>">
+        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
         </a>
-
     </div>
-
-
 </ul>
 <?php
     }	 
 ?>
 </ul>
 <script>
-    function myFx(){//Funzione per far comparire il dropdown men� 
+    function myFx(){//Funzione per far comparire il dropdown menù 
         var show=document.getElementById("dropMenu").style.display;
         console.log(show);
         if(show=="none" || show=="")document.getElementById("dropMenu").style.display="inline";
@@ -138,14 +120,63 @@ function stampaNavbar()
         }
     }
 </script>
+
+<script>
+
+function tooltip(event)	// gestione tooltip
+{
+  document.getElementById("error").style.visibility="visible";
+  if(event.type=="mouseover")
+   {
+    document.getElementById("error").style.visibility="visible";
+   }
+  else if(event.type=="mouseout")
+	  {
+        document.getElementById("error").style.visibility="hidden";
+      }
+ }
+
+function tooltip2(event)	// gestione tooltip
+	{
+      document.getElementById("error2").style.visibility="visible";
+      if(event.type=="mouseover")
+		{
+           document.getElementById("error2").style.visibility="visible";
+        }
+       else if(event.type=="mouseout")
+		{
+          document.getElementById("error2").style.visibility="hidden";
+        }
+     }
+ </script>
+
+<script> 
+function PwChecker()		// controllo password
+ {
+  var pw=document.getElementById("psw").value;
+  console.log(pw);
+  var pattern=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})","g");
+  var isStrong=pattern.test(pw);
+  if(isStrong){
+  console.log("strong");
+  $("#login").submit();
+  }
+  else 
+   alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale tra questi:'!' '@' '#' '\$' '%' '\^' '&' '\*' '\_'");
+ }
+</script>
+
 <?php
 }
+
+/***************************** StampaIntestazione *****************************/
+
 function stampaIntestazione()
 {
 ?>
 <head>
     <link rel="shortcut icon" type="image/x-icon" href="/OSM/Anagrafe/img/favicon.ico" />
-    <title>Ntchangue - Anagrafe Web</title>
+    <title>N'Tchangue - Anagrafe Web</title>
     <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -153,6 +184,7 @@ function stampaIntestazione()
 <?php
 }
 
+/***************************** login *****************************/
 
 function login()
 {
@@ -173,7 +205,7 @@ function login()
 function setup() // invocata all'inizio di tutte le pagine, tranne login e logout
 {
     // echo "entro in setup()";
-    session_start(); // avvia la sessione (usa i cookie per salvare lo stato:in questo caso, per ricordarsi se l'utente � loggato)
+    session_start(); // avvia la sessione (usa i cookie per salvare lo stato:in questo caso, per ricordarsi se l'utente è loggato)
     /*
 
   if (isset($_SESSION['tempo_max']))
@@ -194,38 +226,138 @@ function setup() // invocata all'inizio di tutte le pagine, tranne login e logou
         }
     }
 }
+
+
 /*****************Paginazione*********************/
-function unsetPag($file){ 
+function unsetPag($file){		// reset variabili di sessione
     switch($file){
         case "gest_morance.php":
             unset($_SESSION['pag_c']);
+		    unset($_SESSION['ord_c']);
+			unset($_SESSION['campo_c']);
+
             unset($_SESSION['pag_p']);
+			unset($_SESSION['ord_p']); 
+			unset($_SESSION['campo_p']);
             break;
         case "gest_case.php":
             unset($_SESSION['pag_m']);
+		    unset($_SESSION['ord_m']);
+		    unset($_SESSION['campo_m']);
+
             unset($_SESSION['pag_p']);
+		    unset($_SESSION['ord_p']);
+			unset($_SESSION['campo_p']);
             break;
         case "gest_persone.php":
             unset($_SESSION['pag_m']);
+		    unset($_SESSION['ord_m']);
+			unset($_SESSION['campo_m']);
+
             unset($_SESSION['pag_c']);
+		    unset($_SESSION['ord_c']);
+			unset($_SESSION['campo_c']);
             break;
     }
 }
 
-
-/***************************** SLERT *****************************/
-
-
-function alert($msg) {
-    echo "<script type='text/javascript'>alert('$msg');</script>";
+/*
+*** Paginazione(): ritorna la pagina che deve essere visualizzata
+*** cur_page = pagina corrente
+*** pagina =
+*** subpag =
+*** return pag: pagina da visualizzare
+*/
+function Paginazione($cur_page, $pagina, $subpag=null){
+ //  echo "cur_page = ". $cur_page;
+    if(is_null($subpag))
+		$subpag=$pagina;//Se il parametro opzionale viene omesso,viene impostato al valore di $pagina
+    if($cur_page !=0)
+    {			//Se non è la prima volta che accedo ad una pagina
+        if(isset($_SESSION[$pagina][$subpag]))
+        {//Se la sessione è già impostata,l'attribuisco a $pag
+            $pag=$cur_page;
+            $_SESSION[$pagina][$subpag]=$pag;   
+            return $pag;
+        }
+        else
+        {//Se la sessione non è impostata
+            $pag=$cur_page;
+            $_SESSION[$pagina][$subpag]=$pag; 
+            return $pag;
+            //     echo $pag;
+        }     
+    }
+    else
+    {//Se il get non è impostato(come ad esempio quando apro per la prima volta gestione case)
+        if (isset($_SESSION[$pagina][$subpag]))
+        {//Se la sessione è già impostata
+            $pag=$_SESSION[$pagina][$subpag];    
+            return $pag;
+        }else
+        {//se accedo per la primissima volta alla pagina 
+            $pag=1;
+            $_SESSION[$pagina][$subpag]=$pag;
+            return $pag;
+        }
+    }    
 }
+
+/************  IsLogged: controllo che l'utente loggato possa accedere alle funzionalità **********/
+
+// Se il parametro viene passato,significa che è un utente "Utente" o "Amministratore".
+// Se non viene passato viene impostato di default a NULL 
+// $perm_rich = permesso utente richiesto per accedere alla funzionalità
+function isLogged($perm_rich=null)
+ {
+//	 echo "loggato=". $_SESSION['loggato'];
+//	 echo "permesso =".$_SESSION['tipo'];
+//   echo "permeso richiesto=". $perm_rich;
+
+  if(!isset($_SESSION['loggato']) || !$_SESSION['loggato'])
+      header("Location: /OSM/Anagrafe/index.php");
+         
+  if($perm_rich == "amministratore")
+	{
+     if($_SESSION['tipo']== "gestore" || $_SESSION['tipo']== "utente")
+        header("Location: /OSM/Anagrafe/index.php");
+    }
+  else
+  if($perm_rich == "gestore")
+   {
+     if($_SESSION['tipo']=="utente")
+        header("Location: /OSM/Anagrafe/index.php");
+   }
+
+ }
+
+
+/***************** Alert *********************/
+
+function alert($msg)
+ {
+    echo "<script type='text/javascript'>alert('$msg');</script>";
+ }
 
 function EchoMessage($msg, $redirect)
-{
+ {
     echo '<script type="text/javascript">
- alert("' . $msg . '")
- window.location.href = "'.$redirect.'"
- </script>';
-}
+    alert("' . $msg . '")
+    window.location.href = "'.$redirect.'"
+    </script>';
+ }
 
+
+/***************** my_random_bytes (usato per il Salt) *********************/
+
+ function my_random_bytes($length)
+   {
+        $characters = '0123456789';
+        $characters_length = strlen($characters);
+        $output = '';
+        for ($i = 0; $i < $length; $i++)
+            $output .= $characters[rand(0, $characters_length - 1)];
+
+        return $output;
+   }
 ?>

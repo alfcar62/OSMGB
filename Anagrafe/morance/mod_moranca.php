@@ -9,6 +9,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $pag=$_SESSION['pag_m']['pag_m'];
 //unset($_SESSION['pag_m']);
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
@@ -23,10 +24,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
 $id_moranca=$_POST["id_moranca"];
 
-echo "<br>".$jsonObj->{$lang."Morance"}[19]." ";//Modifica Morança
-
 //$conn->query("START TRANSACTION"); //inizio transazione
-
 
 echo "<form action='modifica_moranca.php' method='post'>";
 
@@ -44,16 +42,13 @@ $row = $result->fetch_array();
 
 $moranca = utf8_encode ($row['nome_moranca']) ;
 $cod_zona = $row['cod_zona'];
+$zona = $row['zona'];
+
 $id_osm = $row['id_osm'];
 
-echo "<br>".$jsonObj->{$lang."Morance"}[20].":". $row['id'];//Id morança
-echo "<br>".$jsonObj->{$lang."Morance"}[5].":". $moranca;//Nome morança
-echo "<br>".$jsonObj->{$lang."Morance"}[6].":". $cod_zona;//zona
-echo "<br> id OSM:". $id_osm;
+echo "<h3>Modifica moran&ccedil;a: $moranca (id =$row[id]), zona: $zona<h3>";//Inserimento moranca
 
-echo  "<br><br><br>";
-echo $jsonObj->{$lang."Morance"}[18] .": <input type='text' name='nome_moranca' value='$moranca' ><br>";//Nuovo nome morança
-echo "id OSM: <input type='text' name='id_osm' value='$id_osm' ><br>";
+echo "Nome moran&ccedil;a: <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
 
 echo "<input type='hidden'  name='id_moranca'  value=$id_moranca>";
 
@@ -72,7 +67,12 @@ for($i=0;$i<$nz;$i++)
 }
 echo "</select>";
 
+?>
+sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> >
+<span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+ <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moran&ccedil;a,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
+<?php
 echo "<button type='submit' class = 'button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
 echo "</form>";
     echo "<h2>MODIFICA LA FOTO DELLA MORANCA :</h2>";
@@ -132,7 +132,7 @@ echo '  <form action="mod_moranca.php" method="post" enctype="multipart/form-dat
 echo "Seleziona una foto da caricare:";
 echo   " <input type='hidden' name='id_moranca' value='$id_moranca' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
 echo '<input type="file" name="fileToUpload" id="fileToUpload" required>
-<input type="submit" value="Carica foto" name="caricaFoto">
+<input type="submit"  value="Carica foto" name="caricaFoto">
 </form>   ';
 $immagine=glob('immagini/'.$id_moranca.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine
 if($immagine != null){

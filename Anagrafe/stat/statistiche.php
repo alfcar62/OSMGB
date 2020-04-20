@@ -6,6 +6,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+isLogged();
 ?>
 
 <html>
@@ -318,7 +319,7 @@ if(isset($numero_persone_annata))
 echo "'>  persone";
 echo"
 <input type='submit' name='invia'>";
-echo "<br><h2>"."STATISTICHE PER MORTI<h2>";
+echo "<br><h2>"."STATISTICHE DECESSI<h2>";
 ?>
 </div>
 <div position="absolute"  align="center">
@@ -373,7 +374,7 @@ while($anno2<=$anno_corrente)
 }
 
 echo"</select>";
-echo " sono morte:";
+echo " sono decedute:";
 echo"<input type='text' readonly value='";
 if(isset($numero_persone_annata2))
 {echo $numero_persone_annata2;}
@@ -386,7 +387,7 @@ visualizza le persone
 echo "</form>";
 echo "</br><h3  style=' text-align: center;'>numero abitanti per casa : ".(ceil($persone_casa*10))/10;
 echo "</br></br>Età media : ".(ceil($etamedia*10))/10;
-echo "</br></br>Persone Morte Dall'inizio : ".$morti;
+echo "</br></br>Persone Decedute Dall'inizio : ".$morti;
 echo "</h3>";
 ?>
 

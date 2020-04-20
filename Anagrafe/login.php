@@ -21,56 +21,58 @@ if (isset($_POST['user']) && isset($_POST['psw']))
     $psw = stripslashes($psw);						// protezione da SQL injection	
     $psw = mysqli_real_escape_string($conn,$psw);			// protezione da SQL injection	
 
-    $codificata=hash('sha256',$psw);				// codifica sha256
-    // manca salt
+   
+  
 
-    $ip = $_SERVER["REMOTE_ADDR"];
+   
+    
+    //tempi di delete dei record:
+    $login_effettuato="1 MONTH";//modificare questa variabile per cambiare il tempo di delete dei record con login effettuato
+    $login_fallito="1 DAY";//modificare questa variabile per cambiare il tempo di delete dei record con login fallito
+        
+    $query="DELETE FROM login_logs WHERE login_logs.DATA < NOW() - INTERVAL {$login_effettuato} AND USER is not null";
+    $result=$conn->query($query);
 
-
-
+    $query="DELETE FROM login_logs WHERE login_logs.DATA < NOW() - INTERVAL {$login_fallito} AND USER is null";
+    $result=$conn->query($query);
+    
+    $ip = $_SERVER["REMOTE_ADDR"];//ip dell'utente 
     $timestamp=time();
-    if($ip=='::1')
-
-        $query="select count(*) from login_logs where ip='$ip'";
+    $data_ora = date("Y-m-d H:i:s");
+    $accesso=true;//variabile temporanea
+    if($ip=='::1')//::1 è in localhost
+        $ip='127.0.0.1';
+    
+    $query="select count(*) as tentativi from login_logs where ip='$ip'";
 
     $result=$conn->query($query);
     if($result)
         $row= $result->fetch_array();
 
-    if($row[0]>0) 
+    if($row['tentativi']>2) //se ci sono almeno 2 tentativi dallo stesso ip
     {
-        $c=0;//variabile temporanea
-        $query="select id,ultimo_tentativo from login_logs where ip='$ip'";
+
+        $query="select id,data from login_logs where ip='$ip' order by data desc limit 2,1";//ordina in modo desc e prende la terza riga
         $result=$conn->query($query);
-        while ($row = $result->fetch_array()) //per ogni volta che è stato effettuato un tentativo dallo stesso ip
-        {
-            if(($timestamp-$row["ultimo_tentativo"])>20)//se sono passati 20 secondi elimina il tentativo dai log
+        $row = $result->fetch_array();
+        $cont=$result->num_rows;
+        
+            $primo_tentativo=strtotime($row["data"]);
+
+
+            if(($timestamp-$primo_tentativo)<30)//se sono passati meno di 30s dall'ultimo record
             {
-                $query2="delete from login_logs where id='$row[id]'";
-                $result2=$conn->query($query2); 
-            }
-            else
-            {//altrimenti incrementa la variabile temporanea
-                $c++;
-                if(isset($ultimo_tentativo))
-                {
-                    if($row["ultimo_tentativo"]<$ultimo_tentativo)//assegno a $ultimo_tentativo il valore più vecchio
-                        $ultimo_tentativo=$row["ultimo_tentativo"];
-                }
-                else
-                {
-                    if($c>3)
-                        $ultimo_tentativo=$row["ultimo_tentativo"];//impostando la variabile $ultimo_tentativo indico che si è raggiunto il limite massimo di tentativi nel tempo prestabilito
-                }
-            }
-        } //while    
-    }  // row[0]>0
-    if($result)
-        $fin= $result->fetch_array();
-    if(!isset($ultimo_tentativo))//se non si è raggiunto il limite di tentativi
+
+                $accesso=false;  
+            } 
+        
+
+
+    }  
+
+    if($accesso==true)//se non si è raggiunto il limite di tentativi
     {
-        $query="insert into login_logs(ip,ultimo_tentativo) values ('$ip','$timestamp')";
-        $result=$conn->query($query);
+
         $stmt = $conn->prepare("SELECT * from utenti where user =?");
         //bind
         $stmt->bind_param("s",$utente);
@@ -99,16 +101,20 @@ if (isset($_POST['user']) && isset($_POST['psw']))
         }
         if($fin)//se true l'accesso è andato a buon fine
         {
+            $query_logs="insert into login_logs(ip,data,user) values ('$ip','$data_ora','$utente')";
+            $result=$conn->query($query_logs);
 
             $_SESSION['login_time']=$timestamp;
             $_SESSION['loggato'] = true;
             $_SESSION['tipo']=$fin["ID_ACCESSO"];
             $_SESSION['nome']=$fin["USER"];
             $_SESSION['token']=$token;
-            
+
             header("Location: index.php?welcome=true");   
         }
-        else{
+        else{//se i dati sono incorretti
+            $query_logs="insert into login_logs(ip,data) values ('$ip','$data_ora')";
+            $result=$conn->query($query_logs);
 
             echo "Username e/o password sbagliati";
         }
@@ -117,7 +123,7 @@ if (isset($_POST['user']) && isset($_POST['psw']))
     {
         echo "<div id='troppiTentativi'>";
         echo "<p  style='color:red;'>ERRORE,TROPPI TENTATIVI DI ACCESSO DALLA STESSA POSIZIONE IN POCO TEMPO,SI PREGA DI ASPETTARE <span id='timer'>";
-        echo 20-($timestamp-$ultimo_tentativo);
+        echo 30-($timestamp-$primo_tentativo);
         echo "</span> SECONDI</div>";
     }
 }//isset POST

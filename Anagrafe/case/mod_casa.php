@@ -18,6 +18,7 @@ $util2="../db/db_conn.php";
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $pag=$_SESSION['pag_c']['pag_c'];
 ?>
 <?php stampaIntestazione(); ?>
@@ -27,7 +28,7 @@ $pag=$_SESSION['pag_c']['pag_c'];
     <?php
     $id_casa=$_POST["id_casa"];
 
-    /*
+/*
 ***  seleziona i dati della casa da visualizzare  
 *** 13/3/2020: A. Carlone. Modificata la query, per visualizzare anche case senza capo famiglia
 */
@@ -52,22 +53,23 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $nome_casa=$row["nome_casa"];
     $data_inizio=$row["data_inizio"];
     $data_fine=$row["data_fine"];
-    $id_moranca=$row["id_moranca"];          
-    $nome_moranca=$row["nome_moranca"];
+    $id_moranca=$row["id_moranca"]; 
+	
+    $nome_moranca=utf8_encode ($row['nome_moranca']);
     $id_osm=$row["id_osm"];
     if ($id_osm == '')
         $id_osm = 0;
     $capo_famiglia=$row["capo_famiglia"];
     $id_capo_famiglia=$row["id_capo_famiglia"];
 
-    echo "<h2>MODIFICA I DATI DELLA CASA con ID $id_casa e nome $nome_casa :</h2>";
+    echo "<h3>Modifica casa: $nome_casa  (id= $id_casa)</h3>";
     echo "<form action='modifica_casa.php' method='POST'>";
     echo   " <input type='hidden' name='id_casa' value='$id_casa' >";
     echo   " <input type='hidden' name='data_inizio' value='$data_inizio' >";
     echo   " <input type='hidden' name='data_fine' value='$data_fine' >";
-    echo "nome casa:&nbsp;&nbsp;<input type='text' name='nome_casa' value='$nome_casa'><br>";         
+    echo "nome casa:&nbsp;&nbsp;<input type='text' name='nome_casa' value='$nome_casa' required><br>";         
 
-    /*
+/*
 *** selezione moranca
 */
     echo 'moranca:&nbsp;';
@@ -79,7 +81,7 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $result = $conn->query($query);
 
     $nr=$result->num_rows;
-    echo '<select name="moranca" >';
+    echo '<select name="moranca" required >';
     echo "<option value='$id_moranca'>$nome_moranca</option><br>";
     for($i=0;$i<$nr;$i++)
     {
@@ -91,10 +93,12 @@ $pag=$_SESSION['pag_c']['pag_c'];
         } 
     }
     echo "</select><br>";
+ ?>
+sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> ><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+ <span id="error" style="visibility:hidden">Identificativo della casa sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la casa,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
-
-    echo "id osm :&nbsp;&nbsp;<input type='text' name='id_osm' value=$id_osm>";
-    echo "<input type='submit' value='Modifica'><br>";
+<?php
+    echo "<input type='submit' class = 'button' value='Modifica'><br>";
     echo "</form>";
 
 

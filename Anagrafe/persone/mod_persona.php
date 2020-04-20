@@ -10,6 +10,7 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $pag=$_SESSION['pag_p']['pag_p'];
 //unset($_SESSION['pag_p']);
 ?>
@@ -17,10 +18,10 @@ $pag=$_SESSION['pag_p']['pag_p'];
 <body>
 <?php stampaNavbar(); ?>
 <?php
-echo  " <br>MODIFICA PERSONA <br>"; 
 $id_pers = $_POST['id_pers'];
-echo "id pers = ". $id_pers;
+//echo "id pers = ". $id_pers;
 $_SESSION["id_persona_modifica"]= $_POST['id_pers'];
+
 
 //$result = $conn->query("START TRANSACTION");
 $conn->begin_transaction();
@@ -49,10 +50,13 @@ if($nr==1)
  $row = $result->fetch_array();
  $id_casa_mod = $row['id_casa'];
  $cod_ruolo_mod = $row['cod_ruolo'];
+ 
+ $nominativo = utf8_encode ($row['nominativo']);
+ echo "<h3>Modifica persona: $nominativo  (id= $id_pers)</h3>";
 
  echo "<form action='modifica_persona.php' method='post'>";
- echo  " Nominativo : <input type='text' name='nominativo' value ='". $row['nominativo']."'<br><br>";
- echo  " Data nascita : <input type='date' name='data_nascita' value = '".$row['data_nascita']."'><br>";
+ echo  " Nominativo : <input type='text' name='nominativo' value ='". $nominativo."' required><br><br>";
+ echo  " Data nascita : <input type='date' name='data_nascita' value = '".$row['data_nascita']."' required><br>";
  echo  " Data morte : <input type='date' name='data_morte' value = '".$row['data_morte']."'><br>";
  
  $query = "SELECT id, nome FROM casa c";
@@ -61,7 +65,7 @@ if($nr==1)
  $result = $conn->query($query);
  $nr=$result->num_rows;
  echo  "Residente nella casa:";
- echo "<select name='id_casa_modifica'>";
+ echo "<select name='id_casa_modifica' required>";
  for($i=0;$i<$nr;$i++)
    {
      $row = $result->fetch_array();
@@ -77,7 +81,7 @@ if($nr==1)
  $nr=$result->num_rows;
 
  echo   "Ruolo nella famiglia: ";
- echo "<select name='id_ruolo_modifica'>";
+ echo "<select name='id_ruolo_modifica' required>";
 
  for($i=0;$i<$nr;$i++)
    {
@@ -89,7 +93,7 @@ if($nr==1)
    }
  echo "</select><br>";
 
- echo "<button type='submit' >invia</button>";
+ echo "<button type='submit' class='button'>invia</button>";
  echo "</form>";
  }
 else 

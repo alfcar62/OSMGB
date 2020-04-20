@@ -8,6 +8,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+isLogged("amministratore");
 ?>
 <html>
     <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -69,7 +70,7 @@ setup();
                 if($pswNew1 ==$pswNew2) // controllo se sono diverse le psw
                 {
                     if (preg_match('#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#',$_POST['pswNew1'])==1){        
-                        $bytes = random_bytes(10);
+                        $bytes = my_random_bytes(10);
                         $saleNuovo=(bin2hex($bytes));
                         $codificata=hash('sha256',$_POST['pswNew1'].$saleNuovo);   
                         // prepare 

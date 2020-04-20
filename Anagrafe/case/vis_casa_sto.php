@@ -9,6 +9,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+isLogged("gestore");
 ?>
 <html>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -86,15 +87,17 @@ echo "<h2>Situazione attuale della casa</h2>";
    else 
 	   $capo_famiglia = $row['capo_famiglia'];
 
-$query =  " SELECT ";
+$query =  " SELECT DISTINCT";
 $query .= " c.id as id_casa, c.nome as nome_casa, c.id_moranca, c.id_osm, c.data_inizio_val,";
-$query .= " m.nome as nome_moranca";
+$query .= " m.nome as nome_moranca, p.nominativo as capo_famiglia";
 $query .= " FROM ";
 $query .="  casa c, pers_casa pc, morance m, persone p ";   
 $query .= " WHERE c.id = $id_casa";
 $query .= " AND m.id = c.id_moranca";
 $query .= " AND c.id = pc.id_casa";
 $query .= " AND p.id = pc.id_pers";
+$query .= " AND pc.cod_ruolo_pers_fam = 'CF'";
+
 
 $result = $conn->query($query);
 //echo $query;
@@ -119,7 +122,7 @@ if ($result->num_rows ==1)
 	echo "<td>$row[nome_casa]</td>";
 	echo "<td>$row[id_moranca]</td>";
     echo "<td>".utf8_encode ($row['nome_moranca'])."</td>";
-	echo "<td>".utf8_encode ($capo_famiglia)."</td>";
+	echo "<td>".utf8_encode ($row['capo_famiglia'])."</td>";
     echo "<td>$row[id_osm]</td>";
     echo "</tr>";
     echo "</table>";
@@ -190,45 +193,17 @@ if ($result->num_rows !=0)
 		 echo "</tr></table>";
 	}
 	else
-		echo " Nessuna operazione è stata effettuata sulla casa.";
+		echo " Non vi sono variazioni sulla casa.";
   echo "<br> Numero operazioni: $all_rows<br>";
 
-// Se le pagine totali sono più di 1...
-// stampo i link per andare avanti e indietro tra le diverse pagine!
-  if ($all_pages > 1){
-  if ($pag > 1){
-    echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-    echo "Pagina Indietro</a>&nbsp;<br>";
-  }
-  // faccio un ciclo di tutte le pagine
-  $cont=0;
-  for ($p=1; $p<=$all_pages; $p++) 
-   {
-	 if ($cont>=50)
-		 {
-		  echo "<br>";
-		  $cont=0;
-         }
-	  $cont++;
-    // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-    // all'interno della sequenza delle pagine
-    if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-    // per tutte le altre pagine stampo il link
-    else
-	 { 
-      echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-      echo $p . "</a>&nbsp;";
-     } 
-  }
-  if ($all_pages > $pag)
-   {
-    echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-    echo "Pagina Avanti<br></a>";
-   } 
-}
+// visualizza pagine
+   $vis_pag = $config_path .'/../vis_pag.php';
+   require $vis_pag;
 
   $result->free();
   $conn->close();	
+  echo "<br><a href='gest_case.php'>Torna a gestione case</a>" 
+
  ?>  
  
  </body>

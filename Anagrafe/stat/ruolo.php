@@ -3,6 +3,7 @@ $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
 setup();
+isLogged();
 ?>
 <html>
 <?php //stampaIntestazione(); ?>
@@ -50,7 +51,7 @@ $x_pag = 10;
 // Generalmente si utilizza una querystring
 $pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
 
-// Controllo se $pag � valorizzato e se � numerico
+// Controllo se $pag ? valorizzato e se ? numerico
 // ...in caso contrario gli assegno valore 1
 if (!$pag || !is_numeric($pag)) $pag = 1; 
 
@@ -131,7 +132,7 @@ if ($nr != 0)
 
 
 
-// Se le pagine totali sono pi� di 1...
+// Se le pagine totali sono pi? di 1...
 // stampo i link per andare avanti e indietro tra le diverse pagine!
   
   echo "<br> Numero abitanti: $all_rows<br>Numero abitanti maschili:$nrMaschi<br>";

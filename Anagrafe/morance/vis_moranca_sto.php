@@ -8,6 +8,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
+isLogged("gestore");
 ?>
 <html>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -75,18 +76,17 @@ $result = $conn->query($query);
 //echo $query;
 if ($result->num_rows ==1)
  {
- while ($row = $result->fetch_array())
- {
-    echo "<table border>";
+  while ($row = $result->fetch_array())
+  { 
+	echo "<table border>";
     echo "<tr>";
     echo "<th>id moranca</th>";
 	echo "<th>id moranca-zona</th>";
 	echo "<th>nome</th>";
 	echo "<th>zona</th>";
-    echo "<th>id osm</th>";
+	echo "<th>sulla mappa</th>";
 	echo "<th>data_inizio_val</th>";
 	echo "<th>data_fine_val</th>";
-
     echo "</tr>";
 
     echo "<tr>";
@@ -94,11 +94,21 @@ if ($result->num_rows ==1)
 	echo "<td>$row[id_mor_zona]</td>";
 	echo "<td>".utf8_encode ($row['nome_moranca'])."</td>";
     echo "<td>$row[zona]</td>";
+	// va sulla mappa OSM con id_OSM
+    $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
+    if ($row['id_osm'] != null && $row['id_osm'] != "0")
+      { 
+        echo "<td>idOSM=$row[id_osm]". " <a href=$osm_link target=new> <i class='fa fa-map-marker' title ='vai sulla mappa'></i></a></td>"; 	   
+      }
+     else
+      { 
+        echo "<td>&nbsp;</td>";
+      }  
 	echo "<td>$row[data_inizio_val]</td>";
 	echo "<td>$row[data_fine_val]</td>";
     echo "</tr>";
-    echo "</table>";
    }
+  echo "</table>";
  }
  echo "<p>";
 
@@ -107,7 +117,7 @@ if ($result->num_rows ==1)
 
 echo "<h2>Storia della moranca</h2>";
       
-$query =  "SELECT tipo_op, id_moranca, id_mor_zona,";
+$query =  "SELECT tipo_op, id_moranca, id_mor_zona,id_osm,";
 $query .= " nome as nome_moranca, cod_zona, data_inizio_val, data_fine_val ";
 $query .= " FROM morance_sto ";
 $query .= " WHERE  id_moranca = $id_moranca ";
@@ -116,16 +126,18 @@ $query .= " LIMIT $first, $x_pag";
 
 //echo $query;
 $result = $conn->query($query);
-   
+
+echo "<table border>";
+  
 if ($result->num_rows !=0)
 	{
-   		echo "<table border>";
 		echo "<tr>";
 		echo "<th>tipo modifica</th>";
 	    echo "<th>id moranca</th>";
 	    echo "<th>id moranca-zona</th>";
 	    echo "<th>nome moranca</th>";
 		echo "<th>zona</th>";
+		echo "<th>sulla mappa</th>";
         echo "<th>data inizio_val</th>";
 		echo "<th>data fine val</th>";
 		echo "</tr>";
@@ -138,51 +150,37 @@ if ($result->num_rows !=0)
 			echo "<td>". $row['id_mor_zona']."</td>";
 	        echo "<td>".utf8_encode ($row['nome_moranca'])."</td>";
 			echo "<td>". $row['cod_zona']."</td>";
+			
+			 // va sulla mappa OSM con id_OSM
+          $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
+          if ($row['id_osm'] != null && $row['id_osm'] != "0")
+            { 
+              echo "<td>idOSM=$row[id_osm]". " <a href=$osm_link target=new> <i class='fa fa-map-marker' title ='vai sulla mappa'></i></a></td>"; 	   
+            }
+           else
+            { 
+              echo "<td>&nbsp;</td>";
+            }  
 		    echo "<td>". $row['data_inizio_val']."</td>";
             echo "<td>". $row['data_fine_val']."</td>";
+			echo "</tr>";
 		 }
-		 echo "</tr></table>";
+	   echo "</table>";
 	}
 	else
-		echo " Nessuna operazione è stata effettuata sulla moranca.";
+		echo "Non vi sono state variazioni per la moranca.";
   echo "<br> Numero operazioni: $all_rows<br>";
 
-// Se le pagine totali sono più di 1...
-// stampo i link per andare avanti e indietro tra le diverse pagine!
-  if ($all_pages > 1){
-  if ($pag > 1){
-    echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-    echo "Pagina Indietro</a>&nbsp;<br>";
-  }
-  // faccio un ciclo di tutte le pagine
-  $cont=0;
-  for ($p=1; $p<=$all_pages; $p++) 
-   {
-	 if ($cont>=50)
-		 {
-		  echo "<br>";
-		  $cont=0;
-         }
-	  $cont++;
-    // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-    // all'interno della sequenza delle pagine
-    if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-    // per tutte le altre pagine stampo il link
-    else
-	 { 
-      echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-      echo $p . "</a>&nbsp;";
-     } 
-  }
-  if ($all_pages > $pag)
-   {
-    echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-    echo "Pagina Avanti<br></a>";
-   } 
-}
+   // visualizza pagine
+   $vis_pag = $config_path .'/../vis_pag.php';
+   require $vis_pag;
+
 
   $result->free();
-  $conn->close();	
+  $conn->close();
+
+  echo "<br><a href='gest_morance.php'>Torna a gestione moran&ccedil;e</a>" 
+
  ?>  
  
  </body>

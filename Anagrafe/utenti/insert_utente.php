@@ -1,7 +1,6 @@
 <html>
-
-    <?php
-    /*
+<?php
+/*
 *** ins_utente.php
 *** 21/3/2020: Gobbi Dennis: Aggiunta funzione PwChecker() e tooltip()
 *** 19/3/2020: A. Carlone. Corretta indentazione
@@ -14,13 +13,12 @@
     require_once $util2;
     require_once $util1;
     setup();
+	isLogged("amministratore");
     stampaIntestazione(); ?>
 
     <body>
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-        
-          
-        
+
         <header><?php stampaNavbar(); ?></header>
         <?php
         ?>
@@ -38,10 +36,13 @@
                 <input type="password" name="psw2" id="psw1" required><br>
                 Tipo di utente:
                 <select name="accesso">
-                    <option value="admin">admin</option>
-                    <option value="gestore">gestore</option>
-                    <option value="utente">utente</option>
-                </select>
+                    <option value="admin">Amministratore</option>
+                    <option value="gestore">Gestore</option>
+                    <option value="utente">Utente generico</option>
+                </select><span id="info2"><img onmouseover="tooltip2(event)" onmouseout="tooltip2(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+                <span id="error2" style="visibility:hidden"><br>Tipologie di accesso:<br>Amministratore: accesso completo <br>
+                    Gestore: non può registrare nuovi utenti <br>
+                    Utente generico: può visualizzare solo le statistiche</span><br>
                 <input type="button" class="button" name="login" value="Aggiungi" id="log" onclick="PwChecker()">
                 <?php
                 if (isset($_POST['user']) && isset($_POST['psw1'])) 
@@ -55,17 +56,17 @@
                     $psw2=mysqli_real_escape_string($conn,$psw2); 
                     $id_accesso=$_POST["accesso"];
                     if($psw1 !=$psw2) // controllo se sono diverse le psw
-                       alert("le psw non corrispondono");
+                        alert("le psw non corrispondono");
                     else
                     {
                         if(strlen ( $psw1 )<8){ //controllo se i caratteri sono almeno 8
                             alert("errore,la psw è troppo corta");
                         }
                         else
-                         {        
+                        {        
 
                             $utente=$_POST['user'];
-                            $bytes = random_bytes(10);
+                            $bytes = my_random_bytes(10);
                             $sale=(bin2hex($bytes));
                             $codificata=hash('sha256',$psw1.$sale);   
                             // prepare 
@@ -80,42 +81,12 @@
                             else{
                                 alert("Errore,nome utente già in uso");
                             } 
+                        }
                     }
-                }
                 }
                 ?>
             </form>
-            
-            
-            <script>
-                
-                function tooltip(event){
-                    document.getElementById("error").style.visibility="visible";
-                    if(event.type=="mouseover"){
-                    document.getElementById("error").style.visibility="visible";
-                    }
-                    else if(event.type=="mouseout"){
-                    document.getElementById("error").style.visibility="hidden";
-                    }
-                }
-            </script>
-            <script>
-                
-                function PwChecker(){
-                    var pw=document.getElementById("psw").value;
-                    console.log(pw);
-                    var pattern=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})","g");
-                    var isStrong=pattern.test(pw);
-                    if(isStrong){
-                        console.log("strong");
-                        $("#login").submit();
-                    }else alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale!");
-                }
-             </script>
-        
-        
-          
 
-                </body>
-                </div>
-                </html>
+            </body>
+        </div>
+</html>

@@ -1,7 +1,7 @@
 <?php
 /* Autore:Ferraiuolo
 *** Descrizione:Gestione delle case
-*** 13/03/2020  Carlone: modificata la query (per visualizzare anche se non c'ï¿½ il capo famiglia)
+*** 13/03/2020  Carlone: modificata la query (per visualizzare anche se non c'è il capo famiglia)
 *** 11/03/2020 Ferraiuolo  Modifica:aggiunta visualizzazione della casa con relativo zoom in caso si passi 
 *** con il cursore sopra
 ***29/03/2020: Ferraiuolo: aggiunta del div modal,script js per creare lo zoom quando si clicca sulla foto della casa
@@ -9,12 +9,13 @@
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
+
 setup();
 unsetPag(basename(__FILE__)); 
-
+isLogged("gestore");
 ?>
 <html>
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style1.css">
     <link rel="stylesheet" type="text/css" href="gest_case_temp_css.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -27,7 +28,7 @@ unsetPag(basename(__FILE__));
                 /* Get input value on change */
                 var inputVal = $(this).val();
                 var resultDropdown = $(this).siblings(".result");
-                if(inputVal.length){
+                if(inputVal.length>2){
                     $.get("cerca_casa.php", {term: inputVal}).done(function(data){
                         // Display the returned data in browser
                         resultDropdown.html(data);
@@ -51,12 +52,57 @@ unsetPag(basename(__FILE__));
     ?>
     <?php stampaIntestazione(); ?>
     <body>
-        <?php stampaNavbar(); ?>
-        <div class="search-box">
-            <input type="text" autocomplete="off" placeholder="Ricerca casa..." />
+    <?php stampaNavbar(); ?>
+
+    <?php
+
+	if (isset($_POST['cod_zona']))
+     {
+       $cod_zona = $_POST['cod_zona']; 
+       $_SESSION['cod_zona'] = $cod_zona;
+     }  
+    else 
+     {
+       if( isset($_SESSION['cod_zona']) &&  ($_SESSION['cod_zona'] != 'tutte'))		
+                $cod_zona =  $_SESSION['cod_zona'];
+	   else  $cod_zona = "tutte";
+     } 
+
+     if (isset($_SESSION['ord_c']))		//ordinamento ASC/DESC
+	   $ord = $_SESSION['ord_c'];
+	 else
+       $ord = "ASC";
+	 
+	 if (isset($_SESSION['campo_c']))		// campo sul cui fare ordinamento
+	   $campo = $_SESSION['campo_c'];
+	 else
+       $campo = "nome";
+
+	 if(isset($_GET['pag']))			// pagina corrente
+	   $pag= $_GET['pag'];
+     else
+	   $pag= 0;
+	?>
+	  <h2> Villaggio di N'Tchangue: elenco case</h2>
+
+     <div class="search-box">
+		    <form action='gest_case.php' method='POST'><br>
+            <input type="text" autocomplete="off" name='nome' placeholder="nome casa..." />
+			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
             <div class="result"></div>
+			</form>
+         <?php
+		 $x_pag = 10;			// n. di record per pagina
+		 $ricerca= false;
+         if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
+		   {
+            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona,  $ord, $campo); 
+			$ricerca = true;
+//			echo "ricerca: pag=". $pag;
+		   }
+         ?>
         </div>
-        <div id="lb-back">
+		  <div id="lb-back">
             <div id="lb-img"></div>
         </div>
         <!-- Modal:div che compare quando si clicca sull'immagine -->
@@ -67,8 +113,6 @@ unsetPag(basename(__FILE__));
 
             <!-- Modal Content (The Image) -->
             <img class="modal-content" id="img01">
-
-
         </div>
         <?php 
 
@@ -85,59 +129,29 @@ unsetPag(basename(__FILE__));
             $cod_zona = "tutte";
         } 
 
-        //echo " cod_zona = ". $cod_zona;
-        //echo " SESSION(cod_zona) = ".$_SESSION['cod_zona'];
-
         // Creo una variabile dove imposto il numero di record 
         // da mostrare in ogni pagina
-        $x_pag = 10;
+        $x_pag = 10;  
+        
+        $pag=Paginazione($pag, "pag_c");	// Recupero il  numero di pagina corrent
 
-        // Recupero il numero di pagina corrente.
-        // Generalmente si utilizza una querystring
+	 //  echo "paginazionea: pag=". $pag;
 
-        //$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
-
-        if(isset($_GET['pag']))
-        {//Se non ï¿½ la prima volta che accedo ad una pagina
-            if(isset($_SESSION['pag_c']['pag_c']))
-            {//Se la sessione ï¿½ giï¿½ impostata,l'attribuisco a $pag
-                $pag=$_GET['pag'];
-                $_SESSION['pag_c']['pag_c']=$pag;        
-            }
-            else
-            {//Se la sessione non ï¿½ impostata(come ad esempio quando ï¿½ la prima volta che accedo alla pagina),imposto la sessione al valore corrente del get
-                $pag=$_GET['pag'];
-                $_SESSION['pag_c']['pag_c']=$pag; 
-                //     echo $pag;
-            }
-        }
-        else
-        {//Se il get non ï¿½ impostato(come ad esempio quando apro per la prima volta gestione case)        
-            if (isset($_SESSION['pag_c']['pag_c'])){//Se la sessione ï¿½ giï¿½ impostata
-                $pag=$_SESSION['pag_c']['pag_c'];          
-            }
-            else
-            {//se accedo per la primissima volta 
-                $pag=1;
-                $_SESSION['pag_c']['pag_c']=$pag;
-            }
-        }
-
-        // Controllo se $pag ï¿½ valorizzato e se ï¿½ numerico
+        // Controllo se $pag è valorizzato e se è numerico
         // ...in caso contrario gli assegno valore 1
         if (!$pag || !is_numeric($pag)) $pag = 1; 
 
-        // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
+        // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella 
 
-
-        $query = "SELECT count(c.id) as cont FROM casa c";
-        if (isset($cod_zona) && ($cod_zona != 'tutte'))
-        {  
-            $query .= " inner join morance m on m.id = c.id_moranca ";
-            $query .= " inner join zone z on m.cod_zona = z.cod";
-            $query .= " AND z.cod = '$cod_zona'"; 
-        }
-        //echo $query;
+        $query = "SELECT count(c.id) as cont";
+        $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
+        $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
+        $query .= " LEFT JOIN pers_casa pc ON c.id  = pc.id_casa ";
+        $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
+        $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
+        $query .= " WHERE c.DATA_FINE_VAL is null";
+		if (isset($cod_zona) && ($cod_zona !='tutte'))
+            $query .= " AND m.cod_zona = '{$cod_zona}'";
         $result = $conn->query($query);
         $row = $result->fetch_array();
         $all_rows= $row['cont'];
@@ -145,25 +159,15 @@ unsetPag(basename(__FILE__));
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
 
-
-        // Calcolo da quale record iniziare
         $first = ($pag - 1) * $x_pag;
 
-        echo "<h2> Villaggio di NTchangue</h2>";
-        echo "<br> ELENCO CASE <br>";
-   //echo "<a href='ins_casa.php'>".."</a><br><br>";//Aggiungi una nuova persona 
- ?>   <form action="ins_casa.php">
-
- <input type="submit" value="fNUOVA CASA">
-</form>
-
-
-<form action="storicototale_case.php">
-
- <input type="submit" value="STORICO TOTALE">
-</form>
-<?php
-
+        echo "<a href='ins_casa.php'>";
+        echo "Inserisci una nuova casa </a><br><br>";
+       
+		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
+        
+		echo "<a href='vis_sto_tot_case.php'>";
+        echo "Storia delle case </a><br><br>";
 
         //Select option per la scelta della zona
         echo "<form action='gest_case.php' method='POST'><br>";
@@ -181,10 +185,42 @@ unsetPag(basename(__FILE__));
                 echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
         }
         echo "</select>";
-        echo " <input type='submit' value='Conferma'>";
+        echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
 
-        /*
+		/*
+		*** caso di richiesto nuovo  ordinamento su campi id o nome
+		*/
+	   if (isset($_SESSION['ord_c']))
+				$ord = $_SESSION['ord_c'];
+	   else 
+				$ord = "ASC"; 
+	   
+	   if (isset($_SESSION['campo_c']))
+				$campo = $_SESSION['campo_c'];
+		else 
+				$campo = "nome";
+      
+	   if (isset($_POST['ord_id']) ||
+		    isset($_POST['ord_nome']))
+         {
+          if (isset($_POST['ord_id']))		// cambiato ordinamento su id
+		     $campo = 'id';
+		  else 
+			 $campo = 'nome';				// cambiato ordinamento su nome
+             
+          if ($ord == "ASC")
+				$ord = "DESC";
+			else
+				$ord = "ASC";
+		  $first = 0;			// riparto dall'inizio
+          $pag = 1;
+        }
+      
+       $_SESSION['campo_c'] = $campo;
+	   $_SESSION['ord_c'] = $ord;
+
+/*
 *** 13/3/2020: A. Carlone. Modificata la query, per visualizzare anche case senza capo famiglia
 */
         $query = "SELECT c.id, c.nome,";
@@ -199,60 +235,66 @@ unsetPag(basename(__FILE__));
         $query .= " WHERE c.DATA_FINE_VAL is null";
         if (isset($cod_zona) && ($cod_zona !='tutte'))
             $query .= " AND m.cod_zona = '{$cod_zona}'";
-        $query .= " ORDER BY c.id ASC";
+        $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
         $result = $conn->query($query);  
-        //echo $query;
+  //      echo $query;
 
         if ($result->num_rows !=0)
         {
             echo "<table border>";
             echo "<tr>";
-            echo "<th>Foto</th>";
-            echo "<th>id</th>";
-            echo "<th>nome</th>";
+            echo "<th>foto</th>";
+
+            //nome casa (con possibilità di ordinamento)
+
+            echo " <form method='post' action='gest_case.php'>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+
+			//id (con possibilità di ordinamento)
+            echo " <form method='post' action='gest_case.php'>";
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
+     
             echo "<th>zona</th>";
+			echo "<th>moran&ccedil;a</th>";
             echo "<th>id moranca</th>";
-            echo "<th>moran&ccedil;a</th>";
-            echo "<th>id capo famiglia</th>";
             echo "<th>capo famiglia</th>";
-            echo "<th>Abitanti</th>";
-            echo "<th>su OpenStreetMap</th>";
-            echo "<th>data val</th>";
+            echo "<th>id capo famiglia</th>";
+            echo "<th>n.abitanti</th>";
+            echo "<th>sulla mappa</th>";
+            echo "<th>data inizio val</th>";
             echo "<th>Modifica</th>";
             echo "<th>Elimina</th>";
-            echo "<th>Persone </th>";
+            echo "<th>Persone</th>";
             echo "<th>Storico </th>";
             echo "</tr>";
 
             while ($row = $result->fetch_array())
             {
                 echo "<tr>";
-                $immagine=glob('immagini/'.$row['id'].'.*');//uso la funzione glob al posto di if_exist perchï¿½ permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine.(il risultato ï¿½ un array)
+                $immagine=glob('immagini/'.$row['id'].'.*');
                 if($immagine != null)
-                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";//$immagine ï¿½ un array che conterrï¿½ una sola stringa (ad esempio: immagini/1.png) al posto numero 0
-
+                    echo "<td><div ><img src='$immagine[0]' class='modal_image' style='display: block; margin-left: auto; margin-right: auto;width:35px;height:30px'  ></div></td> ";
                 else{
                     echo '<td><i class="fa fa-image"></i></td>';
                 }
-                echo "<td>$row[id]</td>";
                 echo "<td>$row[nome]</td>";
+				echo "<td>$row[id]</td>";
                 echo "<td>$row[zona]</td>";
-                echo "<td>$row[id_moranca]</td>";
-                $mystr = utf8_encode ($row['nominativo']) ;
 
-                echo "<td>$mystr</td>";
-                echo "<td>$row[id_pers]</td>";
-
-                $mystr = utf8_encode ($row['nome_moranca']) ;
+			    $mystr = utf8_encode ($row['nome_moranca']) ;
                 echo "<td>$mystr</th>";
 
+                echo "<td>$row[id_moranca]</td>";
+
+                $mystr = utf8_encode ($row['nominativo']) ;
+                echo "<td>$mystr</td>";
+                echo "<td>$row[id_pers]</td>";
 
                 $query2="SELECT COUNT(pers_casa.ID_PERS) as persone from pers_casa WHERE ID_CASA='$row[id]'";
                 $result2 = $conn->query($query2);
                 $row2 = $result2->fetch_array();
                 echo "<td>$row2[persone]</th>";
-
 
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
@@ -280,55 +322,14 @@ unsetPag(basename(__FILE__));
             }
             echo "</table>";
         }
-        else{
-            if(isset($cod_zona)){
-                echo " Nessuna casa &egrave; presente nel database nella zona selezionata ";
-            }
-            else{
-                echo " Nessuna casa &egrave; presente nel database";
-            }
-        }
 
-        echo "<br> Numero case: $all_rows<br>";
+       echo "<br> Numero case risultanti: $all_rows<br>";
+       $vis_pag = $config_path .'/../vis_pag.php';
+       require $vis_pag;
 
-
-        // Se le pagine totali sono piï¿½ di 1...
-        // stampo i link per andare avanti e indietro tra le diverse pagine!
-        if ($all_pages > 1){
-            if ($pag > 1){
-                echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-                echo "Pagina Indietro</a>&nbsp;<br>";
-            }
-            // faccio un ciclo di tutte le pagine
-            $cont=0;
-            for ($p=1; $p<=$all_pages; $p++) 
-            {
-                if ($cont>=50)
-                {
-                    echo "<br>";
-                    $cont=0;
-                }
-                $cont++;
-                // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-                // all'interno della sequenza delle pagine
-                if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-                // per tutte le altre pagine stampo il link
-                else
-                { 
-                    echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-                    echo $p . "</a>&nbsp;";
-                } 
-            }
-            if ($all_pages > $pag)
-            {
-                echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-                echo "Pagina Avanti<br></a>";
-            } 
-        }
-
-        $result->free();
-        $conn->close();	
-        ?>  
+       $result->free();
+       $conn->close();	
+      ?>  
 
     </body>
     <script>
@@ -356,4 +357,69 @@ unsetPag(basename(__FILE__));
         }
     </script>
 
+<?php
+/*
+*** funzione che, a seguito di una nuova ricerca, imposta la prima pagina da visualizzare
+*** return: $pag (pagina da visualizzare)
+***       
+*/
+function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
+{ 
+// recupero l'id casa
+   $query = "SELECT id FROM casa  WHERE nome = '{$nome}'";
+   $result = $conn->query($query);
+   $row = $result->fetch_array();
+   $id = $row['id'];
+   $result->free();
+
+
+   $query = "SELECT c.id, c.nome,";
+   $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca,";
+   $query .= " p.id id_pers, p.nominativo, c.id_osm as id_osm, ";
+   $query .= " c.data_inizio_val data_val, c.data_fine_val";
+   $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
+   $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
+   $query .= " LEFT JOIN pers_casa pc ON c.id  = pc.id_casa ";
+   $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
+   $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
+   $query .= " WHERE c.DATA_FINE_VAL is null";
+   if (isset($cod_zona) && ($cod_zona !='tutte'))
+            $query .= " AND m.cod_zona = '{$cod_zona}'";  
+
+   if ($campo_ord == "nome")
+	   $campo_ord = "c.nome";
+   else
+       $campo_ord = "c.id";
+
+   if ($campo_ord == "c.nome")
+    {
+      if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= '".$nome."'";
+      else
+	      $query .= " AND $campo_ord >= '".$nome."'";
+    }
+   else
+    {
+      if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= ".$id;
+      else
+	      $query .= " AND  $campo_ord>= ".$id;
+    }
+//	  $query .= " AND c.nome >= '".$nome."'";
+   $query .= " ORDER BY $campo_ord " . $ord ;
+
+//  echo "get_first_pag:". $query;
+
+  $result = $conn->query($query);
+  $cont=$result->num_rows;
+ // echo "cont=". $cont;  
+  $result->free();
+
+  $x_pag = 10;
+  $pag= intval(abs($cont/$x_pag))+1;
+
+  return $pag;
+}
+?>
+</body>
 </html>

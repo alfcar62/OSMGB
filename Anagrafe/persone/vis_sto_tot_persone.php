@@ -1,12 +1,16 @@
 <?php
 /*
-*** presa da vis_persona_sto e riadattata per renderlo unico a tutte le persone
-arneodo
+*** vis_sto_tot_persone.php
+*** visualizzazione storico generale delle persone
+*** visualizza la variazione delle persone nel tempo (tabella persone_sto)
+*** Autore: Arneodo
+*** Data: 8/4/2020
 */
 $config_path = __DIR__;
 $util = $config_path . '/../util.php';
 require $util;
 setup();
+isLogged("gestore");
 ?>
 <html>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -50,11 +54,11 @@ require_once $util2;
 
     ?>
     <form action="" method="post">
-        CAMBIA IL TIPO DI MODIFICA
+        Selezione del tipo di variazione
         <select name="tipo_operazione">
-            <option value="modificato">MODIFICATO</option>
-            <option value="eliminato">ELIMINATO</option>
-            <option value="entrambe" selected>ENTRAMBE</option>
+            <option value="modificato">Modificate</option>
+            <option value="eliminato">Eliminate</option>
+            <option value="entrambe" selected>Tutte</option>
         </select>
         <input type="submit">
     </form>
@@ -70,7 +74,7 @@ require_once $util2;
         }
     </script>
     <?php
-    echo "<h2 style='text-align:center'>Storico Totale</h2>";
+    echo "<h2>Storia delle variazioni delle persone nel tempo</h2>";
 
 
     if (isset($_POST['valore_operazione']))
@@ -95,7 +99,7 @@ require_once $util2;
         $query .= "where tipo_op like '".$tipo_operazione."%' ";
         }
     }
-    $query .= " ORDER BY id ASC,data_fine_val DESC";
+    $query .= " ORDER BY id DESC,data_fine_val DESC";
     $query .= " LIMIT $first, $x_pag";
     $result = $conn->query($query);
     //echo $query;
@@ -133,46 +137,20 @@ require_once $util2;
         }
         echo "</table>";
     } else
-        echo " Nessuna modifica o eliminazione  è stata effettuata sulle persone.";
+        echo "Non vi sono variazioni sulle persone.";
 
-    // Se le pagine totali sono più di 1...
-    // stampo i link per andare avanti e indietro tra le diverse pagine!
-    if ($all_pages > 1) {
-        if ($pag > 1) {
-            echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-            echo "Pagina Indietro</a>&nbsp;<br>";
-        }
-        // faccio un ciclo di tutte le pagine
-        $cont = 0;
-        for ($p = 1; $p <= $all_pages; $p++) {
-            if ($cont >= 50) {
-                echo "<br>";
-                $cont = 0;
-            }
-            $cont++;
-            // per la pagina corrente non mostro nessun link ma la evidenzio in bold
-            // all'interno della sequenza delle pagine
-            if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
-            // per tutte le altre pagine stampo il link
-            else {
-                echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
-                echo $p . "</a>&nbsp;";
-            }
-        }
-        if ($all_pages > $pag) {
-            echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-            echo "Pagina Avanti<br></a>";
-        }
-    }
+  	// visualizza pagine
+    $vis_pag = $config_path .'/../vis_pag.php';
+    require $vis_pag;
 
     $result->free();
     $conn->close();
+    
+	echo "<br><a href='gest_persone.php'>Torna a gestione persone</a>" 
+
 
     ?>
-    <form action="gest_persone.php">
 
-        <input type="submit" value="GESTIONE"></input>
-    </form>
 </body>
 
 </html>
