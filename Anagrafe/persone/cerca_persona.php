@@ -33,9 +33,11 @@ if (isset($_SESSION['cod_zona']))
 
 if(isset($_REQUEST["term"]))
 {
-    // Prepare a select statement
-//    $sql = "SELECT nominativo FROM persone WHERE nominativo LIKE ?";
-	 $query = "SELECT ";
+      $term = $_REQUEST["term"];	
+      $term = stripslashes($term);				// protezione da SQL injection		
+      $term = mysqli_real_escape_string($conn,$term);	// protezione da SQL injection	
+
+	  $query = "SELECT ";
       $query .= " p.id, p.nominativo, p.sesso, p.data_nascita, p.data_morte,";
       $query .= " c.id as id_casa, c.id_moranca,c.nome nome_casa, m.nome nome_moranca,";
       $query .= " m.cod_zona,  c.id_casa_moranca, c.id_osm, ";
