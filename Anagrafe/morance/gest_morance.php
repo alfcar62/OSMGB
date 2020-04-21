@@ -85,7 +85,7 @@ $_SESSION['errore']=null;
 	 if(isset($_GET['pag']))			// pagina corrente
 	   $pag= $_GET['pag'];
      else
-	   $pag= 0;
+	   $pag= 1;
 	?>
 	    <h2>Villaggio di N'Tchangue: elenco moran&ccedil;e</h2>
 
@@ -97,10 +97,12 @@ $_SESSION['errore']=null;
             </form>
          <?php
 		 $x_pag = 10;			// n. di record per pagina
+		 $ricerca = false;
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
-            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 			
- //			echo "pag=". $pag;
+            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 	
+			$ricerca= true;
+// 			echo "dopo get_first_pag pag=". $pag;
 		   }
          ?>
         </div>
@@ -119,15 +121,15 @@ $_SESSION['errore']=null;
         <?php 
 
 
-        $pag=Paginazione($pag, "pag_m");	// Recupero il  numero di pagina corrente
-
+        if (!$ricerca)
+		{
+          $pag=Paginazione($pag, "pag_m");	// Recupero il  numero di pagina corrente
+//		  echo "dopo Paginazione pagina=". $pag;
+		}
+        
 	//	echo "pagina=". $pag;
 
-        // Controllo se $pag ? valorizzato e se ? numerico
-        // ...in caso contrario gli assegno valore 1
-        if (!$pag || !is_numeric($pag))
-            $pag = 1; //prima volta che entro
-
+       
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella 
         $query = "SELECT count(id) as cont FROM morance where DATA_FINE_VAL IS null";
         if (isset($cod_zona) && $cod_zona != 'tutte')
@@ -142,9 +144,13 @@ $_SESSION['errore']=null;
         $all_pages = ceil($all_rows / $x_pag);
 
         // Calcolo da quale record iniziare
-        $first = ($pag - 1) * $x_pag;
-
-  //      echo "first=". $first;
+		if (!$ricerca)
+          $first = ($pag-1) * $x_pag ;
+		else 
+		  $first = ($pag) * $x_pag ;
+//        echo "ricerca=".$ricerca;
+//		 echo "pag=".$pag;
+//        echo "first=".$first;
 
         echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
 
@@ -355,7 +361,7 @@ $_SESSION['errore']=null;
 */
 function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
 { 
-
+ $nome = utf8_decode($nome);
 	// recupero l'id moranca
  $query = "SELECT id id_m FROM morance  WHERE nome = '{$nome}'";
  $result = $conn->query($query);
@@ -363,7 +369,7 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
  $id = $row['id_m'];
  $result->free();
 
-    // Prepare a select statement
+ // Prepare a select statement
  $query = "SELECT ";
  $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
  $query .= " m.data_inizio_val, m.data_fine_val";
@@ -403,8 +409,16 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
  $result->free();
 
  $x_pag = 10;
- $pag= intval(abs($cont/$x_pag))+1;
-
+    
+ $resto = $cont%$x_pag;
+// echo "resto=", $resto;
+// echo "x_pag=", $x_pag;
+// echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+ if ($resto == 0)
+     $pag= intval(abs($cont/$x_pag))+1;
+ else
+     $pag= intval(abs($cont/$x_pag));
+// echo "esco da first_pag, pag=", $pag;
  return $pag;
 }
 

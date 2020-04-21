@@ -128,10 +128,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
          if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
             $pag = get_first_pag($conn, $_POST['nome'],$id_casa, $decessi, $cod_zona, $ord, $campo); 
-
 			$ricerca = true;
- //			echo "pag=". $pag;
- //         echo "first=". $first;
 		   }
          ?>
         </div>
@@ -172,11 +169,10 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $x_pag = 10;
         // Recupero il numero di pagina corrente.
 
-        $pag=Paginazione($pag, "pag_p");	// Recupero il  numero di pagina corrente
+        if (!$ricerca)
+          $pag=Paginazione($pag, "pag_p");	// Recupero il  numero di pagina corrente
 
-	//	echo "pagina=". $pag;
-
-        // Controllo se $pag ? valorizzato e se ? numerico
+       
         // ...in caso contrario gli assegno valore 1
         if (!$pag || !is_numeric($pag)) $pag = 1; 
 
@@ -216,21 +212,16 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
-        // Calcolo da quale record iniziare
 
-        $first = ($pag - 1) * $x_pag;
-
-		/* se è cambiato qualcosa riparto dalla prima pagina
-
-		if (isset($_SESSION['decessi']) &&
-		    isset($_SESSION['old_decessi']))
-			{
-		     if ($_SESSION['decessi'] != $_SESSION['old_decessi'])
-				 $first = 0;
-			}
-        */
-        $first = ($pag - 1) * $x_pag;
-
+       // Calcolo da quale record iniziare
+		if (!$ricerca)
+          $first = ($pag-1) * $x_pag ;
+		else 
+		  $first = ($pag) * $x_pag ;
+//        echo "ricerca=".$ricerca;
+//		 echo "pag=".$pag;
+//       echo "first=".$first;
+		
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
        
 		echo"<a href='export_persone.php'>Export su excel</a><br><br>";
@@ -339,7 +330,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
 
-  //     echo $query;
+   //    echo $query;
 
         $result = $conn->query($query);
 
@@ -457,8 +448,11 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, $campo_ord)
 { 
 	// recupero l'id persona
+
+   $nominativo = utf8_decode($nominativo);
    $query = "SELECT id id_p FROM persone  WHERE nominativo = '{$nominativo}'";
    $result = $conn->query($query);
+ //  echo $query;
    $row = $result->fetch_array();
    $id = $row['id_p'];
    $result->free();
@@ -504,19 +498,28 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
 	     $query .= " AND $campo_ord  <= ".$id;
        else
 	      $query .= " AND  $campo_ord >= ".$id;
-     }
+      }
     $query .= " ORDER BY $campo_ord " . $ord ;
 
-// echo $query;
+   // echo $query;
 
     $result = $conn->query($query);
     $cont=$result->num_rows;
-// echo "cont=". $cont;  
+   
+
     $result->free();
 
     $x_pag = 10;
-    $pag= intval(abs($cont/$x_pag))+1;
-
+    
+	 $resto = $cont%$x_pag;
+ //    echo "resto=", $resto;
+ //    echo "x_pag=", $x_pag;
+ //    echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+     if ($resto == 0)
+       $pag= intval(abs($cont/$x_pag))+1;
+     else
+       $pag= intval(abs($cont/$x_pag));
+//    echo "esco da first_pag, pag=", $pag;
     return $pag;
 }
 ?>

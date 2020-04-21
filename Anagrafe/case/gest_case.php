@@ -133,14 +133,12 @@ isLogged("gestore");
         // da mostrare in ogni pagina
         $x_pag = 10;  
         
-        $pag=Paginazione($pag, "pag_c");	// Recupero il  numero di pagina corrent
+		if (!$ricerca)
+          $pag=Paginazione($pag, "pag_c");	// Recupero il  numero di pagina corrent
 
 	 //  echo "paginazionea: pag=". $pag;
 
-        // Controllo se $pag è valorizzato e se è numerico
-        // ...in caso contrario gli assegno valore 1
-        if (!$pag || !is_numeric($pag)) $pag = 1; 
-
+      
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella 
 
         $query = "SELECT count(c.id) as cont";
@@ -159,7 +157,14 @@ isLogged("gestore");
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
 
-        $first = ($pag - 1) * $x_pag;
+       // Calcolo da quale record iniziare
+		if (!$ricerca)
+          $first = ($pag-1) * $x_pag ;
+		else 
+		  $first = ($pag) * $x_pag ;
+//        echo "ricerca=".$ricerca;
+//		 echo "pag=".$pag;
+//        echo "first=".$first;
 
         echo "<a href='ins_casa.php'>";
         echo "Inserisci una nuova casa </a><br><br>";
@@ -365,6 +370,7 @@ isLogged("gestore");
 */
 function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
 { 
+   $nome = utf8_decode($nome);
 // recupero l'id casa
    $query = "SELECT id FROM casa  WHERE nome = '{$nome}'";
    $result = $conn->query($query);
@@ -416,9 +422,16 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
   $result->free();
 
   $x_pag = 10;
-  $pag= intval(abs($cont/$x_pag))+1;
-
-  return $pag;
+  $resto = $cont%$x_pag;
+// echo "resto=", $resto;
+// echo "x_pag=", $x_pag;
+// echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+ if ($resto == 0)
+     $pag= intval(abs($cont/$x_pag))+1;
+ else
+     $pag= intval(abs($cont/$x_pag));
+// echo "esco da first_pag, pag=", $pag;
+ return $pag;
 }
 ?>
 </body>
