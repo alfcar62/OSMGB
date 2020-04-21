@@ -14,6 +14,7 @@ $util1="../util.php";
 require_once $util2;
 require_once $util1;
 setup();
+isLogged("gestore");
 $id_moranca=$_POST["add_moranca"];
 
 $id_osm=$_POST["id_osm"];

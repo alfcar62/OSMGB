@@ -22,7 +22,7 @@ function stampaNavbar()
 ?>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <ul>
-    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>Ntchangue<br> AnagrafeWEB</a></li>
+    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>
         <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -261,6 +261,13 @@ function unsetPag($file){		// reset variabili di sessione
     }
 }
 
+/*
+*** Paginazione(): ritorna la pagina che deve essere visualizzata
+*** cur_page = pagina corrente
+*** pagina =
+*** subpag =
+*** return pag: pagina da visualizzare
+*/
 function Paginazione($cur_page, $pagina, $subpag=null){
  //  echo "cur_page = ". $cur_page;
     if(is_null($subpag))
@@ -300,23 +307,28 @@ function Paginazione($cur_page, $pagina, $subpag=null){
 
 // Se il parametro viene passato,significa che è un utente "Utente" o "Amministratore".
 // Se non viene passato viene impostato di default a NULL 
-function isLogged($utente=null)
+// $perm_rich = permesso utente richiesto per accedere alla funzionalità
+function isLogged($perm_rich=null)
  {
 //	 echo "loggato=". $_SESSION['loggato'];
-//    echo "utente=". $utente;
+//	 echo "permesso =".$_SESSION['tipo'];
+//   echo "permeso richiesto=". $perm_rich;
+
   if(!isset($_SESSION['loggato']) || !$_SESSION['loggato'])
       header("Location: /OSM/Anagrafe/index.php");
          
-  if($utente=="amministratore")
+  if($perm_rich == "amministratore")
 	{
      if($_SESSION['tipo']== "gestore" || $_SESSION['tipo']== "utente")
         header("Location: /OSM/Anagrafe/index.php");
     }
-  if($utente=="utente")
+  else
+  if($perm_rich == "gestore")
    {
      if($_SESSION['tipo']=="utente")
         header("Location: /OSM/Anagrafe/index.php");
    }
+
  }
 
 

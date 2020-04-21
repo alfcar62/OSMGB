@@ -16,15 +16,14 @@ $util1="../util.php";
 require_once $util2;
 require_once $util1;
 setup();
-isLogged("utente");
+isLogged("gestore");
 $pag=$_SESSION['pag_p']['pag_p'];
 unset($_SESSION['pag_p']);
 
 $id_pers_modifica=$_POST["id_pers"];
 
-if (!isset($_POST['si']))
-  header("Location:gest_persone.php?pag=$pag");
-	 
+if (isset($_POST['si']) && $_POST['si'] =='si')
+{	 
 try 
  {
   $conn->query("START TRANSACTION"); //inizio transazione
@@ -65,6 +64,10 @@ try
   $tipo_operazione = "DELETE (persona)";
   $data_inizio_val=$row['data_inizio_val'];
   $currentdate=date('Y/m/d'); 
+  $id_osm = $row['id_osm'];
+  if ($id_osm == '')
+	$id_osm =0;
+
 /*
 *** INSERT su persone_sto (vecchi valori)
 */
@@ -84,7 +87,10 @@ try
  $query .= "'".$row['nominativo']."',";
  $query .= "'".$row['sesso']."',";
  $query .= "'".$row['data_nascita']."',";
- $query .= "'".$row['data_morte']."',";
+   if ($row['data_morte'] == '')
+	 $query .= "NULL,";
+   else
+     $query .= "'".$row['data_morte']."',";
  $query .= "'".$row['id_casa']."',";
  $query .= "'".$row['nome_casa']."',";
  $query .= "'".$row['cod_ruolo']."',";
@@ -92,6 +98,7 @@ try
  $query .= "'$data_inizio_val',";
  $query .= "'$currentdate');";
 
+//echo $query;
  $result = $conn->query($query);
  if (!$result)
    {
@@ -124,7 +131,7 @@ try
  $query2 .= "'".$row['nome_casa']."',";
  $query2 .= $row['id_moranca'].",";
  $query2 .= "'".$row['nome_moranca']."',";
- $query2 .= $row['id_osm'].",";
+ $query2 .= $id_osm .",";
  $query2 .= "'".$capo_famiglia."',";
  $query2 .= "'".$nome_persona."',";
  $query2 .= "'".$data_inizio_val."',"; 
@@ -175,5 +182,9 @@ try
     EchoMessage($mymsg, "gest_persone.php?=$pag");
   }
  EchoMessage("Cancellazione persona id=$id_pers_modifica effettuata correttamente", "gest_persone.php?=$pag");
+}
+else
+   header("Location:gest_persone.php?pag=$pag");
+
 ?>
  

@@ -12,9 +12,10 @@ $util2 = $config_path .'/../db/db_conn.php';
 require_once $util2;
 require_once $util1;
 setup();
-isLogged("utente");
+isLogged("gestore");
 ?>
 <?php stampaIntestazione(); ?>
+
 <?php stampaNavbar(); 
 
 $id_casa = $_POST['id_casa'];
@@ -25,9 +26,9 @@ echo "<br>CANCELLAZIONE CASA: identificativo: $id_casa <br><br>";
 
 echo "<form  method='POST' action='delete_casa.php'>";
 echo "Si vuole davvero cancellare?<br>";
-echo "<input type='submit' name='no' value='no'>&nbsp;";
-echo "<input type='submit' name='si' value='si'>";
-echo "<input type='hidden' name='id_casa' value='$id_casa'>";
+echo "<input type='submit' class='button' name='no' value='no'>&nbsp;";
+echo "<input type='submit' class='button' name='si' value='si'>";
+echo "<input type='hidden' class='button' name='id_casa' value='$id_casa'>";
 
 echo "</form>";
 echo "</body>";

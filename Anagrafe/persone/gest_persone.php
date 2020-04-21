@@ -21,7 +21,7 @@ $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 require_once $util1;
 setup();
-isLogged("utente");
+isLogged("gestore");
 unsetPag(basename(__FILE__)); 
 $lang=isset($_SESSION['lang'])?$_SESSION['lang']:"ITA";
 $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto il file json in una stringa
@@ -454,8 +454,16 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 *** return: $pag (pagina da visualizzare)
 ***       
 */
-function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, $campo)
+function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, $campo_ord)
 { 
+	// recupero l'id persona
+   $query = "SELECT id id_p FROM persone  WHERE nominativo = '{$nominativo}'";
+   $result = $conn->query($query);
+   $row = $result->fetch_array();
+   $id = $row['id_p'];
+   $result->free();
+
+
 	//echo "2.decessi=". $decessi;
       $query = "SELECT ";
       $query .= " p.id, p.nominativo, p.sesso, p.data_nascita, p.data_morte,";
@@ -477,11 +485,27 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
             $query .= " AND p.data_morte IS NOT NULL";
       if (isset($decessi) && ($decessi == 'no'))
             $query .= " AND p.data_morte IS  NULL";
-	  if ($ord == "ASC")
-	     $query .= " AND p.nominativo < '".$nominativo."'";
+
+	  if ($campo_ord == "nominativo")
+	      $campo_ord = "p.nominativo";
       else
-	     $query .= " AND p.nominativo > '".$nominativo."'";
-      $query .= " ORDER BY $campo " . $ord ;
+          $campo_ord = "p.id";
+
+      if ($campo_ord == "p.nominativo")
+       {
+        if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= '".$nominativo."'";
+        else
+	      $query .= " AND $campo_ord >= '".$nominativo."'";
+      }
+     else
+      {
+       if ($ord == "ASC")
+	     $query .= " AND $campo_ord  <= ".$id;
+       else
+	      $query .= " AND  $campo_ord >= ".$id;
+     }
+    $query .= " ORDER BY $campo_ord " . $ord ;
 
 // echo $query;
 

@@ -10,7 +10,7 @@ $config_path = __DIR__;
 $util = $config_path . '/../util.php';
 require $util;
 setup();
-isLogged("utente");
+isLogged("gestore");
 ?>
 <html>
 <link rel="stylesheet" type="text/css" href="../css/style.css">
@@ -137,7 +137,7 @@ require_once $util2;
         }
         echo "</table>";
     } else
-        echo " Nessuna modifica o eliminazione  è stata effettuata sulle persone.";
+        echo "Non vi sono variazioni sulle persone.";
 
   	// visualizza pagine
     $vis_pag = $config_path .'/../vis_pag.php';
@@ -145,12 +145,12 @@ require_once $util2;
 
     $result->free();
     $conn->close();
+    
+	echo "<br><a href='gest_persone.php'>Torna a gestione persone</a>" 
+
 
     ?>
-    <form action="gest_persone.php">
 
-        <input type="submit" value="GESTIONE"></input>
-    </form>
 </body>
 
 </html>

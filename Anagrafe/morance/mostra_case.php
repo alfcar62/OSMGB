@@ -3,31 +3,21 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
-isLogged("utente");
+isLogged("gestore");
+$pag=$_SESSION['pag_m']['pag_m'];
+unset($_SESSION['pag_m']);
 ?>
 <html>
        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<?php //stampaIntestazione(); ?>
-<body>
-<?php //stampaNavbar(); ?>
+
  <?php
  $util2 = $config_path .'/../db/db_conn.php';
  require_once $util2;
 ?>
 <?php stampaIntestazione(); ?>
+<body>
 <?php stampaNavbar(); ?>
 <?php 
-// Creo una variabile dove imposto il numero di record 
-// da mostrare in ogni pagina
-$x_pag = 10;
-
-// Recupero il numero di pagina corrente.
-// Generalmente si utilizza una querystring
-$pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
-
-// Controllo se $pag ? valorizzato e se ? numerico
-// ...in caso contrario gli assegno valore 1
-if (!$pag || !is_numeric($pag)) $pag = 1; 
 
 // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella agenda
 $query = "SELECT count(id) as cont FROM casa";
@@ -36,17 +26,13 @@ $row = $result->fetch_array();
 $all_rows= $row['cont'];
 
     
-//  definisco il numero totale di pagine
-$all_pages = ceil($all_rows / $x_pag);
 
-// Calcolo da quale record iniziare
-$first = ($pag - 1) * $x_pag;
 $id_moranca=$_POST["id_moranca"];
 
  $query = "SELECT  nome FROM morance WHERE id = ". $id_moranca;
  $result = $conn->query($query);
  $row = $result->fetch_array();
- $nome_moranca = $row['nome'];
+ $nome_moranca = utf8_encode ($row['nome']);
  $result->free();
 
   $query = "SELECT c.id, c.nome,";
@@ -64,7 +50,7 @@ $id_moranca=$_POST["id_moranca"];
 //echo $query;
 
     echo "<h2> Villaggio di NTchangue</h2>";
-	echo "<h3> ELENCO CASE DELLA MORANCA: $nome_moranca (id=$id_moranca)  </h3>";
+	echo "<h3> Elenco case della moran&ccedil;a: $nome_moranca (id=$id_moranca)  </h3>";
 
 	if ($result->num_rows !=0)
 	{     
@@ -131,10 +117,13 @@ $id_moranca=$_POST["id_moranca"];
 		 echo "</table>";
 	}
 	else
-		echo " Nessuna casa &egrave; presente nel database.";
+		echo " Nessuna casa &egrave; presente.";
 
   $result->free();
   $conn->close();	
+
+  echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione moran&ccedil;e</a>" 
+
  ?>
  <br>
  </body>

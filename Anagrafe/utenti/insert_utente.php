@@ -13,7 +13,7 @@
     require_once $util2;
     require_once $util1;
     setup();
-	isLogged("gestore");
+	isLogged("amministratore");
     stampaIntestazione(); ?>
 
     <body>
@@ -40,8 +40,8 @@
                     <option value="gestore">Gestore</option>
                     <option value="utente">Utente generico</option>
                 </select><span id="info2"><img onmouseover="tooltip2(event)" onmouseout="tooltip2(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
-                <span id="error2" style="visibility:hidden">Amministratore: accesso completo |
-                    Gestore: non può registrare nuovi utenti |
+                <span id="error2" style="visibility:hidden"><br>Tipologie di accesso:<br>Amministratore: accesso completo <br>
+                    Gestore: non può registrare nuovi utenti <br>
                     Utente generico: può visualizzare solo le statistiche</span><br>
                 <input type="button" class="button" name="login" value="Aggiungi" id="log" onclick="PwChecker()">
                 <?php
