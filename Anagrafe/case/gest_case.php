@@ -426,10 +426,10 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
 // echo "resto=", $resto;
 // echo "x_pag=", $x_pag;
 // echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
- if ($resto == 0)
-     $pag= intval(abs($cont/$x_pag))+1;
- else
-     $pag= intval(abs($cont/$x_pag));
+ if ($resto ==0)
+       $pag= intval(abs($cont/$x_pag))-1;
+	 else
+       $pag= intval(abs($cont/$x_pag));
 // echo "esco da first_pag, pag=", $pag;
  return $pag;
 }

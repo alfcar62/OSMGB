@@ -127,7 +127,7 @@ $_SESSION['errore']=null;
 //		  echo "dopo Paginazione pagina=". $pag;
 		}
         
-	//	echo "pagina=". $pag;
+//		echo "pagina=". $pag;
 
        
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella 
@@ -148,9 +148,9 @@ $_SESSION['errore']=null;
           $first = ($pag-1) * $x_pag ;
 		else 
 		  $first = ($pag) * $x_pag ;
-//        echo "ricerca=".$ricerca;
-//		 echo "pag=".$pag;
-//        echo "first=".$first;
+  //      echo "ricerca=".$ricerca;
+	//	 echo "pag=".$pag;
+   //     echo "first=".$first;
 
         echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
 
@@ -225,7 +225,7 @@ $_SESSION['errore']=null;
        $query .= " ORDER BY $campo " . $ord ;
        $query .= " LIMIT $first, $x_pag";
 
- //     echo $query;
+ //    echo $query;
        $result = $conn->query($query);
        $numero=$result->num_rows;
        if ($result->num_rows !=0)
@@ -411,14 +411,16 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
  $x_pag = 10;
     
  $resto = $cont%$x_pag;
-// echo "resto=", $resto;
-// echo "x_pag=", $x_pag;
-// echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
- if ($resto == 0)
-     $pag= intval(abs($cont/$x_pag))+1;
- else
-     $pag= intval(abs($cont/$x_pag));
-// echo "esco da first_pag, pag=", $pag;
+ //echo "resto=", $resto;
+ //echo "x_pag=", $x_pag;
+ //echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+ 
+ if ($resto ==0)
+       $pag= intval(abs($cont/$x_pag))-1;
+	 else
+       $pag= intval(abs($cont/$x_pag));
+
+//echo "esco da first_pag, pag=", $pag;
  return $pag;
 }
 

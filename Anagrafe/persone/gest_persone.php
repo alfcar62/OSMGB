@@ -129,6 +129,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 		   {
             $pag = get_first_pag($conn, $_POST['nome'],$id_casa, $decessi, $cod_zona, $ord, $campo); 
 			$ricerca = true;
+//			echo " dopo get_first_pag pag=". $pag;
 		   }
          ?>
         </div>
@@ -202,7 +203,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
        if (isset($decessi) && ($decessi == 'no'))
             $query2 .= " AND p.data_morte IS  NULL";
 
-//       echo $query2;
+  //     echo $query2;
 
         $result = $conn->query($query2);
         $row = $result->fetch_array();
@@ -218,9 +219,9 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
           $first = ($pag-1) * $x_pag ;
 		else 
 		  $first = ($pag) * $x_pag ;
-//        echo "ricerca=".$ricerca;
-//		 echo "pag=".$pag;
-//       echo "first=".$first;
+    //    echo "<br>ricerca=".$ricerca;
+	//	 echo "<br>pag=".$pag;
+    //    echo "<br>first=".$first;
 		
         echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
        
@@ -330,7 +331,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
 
-   //    echo $query;
+ //      echo $query;
 
         $result = $conn->query($query);
 
@@ -452,9 +453,10 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
    $nominativo = utf8_decode($nominativo);
    $query = "SELECT id id_p FROM persone  WHERE nominativo = '{$nominativo}'";
    $result = $conn->query($query);
- //  echo $query;
+//   echo $query;
    $row = $result->fetch_array();
    $id = $row['id_p'];
+//   echo "id=". $id;
    $result->free();
 
 
@@ -501,7 +503,7 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
       }
     $query .= " ORDER BY $campo_ord " . $ord ;
 
-   // echo $query;
+ //   echo $query;
 
     $result = $conn->query($query);
     $cont=$result->num_rows;
@@ -512,14 +514,18 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
     $x_pag = 10;
     
 	 $resto = $cont%$x_pag;
- //    echo "resto=", $resto;
- //    echo "x_pag=", $x_pag;
- //    echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
-     if ($resto == 0)
-       $pag= intval(abs($cont/$x_pag))+1;
-     else
+
+	// echo "<br>x_pag=", $x_pag;
+   //  echo "<br>cont=", $cont;
+  //   echo "<br>resto=", $resto;
+  
+      
+  //   echo "<br>intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+     if ($resto ==0)
+       $pag= intval(abs($cont/$x_pag))-1;
+	 else
        $pag= intval(abs($cont/$x_pag));
-//    echo "esco da first_pag, pag=", $pag;
+ //    echo "<br>esco da first_pag, pag=", $pag;
     return $pag;
 }
 ?>
