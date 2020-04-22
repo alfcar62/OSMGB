@@ -289,7 +289,7 @@ $_SESSION['errore']=null;
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
-                    echo "<td>idOSM=$row[id_osm]". " <a href=$osm_link target=new> <i class='fa fa-map-marker' title ='vai sulla mappa'></i></a></td>"; 	   
+                    echo "<td>$row[id_osm]". " <a href=$osm_link target=new> <img src='../img/marker.png' ></a></td>"; 	   
                 }
                 else
                 { 
@@ -299,17 +299,18 @@ $_SESSION['errore']=null;
                 echo "<td>$row[data_inizio_val]</td>";
 
                 echo " <form method='post' action='mod_moranca.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/wrench.png'> </button> ". "</th></form>";
 
                 echo " <form method='post' action='del_moranca.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/trash.png'> </button> ". "</th></form>";
 
                 echo " <form method='post' action='mostra_case.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>"; 
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/house.png'></button> ". "</th></form>"; 
 
                 echo " <form method='post' action='vis_moranca_sto.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>";    
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/history.png'> </button> ". "</th></form>";    
                 echo "</tr>";
+				
             }      
             echo "</table>";      
         }
