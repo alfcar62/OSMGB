@@ -95,7 +95,7 @@ $id_moranca=$_POST["id_moranca"];
             $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
             if (($row['id_osm'] != null) && ($row['id_osm'] != 0))
              { 
-			  echo "<td>$row[id_osm]&nbsp;<a href=$osm_link target=new>vai alla mappa&nbsp;<IMG SRC=../css/osm.png WIDTH=20 HEIGHT=20 BORDER=0></a></td>"; 
+			  echo "<td>$row[id_osm]&nbsp;<a href=$osm_link target=new><img src='../img/marker.png' ></a></td>"; 
 		     }
 		    else
              { 
@@ -104,12 +104,12 @@ $id_moranca=$_POST["id_moranca"];
 			echo "<td>$row[data_inizio_val]</td>";
 			echo "<td>$row[data_fine_val]</td>";
             echo " <form method='post' action='../case/mod_casa.php'>";
-	echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+	echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/wrench.png' >  </button> ". "</th></form>";
             echo " <form method='post' action='../case/del_casa.php'>";
-	echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+	echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/trash.png' > </button> ". "</th></form>";
                    
              echo " <form method='post' action='../case/mostra_persone.php'>";
-    echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i></button> ". "</th></form>";
+    echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/people.png' ></button> ". "</th></form>";
 	echo "</tr>";
             
             
