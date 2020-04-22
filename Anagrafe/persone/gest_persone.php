@@ -29,7 +29,6 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 ?>
 
 <html>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -95,8 +94,8 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $decessi = 'tutti'; 
         }
 	 
-//	 echo "1.decessi=". $decessi;
-//	 echo "1.SESSION[decessi]=". $_SESSION['decessi'];
+	// echo "1.decessi=". $decessi;
+	// echo "1.SESSION[decessi]=". $_SESSION['decessi'];
 
      if (isset($_SESSION['ord_p']))		//ordinamento ASC/DESC
 	   $ord = $_SESSION['ord_p'];
@@ -114,26 +113,35 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 	   $pag= 0;
 
 	?>
-	   <h2> Villaggio di N'Tchangue: elenco persone abitanti</h2>
+	   <h2> <center>Villaggio di N'Tchangue: elenco persone abitanti</center></h2>
+<?php
+echo "<div style='float:left'>";
+		echo "<a href='vis_sto_tot_persone.php'> Storia delle persone <IMG SRC='../img/history.png'></a>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo"<a href='export_persone.php'>Export su excel<i class='fa fa-file-excel-o fa-2x'></i></a>&nbsp;";		
+echo "</div>";
+echo "<div style='clear:both;'></div>";
+?>
 
-       <div class="search-box">
-		    <form action='gest_persone.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="nominativo..." />
-			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
+<div class="search-box">
+		    <form action='gest_persone.php' method='POST'>
+            <input type='text' autocomplete='off' name='nome' placeholder='nominativo...' >
+			<input type='submit' name= 'ricerca' class='button' value='Conferma'>
 			<div class="result"></div>
             </form>
          <?php
 		 $x_pag = 10;			// n. di record per pagina
          $ricerca = false;
-         if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
+         if ((isset($_POST['ricerca'])) && 
+		     ($_POST['nome'] != "" ))// se è stata richiesta la ricerca, recupera la pagina da visualizzare
 		   {
+  //			echo "<br>fatta ricerca";
             $pag = get_first_pag($conn, $_POST['nome'],$id_casa, $decessi, $cod_zona, $ord, $campo); 
 			$ricerca = true;
-//			echo " dopo get_first_pag pag=". $pag;
-		   }
+  // 		    echo " <br>dopo get_first_pag pag=". $pag;
+		   }		   
          ?>
-        </div>
-
+  <!--     </div>-->
         <?php
 
 /*
@@ -165,17 +173,11 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $cod_zona =  $_SESSION['cod_zona'];
         } 
 
- 
-
         $x_pag = 10;
         // Recupero il numero di pagina corrente.
 
         if (!$ricerca)
           $pag=Paginazione($pag, "pag_p");	// Recupero il  numero di pagina corrente
-
-       
-        // ...in caso contrario gli assegno valore 1
-        if (!$pag || !is_numeric($pag)) $pag = 1; 
 
         $query2 = "SELECT count(p.id) as cont FROM persone p";
         $query2 .= " inner join pers_casa pc on pc.id_pers = p.id ";
@@ -203,7 +205,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
        if (isset($decessi) && ($decessi == 'no'))
             $query2 .= " AND p.data_morte IS  NULL";
 
-  //     echo $query2;
+ //      echo $query2;
 
         $result = $conn->query($query2);
         $row = $result->fetch_array();
@@ -219,23 +221,17 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
           $first = ($pag-1) * $x_pag ;
 		else 
 		  $first = ($pag) * $x_pag ;
-    //    echo "<br>ricerca=".$ricerca;
-	//	 echo "<br>pag=".$pag;
-    //    echo "<br>first=".$first;
-		
-        echo "<a href='ins_persona.php'>".$jsonObj->{$lang."Persone"}[2]."</a><br><br>";//Aggiungi una nuova persona 
        
-		echo"<a href='export_persone.php'>Export su excel</a><br><br>";
-
-		echo "<a href='vis_sto_tot_persone.php'>";
-        echo "Storia delle persone </a><br><br>";
-
+//		 echo "<br>ricerca=".$ricerca;
+//		 echo "<br>pag=".$pag;
+ //        echo "<br>first=".$first;
+		
         if (isset($_POST['cod_zona']))
             $cod_zona = $_POST['cod_zona'];
-   
+
         //Select option per la scelta della zona
-        echo "<form action='gest_persone.php' method='POST'><br>";
-        echo   $jsonObj->{$lang."Morance"}[22].": <select name='cod_zona'>";//Selezione zona
+        echo "<form action='gest_persone.php' method='POST'>";
+        echo  "Zona: <select name='cod_zona'>";//Selezione zona
         $result = $conn->query("SELECT * FROM zone");
         $nz=$result->num_rows;
 
@@ -254,7 +250,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         echo " </form>";
 
 		//Select option per la scelta visualizzazione decessi
-        echo "<form action='gest_persone.php' method='POST'><br>";
+        echo "<form action='gest_persone.php' method='POST'>";
         echo   "Visualizza: <select  name='decessi'>";    
         echo "<option value='tutti'";
 		if(isset($decessi) && ($decessi == 'tutti'))
@@ -272,7 +268,10 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         echo "</select>";
         echo " <input type='submit' class='button' value='Conferma'>";//conferma
         echo " </form>";
-
+		echo " </div>";
+		
+		echo"<a href='ins_persona.php'>Inserimento nuova persona <i class='fa fa-plus-square fa-2x' ></i></a>&nbsp;";
+		
         /*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/
@@ -331,7 +330,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
         $query .= " ORDER BY $campo " . $ord ;
         $query .= " LIMIT $first, $x_pag";
 
- //      echo $query;
+//       echo $query;
 
         $result = $conn->query($query);
 
@@ -343,7 +342,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 		   if (($decessi == 'si') || ($decessi == 'tutti'))
 		       $vis_decessi = true;
 		   else 
-		        $vis_decessi = false;
+		       $vis_decessi = false;
 		 }
 
         if ($nr != 0)
@@ -353,12 +352,19 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
             //nominativo (con possibilità di ordinamento)
 
+            
+
+			if ($ord == "ASC")
+				$myclass = "fa fa-arrow-circle-down";
+			else
+				$myclass = "fa fa-arrow-circle-up";
             echo " <form method='post' action='gest_persone.php'>";
-            echo "<th> nominativo <button class='btn center-block'  name='ord_nominativo'  value='nominativo' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
-         
+            echo "<th> nominativo <button class='btn center-block'  name='ord_nominativo'  value='nominativo' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+ 
+
             //id (con possibilità di ordinamento)
             echo " <form method='post' action='gest_persone.php'>";
-            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i>  </button> </th></form>";
 
             echo "<th>sesso</th>";//Sesso		
             echo "<th>data nascita</th>";//Data Nascita
@@ -406,7 +412,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
-                    echo "<td>$row[id_osm]<a href=$osm_link target=new><i class='fa fa-map-marker'></i></a></td>"; 
+                    echo "<td>$row[id_osm]<a href=$osm_link target=new><img src='../img/marker.png' ></a></td>"; 
                 }
                 else
                 { 
@@ -415,21 +421,21 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 echo "<td>$row[data_inizio_val]</td>";
 
                 echo " <form method='post' action='mod_persona.php'>";
-                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><img src='../img/wrench.png' > </button> ". "</th></form>";
 
                 echo " <form method='post' action='del_persona.php'>";
-                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";	
+                echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><img src='../img/trash.png' > </button> ". "</th></form>";	
 
                 echo " <form method='post' action='mostra_casa.php'>";
-                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><img src='../img/house.png' ></button> ". "</th></form>";
 
                 echo " <form method='post' action='vis_persona_sto.php'>";
-                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_persona'  value='$row[id]' type='submit';'><img src='../img/history.png' ></button> ". "</th></form>";
                 echo "</tr>";
             } 
             echo "</table>";
         }       
-		echo "<br> Numero abitanti risultanti: $all_rows<br>";
+		echo "<br> Numero abitanti risultanti da questa ricerca: $all_rows<br>";
 
 		// visualizza pagine
         $vis_pag = $config_path .'/../vis_pag.php';
@@ -503,7 +509,7 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
       }
     $query .= " ORDER BY $campo_ord " . $ord ;
 
- //   echo $query;
+//    echo $query;
 
     $result = $conn->query($query);
     $cont=$result->num_rows;
@@ -515,17 +521,17 @@ function get_first_pag($conn, $nominativo, $id_casa, $decessi, $cod_zona, $ord, 
     
 	 $resto = $cont%$x_pag;
 
-	// echo "<br>x_pag=", $x_pag;
-   //  echo "<br>cont=", $cont;
-  //   echo "<br>resto=", $resto;
+//	 echo "<br>x_pag=", $x_pag;
+//     echo "<br>cont=", $cont;
+//     echo "<br>resto=", $resto;
   
       
-  //   echo "<br>intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+ //    echo "<br>intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
      if ($resto ==0)
        $pag= intval(abs($cont/$x_pag))-1;
 	 else
        $pag= intval(abs($cont/$x_pag));
- //    echo "<br>esco da first_pag, pag=", $pag;
+//     echo "<br>esco da first_pag, pag=", $pag;
     return $pag;
 }
 ?>
