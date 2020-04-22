@@ -84,7 +84,14 @@ isLogged("gestore");
 	   $pag= 0;
 	?>
 	  <h2> Villaggio di N'Tchangue: elenco case</h2>
-
+    <?php
+      echo "<div style='float:left'>";
+	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";
+	  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	  echo"<a href='export_casa.php'>Export su excel<i class='fa fa-file-excel-o fa-2x'></i></a>&nbsp;";		
+      echo "</div>";
+      echo "<div style='clear:both;'></div>";
+    ?>
      <div class="search-box">
 		    <form action='gest_case.php' method='POST'><br>
             <input type="text" autocomplete="off" name='nome' placeholder="nome casa..." />
@@ -101,7 +108,7 @@ isLogged("gestore");
 //			echo "ricerca: pag=". $pag;
 		   }
          ?>
-        </div>
+  <!--      </div>-->
 		  <div id="lb-back">
             <div id="lb-img"></div>
         </div>
@@ -166,17 +173,10 @@ isLogged("gestore");
 //		 echo "pag=".$pag;
 //        echo "first=".$first;
 
-        echo "<a href='ins_casa.php'>";
-        echo "Inserisci una nuova casa </a><br><br>";
-       
-		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
-        
-		echo "<a href='vis_sto_tot_case.php'>";
-        echo "Storia delle case </a><br><br>";
 
         //Select option per la scelta della zona
         echo "<form action='gest_case.php' method='POST'><br>";
-        echo   "Selezione Zona : <select name='cod_zona'>";
+        echo   "Zona: <select name='cod_zona'>";
         $result = $conn->query("SELECT * FROM zone");
         $nz=$result->num_rows;
         echo "<option value='tutte'>  tutte </option>";
@@ -192,6 +192,9 @@ isLogged("gestore");
         echo "</select>";
         echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
+        echo " </div>";
+		
+		echo"<a href='ins_casa.php'>Inserimento nuova casa <i class='fa fa-plus-square fa-2x' ></i></a>&nbsp;";
 
 		/*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
@@ -251,14 +254,20 @@ isLogged("gestore");
             echo "<tr>";
             echo "<th>foto</th>";
 
-            //nome casa (con possibilità di ordinamento)
+			if ($ord == "ASC")
+				$myclass = "fa fa-arrow-circle-down";
+			else
+				$myclass = "fa fa-arrow-circle-up";
+			//nome casa  (con possibilità di ordinamento)
 
-            echo " <form method='post' action='gest_case.php'>";
-            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+			echo " <form method='post' action='gest_case.php'>";
+            echo "<th> nominativo <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+ 
 
-			//id (con possibilità di ordinamento)
+            //id (con possibilità di ordinamento)
             echo " <form method='post' action='gest_case.php'>";
-            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i>  </button> </th></form>";
+            
      
             echo "<th>zona</th>";
 			echo "<th>moran&ccedil;a</th>";

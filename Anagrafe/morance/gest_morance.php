@@ -88,10 +88,17 @@ $_SESSION['errore']=null;
 	   $pag= 1;
 	?>
 	    <h2>Villaggio di N'Tchangue: elenco moran&ccedil;e</h2>
-
+   <?php
+    echo "<div style='float:left'>";
+		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;e <IMG SRC='../img/history.png'></a>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo"<a href='export_moranca.php'>Export su excel<i class='fa fa-file-excel-o fa-2x'></i></a>&nbsp;";		
+    echo "</div>";
+    echo "<div style='clear:both;'></div>";
+   ?>
         <div class="search-box">
 		    <form action='gest_morance.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="nome moranca..." />
+            <input type="text" autocomplete="off" name='nome' placeholder="nome..." />
 			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
 		    <div class="result"></div>
             </form>
@@ -105,7 +112,7 @@ $_SESSION['errore']=null;
 // 			echo "dopo get_first_pag pag=". $pag;
 		   }
          ?>
-        </div>
+<!--        </div>-->
         <div id="lb-back">
             <div id="lb-img"></div>
         </div>
@@ -152,17 +159,9 @@ $_SESSION['errore']=null;
 	//	 echo "pag=".$pag;
    //     echo "first=".$first;
 
-        echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
-
-        echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
-
-        echo "<a href='vis_sto_tot_morance.php'>";
-        echo "Storia delle moran&ccedil;e </a><br><br>";
-
-
         //Select option per la scelta della zona
         echo "<form action='gest_morance.php' method='POST'><br>";
-        echo  "Selezione Zona: <select name='cod_zona'>";
+        echo  "Zona: <select name='cod_zona'>";
         $result = $conn->query("SELECT * FROM zone");
         $nz=$result->num_rows;
 
@@ -179,6 +178,9 @@ $_SESSION['errore']=null;
         echo "</select>";
         echo " <input type='submit' class='button' value='". $jsonObj->{$lang."Morance"}[4]."'>";//Conferma
         echo " </form>";
+		echo " </div>";
+		
+		echo"<a href='ins_moranca.php'>Inserimento nuova moranca <i class='fa fa-plus-square fa-2x' ></i></a>&nbsp;";
 
 
 		/*
@@ -197,7 +199,7 @@ $_SESSION['errore']=null;
        if (isset($_POST['ord_id']) ||
 		    isset($_POST['ord_nome']))
          {
-		  echo " cambiato campo o ord";
+//		  echo " cambiato campo o ord";
           if (isset($_POST['ord_id']))		// cambiato ordinamento su id
 		     $campo = 'id';
 		  else 
@@ -236,15 +238,21 @@ $_SESSION['errore']=null;
 			//foto
             echo "<th>foto</th>";
 
-            //nome Moranca  (con possibilità di ordinamento)
+			if ($ord == "ASC")
+				$myclass = "fa fa-arrow-circle-down";
+			else
+				$myclass = "fa fa-arrow-circle-up";
 
+			//nome Moranca  (con possibilità di ordinamento)
+
+			echo " <form method='post' action='gest_morance.php'>";
+            echo "<th> nominativo <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+ 
+
+            //id (con possibilità di ordinamento)
             echo " <form method='post' action='gest_morance.php'>";
-            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
-
-			//id (con possibilità di ordinamento)
-            echo " <form method='post' action='gest_morance.php'>";
-            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
-
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i>  </button> </th></form>";
+           
             echo "<th>zona</th>";//Zona
             echo "<th>progr. zona</th>";//progr nella zona
 			echo "<th>numero case</th>"; 
