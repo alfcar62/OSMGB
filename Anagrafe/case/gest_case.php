@@ -83,12 +83,12 @@ isLogged("gestore");
      else
 	   $pag= 0;
 	?>
-	  <h2> Villaggio di N'Tchangue: elenco case</h2>
+	  <h2> <center>Villaggio di N'Tchangue: elenco case</center></h2>
     <?php
       echo "<div style='float:left'>";
 	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";
 	  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	  echo"<a href='export_casa.php'>Export su excel<i class='fa fa-file-excel-o fa-2x'></i></a>&nbsp;";		
+	  echo"<a href='export_casa.php'>Export su excel<IMG SRC='../img/excel_2.png'></a>&nbsp;";		
       echo "</div>";
       echo "<div style='clear:both;'></div>";
     ?>
@@ -194,8 +194,7 @@ isLogged("gestore");
         echo " </form>";
         echo " </div>";
 		
-		echo"<a href='ins_casa.php'>Inserimento nuova casa <i class='fa fa-plus-square fa-2x' ></i></a>&nbsp;";
-
+		echo"<a href='ins_casa.php'>Inserimento nuova casa <IMG SRC='../img/inserisci.png'></a>&nbsp;";
 		/*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/

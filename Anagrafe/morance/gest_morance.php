@@ -87,12 +87,12 @@ $_SESSION['errore']=null;
      else
 	   $pag= 1;
 	?>
-	    <h2>Villaggio di N'Tchangue: elenco moran&ccedil;e</h2>
+	    <h2><center>Villaggio di N'Tchangue: elenco moran&ccedil;e</center></h2>
    <?php
     echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;e <IMG SRC='../img/history.png'></a>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo"<a href='export_moranca.php'>Export su excel<i class='fa fa-file-excel-o fa-2x'></i></a>&nbsp;";		
+		echo"<a href='export_moranca.php'>Export su excel<IMG SRC='../img/excel_2.png'></a>&nbsp;";		
     echo "</div>";
     echo "<div style='clear:both;'></div>";
    ?>
@@ -180,7 +180,7 @@ $_SESSION['errore']=null;
         echo " </form>";
 		echo " </div>";
 		
-		echo"<a href='ins_moranca.php'>Inserimento nuova moranca <i class='fa fa-plus-square fa-2x' ></i></a>&nbsp;";
+		echo"<a href='ins_moranca.php'>Inserimento nuova moranca <IMG SRC='../img/inserisci.png'></a>&nbsp;";
 
 
 		/*

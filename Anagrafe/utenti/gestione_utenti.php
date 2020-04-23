@@ -85,10 +85,10 @@
                 $perm = "utente generico";
             echo "<br> Utente collegato: {$_SESSION['nome']} <br> permesso: $perm <br>";
             echo "<a href='insert_utente.php'><br>";
-            echo "Inserisci nuovo utente </a><br><br>";
+            echo "Inserisci nuovo utente <IMG SRC='../img/inserisci.png'></a><br><br>";
 
 			echo "<a href='vis_login.php'><br>";
-            echo "Visualizza gli accessi </a><br><br>";
+            echo "Visualizza gli accessi <IMG SRC='../img/people.png'></a><br><br>";
 
             if (isset($_POST['tipo']))
                 if($_POST['tipo']!='tutti')
@@ -145,7 +145,7 @@
                     echo "<td>$perm</td>";
                     echo "<td>$row[data_inizio_val]</td>";
                     echo " <form method='post' action='del_utente.php'>";
-                    echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+                    echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><IMG SRC='../img/trash.png'> </button> ". "</th></form>";
                 }
                 echo "</table>";
             }
