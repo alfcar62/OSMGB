@@ -44,7 +44,7 @@
                 <span id="error2" style="visibility:hidden"><br>Tipologie di accesso:<br>Amministratore: accesso completo <br>
                     Gestore: non può registrare nuovi utenti <br>
                     Utente generico: può visualizzare solo le statistiche</span><br>
-                <input type="button" class="button" name="login" value="Aggiungi" id="log" onclick="PwChecker()">
+                <input type="button" class="button" name="login" value="Conferma" id="log" onclick="PwChecker()">
                 <?php
                 if (isset($_POST['user']) && isset($_POST['psw1'])) 
                 {    

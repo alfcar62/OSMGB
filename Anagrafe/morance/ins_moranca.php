@@ -49,7 +49,7 @@ echo "</select></br>";
 
 <?php
 
-echo "<button type='submit' class='button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Invia/Conferma
+echo "<button type='submit' class='button'>Conferma</button>";//Invia/Conferma
 echo "</form>";
 ?>
 </body>

@@ -75,7 +75,7 @@ echo "<br>";
  <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moran&ccedil;a,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
 <?php
-echo "<button type='submit' class = 'button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
+echo "<button type='submit' class = 'button'> Modifica</button>";//Conferma
 echo "</form>";
     echo "<h2>Modifica la foto della moran&ccedil;a:</h2>";
 

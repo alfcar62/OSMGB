@@ -93,7 +93,7 @@ if($nr==1)
    }
  echo "</select><br>";
 
- echo "<button type='submit' class='button'>invia</button>";
+ echo "<button type='submit' class='button'>Modifica</button>";
  echo "</form>";
  }
 else 
