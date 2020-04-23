@@ -118,7 +118,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_persone.php'> Storia delle persone <IMG SRC='../img/history.png'></a>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo"<a href='export_persone.php'>Export su excel<IMG SRC='../img/excel_2.png'></a>&nbsp;";		
+		echo"<a href='export_persone.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
 echo "</div>";
 echo "<div style='clear:both;'></div>";
 ?>
@@ -269,7 +269,7 @@ echo "<div style='clear:both;'></div>";
         echo " <input type='submit' class='button' value='Conferma'>";//conferma
         echo " </form>";
 		echo " </div>";
-		echo"<a href='ins_persona.php'>Inserimento nuova persona<IMG SRC='../img/inserisci.png'></a>&nbsp;";
+		echo"<a href='ins_persona.php'>Inserimento nuova persona<IMG SRC='../img/inserisci.png'></a>";
         /*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/

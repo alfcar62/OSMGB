@@ -129,17 +129,14 @@ if(isset($_POST["eliminaFoto"])) {
 
 }
 
-
-echo '  <form action="mod_moranca.php" method="post" enctype="multipart/form-data">';//form per caricare la foto
+echo " <form action='mod_moranca.php' method='post' enctype='multipart/form-data'>";//form per caricare la foto
 echo "Seleziona una foto da caricare:";
 echo   " <input type='hidden' name='id_moranca' value='$id_moranca' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
-echo '<input type="file" name="fileToUpload" id="fileToUpload" required>
-<input type="submit"  value="Carica foto" name="caricaFoto">
-</form>   ';
+echo "<input type='file' name='fileToUpload' id='fileToUpload' required><input type='submit'  value='Carica foto' name='caricaFoto'></form>   ";
 $immagine=glob('immagini/'.$id_moranca.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine
 if($immagine != null){
 
-	echo "Foto attuale:";
+	echo "<br>Foto attuale:";
 	echo "<img src='$immagine[0]'  width='120'
 height='120' id='image' style=' display: block;
 margin-left:0;'  > ";
@@ -152,5 +149,6 @@ else{
 }
 echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione morance</a>" 
 ?>
+
 </body>
 </html>

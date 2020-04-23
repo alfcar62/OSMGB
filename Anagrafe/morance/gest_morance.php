@@ -92,7 +92,7 @@ $_SESSION['errore']=null;
     echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;e <IMG SRC='../img/history.png'></a>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo"<a href='export_moranca.php'>Export su excel<IMG SRC='../img/excel_2.png'></a>&nbsp;";		
+		echo"<a href='export_moranca.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
     echo "</div>";
     echo "<div style='clear:both;'></div>";
    ?>

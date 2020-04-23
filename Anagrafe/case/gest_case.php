@@ -88,7 +88,7 @@ isLogged("gestore");
       echo "<div style='float:left'>";
 	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";
 	  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	  echo"<a href='export_casa.php'>Export su excel<IMG SRC='../img/excel_2.png'></a>&nbsp;";		
+	  echo"<a href='export_casa.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
       echo "</div>";
       echo "<div style='clear:both;'></div>";
     ?>
