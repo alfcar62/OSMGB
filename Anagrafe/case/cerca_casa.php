@@ -21,7 +21,12 @@ if (isset($_SESSION['campo_c']))
 else 
   $campo = "nome";
 
-if(isset($_REQUEST["term"])){
+if(isset($_REQUEST["term"]))
+ {
+    $term = $_REQUEST["term"];	
+    $term = stripslashes($term);				// protezione da SQL injection		
+    $term = mysqli_real_escape_string($conn,$term);	// protezione da SQL injection	
+
     // Prepare a select statement
 //    $sql = "SELECT nome FROM casa WHERE nome LIKE ?";
    $query = "SELECT c.id, c.nome,";
