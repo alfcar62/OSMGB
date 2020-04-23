@@ -24,7 +24,8 @@
         ?>
         <!--<div class="container">-->
         <div>
-            <h>Registrazione di un nuovo utente<br></h>
+            <h2>Inserimento di  un nuovo utente</h2>
+			<br><br>
             <form id="login" action="insert_utente.php" method="POST">
                 Username:
                 <input type="text" name="user" required><br>

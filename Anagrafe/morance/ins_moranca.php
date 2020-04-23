@@ -23,7 +23,7 @@ $jsonFile=file_get_contents("../gestione_lingue/translations.json");//Converto i
 $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
 //echo $jsonObj->{$lang."Morance"}[0]
 echo "<h3>Inserimento di una nuova  moran&ccedil;a</h3>";
-
+echo "<br><br>";
 echo "<form action='insert_moranca.php' method='post'>";
 echo  $jsonObj->{$lang."Morance"}[5].": <input type='text' name='nome_moranca' required placeholder='".$jsonObj->{$lang."Morance"}[17]."' ><br>";//Nome
 

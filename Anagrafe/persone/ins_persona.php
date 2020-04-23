@@ -19,6 +19,7 @@ stampaIntestazione(); ?>
 
 <?php
 echo "<h3>Inserimento di una nuova persona</h3>";
+echo "<br><br>";
 echo "<form action='insert_persona.php' method='post'>";
 echo  " Nominativo : <input type='text' name='nome_persona' placeholder='inserire nome ' required><br>";
 echo  " Data nascita : <input type='date' name='data_nascita' required><br>";
