@@ -7,6 +7,7 @@
 */
  if ($all_pages > 1)
  {
+  echo "Pagina:".$pag. "/". $all_pages."<br>";
   if ($pag > 1)
    {
       echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";

@@ -48,5 +48,7 @@ $result -> free_result();
 <input type="submit" class = "button" value="Conferma">
 </form>      
 <br>
+<br><a href='gest_case.php?pag=$pag'>Torna a gestione case</a>
+
 </body>
 </html>

@@ -13,6 +13,7 @@ require_once $util2;
 require_once $util1;
 setup();
 isLogged("gestore");
+$pag=$_SESSION['pag_p']['pag_p'];
 stampaIntestazione(); ?>
 <body>
 <?php stampaNavbar(); ?>
@@ -84,6 +85,8 @@ for($i=0;$i<$nr;$i++)
 echo "</select><br>";
 echo "<button type='submit' class='button'>Conferma</button>";
 echo "</form>";    
+echo "<br><a href='gest_persone.php?pag=$pag'>Torna a gestione persone</a>" 
+
 ?>
 
 </body>

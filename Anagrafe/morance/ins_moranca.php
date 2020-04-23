@@ -13,6 +13,7 @@ require_once $util2;
 require_once $util1;
 setup();
 isLogged("gestore");
+$pag=$_SESSION['pag_m']['pag_m'];
 ?>
 <?php stampaIntestazione(); ?>
 <body>
@@ -51,6 +52,8 @@ echo "</select></br>";
 
 echo "<button type='submit' class='button'>Conferma</button>";//Invia/Conferma
 echo "</form>";
+echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione moran&ccedil;e</a>" 
+
 ?>
 </body>
 </html>

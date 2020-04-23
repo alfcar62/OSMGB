@@ -180,7 +180,7 @@ $_SESSION['errore']=null;
         echo " </form>";
 		echo " </div>";
 		
-		echo"<a href='ins_moranca.php'>Inserimento nuova moranca <IMG SRC='../img/inserisci.png'></a>&nbsp;";
+		echo"<a href='ins_moranca.php'>Inserimento nuova moran&ccedil;a<IMG SRC='../img/inserisci.png'></a>&nbsp;";
 
 
 		/*
