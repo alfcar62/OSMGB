@@ -53,7 +53,8 @@ if($nr==1)
  
  $nominativo = utf8_encode ($row['nominativo']);
  echo "<h3>Modifica persona: $nominativo  (id= $id_pers)</h3>";
-
+ echo "<br>";
+ echo "<div class='Area'>";
  echo "<form action='modifica_persona.php' method='post'>";
  echo  " Nominativo : <input type='text' name='nominativo' value ='". $nominativo."' required><br><br>";
  echo  " Data nascita : <input type='date' name='data_nascita' value = '".$row['data_nascita']."' required><br>";
@@ -102,6 +103,6 @@ else
  }
     echo "<br><a href='gest_persone.php?pag=$pag'>Torna a gestione persone</a>" 
 ?>
-
+</div>
 </body>
 </html>

@@ -83,9 +83,7 @@
                 $perm = "gestore";
             else if ($perm == "utente")
                 $perm = "utente generico";
-            echo "<br> Utente collegato: {$_SESSION['nome']} <br> permesso: $perm <br>";
-            echo "<a href='insert_utente.php'><br>";
-            echo "Inserisci nuovo utente <IMG SRC='../img/inserisci.png'></a><br><br>";
+            echo "<br> Utente collegato: {$_SESSION['nome']} / permesso: $perm <br>";
 
 			echo "<a href='vis_login.php'><br>";
             echo "Visualizza gli accessi <IMG SRC='../img/people.png'></a><br><br>";
@@ -93,7 +91,8 @@
             if (isset($_POST['tipo']))
                 if($_POST['tipo']!='tutti')
                     $tipo = $_POST['tipo'];
-            //Select option per la scelta dell tipo di utente
+
+            //Select option per la scelta del tipo di utente
             echo "<form action='gestione_utenti.php' method='POST'><br>";
             echo   "Selezione permessi : <select name='tipo'>";
             $result = $conn->query("SELECT DISTINCT id_accesso from utenti");
@@ -107,6 +106,9 @@
             echo "</select>";
             echo " <input type='submit' class='button' value='Conferma'>";
             echo " </form>";
+
+		    echo "<a href='insert_utente.php'><br>";
+            echo "Inserisci nuovo utente <IMG SRC='../img/inserisci.png'></a><br><br>";
 
             //query per l'elenco degli utenti
             $query = "SELECT user,id_accesso,data_inizio_val";

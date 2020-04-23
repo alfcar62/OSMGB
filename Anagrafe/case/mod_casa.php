@@ -63,6 +63,8 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $id_capo_famiglia=$row["id_capo_famiglia"];
 
     echo "<h3>Modifica casa: $nome_casa  (id= $id_casa)</h3>";
+	echo "<br>";
+	echo "<div class='Area'>";
     echo "<form action='modifica_casa.php' method='POST'>";
     echo   " <input type='hidden' name='id_casa' value='$id_casa' >";
     echo   " <input type='hidden' name='data_inizio' value='$data_inizio' >";
@@ -181,14 +183,10 @@ sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> ><spa
 
     //----------------------------FINE UPLOAD DELLA FOTO-------------------------
 
-    echo "<br><a href='gest_case.php?pag=$pag'>Torna a gestione case</a>" 
+    echo "<br><a href='gest_case.php?pag=$pag'>Torna a gestione case</a>"; 
     ?>
 
-
-
-
-    </a>
-
+</div>
 </body>
 
 <script>

@@ -26,6 +26,8 @@ $id_moranca=$_POST["id_moranca"];
 
 //$conn->query("START TRANSACTION"); //inizio transazione
 
+echo "<div class='Area'>";
+
 echo "<form action='modifica_moranca.php' method='post'>";
 
 $query =  "SELECT m.ID id, m.NOME 'nome_moranca', m.cod_zona, z.nome zona, m.id_osm  ";
@@ -47,7 +49,7 @@ $zona = $row['zona'];
 $id_osm = $row['id_osm'];
 
 echo "<h3>Modifica moran&ccedil;a: $moranca (id =$row[id]), zona: $zona<h3>";//Inserimento moranca
-
+echo "<br>";
 echo "Nome moran&ccedil;a: <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
 
 echo "<input type='hidden'  name='id_moranca'  value=$id_moranca>";
@@ -66,7 +68,7 @@ for($i=0;$i<$nz;$i++)
 			echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
 }
 echo "</select>";
-
+echo "<br>";
 ?>
 sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> >
 <span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
@@ -150,5 +152,6 @@ else{
 }
 echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione morance</a>" 
 ?>
+</div>
 </body>
 </html>
