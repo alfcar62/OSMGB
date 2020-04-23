@@ -5,8 +5,6 @@
 //Descrizione:Gestione degli utenti Autore:Ferraiuolo Pasquale
 //25/03/2020: Ferraiuolo: Aggiunta menu a tendina e nome utente nella videata
 ?>
-
-<link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
 <?php
 
 /***************************** StampaNavbar *****************************/
@@ -20,13 +18,8 @@ function stampaNavbar()
     $jsonFile=file_get_contents(__DIR__ ."/gestione_lingue/translations.json");//Converto il file json in una stringa
     $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
 ?>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <ul>
-    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>
-        <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
+    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>           
         <?php
     if (login())
     {
@@ -159,7 +152,7 @@ function PwChecker()		// controllo password
   var isStrong=pattern.test(pw);
   if(isStrong){
   console.log("strong");
-  $("#login").submit();
+  $("#form").submit();
   }
   else 
    alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale tra questi:'!' '@' '#' '\$' '%' '\^' '&' '\*' '\_'");
@@ -175,11 +168,15 @@ function stampaIntestazione()
 {
 ?>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="shortcut icon" type="image/x-icon" href="/OSM/Anagrafe/img/favicon.ico" />
     <title>N'Tchangue - Anagrafe Web</title>
-    <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
+	<link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
 </head>
 <?php
 }
