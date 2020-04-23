@@ -54,18 +54,17 @@ if($nr==1)
  $nominativo = utf8_encode ($row['nominativo']);
  echo "<h3>Modifica persona: $nominativo  (id= $id_pers)</h3>";
  echo "<br>";
- echo "<div class='Area'>";
- echo "<form action='modifica_persona.php' method='post'>";
- echo  " Nominativo : <input type='text' name='nominativo' value ='". $nominativo."' required><br><br>";
- echo  " Data nascita : <input type='date' name='data_nascita' value = '".$row['data_nascita']."' required><br>";
- echo  " Data morte : <input type='date' name='data_morte' value = '".$row['data_morte']."'><br>";
+ echo "<form action='modifica_persona.php' name='form' id='form'  method='post'>";
+ echo  " <label for='nominativo'>Nominativo :</label> <input type='text' name='nominativo' value ='". $nominativo."' required><br><br>";
+ echo  " <label for='datan'>Data nascita : </label><input type='date' name='data_nascita' value = '".$row['data_nascita']."' required><br>";
+ echo  " <label for='datam'>Data morte : </label><input type='date' name='data_morte' value = '".$row['data_morte']."'><br>";
  
  $query = "SELECT id, nome FROM casa c";
 //echo $query;
 
  $result = $conn->query($query);
  $nr=$result->num_rows;
- echo  "Residente nella casa:";
+ echo  "<label for='casa'>Residente nella casa:</label>";
  echo "<select name='id_casa_modifica' required>";
  for($i=0;$i<$nr;$i++)
    {
@@ -81,7 +80,7 @@ if($nr==1)
  $result = $conn->query($query);
  $nr=$result->num_rows;
 
- echo   "Ruolo nella famiglia: ";
+ echo   "<label for='ruolo'>Ruolo nella famiglia:</label> ";
  echo "<select name='id_ruolo_modifica' required>";
 
  for($i=0;$i<$nr;$i++)
@@ -103,6 +102,5 @@ else
  }
     echo "<br><a href='gest_persone.php?pag=$pag'>Torna a gestione persone</a>" 
 ?>
-</div>
 </body>
 </html>

@@ -13,9 +13,6 @@
     setup();
     isLogged("amministratore");
     ?>
-    <html>
-        <link rel="stylesheet" type="text/css" href="../css/style.css">
-
         <?php
         $util2 = $config_path .'/../db/db_conn.php';
         require_once $util2;
@@ -75,7 +72,7 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h3> Elenco Utenti che hanno effettuato il login al sistema</h3>";
+            echo "<h3><center> Elenco Utenti che hanno effettuato il login al sistema</center></h3>";
             $perm = $_SESSION['tipo'];
             if ($perm == "admin")
                 $perm = "amministratore ";

@@ -24,11 +24,11 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 //echo $jsonObj->{$lang."Morance"}[0]
 echo "<h3>Inserimento di una nuova  moran&ccedil;a</h3>";
 echo "<br><br>";
-echo "<form action='insert_moranca.php' method='post'>";
-echo  $jsonObj->{$lang."Morance"}[5].": <input type='text' name='nome_moranca' required placeholder='".$jsonObj->{$lang."Morance"}[17]."' ><br>";//Nome
+echo "<form action='insert_moranca.php' name='form' id = 'form' method='post'>";
+echo  "<label for= 'nome'>Nome:</label> <input type='text' name='nome_moranca' required placeholder='".$jsonObj->{$lang."Morance"}[17]."' ><br>";//Nome
 
 // selezione zona
-echo   $jsonObj->{$lang."Morance"}[6].": <select name='cod_zona' required>";//Zona
+echo   "<label for='zona'>Zona: </label><select name='cod_zona' required>";//Zona
 $result = $conn->query("SELECT * FROM zone");
 
 echo "<option> </option>";
@@ -44,7 +44,7 @@ for($i=0;$i<$nr;$i++)
 echo "</select></br>";
 ?>
 
-sulla mappa: <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+<label for="mappa">sulla mappa:</label> <input type='text' name='id_osm'><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
  <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moran&ccedil;a,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
 <?php
