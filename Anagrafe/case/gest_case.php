@@ -92,6 +92,19 @@ isLogged("gestore");
       echo "</div>";
       echo "<div style='clear:both;'></div>";
     ?>
+	 <div id="lb-back">
+     <div id="lb-img"></div>
+     </div>
+     <!-- Modal:div che compare quando si clicca sull'immagine -->
+     <div id="myModal" class="modal">
+
+     <!-- The Close Button -->
+     <span class="close">&times;</span>
+
+     <!-- Modal Content (The Image) -->
+     <img class="modal-content" id="img01">
+     </div>
+
      <div class="search-box">
 		    <form action='gest_case.php' method='POST'><br>
             <input type="text" autocomplete="off" name='nome' placeholder="nome casa..." />
@@ -109,18 +122,6 @@ isLogged("gestore");
 		   }
          ?>
   <!--      </div>-->
-		  <div id="lb-back">
-            <div id="lb-img"></div>
-        </div>
-        <!-- Modal:div che compare quando si clicca sull'immagine -->
-        <div id="myModal" class="modal">
-
-            <!-- The Close Button -->
-            <span class="close">&times;</span>
-
-            <!-- Modal Content (The Image) -->
-            <img class="modal-content" id="img01">
-        </div>
         <?php 
 
         // modificato per la gestione corretta della paginazione (A.C. 10/3/2020)

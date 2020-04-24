@@ -95,39 +95,38 @@ $_SESSION['errore']=null;
 		echo"<a href='export_moranca.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
     echo "</div>";
     echo "<div style='clear:both;'></div>";
-   ?>
-        <div class="search-box">
-		    <form action='gest_morance.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="nome..." />
-			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
-		    <div class="result"></div>
-            </form>
-         <?php
-		 $x_pag = 10;			// n. di record per pagina
-		 $ricerca = false;
-         if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
-		   {
-            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 	
-			$ricerca= true;
-// 			echo "dopo get_first_pag pag=". $pag;
-		   }
-         ?>
+	?>
+	<div id="lb-back">
+    <div id="lb-img"></div>
+    </div>
+    <!-- Modal:div che compare quando si clicca sull'immagine -->
+    <div id="myModal" class="modal">
+
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+     <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+    </div>
+ 
+    <div class="search-box">
+	<form action='gest_morance.php' method='POST'><br>
+    <input type="text" autocomplete="off" name='nome' placeholder="nome..." />
+	<input type='submit' name= 'ricerca' class='button' value='Cerca'>
+	<div class="result"></div>
+    </form>
+<?php
+	$x_pag = 10;			// n. di record per pagina
+	$ricerca = false;
+    if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
+	 {
+      $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 	
+	  $ricerca= true;
+// 	  echo "dopo get_first_pag pag=". $pag;
+	 }
+?>
 <!--        </div>-->
-        <div id="lb-back">
-            <div id="lb-img"></div>
-        </div>
-        <!-- Modal:div che compare quando si clicca sull'immagine -->
-        <div id="myModal" class="modal">
-
-            <!-- The Close Button -->
-            <span class="close">&times;</span>
-
-            <!-- Modal Content (The Image) -->
-            <img class="modal-content" id="img01">
-        </div>
         <?php 
-
-
         if (!$ricerca)
 		{
           $pag=Paginazione($pag, "pag_m");	// Recupero il  numero di pagina corrente
