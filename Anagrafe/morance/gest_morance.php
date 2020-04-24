@@ -87,7 +87,7 @@ $_SESSION['errore']=null;
      else
 	   $pag= 1;
 	?>
-	    <h2><center><IMG SRC="../img/morance.png" > Villaggio di N'Tchangue: elenco moran&ccedil;e </center></h2>
+	    <h2><center><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" > Villaggio di N'Tchangue: elenco moran&ccedil;e <IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ></center></h2>
    <?php
     echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;e <IMG SRC='../img/history.png'></a>";

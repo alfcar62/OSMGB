@@ -72,7 +72,7 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h2><center><IMG SRC='../img/people.png'> Elenco Utenti che hanno accesso al sistema</center></h2>";
+            echo "<h2><center><IMG SRC='../img/people.png'> Elenco Utenti che hanno accesso al sistema <IMG SRC='../img/people.png'></center></h2>";
             $perm = $_SESSION['tipo'];
             if ($perm == "admin")
                 $perm = "amministratore ";
