@@ -197,9 +197,7 @@ $anno_corrente=date("yy");
 ?>
 
 <br>
-<h2>
-Statistiche per zona
-</h2>
+<h2><center>Statistiche per zona<IMG SRC='../img/inserisci2.png'></center></h2>
 
 <div style="float:left; display:block; width:350px; height:50px; ">
 <form name="form" id="form" action="utility_stat.php" method="post" >

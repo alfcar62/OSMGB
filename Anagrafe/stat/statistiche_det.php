@@ -195,9 +195,9 @@ $sprovvisti=$numero_persone-($minori20+$persone20_40+$persone_40_60+$maggiori60)
 $anno_corrente=date("yy");
 //echo $anno_corrente;
 ?>
-
+<h2><center> Dettaglio Statistiche<IMG SRC="../img/inserisci2.png"> </center></h2>
 <h2>
-Statistiche per anno
+Statistiche per anno <IMG SRC="../img/inserisci2.png">
 </h2>
 <div style="float:left; display:block; width:1200px;">
 <form  action="" method="post" >
@@ -242,7 +242,7 @@ echo "</form>";
 echo "</div>";
 
 echo "<div style='float:left; display:block; width:900px;'>";
-echo "<h2>Statistiche decessi</h2>";
+echo "<h2>Statistiche decessi<IMG SRC='../img/inserisci2.png'></h2>";
 ?>
 <div style="float:left; display:block; width:900px; ">
 <form name='form' id='form' action="#indice1" method="post" >
@@ -286,9 +286,9 @@ echo "'>  persone";
 echo "<input type='submit' class='button' value='mostra'><br>";
 echo "</form>";
 echo "</div>";
+echo "<br>";
 
-
-echo "<h2>Statistiche complessive</h2>";
+echo "<h2>Statistiche complessive<IMG SRC='../img/inserisci2.png'></h2>";
 echo "</br>numero abitanti per casa : ".(ceil($persone_casa*10))/10;
 echo "</br>Età media della popolazione : ".(ceil($etamedia*10))/10;
 echo "</br>Persone decedute dall'inizio : ".$morti;
