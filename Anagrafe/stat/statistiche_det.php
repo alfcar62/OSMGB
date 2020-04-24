@@ -1,7 +1,6 @@
 <?php
 //aggiunta la paginazione della tabella delle morance
 
-
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
@@ -195,26 +194,108 @@ $sprovvisti=$numero_persone-($minori20+$persone20_40+$persone_40_60+$maggiori60)
 
 $anno_corrente=date("yy");
 //echo $anno_corrente;
-
 ?>
 
-<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-<a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
-&nbsp;&nbsp;
-<a href='statistiche_zona.php'>Statistiche per zona <IMG SRC="../img/inserisci2.png"></a>
-<br>
-
-<div position="absolute"  align="center">
 <h2>
-Statistiche generali
+Statistiche per anno
 </h2>
-<div id="chartContainer1" left=15% style="width: 45%;  height: 300px;display: inline-block;"></div> 
-<div id="chartContainer2" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
-<div id="chartContainer3" left=15% style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="chartContainer4" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
-</div>
+<div style="float:left; display:block; width:1200px;">
+<form  action="" method="post" >
+Anno: 
+<?php 
 
+if(isset($_POST['anno_persone'])){ 
+    $annata=$_POST['anno_persone'];
+    $query = "SELECT * FROM `persone` WHERE year(DATA_NASCITA) = '$annata'";
+    $result=$conn->query($query);
+    //echo  $query;
+    if($result)
+    {
+      $numero_persone_annata=$result->num_rows;      
+    }  
+    }
+?>
+
+<select name="anno_persone">
+
+<?php 
+//persone nato per anno
+$anno=1940;
+if(isset($_POST['anno_persone'])){ 
+   $attuale =$_POST['anno_persone'];
+    echo "<option value='$attuale'>$attuale</option>"; 
+} 
+while($anno<=$anno_corrente)
+{
+   echo "<option value='$anno'>$anno</option>"; 
+   $anno++;
+}
+
+echo"</select>";
+echo " sono nate:";
+echo"<input type='text' readonly value='";
+if(isset($numero_persone_annata))
+{echo $numero_persone_annata;}
+echo "'>  persone";
+echo"<input type='submit' class='button' name='invio' value='mostra'>";
+echo "</form>";
+echo "</div>";
+
+echo "<div style='float:left; display:block; width:900px;'>";
+echo "<h2>Statistiche decessi</h2>";
+?>
+<div style="float:left; display:block; width:900px; ">
+<form name='form' id='form' action="#indice1" method="post" >
+<section id="#indice1"></section>
+<label for='anno'>Nell'anno</label>  
+<?php 
+//persone morte
+if(isset($_POST['anno_persone2'])){ 
+    $annata2=$_POST['anno_persone2'];
+    $query = "SELECT * FROM `persone` WHERE year(DATA_MORTE) = '$annata2'";
+    $result=$conn->query($query);
+    //echo  $query;
+    echo $conn->error;
+    if($result)
+    {
+      $numero_persone_annata2=$result->num_rows;    
+    }   
+   } 
+?>
+
+<select name="anno_persone2">
+
+<?php 
+$anno2=1940;
+if(isset($_POST['anno_persone2'])){ 
+   $attuale =$_POST['anno_persone2'];
+    echo "<option value='$attuale2'>$attuale2</option>"; 
+} 
+while($anno2<=$anno_corrente)
+{  
+   echo "<option value='$anno2'>$anno2</option>"; 
+   $anno2++;
+}
+
+echo"</select>";
+echo " sono decedute:";
+echo"<input type='text' readonly value='";
+if(isset($numero_persone_annata2))
+{echo $numero_persone_annata2;}
+echo "'>  persone";
+echo "<input type='submit' class='button' value='mostra'><br>";
+echo "</form>";
+echo "</div>";
+
+
+echo "<h2>Statistiche complessive</h2>";
+echo "</br>numero abitanti per casa : ".(ceil($persone_casa*10))/10;
+echo "</br>Età media della popolazione : ".(ceil($etamedia*10))/10;
+echo "</br>Persone decedute dall'inizio : ".$morti;
+
+echo "</body>";
+echo "</html>";
+?>
 <!--
 script dei grafici con integrazione in php dei dati necessari
 -->
@@ -234,7 +315,6 @@ var chart = new CanvasJS.Chart("chartContainer1",
                 { y:0, legendText: "360", },
                 { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% numero femmine" ?>" }, 
                 { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% numero maschi" },
-
             ]
         },
         ]

@@ -1,7 +1,6 @@
 <?php
 //aggiunta la paginazione della tabella delle morance
 
-
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
@@ -195,25 +194,38 @@ $sprovvisti=$numero_persone-($minori20+$persone20_40+$persone_40_60+$maggiori60)
 
 $anno_corrente=date("yy");
 //echo $anno_corrente;
-
 ?>
 
-<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-<a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
-&nbsp;&nbsp;
-<a href='statistiche_zona.php'>Statistiche per zona <IMG SRC="../img/inserisci2.png"></a>
 <br>
-
-<div position="absolute"  align="center">
 <h2>
-Statistiche generali
+Statistiche per zona
 </h2>
-<div id="chartContainer1" left=15% style="width: 45%;  height: 300px;display: inline-block;"></div> 
-<div id="chartContainer2" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
-<div id="chartContainer3" left=15% style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="chartContainer4" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
+
+<div style="float:left; display:block; width:350px; height:50px; ">
+<form name="form" id="form" action="utility_stat.php" method="post" >
+<label for="zona"> zona:</label>
+<select name="zona_richiesta">
+<option value="nord">nord</option>
+<option value="ovest">ovest</option>
+<option value="sud">sud</option>
+</select>
 </div>
+<div style="float:left; display:block; width:350px; height:50px; ">
+<label for="zona">tipo:</label>
+<select name="valore">
+<option value="maschi">maschi e femmine</option>
+<option value="maggiorenni">maggiorenni</option>
+<option value="fertili">fertili</option>
+<option value="fasce">fasce</option>
+<option value="abitanti">numero persone</option>
+</select>
+<input type='submit' class='button' name='invia'>
+</form>
+</div>
+<div style='clear:both;'></div>
+
+</body>
+</html>
 
 <!--
 script dei grafici con integrazione in php dei dati necessari
@@ -234,7 +246,6 @@ var chart = new CanvasJS.Chart("chartContainer1",
                 { y:0, legendText: "360", },
                 { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% numero femmine" ?>" }, 
                 { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% numero maschi" },
-
             ]
         },
         ]
