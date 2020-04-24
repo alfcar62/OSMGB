@@ -202,12 +202,12 @@ $anno_corrente=date("yy");
 
 <a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
 &nbsp;&nbsp;
-<a href='statistiche_zona.php'>Statistiche per zona <IMG SRC="../img/inserisci2.png"></a>
+<a href='statistiche_zona.php'>Statistiche per zona <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
 <br>
 
 <div position="absolute"  align="center">
 <h2>
-Statistiche generali
+<i class="fa fa-pie-chart" aria-hidden="true"></i> Statistiche generali
 </h2>
 <div id="chartContainer1" left=15% style="width: 45%;  height: 300px;display: inline-block;"></div> 
 <div id="chartContainer2" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>

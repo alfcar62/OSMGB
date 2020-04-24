@@ -113,7 +113,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 	   $pag= 0;
 
 	?>
-	   <h2> <center>Villaggio di N'Tchangue: elenco persone abitanti</center></h2>
+	   <h2> <center><IMG SRC="../img/people.png"> Villaggio di N'Tchangue: elenco persone abitanti </center></h2>
 <?php
 echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_persone.php'> Storia delle persone <IMG SRC='../img/history.png'></a>";
@@ -269,7 +269,7 @@ echo "<div style='clear:both;'></div>";
         echo " <input type='submit' class='button' value='Conferma'>";//conferma
         echo " </form>";
 		echo " </div>";
-		echo"<a href='ins_persona.php'>Inserimento nuova persona<IMG SRC='../img/inserisci.png'></a>";
+		echo"<a href='ins_persona.php'>Inserimento nuova persona <i class='fa fa-plus-circle fa-2x'></i></a>";
         /*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/

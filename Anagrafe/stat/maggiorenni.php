@@ -35,7 +35,6 @@ if($result)
 {
   $numero_persone=$result->num_rows;
 }
-echo $zona;
 //persone maggiorenni per zona
 $query = "SELECT count(persone.ID) from persone 
 inner join pers_casa on pers_casa.ID_PERS=persone.ID 
@@ -107,7 +106,7 @@ var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "MAGGIORENNI E MINORENNI nella zona",
+            text: "MAGGIORENNI E MINORENNI nella zona <?php echo $zona ?>",
         },
         data: [
         {

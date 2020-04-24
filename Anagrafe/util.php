@@ -19,13 +19,13 @@ function stampaNavbar()
     $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
 ?>
 <ul>
-    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>           
-        <?php
-    if (login())
-    {
-     if($_SESSION['tipo']!="utente")
-	  {
-        ?>   
+ <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>           
+ <?php
+ if (login())
+   {
+    if($_SESSION['tipo']!="utente")
+	 {
+ ?>   
     <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;e</a></li>
     <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?></a></li><!--Case --> 
     <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?></a></li><!--Persone --> 
@@ -79,7 +79,7 @@ function stampaNavbar()
     ?>
     <li><a href="/OSM/Anagrafe/info/chisiamo.php"><?php echo ($jsonObj->{$lang."Navbar"}[0])?></a></li><!--Chi siamo --> 
     <li><a href="/OSM/Anagrafe/info/progetto.php"><?php echo ($jsonObj->{$lang."Navbar"}[1])?></a></li><!--Il progetto --> 
-    <li><a href="/OSM/Anagrafe/login.php"><?php echo ($jsonObj->{$lang."Navbar"}[2])?><IMG SRC="/OSM/Anagrafe/img/ico-login.png" WIDTH="36" HEIGHT="33" BORDER="0" ALT="Entra"></a></li> <!--Entra -->      
+    <li><a href="/OSM/Anagrafe/login.php"><IMG SRC="/OSM/Anagrafe/img/ico-login.png" ALT="Entra"></a></li> <!--Entra -->      
     <li>
         <a href="#" onclick="myFx()" class="globe">
             <img src="/OSM/Anagrafe/gestione_lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
@@ -89,7 +89,7 @@ function stampaNavbar()
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
             <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
-        </a><br>
+        </a>
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
             <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
         </a>

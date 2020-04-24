@@ -87,7 +87,7 @@ $_SESSION['errore']=null;
      else
 	   $pag= 1;
 	?>
-	    <h2><center>Villaggio di N'Tchangue: elenco moran&ccedil;e</center></h2>
+	    <h2><center><IMG SRC="../img/morance.png" > Villaggio di N'Tchangue: elenco moran&ccedil;e </center></h2>
    <?php
     echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;e <IMG SRC='../img/history.png'></a>";
@@ -180,7 +180,7 @@ $_SESSION['errore']=null;
         echo " </form>";
 		echo " </div>";
 		
-		echo"<a href='ins_moranca.php'>Inserimento nuova moran&ccedil;a<IMG SRC='../img/inserisci.png'></a>&nbsp;";
+		echo"<a href='ins_moranca.php'>Inserimento nuova moran&ccedil;a <i class='fa fa-plus-circle fa-2x'></i></a>&nbsp;";
 
 
 		/*
@@ -246,7 +246,7 @@ $_SESSION['errore']=null;
 			//nome Moranca  (con possibilità di ordinamento)
 
 			echo " <form method='post' action='gest_morance.php'>";
-            echo "<th> nominativo <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
  
 
             //id (con possibilità di ordinamento)

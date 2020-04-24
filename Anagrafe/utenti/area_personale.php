@@ -30,7 +30,7 @@ isLogged("amministratore");
         $result = $conn->query($query);
         $row = $result->fetch_array();
 
-        echo "<h2> Area personale</h2>";
+        echo "<h2> Area personale<i class='fa fa-user'></i></h2>";
         echo "<br> Nome utente: {$_SESSION['nome']} <br>";
         echo "<br> Data creazione account: ";
         if(isset($row['data_inizio_val'])){

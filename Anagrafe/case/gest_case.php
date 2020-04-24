@@ -83,7 +83,7 @@ isLogged("gestore");
      else
 	   $pag= 0;
 	?>
-	  <h2> <center>Villaggio di N'Tchangue: elenco case</center></h2>
+	  <h2> <center><IMG SRC="../img/house.png"> Villaggio di N'Tchangue: elenco case </center></h2>
     <?php
       echo "<div style='float:left'>";
 	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";
@@ -194,7 +194,7 @@ isLogged("gestore");
         echo " </form>";
         echo " </div>";
 		
-		echo"<a href='ins_casa.php'>Inserimento nuova casa <IMG SRC='../img/inserisci.png'></a>&nbsp;";
+		echo"<a href='ins_casa.php'>Inserimento nuova casa <i class='fa fa-plus-circle fa-2x'></i></a>&nbsp;";
 		/*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/
@@ -260,7 +260,7 @@ isLogged("gestore");
 			//nome casa  (con possibilità di ordinamento)
 
 			echo " <form method='post' action='gest_case.php'>";
-            echo "<th> nominativo <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
  
 
             //id (con possibilità di ordinamento)

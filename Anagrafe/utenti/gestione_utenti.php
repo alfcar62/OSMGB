@@ -72,7 +72,7 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h3><center> Elenco Utenti che hanno effettuato il login al sistema</center></h3>";
+            echo "<h2><center><IMG SRC='../img/people.png'> Elenco Utenti che hanno accesso al sistema</center></h2>";
             $perm = $_SESSION['tipo'];
             if ($perm == "admin")
                 $perm = "amministratore ";
@@ -83,7 +83,7 @@
             echo "<br> Utente collegato: {$_SESSION['nome']} / permesso: $perm <br>";
 
 			echo "<a href='vis_login.php'><br>";
-            echo "Visualizza gli accessi <IMG SRC='../img/people.png'></a><br><br>";
+            echo "Visualizza gli accessi<i class='fa fa-eye'></i> </a><br><br>";
 
             if (isset($_POST['tipo']))
                 if($_POST['tipo']!='tutti')
@@ -105,7 +105,7 @@
             echo " </form>";
 
 		    echo "<a href='insert_utente.php'><br>";
-            echo "Inserisci nuovo utente <IMG SRC='../img/inserisci.png'></a><br><br>";
+            echo "Inserisci nuovo utente <i class='fa fa-user-plus fa-2x'></i></a><br><br>";
 
             //query per l'elenco degli utenti
             $query = "SELECT user,id_accesso,data_inizio_val";
