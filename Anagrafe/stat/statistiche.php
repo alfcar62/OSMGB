@@ -25,7 +25,7 @@ $query = "SELECT * from persone";
 $result=$conn->query($query);
 //echo  $query;
 
-echo $conn->error.".";
+//echo $conn->error.".";
 if($result)
 {
   $numero_persone=$result->num_rows;
@@ -207,7 +207,7 @@ $anno_corrente=date("yy");
 
 <div position="absolute"  align="center">
 <h2>
-<i class="fa fa-pie-chart" aria-hidden="true"></i> Statistiche generali
+<i class="fa fa-pie-chart" aria-hidden="true"></i> Villaggio di N'Tchangue: Statistiche
 </h2>
 <div id="chartContainer1" left=15% style="width: 45%;  height: 300px;display: inline-block;"></div> 
 <div id="chartContainer2" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>

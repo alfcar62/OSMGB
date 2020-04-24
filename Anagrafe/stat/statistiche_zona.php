@@ -24,7 +24,7 @@ $query = "SELECT * from persone";
 $result=$conn->query($query);
 //echo  $query;
 
-echo $conn->error.".";
+//echo $conn->error.".";
 if($result)
 {
   $numero_persone=$result->num_rows;
