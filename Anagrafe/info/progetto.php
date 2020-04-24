@@ -21,10 +21,6 @@ unsetPag(basename(__FILE__));
 
 <A HREF="https://wiki.openstreetmap.org/wiki/OsmGuineaBissau_Avogadro" target='new'> <IMG SRC="../img/wikiosm.png"  ALT="la nostra pagina Wiki"></A>
 
-<br><br>
-<h3>Apri la pagina Github con il codice Open Source</h3>
-<A HREF="https://github.com/alfcar62/OSMGB" target='new'> <IMG SRC="../img/github.jpg"  ALT="codice del progetto"></A>
-
 </div>
 
 </body>
