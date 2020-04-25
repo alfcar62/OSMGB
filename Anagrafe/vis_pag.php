@@ -31,7 +31,7 @@
        // per la pagina corrente non mostro nessun link ma la evidenzio in bold
        // all'interno della sequenza delle pagine
     if ($p == $pag)
-		echo "<mark><b> " . $p . "</b></mark>&nbsp;";
+		echo "<mark><b> " . $p . "</b></mark>";
        // per tutte le altre pagine stampo il link
     else
       { 
