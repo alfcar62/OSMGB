@@ -11,12 +11,12 @@
   if ($pag > 1)
    {
       echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
-      echo "<<- Pagina Indietro</a>&nbsp;&nbsp;&nbsp;";
+      echo "<<- Indietro</a>&nbsp;&nbsp;&nbsp;";
    }
   if ($all_pages > $pag)
    {
          echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
-         echo "Pagina Avanti ->><br><br></a>";
+         echo "Avanti ->><br><br></a>";
    } 
    // faccio un ciclo di tutte le pagine
   $cont=0;
