@@ -29,7 +29,7 @@ function stampaNavbar()
     <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;e</a></li>
     <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?></a></li><!--Case --> 
     <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?></a></li><!--Persone --> 
-    <!--   <li><a href="/OSM/Anagrafe/OSM/index.html" target="catasto"><?php echo $jsonObj->{$lang."Navbar"}[6]."<br>".$jsonObj->{$lang."Navbar"}[7] ?></a></li> --Mappa Catastale --> 
+ <!--   <li><a href="/OSM/Anagrafe/OSM/index.html" target="catasto"><?php echo $jsonObj->{$lang."Navbar"}[6]."<br>".$jsonObj->{$lang."Navbar"}[7] ?></a></li>-->
     <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">Mappa</a></li>
 
     <?php
