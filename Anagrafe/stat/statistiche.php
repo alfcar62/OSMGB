@@ -199,7 +199,7 @@ $anno_corrente=date("yy");
 ?>
 
 <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
+<br>
 <a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
 &nbsp;&nbsp;
 <a href='statistiche_zona.php'>Statistiche per zona <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
