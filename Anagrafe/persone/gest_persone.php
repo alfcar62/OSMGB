@@ -113,7 +113,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 	   $pag= 0;
 
 	?>
-	   <h2> <center><IMG SRC="../img/people.png"> Elenco persone <IMG SRC="../img/people.png"> </center></h2>
+	   <h2> <center><i class='fa fa-male'></i> Elenco persone <i class='fa fa-female'></i> </center></h2>
 <?php
 echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_persone.php'> Storia delle persone <IMG SRC='../img/history.png'></a>";
