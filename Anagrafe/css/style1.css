@@ -3,7 +3,7 @@
 
 body {
     background-color: #C0DBF7;
-	margin: 20px;
+	margin: 4px;
 	font-family: 'Raleway', sans-serif;
 }
 
@@ -51,7 +51,11 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: #01295F;
+	border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
 }
+
+
 
 li {
     float: left;
@@ -60,7 +64,7 @@ li.titolo {
     display: block;
     color: white;
     text-align: center;
-    padding: 16px 2.5vw;
+    padding: 0.5px 0.5vw;
     font-size: 25px;
     text-shadow: 4px 3px 6px rgba(255, 255, 255, 0.8);
     text-decoration: none;
