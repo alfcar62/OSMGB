@@ -19,7 +19,7 @@ function stampaNavbar()
     $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
 ?>
 <ul>
- <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB</a></li>           
+ <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB<br></a></li>           
  <?php
  if (login())
    {
@@ -30,18 +30,17 @@ function stampaNavbar()
     <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?></a></li><!--Case --> 
     <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?></a></li><!--Persone --> 
     <!--   <li><a href="/OSM/Anagrafe/OSM/index.html" target="catasto"><?php echo $jsonObj->{$lang."Navbar"}[6]."<br>".$jsonObj->{$lang."Navbar"}[7] ?></a></li> --Mappa Catastale --> 
-    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM</a></li>
+    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">Mappa</a></li>
 
     <?php
       } ?>
-
-    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!-- statistiche --> 
+    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li>
     <?php  if($_SESSION['tipo']=="admin")
 	 {
 	  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."</a></li>";// Utenti
 
-       //echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
-      echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
+     //echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
+     // echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
     ?>
     <?php
       }  
@@ -62,15 +61,11 @@ function stampaNavbar()
     </a>
     </li>
     <div id="dropMenu">
-        <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-
-        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
-            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
-        </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA"   >
-            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
-
-        </a>
+     <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
+     <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
+     <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" WIDTH='30' HEIGHT='15' class="flag" alt="EN"></a><br>
+     <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
+     <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png" WIDTH='30' HEIGHT='15' class="flag" alt="ITA"></a>
     </div>
     <?php
     }
@@ -88,10 +83,10 @@ function stampaNavbar()
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
-            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
+            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png"  WIDTH='30' HEIGHT='15' class="flag" alt="EN">
         </a>
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
-            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
+            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"   WIDTH='30' HEIGHT='15' class="flag" alt="ITA">
         </a>
     </div>
 </ul>
