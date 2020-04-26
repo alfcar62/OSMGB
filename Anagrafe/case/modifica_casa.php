@@ -85,17 +85,27 @@ try
 
    $id_osm = $row['id_osm'];
    if($id_osm == '')
-     $id_osm =0;
-
-  if (($nome_casa_new !=  $row['nome_casa']) ||
+     $id_osm = 0;
+   
+   if (($nome_casa_new !=  $row['nome_casa']) ||
       ($id_moranca_new != $row['id_moranca']) ||
       ($id_osm_new != $id_osm))
      $upd = true;
-  else
+   else
      $upd = false;
   
+
    if ($upd)
    { 
+	 $lat = 0.0;
+     $lon = 0.0;
+	 if ($id_osm_new !=0)
+	  {	  
+	   $result = get_latlon($id_osm_new, $lat, $lon);   // recupero latitudine e longitudine a partire dall'id_osm
+       if ($result<0)
+        echo "errore accesso a OpenStreetMap";
+      }
+	
   /* 
 	*** Insert su "casa_sto"
 	*** sullo storico "casa_sto" teniamo traccia dei cambiamenti di una casa.
@@ -152,9 +162,14 @@ try
    $query .= "SET casa.nome = '". $nome_casa_new."',";
    $query .= "id_moranca   = ". $id_moranca_new.",";
    $query .= "id_osm       = ". $id_osm_new.",";
+   if (($lat !=0.0) && ($lon !=0.0))
+     {
+	   $query .= "lat       = ". $lat.",";
+	   $query .= "lon       = ". $lon.",";
+     }
    $query .= "data_inizio_val='".$data_attuale."'";
    $query .= " WHERE casa.id = ".$id_casa;
-   //echo "q4 ".$query;
+//   echo "q4 ".$query;
    $result = $conn->query($query); 
    if (!$result)
       throw new Exception($conn->error);
@@ -175,4 +190,65 @@ try
   }
    $mymsg = "Modifica casa effettuata correttamente";
    EchoMessage($mymsg, "gest_case.php?pag=$pag");
+?>
+
+<?php
+/*
+*** funzione che, a partire dall'id su OSM ritorna latitudine e longitudine
+*** return 0  = ok
+***        -1 = fail
+*** utilizzo della libreria Curl (per le connessioni server to server
+*** NB: deve essere attivato come parametro di configurazione PHP
+*** ad es: Su altervista si deve andare nel pannello di controllo e abilitare
+*** le connessioni server to server
+*/
+
+function get_latlon($id_osm, &$lat, &$lon)
+{ 
+// a little script check is the cURL extension loaded or not
+
+ $url = "https://api.openstreetmap.org/api/0.6/way/".$id_osm."/full.json";
+
+// echo "url=". $url;
+
+ $client = curl_init($url);		// inizializzazione
+ if ($client == false)
+	 { 
+	   echo "<br>modifica_casa.php: errore curl_init():inizializzazione con OSM non stabilita";
+	   return -1;
+     }
+	
+ curl_setopt($client,CURLOPT_RETURNTRANSFER,true);	// output come stringa
+
+ curl_setopt($client, CURLOPT_HEADER, 0);		// non scarico header
+
+ curl_setopt($client, CURLOPT_TIMEOUT, 20);		// set timeout
+
+ curl_setopt($client, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+ curl_setopt($client, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+ $response = curl_exec($client);
+
+ if ($response == false)
+   { 
+	 echo "<br>modifica_casa.php: errore curl_exec()esecuzione curl OSM errore";
+	 return -1;
+   }
+ else
+  {
+   // echo $response;
+
+    $arr = json_decode($response,true);
+ //   var_dump($arr);
+    $lat = $arr['elements'][0]['lat'];
+	$lon = $arr['elements'][0]['lon'];
+
+ //   echo "lat=".  $lat;
+ //   echo "lon=".  $lon;
+
+    curl_close($client);
+  }
+  return 0;
+}
 ?>
