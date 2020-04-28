@@ -2,6 +2,7 @@
 $config_path = __DIR__;
 $util1="../util.php";
 $util2="../db/db_conn.php";
+require_once $util1;
 require_once $util2;
 
 /**
@@ -9,9 +10,7 @@ require_once $util2;
 ***
 *** Legge le case da DB e genera il file geojson
 **/
-header("Content-Type: application/json; charset=UTF-8");
-
-include ("db_conn.php");
+//header("Content-Type: application/json; charset=UTF-8");
 
 $query = "SELECT c.id, c.nome,";
 $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca,";
@@ -24,8 +23,8 @@ $query .= " LEFT JOIN pers_casa pc ON c.id  = pc.id_casa ";
 $query .="  AND pc.cod_ruolo_pers_fam = 'CF'";
 $query .="  LEFT JOIN persone p ON p.id = pc.id_pers";
 $query .= " WHERE c.DATA_FINE_VAL is null";
-$query .= " AND (lat is NOT NULL OR lat !=0)";
-$query .= " AND (lon is NOT NULL OR lon !=0)";
+$query .= " AND (lat is NOT NULL AND lat !=0)";
+$query .= " AND (lon is NOT NULL AND lon !=0)";
 
 
 $result = $conn->query($query);  
@@ -53,7 +52,7 @@ $geojson = array(
 	$query2="SELECT COUNT(pers_casa.ID_PERS) as num_persone from pers_casa WHERE ID_CASA='$row[id]'";
                 $result2 = $conn->query($query2);
                 $row2 = $result2->fetch_array();
-                echo "<td>$row2[num_persone]</th>";
+//                echo "num persone".$row2['num_persone']."<br>";
 	//printf ("-nome casa:%s \n", $row['nome']);
     $feature = array(
 		'type' => 'Feature',
@@ -91,14 +90,20 @@ mysqli_close($conn);
 
 $jsondata = json_encode($geojson, JSON_PRETTY_PRINT);
 
-$myFile = "../OSM/points.geojson";
+$myFile = "points.geojson";
+
+// Nb: Controllare se si hanno i permessi di scrittura (777) sulla cartella su server
+$file = fopen($myFile,"w+");
+fwrite($file,$jsondata);
+fclose($file);
+/*
 if(file_put_contents($myFile, $jsondata))
   {
-	 echo '<br>Dati salvati correttamente sul file '. $myFile;
+	 echo 'Dati salvati correttamente sul file';
   }
  else 
-	echo "errore nel salvataggio dati";
-
+	echo "Errore nel salvataggio dati su  file  points.geojson";
+*/
 header('Content-Type: text/html; charset=utf-8');
 header("Location:index.html");
 ?>
