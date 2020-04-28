@@ -67,9 +67,9 @@ $geojson = array(
 			'tag' =>  $row['zona'],
 			'verified' => $row['data_val'],
 			'description' => array(
-				'Casa' => $row['nome'],
-				'Moranca' => $row['nome_moranca'],
-				'Capo Famiglia' => $row['capo_famiglia'],
+				'Casa' => utf8_encode ($row['nome']),
+				'Moranca' => utf8_encode ($row['nome_moranca']),
+				'Capo Famiglia' => utf8_encode ($row['capo_famiglia']),
 				'Numero persone' => $row2['num_persone']
             ))
         );
