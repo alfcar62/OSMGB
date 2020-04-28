@@ -88,8 +88,6 @@ body {
   }
 
 
-
-
   var settings;
   var settingsstring = "";
   settingsstring = getJSON("settings.json");
@@ -103,13 +101,12 @@ body {
       '"center": [12.00705,-15.50897],'+
       '"zoom":14,'+
       '"zoomto":15,'+
-      '"tags": ["first","second"],'+
+      '"tags": ["NORD","SUD", "OVEST"],'+
       '"datasource":"points.php"'+
       '}';
   }
 
   settings = JSON.parse(settingsstring);
-
 
 
   document.title = settings.title;
@@ -214,8 +211,11 @@ body {
              }
          }
      }
-     if (pointverified != "") text = text + 'Ultima modifica: ' + pointverified;
-     text = text +'<br><a href="'+urledit+'">'+settings.editpoint+'</a>';
+ //    if (pointverified != "") text = text + 'Ultima modifica: ' + pointverified;
+ //    text = text +'<br><a href="'+urledit+'">'+settings.editpoint+'</a>';
+    
+	if (pointverified != "") text = text + 'Ultima modifica: ' + pointverified;
+     text = text +'<br>';
 
      popup.show(pointcoordinates, text);
      olview = new ol.View({
@@ -246,7 +246,6 @@ body {
   });
 
 
-
   var selectClick = new ol.interaction.Select({
       condition: ol.events.condition.click,
       multi: false
@@ -265,6 +264,8 @@ body {
           }
       }
   });
+/*
+***Alfonso: Non voglio permettere l'inserimento nuovo punto con double click
 
   var emptySource = new ol.source.Vector({wrapX: false});
 
@@ -282,8 +283,7 @@ body {
       emptySource.addFeature(newfeature);
       pointinfo(evt.coordinate, "new", "", "", "");
   });
-
-
+*/
 
 })(window, document);
     </script>
