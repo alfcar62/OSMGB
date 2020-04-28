@@ -86,7 +86,10 @@ try
    $id_osm = $row['id_osm'];
    if($id_osm == '')
      $id_osm = 0;
-   
+  
+  if($id_osm != $id_osm_new)
+	   $upd = true;
+
    if (($nome_casa_new !=  $row['nome_casa']) ||
       ($id_moranca_new != $row['id_moranca']) ||
       ($id_osm_new != $id_osm))
@@ -97,11 +100,11 @@ try
 
    if ($upd)
    { 
-	 $lat = 0.0;
-     $lon = 0.0;
+	 $lat_new = 0.0;
+     $lon_new = 0.0;
 	 if ($id_osm_new !=0)
 	  {	  
-	   $result = get_latlon($id_osm_new, $lat, $lon);   // recupero latitudine e longitudine a partire dall'id_osm
+	   $result = get_latlon($id_osm_new, $lat_new, $lon_new);   // recupero latitudine e longitudine a partire dall'id_osm
        if ($result<0)
         echo "errore accesso a OpenStreetMap";
       }
@@ -161,12 +164,19 @@ try
    $query=   "UPDATE casa " ;
    $query .= "SET casa.nome = '". $nome_casa_new."',";
    $query .= "id_moranca   = ". $id_moranca_new.",";
-   $query .= "id_osm       = ". $id_osm_new.",";
-   if (($lat !=0.0) && ($lon !=0.0))
-     {
-	   $query .= "lat       = ". $lat.",";
-	   $query .= "lon       = ". $lon.",";
-     }
+   if ($id_osm_new != 0)
+	{
+	  $query .= "id_osm    = ". $id_osm_new.",";
+      $query .= "lat       = ". $lat_new.",";
+	  $query .= "lon       = ". $lon_new.",";
+    }
+   else 
+	{
+	   $query .= "id_osm  = NULL,";
+	   $query .= "lat  = NULL,";
+	   $query .= "lon  = NULL,";
+    }
+    
    $query .= "data_inizio_val='".$data_attuale."'";
    $query .= " WHERE casa.id = ".$id_casa;
 //   echo "q4 ".$query;
