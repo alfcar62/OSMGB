@@ -28,8 +28,8 @@ function stampaNavbar()
     <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;e<br><i class="fa fa-home"></i><i class="fa fa-home"></i><i class="fa fa-home"></i></a></li>
     <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?><br><i class="fa fa-home"></i></a></li><!--Case --> 
     <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?><br><i class='fa fa-male'></i><i class='fa fa-female'><i class='fa fa-male'><i class='fa fa-female'></i></i></i></a></li><!--Persone --> 
-    <li><a href="/OSM/Anagrafe/OSM/db2geojson.php" target='mappa case'> Mappa case<br><i class="fa fa-home"></i><i class='fa fa-globe'></i> </a></li>-->
-    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">Mappa<br><i class='fa fa-globe'></i></a></li>
+    <li><a href="/OSM/Anagrafe/OSM/db2geojson.php" target='new'> Mappa case<br><i class="fa fa-home"></i><i class='fa fa-globe'></i> </a></li>-->
+    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM<br><i class='fa fa-globe'></i></a></li>
 
     <?php
       } ?>
