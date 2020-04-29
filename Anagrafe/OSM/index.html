@@ -182,7 +182,7 @@ body {
 
 
 
-  var controlshtml = "";
+  var controlshtml = "Visualizza le case della Zona:";
 
   for(var i=0; i< settings.tags.length; i++) {
       controlshtml = controlshtml + '<input type="checkbox" class="controlCheckbox" id="'+settings.tags[i]+'" value="'+i+'" checked>'+settings.tags[i];
@@ -210,7 +210,7 @@ body {
       var lat = wgs84[1];
       var urledit = "javascript:window.open('edit.php?ID="+pointname+"&lon="+lon+"&lat="+lat+"','"+settings.editpoint+"','scrollbars=no,resizable=yes, width=240,height=320,status=no,location=no,toolbar=no')";
       var text = '';
-      if (pointname != 'new') text = text + '<b>' + pointname + '</b><br>';
+      if (pointname != 'new') text = text + '<b>id casa:' + pointname + '</b><br>';
      if (pointaddress != '') text = text + pointaddress + '<br>';
      if (pointdescription != "") {
          for (var key in pointdescription){
