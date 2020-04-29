@@ -4,7 +4,9 @@ $util1="../util.php";
 $util2="../db/db_conn.php";
 require_once $util1;
 require_once $util2;
-
+setup();
+isLogged("gestore");
+unsetPag(basename(__FILE__));
 /**
 *** PHP GeoJSON Constructor, adpated from https://github.com/bmcbride/PHP-Database-GeoJSON
 ***
