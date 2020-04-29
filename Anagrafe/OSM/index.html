@@ -50,7 +50,7 @@ body {
   right:0;
   border: 5px solid white;
   text-align: right;
-  color: blue;
+  color: black;
   background-color: white;
 }
 #map{
@@ -74,6 +74,8 @@ body {
     <script src="//cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.js"></script>
     <script src="//cdn.jsdelivr.net/openlayers.popup/1.0.1/ol3-popup.js"></script>
     <script src="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
+	    
+
     <script >
     (function (win, doc) {
   'use strict';
@@ -119,15 +121,22 @@ body {
 
   document.title = settings.title;
 
-
   var styles = {
       'point': new ol.style.Style({
+// modificata immagine con icona
+	  image: new ol.style.Icon({
+		src: '/OSM/Anagrafe/img/house.png',
+	    color: '#4271AE'
+        })
+	  }),
+/*	 
           image: new ol.style.Circle({
               radius: 5,
               fill: new ol.style.Fill({ color: 'yellow' }),
                                      stroke: new ol.style.Stroke({color: 'red', width: 1})
           })
-      }),
+		  
+      }),*/
      'temp_point': new ol.style.Style({
          image: new ol.style.Circle({
              radius: 5,
