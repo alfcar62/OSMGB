@@ -5,7 +5,6 @@ require $util;
 setup();
 isLogged();
 ?>
-
 <html>
 <?php stampaIntestazione(); ?>
 <body>
@@ -19,7 +18,7 @@ require $util;
 <?php
 
 $oraoggi=date("Y/m/d");
-$zona=$_POST["zona_richiesta"];
+$zona=$_GET["zona_richiesta"];
 
 //persone in totale
 $query = "SELECT *  from persone 
@@ -36,18 +35,13 @@ if($result)
 {
   $numero_persone=$result->num_rows;
 }
-
-
-
-echo $zona;
 //persone maggiorenni per zona
 $query = "SELECT count(persone.ID) from persone 
 inner join pers_casa on pers_casa.ID_PERS=persone.ID 
 inner join casa on pers_casa.ID_casa=casa.ID
 inner join morance on casa.ID_moranca=morance.ID
 inner join zone on morance.cod_zona=zone.COD
-where  zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)<6570 
-";
+where  zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)<6570 ";
 //echo $query;
 $result=$conn->query($query);
 //echo  $query;
@@ -64,10 +58,6 @@ $maggiorenni=$numero_persone-$minorenni;
 }
 
 
-
-
-
-
 //media età delle persone 
 $query = "select avg(DATEDIFF('2020/2/29',data_nascita)) from persone";
 $result=$conn->query($query);
@@ -79,12 +69,6 @@ $row = $result->fetch_array();
 //echo " media eta delle persone: ";
 $etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
 }
-
-
-
-
-
-
 
 ?>
 
@@ -104,7 +88,6 @@ echo "</br>";
 echo "<form action='' method='post' >";
 
 echo "<select name='zona_richiesta'>";
-echo "<option value='$zona'>$zona</option>";
 echo "<option value='nord'>nord</option>";
 echo "<option value='ovest'>ovest</option>";
 echo "<option value='sud'>sud</option>
@@ -116,16 +99,14 @@ echo "<option value='sud'>sud</option>
 <form action="statistiche.php"> <input type="submit" value=TORNA> </form>
 <div>
 
-
 </form>
-
 
 <script>
 var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "MAGGIORENNI E MINORENNI nella zona",
+            text: "MAGGIORENNI E MINORENNI nella zona <?php echo $zona ?>",
         },
         data: [
         {

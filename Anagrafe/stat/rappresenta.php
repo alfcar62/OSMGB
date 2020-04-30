@@ -79,9 +79,7 @@ $all_pages = ceil($all_rows / $x_pag);
 // Calcolo da quale record iniziare
 $first = ($pag - 1) * $x_pag;
 
- echo "<h3> VISUALIZZA ELENCO ABITANTI MORTI NELL'ANNO SELEZIONATI </h3>";
-
- echo "<a href='add_persone.php'>Aggiungi nuova persona.</a><br><br>";
+ echo "<h3> VISUALIZZA ELENCO ABITANTI MORTI NELL'ANNO SELEZIONATO </h3>";
 
 if (isset($_POST['cod_zona'])){
    $cod_zona = $_POST['cod_zona'];

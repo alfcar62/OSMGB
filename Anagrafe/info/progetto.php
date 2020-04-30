@@ -11,18 +11,17 @@ unsetPag(basename(__FILE__));
 ?>
 <div align="center">
 <h1>  Il progetto <br></h1>
-<h3>Apri la pagina Wiki ed entra nel mondo di questo progetto con un semplice click.
-</h3>
-
-<A HREF="https://wiki.openstreetmap.org/wiki/OsmGuineaBissau_Avogadro" target='new'> <IMG SRC="../img/wikiosm.png"  ALT="la nostra pagina Wiki"></A>
+<br>
 <h3>Guarda il video di presentazione del progetto </h3>
-
-
+<br>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lj0iqdUjjAA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<!--<div id="divVideo"><video poster="../img/poster.png"  controls width="50%" height="50%" >
-    <source src="../img/video.mp4" type="video/mp4">
-</video></div>-->
+<br><br>
+<h3>Apri la pagina Wiki ed entra nel mondo di questo progetto con un semplice click.
+</h3>
+<br>
+<A HREF="https://wiki.openstreetmap.org/wiki/OsmGuineaBissau_Avogadro" target='new'> <IMG SRC="../img/wikiosm.png"  ALT="la nostra pagina Wiki"></A>
+
 </div>
 
 </body>

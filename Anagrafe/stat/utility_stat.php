@@ -1,6 +1,8 @@
 <?php
 $valore = $_POST["valore"];
 $zona = $_POST["zona_richiesta"];
+echo "valore".$valore;
+echo "zona".$zona;
 if ($valore == "maschi") {
     header("Location:sessoMeF.php?zona_richiesta=$zona");
 } elseif ($valore == "maggiorenni") {

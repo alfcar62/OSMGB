@@ -30,9 +30,9 @@ isLogged("amministratore");
         $result = $conn->query($query);
         $row = $result->fetch_array();
 
-        echo "<h2> Area personale</h2>";
-        echo "<br> NOME UTENTE: {$_SESSION['nome']} <br>";
-        echo "<br> DATA CREAZIONE ACCOUNT: ";
+        echo "<h2><center> <i class='fa fa-user'></i>Area personale<i class='fa fa-user'></i></center></h2>";
+        echo "<br> Nome utente: {$_SESSION['nome']} <br>";
+        echo "<br> Data creazione account: ";
         if(isset($row['data_inizio_val'])){
             echo "$row[data_inizio_val]";
         }
@@ -40,23 +40,23 @@ isLogged("amministratore");
             echo "Non presente"; 
         }
         echo "<br>";
-        echo "<br> TIPO DI ACCESSO : {$_SESSION['nome']} <br>";
+        echo "<br> Tipo di permesso : {$_SESSION['nome']} <br>";
 
         if(isset($_POST['formCambiaPsw']) || isset($_POST['cambiaPsw']) ){
         ?>
-        <br><form action='area_personale.php' method='POST'>
+        <br><form name="form" id="form" action='area_personale.php' method='POST'>
 
-        Password attuale:<input type='password'  name='pswOld' required><br>
-        Nuova password: <input type='password'  name='pswNew1'id='pswNew1' required><span id='info'><img onmouseover='tooltip(event)' onmouseout='tooltip(event)' src='../img/infoIcon.png' style='height:25px;width:50px;'></span>
+        <label for="user">Password attuale:</label><input type='password'  name='pswOld' required><br>
+        <label for="user">Nuova password:</label> <input type='password'  name='pswNew1'id='pswNew1' required><span id='info'><img onmouseover='tooltip(event)' onmouseout='tooltip(event)' src='../img/infoIcon.png' style='height:25px;width:50px;'></span>
         <span id='error' style='visibility:hidden'>La password deve avere almeno 8 caratteri e avere almeno un carattere maiuscolo,uno minuscolo,un numero e un carattere speciale</span><br>
 
-        Ripeti password: <input type='password'  name='pswNew2' required>
+        <label for="user">Ripeti password: </label><input type='password'  name='pswNew2' required>
         <br><input type='submit' class='button' name='cambiaPsw' value='Cambia password' >
         </form>
         <?php 
         }else{
             if(!isset($_POST['cambiaPsw'])){
-                echo " <form action='area_personale.php' method='POST'>";
+                echo " <form name='form' id='form' action='area_personale.php' method='POST'>";
                 echo "<br><input type='submit' class='button' name='formCambiaPsw' value='Cambia password' ia>";
                 echo"</form>";
             }

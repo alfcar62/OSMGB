@@ -13,9 +13,6 @@
     setup();
     isLogged("amministratore");
     ?>
-    <html>
-        <link rel="stylesheet" type="text/css" href="../css/style.css">
-
         <?php
         $util2 = $config_path .'/../db/db_conn.php';
         require_once $util2;
@@ -75,7 +72,7 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h3> Elenco Utenti che hanno effettuato il login al sistema</h3>";
+            echo "<h2><center><i class='fa fa-user'></i> Elenco Utenti che hanno accesso al sistema <i class='fa fa-user'></i></center></h2>";
             $perm = $_SESSION['tipo'];
             if ($perm == "admin")
                 $perm = "amministratore ";
@@ -83,17 +80,16 @@
                 $perm = "gestore";
             else if ($perm == "utente")
                 $perm = "utente generico";
-            echo "<br> Utente collegato: {$_SESSION['nome']} <br> permesso: $perm <br>";
-            echo "<a href='insert_utente.php'><br>";
-            echo "Inserisci nuovo utente </a><br><br>";
+            echo "<br> Utente collegato: {$_SESSION['nome']} / permesso: $perm <br>";
 
 			echo "<a href='vis_login.php'><br>";
-            echo "Visualizza gli accessi </a><br><br>";
+            echo "Visualizza gli accessi<i class='fa fa-eye'></i> </a><br><br>";
 
             if (isset($_POST['tipo']))
                 if($_POST['tipo']!='tutti')
                     $tipo = $_POST['tipo'];
-            //Select option per la scelta dell tipo di utente
+
+            //Select option per la scelta del tipo di utente
             echo "<form action='gestione_utenti.php' method='POST'><br>";
             echo   "Selezione permessi : <select name='tipo'>";
             $result = $conn->query("SELECT DISTINCT id_accesso from utenti");
@@ -107,6 +103,9 @@
             echo "</select>";
             echo " <input type='submit' class='button' value='Conferma'>";
             echo " </form>";
+
+		    echo "<a href='insert_utente.php'><br>";
+            echo "Inserisci nuovo utente <i class='fa fa-user-plus fa-2x'></i></a><br><br>";
 
             //query per l'elenco degli utenti
             $query = "SELECT user,id_accesso,data_inizio_val";
@@ -145,7 +144,7 @@
                     echo "<td>$perm</td>";
                     echo "<td>$row[data_inizio_val]</td>";
                     echo " <form method='post' action='del_utente.php'>";
-                    echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+                    echo "<th><button class='btn center-block' name='idElimina'  value='$row[user]' type='submit';'><IMG SRC='../img/trash.png'> </button> ". "</th></form>";
                 }
                 echo "</table>";
             }

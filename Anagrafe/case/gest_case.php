@@ -83,15 +83,28 @@ isLogged("gestore");
      else
 	   $pag= 0;
 	?>
-	  <h2> Villaggio di N'Tchangue: elenco case</h2>
+	  <h2> <center><IMG SRC="../img/house.png"> Elenco case <IMG SRC='../img/house.png'> </center></h2>
     <?php
       echo "<div style='float:left'>";
 	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";
 	  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	  echo"<a href='export_casa.php'>Export su excel<i class='fa fa-file-excel-o fa-2x'></i></a>&nbsp;";		
+	  echo"<a href='export_casa.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
       echo "</div>";
       echo "<div style='clear:both;'></div>";
     ?>
+	 <div id="lb-back">
+     <div id="lb-img"></div>
+     </div>
+     <!-- Modal:div che compare quando si clicca sull'immagine -->
+     <div id="myModal" class="modal">
+
+     <!-- The Close Button -->
+     <span class="close">&times;</span>
+
+     <!-- Modal Content (The Image) -->
+     <img class="modal-content" id="img01">
+     </div>
+
      <div class="search-box">
 		    <form action='gest_case.php' method='POST'><br>
             <input type="text" autocomplete="off" name='nome' placeholder="nome casa..." />
@@ -109,18 +122,6 @@ isLogged("gestore");
 		   }
          ?>
   <!--      </div>-->
-		  <div id="lb-back">
-            <div id="lb-img"></div>
-        </div>
-        <!-- Modal:div che compare quando si clicca sull'immagine -->
-        <div id="myModal" class="modal">
-
-            <!-- The Close Button -->
-            <span class="close">&times;</span>
-
-            <!-- Modal Content (The Image) -->
-            <img class="modal-content" id="img01">
-        </div>
         <?php 
 
         // modificato per la gestione corretta della paginazione (A.C. 10/3/2020)
@@ -194,8 +195,7 @@ isLogged("gestore");
         echo " </form>";
         echo " </div>";
 		
-		echo"<a href='ins_casa.php'>Inserimento nuova casa <i class='fa fa-plus-square fa-2x' ></i></a>&nbsp;";
-
+		echo"<a href='ins_casa.php'>Inserimento nuova casa <i class='fa fa-plus-circle fa-2x'></i></a>&nbsp;";
 		/*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/
@@ -261,7 +261,7 @@ isLogged("gestore");
 			//nome casa  (con possibilità di ordinamento)
 
 			echo " <form method='post' action='gest_case.php'>";
-            echo "<th> nominativo <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
  
 
             //id (con possibilità di ordinamento)

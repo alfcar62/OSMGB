@@ -1,7 +1,6 @@
 <?php
 //aggiunta la paginazione della tabella delle morance
 
-
 $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
@@ -25,7 +24,7 @@ $query = "SELECT * from persone";
 $result=$conn->query($query);
 //echo  $query;
 
-//echo $conn->error.".";
+echo $conn->error.".";
 if($result)
 {
   $numero_persone=$result->num_rows;
@@ -198,23 +197,220 @@ $anno_corrente=date("yy");
 
 ?>
 
-<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<div style=' text-align: center;'>
 <br>
-<a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
-&nbsp;&nbsp;
-<a href='statistiche_zona.php'>Statistiche per zona <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
-<br>
-
-<div position="absolute"  align="center">
 <h2>
-<i class="fa fa-pie-chart" aria-hidden="true"></i> Villaggio di N'Tchangue: Statistiche <i class="fa fa-pie-chart" aria-hidden="true"></i>
+Statistiche per zone
 </h2>
-<div id="chartContainer1" left=15% style="width: 45%;  height: 300px;display: inline-block;"></div> 
-<div id="chartContainer2" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
-<div id="chartContainer3" left=15% style="width: 45%; height: 300px;display: inline-block;"></div>
-<div id="chartContainer4" right=15% style="width: 45%; height: 300px;display: inline-block;"></div><br>
 </div>
+<div>
+<form name='form' id='form' action="utility_stat.php" method="post" >
+<label for='zona'> Selezionare la zona:</label>
+<select name="zona_richiesta">
+<option value="nord">nord</option>
+<option value="ovest">ovest</option>
+<option value="sud">sud</option>
+</br>
+</select>
+<label for='sel'>Selezionare:</label>
+<select name="valore">
+<option value="maschi">maschi e femmine</option>
+<option value="maggiorenni">maggiorenni</option>
+<option value="fertili">fertili</option>
+<option value="fasce">fasce</option>
+<option value="abitanti">numeo persone</option>
+</select>
+<input type='submit' class='button' name='invia'>
+</form>
 
+
+</div>
+<div>
+<form name='form' id='form' action="" method="post" >
+
+<label for='anno'>Nell'anno: </label> 
+<?php 
+
+if(isset($_POST['anno_persone'])){ 
+    $annata=$_POST['anno_persone'];
+    $query = "SELECT * FROM `persone` WHERE year(DATA_NASCITA) = '$annata'";
+    $result=$conn->query($query);
+    //echo  $query;
+    echo $conn->error;
+    if($result)
+    {
+      $numero_persone_annata=$result->num_rows;
+      
+    }  
+    }else{
+      
+    }
+?>
+
+<select name="anno_persone">
+
+<?php 
+//persone nato per anno
+$anno=1940;
+if(isset($_POST['anno_persone'])){ 
+   $attuale =$_POST['anno_persone'];
+    echo "<option value='$attuale'>$attuale</option>"; 
+} 
+while($anno<=$anno_corrente)
+{
+  
+   echo "<option value='$anno'>$anno</option>"; 
+   $anno++;
+}
+
+echo"</select>";
+echo " sono nate:";
+echo"<input type='text' readonly value='";
+if(isset($numero_persone_annata))
+{echo $numero_persone_annata;}
+echo "'>  persone";
+echo"
+<input type='submit' name='invia'>";
+echo "<br><h2>"."Decessi<h2>";
+?>
+</div>
+<div>
+</form>
+<form name='form' id='form' action="#indice1" method="post" >
+<section id="#indice1"></section>
+<label for='anno'>Nell'anno</label>  
+<?php 
+//persone morte
+if(isset($_POST['anno_persone2'])){ 
+    $annata2=$_POST['anno_persone2'];
+    $query = "SELECT * FROM `persone` WHERE year(DATA_MORTE) = '$annata2'";
+    $result=$conn->query($query);
+    //echo  $query;
+    echo $conn->error;
+    if($result)
+    {
+      $numero_persone_annata2=$result->num_rows;    
+    }   
+   } 
+?>
+
+<select name="anno_persone2">
+
+<?php 
+$anno2=1940;
+if(isset($_POST['anno_persone2'])){ 
+   $attuale =$_POST['anno_persone2'];
+    echo "<option value='$attuale2'>$attuale2</option>"; 
+} 
+while($anno2<=$anno_corrente)
+{  
+   echo "<option value='$anno2'>$anno2</option>"; 
+   $anno2++;
+}
+
+echo"</select>";
+echo " sono decedute:";
+echo"<input type='text' readonly value='";
+if(isset($numero_persone_annata2))
+{echo $numero_persone_annata2;}
+echo "'>  persone";
+echo "
+<input type='submit' value='mostra numero'>;
+<br>
+<label for='pers'>visualizza le persone</label>
+<input type='submit'  value='mostra' formaction='rappresenta.php'>";
+echo "</form>";
+echo "</br><h3  style=' text-align: center;'>numero abitanti per casa : ".(ceil($persone_casa*10))/10;
+echo "</br></br>Età media : ".(ceil($etamedia*10))/10;
+echo "</br></br>Persone Decedute Dall'inizio : ".$morti;
+echo "</h3>";
+?>
+<?php
+    $x_pag = 10;
+
+    // Recupero il numero di pagina corrente.
+    // Generalmente si utilizza una querystring
+    $pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
+
+    // Controllo se $pag è valorizzato e se è numerico
+    // ...in caso contrario gli assegno valore 1
+    if (!$pag || !is_numeric($pag)) $pag = 1;
+
+    $query = "SELECT count(tab1.nom) as cont FROM (SELECT morance.nome as nom,count(persone.ID) as persone from morance 
+    inner join casa on morance.ID=casa.ID_MORANCA 
+    inner join pers_casa on casa.ID=pers_casa.ID_CASA 
+    inner join persone on pers_casa.ID_PERS=persone.ID 
+    GROUP by morance.ID )as tab1";
+    $result = $conn->query($query);
+    $row = $result->fetch_array();
+    $all_rows = $row['cont'];
+    //echo $query;
+
+    //  definisco il numero totale di pagine
+    $all_pages = ceil($all_rows / $x_pag);
+
+    // Calcolo da quale record iniziare
+    $first = ($pag - 1) * $x_pag;
+
+  //  echo $all_pages;
+$query="SELECT morance.nome,count(persone.ID) as persone from morance 
+inner join casa on morance.ID=casa.ID_MORANCA 
+inner join pers_casa on casa.ID=pers_casa.ID_CASA 
+inner join persone on pers_casa.ID_PERS=persone.ID 
+GROUP by morance.ID
+LIMIT $first, $x_pag";
+ $result=$conn->query($query);
+ $nr = $result->num_rows;
+echo "<div  align='center' style='width:50%'> ";
+if ($nr != 0)
+ {
+	echo "<table border>";
+    echo "<tr>";
+    echo "<th>moranca</th>";
+    echo "<th>persone </th>"; 
+    echo "</tr>";
+ }
+
+ while ($row = $result->fetch_array())
+ { 
+    echo "<tr>";
+	$mystr = utf8_encode ($row['nome']) ;
+    echo "<td>$mystr</td>";
+    echo "<td>$row[persone]</td>";
+    echo "</tr>";
+}
+ echo "</table>";
+ echo "</div>";
+ if ($all_pages > 1) {
+    if ($pag > 1) {
+        echo "<br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
+        echo "Pagina Indietro</a>&nbsp;<br>";
+    }
+    // faccio un ciclo di tutte le pagine
+    $cont = 0;
+    for ($p = 1; $p <= $all_pages; $p++) {
+        if ($cont >= 50) {
+            echo "<br>";
+            $cont = 0;
+        }
+        $cont++;
+        // per la pagina corrente non mostro nessun link ma la evidenzio in bold
+        // all'interno della sequenza delle pagine
+        if ($p == $pag) echo "<b>" . $p . "</b>&nbsp;";
+        // per tutte le altre pagine stampo il link
+        else {
+            echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
+            echo $p . "</a>&nbsp;";
+        }
+    }
+    if ($all_pages > $pag) {
+        echo "<br><br><a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
+        echo "Pagina Avanti<br></a>";
+    }
+}
+echo "</body>";
+echo "</html>";
+?>
 <!--
 script dei grafici con integrazione in php dei dati necessari
 -->
@@ -234,7 +430,6 @@ var chart = new CanvasJS.Chart("chartContainer1",
                 { y:0, legendText: "360", },
                 { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% numero femmine" ?>" }, 
                 { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% numero maschi" },
-
             ]
         },
         ]

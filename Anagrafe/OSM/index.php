@@ -9,5 +9,5 @@ setup();
 <body>
 <?php stampaNavbar(); ?>
  <?php
-     header("Location: /OSM/Anagrafe/OSM/anagrafe.html");
+     header("Location: /OSM/Anagrafe/OSM/index.php");
 ?>
