@@ -25,7 +25,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 <body>
 <?php stampaNavbar(); 
 echo "<h2> Villaggio di NTchangue:";
-echo "Export su file Excel delle morance </h2>";
+echo "Export su file Excel delle moran&ccedil;as </h2>";
 ?>
 
 <form action="excel_moranca.php" method="post" >
