@@ -69,7 +69,8 @@ $geojson = array(
 			'tag' =>  $row['zona'],
 			'verified' => $row['data_val'],
 			'description' => array(
-				'Casa' => utf8_encode ($row['nome']),
+				'id OSM' => $row['id_osm'],
+				'Nome Casa' => utf8_encode ($row['nome']),
 				'Moranca' => utf8_encode ($row['nome_moranca']),
 				'Capo Famiglia' => utf8_encode ($row['capo_famiglia']),
 				'Numero persone' => $row2['num_persone']
@@ -95,17 +96,18 @@ $jsondata = json_encode($geojson, JSON_PRETTY_PRINT);
 $myFile = "points.geojson";
 
 // Nb: Controllare se si hanno i permessi di scrittura (777) sulla cartella su server
-$file = fopen($myFile,"w+");
+/*$file = fopen($myFile,"w+");
 fwrite($file,$jsondata);
 fclose($file);
-/*
+*/
+
 if(file_put_contents($myFile, $jsondata))
   {
 	 echo 'Dati salvati correttamente sul file';
   }
  else 
 	echo "Errore nel salvataggio dati su  file  points.geojson";
-*/
+
 header('Content-Type: text/html; charset=utf-8');
 header("Location:index.html");
 ?>
