@@ -351,4 +351,5 @@ function EchoMessage($msg, $redirect)
 
         return $output;
    }
+
 ?>
