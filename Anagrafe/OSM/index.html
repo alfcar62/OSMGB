@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/openlayers.popup/1.0.1/ol3-popup.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto">
     <link href="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="styleOSM.css">
 <style>
 .ol-popup {
   position: absolute;
@@ -59,6 +60,8 @@ body {
   top:0; bottom:0;
   left:0;
 }
+
+
 .ol-control button{
   background-color: rgba(40, 40, 40, 0.8) !important;
 }
@@ -125,8 +128,10 @@ body {
       'point': new ol.style.Style({
 // modificata immagine con icona
 	  image: new ol.style.Icon({
-		src: '/OSM/Anagrafe/img/house.png',
-	    color: '#4271AE'
+	  crossOrigin: 'anonymous',
+//	  src: 'https://openlayers.org/en/v3.20.1/examples/data/dot.png',
+	  src: '/OSM/Anagrafe/img/house.png',
+	  color: 'red'
         })
 	  }),
 /*	 
@@ -190,7 +195,7 @@ body {
   }
 
 
-
+//check box con la scelta della zona
   var controlshtml = "Visualizza le case della Zona:";
 
   for(var i=0; i< settings.tags.length; i++) {
@@ -217,9 +222,12 @@ body {
       var wgs84 = ol.proj.transform(pointcoordinates, 'EPSG:3857', 'EPSG:4326');
       var lon = wgs84[0];
       var lat = wgs84[1];
-      var urledit = "javascript:window.open('edit.php?ID="+pointname+"&lon="+lon+"&lat="+lat+"','"+settings.editpoint+"','scrollbars=no,resizable=yes, width=240,height=320,status=no,location=no,toolbar=no')";
-      var text = '';
-      if (pointname != 'new') text = text + '<b>id casa:' + pointname + '</b><br>';
+      var urledit = "javascript:window.open('edit.php?ID="+pointname+"&lon="+lon+"&lat="+lat+"','"+settings.editpoint+"','scrollbars=no,resizable=yes, width=200,height=500,status=no,location=no,toolbar=no')";
+
+	  // visualizzo i dati della casa nella text area
+
+	 var text = '';
+     if (pointname != 'new') text = text + '<b>id casa:' + pointname + '</b><br>';
      if (pointaddress != '') text = text + pointaddress + '<br>';
      if (pointdescription != "") {
          for (var key in pointdescription){
@@ -228,11 +236,9 @@ body {
              }
          }
      }
- //    if (pointverified != "") text = text + 'Ultima modifica: ' + pointverified;
- //    text = text +'<br><a href="'+urledit+'">'+settings.editpoint+'</a>';
+     if (pointverified != "") text = text + 'Ultima modifica: ' + pointverified;
+     text = text +'<br><a href="'+urledit+'">'+settings.editpoint+'</a>';
     
-	if (pointverified != "") text = text + 'Ultima modifica: ' + pointverified;
-     text = text +'<br>';
 
      popup.show(pointcoordinates, text);
      olview = new ol.View({
@@ -282,8 +288,6 @@ body {
       }
   });
 /*
-***Alfonso: Non voglio permettere l'inserimento nuovo punto con double click
-
   var emptySource = new ol.source.Vector({wrapX: false});
 
   var emptyVector = new ol.layer.Vector({
@@ -300,9 +304,11 @@ body {
       emptySource.addFeature(newfeature);
       pointinfo(evt.coordinate, "new", "", "", "");
   });
+
 */
 
 })(window, document);
+
     </script>
   </body>
 </html>
