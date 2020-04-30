@@ -1,0 +1,31 @@
+*{margin: 0 auto;   
+}
+
+body {
+    background-color: #C0DBF7;
+	margin: 4px;
+	font-family: 'Raleway', sans-serif;
+}
+
+.onlyread {
+    background-color: Gainsboro;	/* grigio */
+}
+
+/* bottoni */
+.button {
+    background-color: #36494E;
+    border: none;
+    color: white;
+    padding:11px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+	width: 36%;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+.button:hover {
+    background-color: #01295f63;
+    color: white;
+
