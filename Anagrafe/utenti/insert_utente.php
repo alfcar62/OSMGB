@@ -24,17 +24,18 @@
         ?>
         <!--<div class="container">-->
         <div>
-            <h>Registrazione di un nuovo utente<br></h>
-            <form id="login" action="insert_utente.php" method="POST">
-                Username:
+            <h2>Inserimento di  un nuovo utente</h2>
+			<br><br>
+            <form name="form" id="form" action="insert_utente.php" method="POST">
+                <label for="user">Username:</label>
                 <input type="text" name="user" required><br>
-                Password:
+                <label for="user">Password:</label>
                 <input type="password" name="psw1" id="psw" required><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
                 <span id="error" style="visibility:hidden">La password deve avere almeno 8 caratteri e avere almeno un carattere maiuscolo,uno minuscolo,un numero e un carattere speciale!</span>
                 <br>
-                Conferma password:
+                <label for="user">Conferma password:</label>
                 <input type="password" name="psw2" id="psw1" required><br>
-                Tipo di utente:
+                <label for="user">Tipo di utente:</label>
                 <select name="accesso">
                     <option value="admin">Amministratore</option>
                     <option value="gestore">Gestore</option>
@@ -43,7 +44,7 @@
                 <span id="error2" style="visibility:hidden"><br>Tipologie di accesso:<br>Amministratore: accesso completo <br>
                     Gestore: non può registrare nuovi utenti <br>
                     Utente generico: può visualizzare solo le statistiche</span><br>
-                <input type="button" class="button" name="login" value="Aggiungi" id="log" onclick="PwChecker()">
+                <input type="button" class="button" name="login" value="Conferma" id="log" onclick="PwChecker()">
                 <?php
                 if (isset($_POST['user']) && isset($_POST['psw1'])) 
                 {    

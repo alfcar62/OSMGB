@@ -97,10 +97,10 @@ if ($nr != 0)
 		echo "<td>$row[cod_ruolo_pers_fam]</td>";
 		echo "<td>$row[descrizione]</td>";
         echo " <form method='post' action='../persone/mod_persona.php'>";
-	    echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+	    echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><img src='../img/wrench.png' > </button> ". "</th></form>";
 
         echo " <form method='post' action='../persone/del_persona.php'>";
-	    echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";	
+	    echo "<th><button class='btn center-block' name='id_pers'  value='$row[id]' type='submit';'><img src='../img/trash.png' ></button> ". "</th></form>";	
 	    echo "</tr>";
     } 
 	  echo "</table>";

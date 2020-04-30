@@ -85,49 +85,57 @@ $_SESSION['errore']=null;
 	 if(isset($_GET['pag']))			// pagina corrente
 	   $pag= $_GET['pag'];
      else
-	   $pag= 0;
+	   $pag= 1;
 	?>
-	    <h2>Villaggio di N'Tchangue: elenco moran&ccedil;e</h2>
+	    <h2><center><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" > Elenco moran&ccedil;e <IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ></center></h2>
+   <?php
+    echo "<div style='float:left'>";
+		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;e <IMG SRC='../img/history.png'></a>";
+		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		echo"<a href='export_moranca.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
+    echo "</div>";
+    echo "<div style='clear:both;'></div>";
+	?>
+	<div id="lb-back">
+    <div id="lb-img"></div>
+    </div>
+    <!-- Modal:div che compare quando si clicca sull'immagine -->
+    <div id="myModal" class="modal">
 
-        <div class="search-box">
-		    <form action='gest_morance.php' method='POST'><br>
-            <input type="text" autocomplete="off" name='nome' placeholder="nome moranca..." />
-			<input type='submit' name= 'ricerca' class='button' value='Cerca'>
-		    <div class="result"></div>
-            </form>
-         <?php
-		 $x_pag = 10;			// n. di record per pagina
-         if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
-		   {
-            $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 			
- //			echo "pag=". $pag;
-		   }
-         ?>
-        </div>
-        <div id="lb-back">
-            <div id="lb-img"></div>
-        </div>
-        <!-- Modal:div che compare quando si clicca sull'immagine -->
-        <div id="myModal" class="modal">
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
 
-            <!-- The Close Button -->
-            <span class="close">&times;</span>
-
-            <!-- Modal Content (The Image) -->
-            <img class="modal-content" id="img01">
-        </div>
+     <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01">
+    </div>
+ 
+    <div class="search-box">
+	<form action='gest_morance.php' method='POST'><br>
+    <input type="text" autocomplete="off" name='nome' placeholder="nome..." />
+	<input type='submit' name= 'ricerca' class='button' value='Cerca'>
+	<div class="result"></div>
+    </form>
+<?php
+	$x_pag = 10;			// n. di record per pagina
+	$ricerca = false;
+    if(isset($_POST['ricerca']))		// se è stata richiesta la ricerca, recupera la pagina da visualizzare
+	 {
+      $pag = get_first_pag($conn, $_POST['nome'], $cod_zona, $ord, $campo); 	
+	  $ricerca= true;
+// 	  echo "dopo get_first_pag pag=". $pag;
+	 }
+?>
+<!--        </div>-->
         <?php 
+        if (!$ricerca)
+		{
+          $pag=Paginazione($pag, "pag_m");	// Recupero il  numero di pagina corrente
+//		  echo "dopo Paginazione pagina=". $pag;
+		}
+        
+//		echo "pagina=". $pag;
 
-
-        $pag=Paginazione($pag, "pag_m");	// Recupero il  numero di pagina corrente
-
-	//	echo "pagina=". $pag;
-
-        // Controllo se $pag ? valorizzato e se ? numerico
-        // ...in caso contrario gli assegno valore 1
-        if (!$pag || !is_numeric($pag))
-            $pag = 1; //prima volta che entro
-
+       
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella 
         $query = "SELECT count(id) as cont FROM morance where DATA_FINE_VAL IS null";
         if (isset($cod_zona) && $cod_zona != 'tutte')
@@ -142,21 +150,17 @@ $_SESSION['errore']=null;
         $all_pages = ceil($all_rows / $x_pag);
 
         // Calcolo da quale record iniziare
-        $first = ($pag - 1) * $x_pag;
-
-  //      echo "first=". $first;
-
-        echo "<a href='ins_moranca.php'>Inserisci una nuova  moran&ccedil;a</a><br><br>";//Aggiungi una nuova moranca
-
-        echo "<a href='export_moranca.php'>Export su Excel</a><br><br>";//Export su excel
-
-        echo "<a href='vis_sto_tot_morance.php'>";
-        echo "Storia delle moran&ccedil;e </a><br><br>";
-
+		if (!$ricerca)
+          $first = ($pag-1) * $x_pag ;
+		else 
+		  $first = ($pag) * $x_pag ;
+  //      echo "ricerca=".$ricerca;
+	//	 echo "pag=".$pag;
+   //     echo "first=".$first;
 
         //Select option per la scelta della zona
         echo "<form action='gest_morance.php' method='POST'><br>";
-        echo  "Selezione Zona: <select name='cod_zona'>";
+        echo  "Zona: <select name='cod_zona'>";
         $result = $conn->query("SELECT * FROM zone");
         $nz=$result->num_rows;
 
@@ -173,6 +177,9 @@ $_SESSION['errore']=null;
         echo "</select>";
         echo " <input type='submit' class='button' value='". $jsonObj->{$lang."Morance"}[4]."'>";//Conferma
         echo " </form>";
+		echo " </div>";
+		
+		echo"<a href='ins_moranca.php'>Inserimento nuova moran&ccedil;a <i class='fa fa-plus-circle fa-2x'></i></a>&nbsp;";
 
 
 		/*
@@ -191,7 +198,7 @@ $_SESSION['errore']=null;
        if (isset($_POST['ord_id']) ||
 		    isset($_POST['ord_nome']))
          {
-		  echo " cambiato campo o ord";
+//		  echo " cambiato campo o ord";
           if (isset($_POST['ord_id']))		// cambiato ordinamento su id
 		     $campo = 'id';
 		  else 
@@ -219,7 +226,7 @@ $_SESSION['errore']=null;
        $query .= " ORDER BY $campo " . $ord ;
        $query .= " LIMIT $first, $x_pag";
 
- //     echo $query;
+ //    echo $query;
        $result = $conn->query($query);
        $numero=$result->num_rows;
        if ($result->num_rows !=0)
@@ -230,15 +237,21 @@ $_SESSION['errore']=null;
 			//foto
             echo "<th>foto</th>";
 
-            //nome Moranca  (con possibilità di ordinamento)
+			if ($ord == "ASC")
+				$myclass = "fa fa-arrow-circle-down";
+			else
+				$myclass = "fa fa-arrow-circle-up";
 
+			//nome Moranca  (con possibilità di ordinamento)
+
+			echo " <form method='post' action='gest_morance.php'>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+ 
+
+            //id (con possibilità di ordinamento)
             echo " <form method='post' action='gest_morance.php'>";
-            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
-
-			//id (con possibilità di ordinamento)
-            echo " <form method='post' action='gest_morance.php'>";
-            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
-
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i>  </button> </th></form>";
+           
             echo "<th>zona</th>";//Zona
             echo "<th>progr. zona</th>";//progr nella zona
 			echo "<th>numero case</th>"; 
@@ -283,7 +296,7 @@ $_SESSION['errore']=null;
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
-                    echo "<td>idOSM=$row[id_osm]". " <a href=$osm_link target=new> <i class='fa fa-map-marker' title ='vai sulla mappa'></i></a></td>"; 	   
+                    echo "<td>$row[id_osm]". " <a href=$osm_link target=new> <img src='../img/marker.png' ></a></td>"; 	   
                 }
                 else
                 { 
@@ -293,17 +306,18 @@ $_SESSION['errore']=null;
                 echo "<td>$row[data_inizio_val]</td>";
 
                 echo " <form method='post' action='mod_moranca.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/wrench.png'> </button> ". "</th></form>";
 
                 echo " <form method='post' action='del_moranca.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/trash.png'> </button> ". "</th></form>";
 
                 echo " <form method='post' action='mostra_case.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>"; 
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/house.png'></button> ". "</th></form>"; 
 
                 echo " <form method='post' action='vis_moranca_sto.php'>";
-                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i> </button> ". "</th></form>";    
+                echo "<th><button class='btn center-block' name='id_moranca'  value='$row[id]' type='submit';'><img src='../img/history.png'> </button> ". "</th></form>";    
                 echo "</tr>";
+				
             }      
             echo "</table>";      
         }
@@ -355,7 +369,7 @@ $_SESSION['errore']=null;
 */
 function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
 { 
-
+ $nome = utf8_decode($nome);
 	// recupero l'id moranca
  $query = "SELECT id id_m FROM morance  WHERE nome = '{$nome}'";
  $result = $conn->query($query);
@@ -363,7 +377,7 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
  $id = $row['id_m'];
  $result->free();
 
-    // Prepare a select statement
+ // Prepare a select statement
  $query = "SELECT ";
  $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
  $query .= " m.data_inizio_val, m.data_fine_val";
@@ -403,8 +417,18 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
  $result->free();
 
  $x_pag = 10;
- $pag= intval(abs($cont/$x_pag))+1;
+    
+ $resto = $cont%$x_pag;
+ //echo "resto=", $resto;
+ //echo "x_pag=", $x_pag;
+ //echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+ 
+ if ($resto ==0)
+       $pag= intval(abs($cont/$x_pag))-1;
+	 else
+       $pag= intval(abs($cont/$x_pag));
 
+//echo "esco da first_pag, pag=", $pag;
  return $pag;
 }
 

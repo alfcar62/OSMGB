@@ -23,9 +23,9 @@ echo "<br>CANCELLAZIONE PERSONA: identificativo: $id_pers <br><br>";
 
 echo "<form  method='POST' action='delete_persona.php'>";
 echo "Si vuole davvero cancellare?<br>";
-echo "<input type='submit' name='no' value='no'>&nbsp;";
-echo "<input type='submit' name='si' value='si'>";
-echo "<input type='hidden' name='id_pers' value='$id_pers'>";
+echo "<input type='submit' class='button' name='no' value='no'>&nbsp;";
+echo "<input type='submit' class='button' name='si' value='si'>";
+echo "<input type='hidden'  name='id_pers' value='$id_pers'>";
 
 echo "</form>";
 echo "</body>";

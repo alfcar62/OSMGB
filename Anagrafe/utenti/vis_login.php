@@ -71,7 +71,7 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h3> Elenco degli accessi al sistema</h3>";
+            echo "<h2><center> <i class='fa fa-user'></i> Accessi effettuati nel sistema</center></h2>";
             //Select option per la scelta della zona
             echo "<form action='vis_login.php' method='POST'><br>";
             echo   "Visualizza : <select name='filtro'>";

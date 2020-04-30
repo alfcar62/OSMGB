@@ -26,7 +26,9 @@ $id_moranca=$_POST["id_moranca"];
 
 //$conn->query("START TRANSACTION"); //inizio transazione
 
-echo "<form action='modifica_moranca.php' method='post'>";
+//echo "<div class='Area'>";
+
+echo "<form action='modifica_moranca.php' name='form' id='form' method='post'>";
 
 $query =  "SELECT m.ID id, m.NOME 'nome_moranca', m.cod_zona, z.nome zona, m.id_osm  ";
 $query .= "FROM morance m INNER JOIN zone z ON m.cod_zona = z.cod ";
@@ -46,14 +48,14 @@ $zona = $row['zona'];
 
 $id_osm = $row['id_osm'];
 
-echo "<h3>Modifica moran&ccedil;a: $moranca (id =$row[id]), zona: $zona<h3>";//Inserimento moranca
-
-echo "Nome moran&ccedil;a: <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
+echo "Modifica moran&ccedil;a: $moranca (id =$row[id]), zona: $zona";//Inserimento moranca
+echo "<br>";
+echo "<label for='nome'>Nome moran&ccedil;a:</label> <input type='text' name='nome_moranca' value='$moranca' required><br>";//Nuovo nome morança
 
 echo "<input type='hidden'  name='id_moranca'  value=$id_moranca>";
 
 //Select option per la scelta della zona
-echo   $jsonObj->{$lang."Morance"}[3].": <select name='cod_zona'>";
+echo  "<label for='zona'>". $jsonObj->{$lang."Morance"}[3].": </label><select name='cod_zona'>";
 $result = $conn->query("SELECT * FROM zone");
 $nz=$result->num_rows;
 for($i=0;$i<$nz;$i++)
@@ -66,16 +68,16 @@ for($i=0;$i<$nz;$i++)
 			echo "<option value='".$row["COD"]."'>".$row["NOME"]."</option>";
 }
 echo "</select>";
-
+echo "<br>";
 ?>
-sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> >
+<label for='mappa'>sulla mappa:</label> <input type='text' name='id_osm' value= <?php echo $id_osm ?> >
 <span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
  <span id="error" style="visibility:hidden">Identificativo della moran&ccedil;a sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la moran&ccedil;a,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
 <?php
-echo "<button type='submit' class = 'button'>".$jsonObj->{$lang."Morance"}[4]."</button>";//Conferma
+echo "<button type='submit' class = 'button'> Modifica</button>";//Conferma
 echo "</form>";
-    echo "<h2>MODIFICA LA FOTO DELLA MORANCA :</h2>";
+    echo "<h2>Modifica la foto della moran&ccedil;a:</h2>";
 
 if(isset($_POST["caricaFoto"])) {
 	$target_dir = "immagini/";
@@ -127,17 +129,14 @@ if(isset($_POST["eliminaFoto"])) {
 
 }
 
-
-echo '  <form action="mod_moranca.php" method="post" enctype="multipart/form-data">';//form per caricare la foto
+echo " <form action='mod_moranca.php' method='post' enctype='multipart/form-data'>";//form per caricare la foto
 echo "Seleziona una foto da caricare:";
 echo   " <input type='hidden' name='id_moranca' value='$id_moranca' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
-echo '<input type="file" name="fileToUpload" id="fileToUpload" required>
-<input type="submit"  value="Carica foto" name="caricaFoto">
-</form>   ';
+echo "<input type='file' name='fileToUpload' id='fileToUpload' required><input type='submit'  value='Carica foto' name='caricaFoto'></form>   ";
 $immagine=glob('immagini/'.$id_moranca.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine
 if($immagine != null){
 
-	echo "Foto attuale:";
+	echo "<br>Foto attuale:";
 	echo "<img src='$immagine[0]'  width='120'
 height='120' id='image' style=' display: block;
 margin-left:0;'  > ";
@@ -150,5 +149,6 @@ else{
 }
 echo "<br><a href='gest_morance.php?pag=$pag'>Torna a gestione morance</a>" 
 ?>
+
 </body>
 </html>

@@ -14,18 +14,12 @@ if (isset($_POST['user']) && isset($_POST['psw']))
     $psw=$_POST["psw"];
     $utente=$_POST['user'];
 
-
     $utente = stripslashes($utente);				// protezione da SQL injection		
     $utente = mysqli_real_escape_string($conn,$utente);	// protezione da SQL injection	
 
     $psw = stripslashes($psw);						// protezione da SQL injection	
     $psw = mysqli_real_escape_string($conn,$psw);			// protezione da SQL injection	
-
    
-  
-
-   
-    
     //tempi di delete dei record:
     $login_effettuato="1 MONTH";//modificare questa variabile per cambiare il tempo di delete dei record con login effettuato
     $login_fallito="1 DAY";//modificare questa variabile per cambiare il tempo di delete dei record con login fallito
@@ -51,28 +45,21 @@ if (isset($_POST['user']) && isset($_POST['psw']))
 
     if($row['tentativi']>2) //se ci sono almeno 2 tentativi dallo stesso ip
     {
-
         $query="select id,data from login_logs where ip='$ip' order by data desc limit 2,1";//ordina in modo desc e prende la terza riga
         $result=$conn->query($query);
         $row = $result->fetch_array();
         $cont=$result->num_rows;
         
-            $primo_tentativo=strtotime($row["data"]);
+        $primo_tentativo=strtotime($row["data"]);
 
-
-            if(($timestamp-$primo_tentativo)<30)//se sono passati meno di 30s dall'ultimo record
-            {
-
-                $accesso=false;  
-            } 
-        
-
-
+        if(($timestamp-$primo_tentativo)<30)//se sono passati meno di 30s dall'ultimo record
+         {
+			$accesso=false;  
+         } 
     }  
 
     if($accesso==true)//se non si è raggiunto il limite di tentativi
     {
-
         $stmt = $conn->prepare("SELECT * from utenti where user =?");
         //bind
         $stmt->bind_param("s",$utente);
@@ -88,16 +75,12 @@ if (isset($_POST['user']) && isset($_POST['psw']))
             //execute
             $stmt->execute();
             $result = $stmt->get_result();
-
-
         }
         if($result){
             $fin= $result->fetch_array();
             $token=uniqid();
             $query="update utenti set token='{$token}' where user='{$fin["USER"]}'";
             $result2 = $conn->query($query);
-
-
         }
         if($fin)//se true l'accesso è andato a buon fine
         {
@@ -154,8 +137,10 @@ if (isset($_POST['user']) && isset($_POST['psw']))
         {
         ?>
         <!--<div class="container">-->
-        <div>    <h>Login<br></h>
-            <form id="login" action="login.php" method="POST">
+
+        <div align="center">    <h2>Accesso al Sistema</h2>
+		<br><br>
+        <form id="login" action="login.php" method="POST">
                 Username: 
                 <input type="text" name="user"><br>
                 Password: 

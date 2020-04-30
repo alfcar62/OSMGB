@@ -83,7 +83,27 @@ isLogged("gestore");
      else
 	   $pag= 0;
 	?>
-	  <h2> Villaggio di N'Tchangue: elenco case</h2>
+	  <h2> <center><IMG SRC="../img/house.png"> Elenco case <IMG SRC='../img/house.png'> </center></h2>
+    <?php
+      echo "<div style='float:left'>";
+	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";
+	  echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	  echo"<a href='export_casa.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
+      echo "</div>";
+      echo "<div style='clear:both;'></div>";
+    ?>
+	 <div id="lb-back">
+     <div id="lb-img"></div>
+     </div>
+     <!-- Modal:div che compare quando si clicca sull'immagine -->
+     <div id="myModal" class="modal">
+
+     <!-- The Close Button -->
+     <span class="close">&times;</span>
+
+     <!-- Modal Content (The Image) -->
+     <img class="modal-content" id="img01">
+     </div>
 
      <div class="search-box">
 		    <form action='gest_case.php' method='POST'><br>
@@ -101,19 +121,7 @@ isLogged("gestore");
 //			echo "ricerca: pag=". $pag;
 		   }
          ?>
-        </div>
-		  <div id="lb-back">
-            <div id="lb-img"></div>
-        </div>
-        <!-- Modal:div che compare quando si clicca sull'immagine -->
-        <div id="myModal" class="modal">
-
-            <!-- The Close Button -->
-            <span class="close">&times;</span>
-
-            <!-- Modal Content (The Image) -->
-            <img class="modal-content" id="img01">
-        </div>
+  <!--      </div>-->
         <?php 
 
         // modificato per la gestione corretta della paginazione (A.C. 10/3/2020)
@@ -133,14 +141,12 @@ isLogged("gestore");
         // da mostrare in ogni pagina
         $x_pag = 10;  
         
-        $pag=Paginazione($pag, "pag_c");	// Recupero il  numero di pagina corrent
+		if (!$ricerca)
+          $pag=Paginazione($pag, "pag_c");	// Recupero il  numero di pagina corrent
 
 	 //  echo "paginazionea: pag=". $pag;
 
-        // Controllo se $pag è valorizzato e se è numerico
-        // ...in caso contrario gli assegno valore 1
-        if (!$pag || !is_numeric($pag)) $pag = 1; 
-
+      
         // Uso mysql_num_rows per contare il totale delle righe presenti all'interno della tabella 
 
         $query = "SELECT count(c.id) as cont";
@@ -159,19 +165,19 @@ isLogged("gestore");
         //  definisco il numero totale di pagine
         $all_pages = ceil($all_rows / $x_pag);
 
-        $first = ($pag - 1) * $x_pag;
+       // Calcolo da quale record iniziare
+		if (!$ricerca)
+          $first = ($pag-1) * $x_pag ;
+		else 
+		  $first = ($pag) * $x_pag ;
+//        echo "ricerca=".$ricerca;
+//		 echo "pag=".$pag;
+//        echo "first=".$first;
 
-        echo "<a href='ins_casa.php'>";
-        echo "Inserisci una nuova casa </a><br><br>";
-       
-		echo "<a href='export_casa.php'>Export su excel</a><br><br>";
-        
-		echo "<a href='vis_sto_tot_case.php'>";
-        echo "Storia delle case </a><br><br>";
 
         //Select option per la scelta della zona
         echo "<form action='gest_case.php' method='POST'><br>";
-        echo   "Selezione Zona : <select name='cod_zona'>";
+        echo   "Zona: <select name='cod_zona'>";
         $result = $conn->query("SELECT * FROM zone");
         $nz=$result->num_rows;
         echo "<option value='tutte'>  tutte </option>";
@@ -187,7 +193,9 @@ isLogged("gestore");
         echo "</select>";
         echo " <input type='submit' class='button' value='Conferma'>";
         echo " </form>";
-
+        echo " </div>";
+		
+		echo"<a href='ins_casa.php'>Inserimento nuova casa <i class='fa fa-plus-circle fa-2x'></i></a>&nbsp;";
 		/*
 		*** caso di richiesto nuovo  ordinamento su campi id o nome
 		*/
@@ -246,14 +254,20 @@ isLogged("gestore");
             echo "<tr>";
             echo "<th>foto</th>";
 
-            //nome casa (con possibilità di ordinamento)
+			if ($ord == "ASC")
+				$myclass = "fa fa-arrow-circle-down";
+			else
+				$myclass = "fa fa-arrow-circle-up";
+			//nome casa  (con possibilità di ordinamento)
 
-            echo " <form method='post' action='gest_case.php'>";
-            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i> </button> </th></form>";
+			echo " <form method='post' action='gest_case.php'>";
+            echo "<th> nome <button class='btn center-block'  name='ord_nome'  value='nome' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
+ 
 
-			//id (con possibilità di ordinamento)
+            //id (con possibilità di ordinamento)
             echo " <form method='post' action='gest_case.php'>";
-            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='fa fa-sort' title ='inverti ordinamento'></i>  </button> </th></form>";
+            echo "<th> id <button class='btn center-block'  name='ord_id'  value='id' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i>  </button> </th></form>";
+            
      
             echo "<th>zona</th>";
 			echo "<th>moran&ccedil;a</th>";
@@ -299,7 +313,7 @@ isLogged("gestore");
                 $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
                 if ($row['id_osm'] != null && $row['id_osm'] != "0")
                 { 
-                    echo "<td>$row[id_osm]<a href=$osm_link target=new><i class='fa fa-map-marker'></i></a></td>"; 
+                    echo "<td>$row[id_osm]<a href=$osm_link target=new><img src='../img/marker.png' ></a></td>"; 
                 }
                 else
                 { 
@@ -308,16 +322,16 @@ isLogged("gestore");
                 echo "<td>$row[data_val]</td>";
 
                 echo " <form method='post' action='mod_casa.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-wrench'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/wrench.png' > </button> ". "</th></form>";
 
                 echo " <form method='post' action='del_casa.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-trash'></i> </button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/trash.png' ></button> ". "</th></form>";
 
                 echo " <form method='post' action='mostra_persone.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i></button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/people.png' ></button> ". "</th></form>";
 
                 echo " <form method='post' action='vis_casa_sto.php'>";
-                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><i class='fa fa-eye'></i></button> ". "</th></form>";
+                echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/history.png' ></button> ". "</th></form>";
                 echo "</tr></form>";
             }
             echo "</table>";
@@ -365,6 +379,7 @@ isLogged("gestore");
 */
 function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
 { 
+   $nome = utf8_decode($nome);
 // recupero l'id casa
    $query = "SELECT id FROM casa  WHERE nome = '{$nome}'";
    $result = $conn->query($query);
@@ -416,9 +431,16 @@ function get_first_pag($conn, $nome, $cod_zona, $ord, $campo_ord)
   $result->free();
 
   $x_pag = 10;
-  $pag= intval(abs($cont/$x_pag))+1;
-
-  return $pag;
+  $resto = $cont%$x_pag;
+// echo "resto=", $resto;
+// echo "x_pag=", $x_pag;
+// echo "intval(abs($cont/$x_pag))=".intval(abs($cont/$x_pag));
+ if ($resto ==0)
+       $pag= intval(abs($cont/$x_pag))-1;
+	 else
+       $pag= intval(abs($cont/$x_pag));
+// echo "esco da first_pag, pag=", $pag;
+ return $pag;
 }
 ?>
 </body>

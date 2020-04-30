@@ -26,8 +26,11 @@ else
   $campo = "nome";
 
 if(isset($_REQUEST["term"])){
-    // Prepare a select statement
- //   $sql = "SELECT nome FROM morance WHERE nome LIKE ? ORDER BY nome";
+    $term = $_REQUEST["term"];	
+
+    $term = stripslashes($term);				// protezione da SQL injection		
+    $term = mysqli_real_escape_string($conn,$term);	// protezione da SQL injection	
+
     $query = "SELECT ";
     $query .= " m.id, m.nome, z.nome zona,m.id_mor_zona,m.id_osm,";
     $query .= " m.data_inizio_val, m.data_fine_val";
