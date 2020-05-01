@@ -42,8 +42,6 @@ $query .= " WHERE c.DATA_FINE_VAL is null";
 $query .= " ORDER BY c.nome ASC";
 $result = $conn->query($query);  
 
-$result = $conn->query($query);
-
 //echo $query;
 /*
 *** form  per la scelta della casa
