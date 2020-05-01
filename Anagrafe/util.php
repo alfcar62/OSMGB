@@ -352,4 +352,124 @@ function EchoMessage($msg, $redirect)
         return $output;
    }
 
+/*
+*** funzione che, a partire dall'id su OSM ritorna latitudine e longitudine
+*** return 0  = ok
+***        -1 = fail
+*** utilizzo della libreria Curl (per le connessioni server to server
+*** NB: deve essere attivato come parametro di configurazione PHP
+*** ad es: Su altervista si deve andare nel pannello di controllo e abilitare
+*** le connessioni server to server
+*/
+
+function get_latlon($id_osm, &$lat, &$lon)
+{ 
+// a little script check is the cURL extension loaded or not
+
+ $url = "https://api.openstreetmap.org/api/0.6/way/".$id_osm."/full.json";
+
+// echo "url=". $url;
+
+ $client = curl_init($url);		// inizializzazione
+ if ($client == false)
+	 { 
+	   echo "<br>modifica_casa.php: errore curl_init():inizializzazione con OSM non stabilita";
+	   return -1;
+     }
+	
+ curl_setopt($client,CURLOPT_RETURNTRANSFER,true);	// output come stringa
+
+ curl_setopt($client, CURLOPT_HEADER, 0);		// non scarico header
+
+ curl_setopt($client, CURLOPT_TIMEOUT, 20);		// set timeout
+
+ curl_setopt($client, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+ curl_setopt($client, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+ $response = curl_exec($client);
+
+ if ($response == false)
+   { 
+	 echo "<br>modifica_casa.php: errore curl_exec()esecuzione curl OSM errore";
+	 return -1;
+   }
+ else
+  {
+   // echo $response;
+
+    $arr = json_decode($response,true);
+ //   var_dump($arr);
+    $lat = $arr['elements'][0]['lat'];
+	$lon = $arr['elements'][0]['lon'];
+
+ //   echo "lat=".  $lat;
+ //   echo "lon=".  $lon;
+
+    curl_close($client);
+  }
+  return 0;
+}
+
+
+
+/*
+*** funzione che, a partire da lat e lon ritorna l'id del nodo su OSM
+*** return 0  = ok
+***        -1 = fail
+*** utilizzo della libreria Curl (per le connessioni server to server
+*** NB: deve essere attivato come parametro di configurazione PHP
+*** ad es: Su altervista si deve andare nel pannello di controllo e abilitare
+*** le connessioni server to server
+*/
+
+function get_osm_id($lat, $lon, &$id_osm)
+{ 
+
+ $email = "acarlone@itisavogadro.it";		// per le policy di OSM bisogna identificarsi
+// chiamata di API di OSM: reverse nominatim
+// https://nominatim.org/release-docs/develop/api/Reverse/
+ $url= "https://nominatim.openstreetmap.org/reverse?format=json";
+ $url .= "&lat=".$lat."&lon=".$lon. "&zoom=18";
+ $url .= "&email=".$email;
+
+// echo "url=". $url;
+
+ $client = curl_init($url);		// inizializzazione
+ if ($client == false)
+	 { 
+	   echo "<br>get_osm_id(): errore curl_init():inizializzazione con OSM non stabilita";
+	   return -1;
+     }
+	
+ curl_setopt($client,CURLOPT_RETURNTRANSFER,true);	// output come stringa
+
+ curl_setopt($client, CURLOPT_HEADER, 0);		// non scarico header
+
+ curl_setopt($client, CURLOPT_TIMEOUT, 20);		// set timeout
+
+ curl_setopt($client, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+ curl_setopt($client, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+ $response = curl_exec($client);
+
+ if ($response == false)
+   { 
+	 echo "<br>get_osm_id(): errore curl_exec()esecuzione curl OSM errore";
+	 return -1;
+   }
+ else
+  {
+//  echo $response;
+    $arr = json_decode($response,true);
+//    var_dump($arr);
+    $id_osm = $arr['osm_id'];		// cerco 'osm_id'
+ // echo "id_osm".  $id_osm;
+    curl_close($client);
+  }
+  return 0;
+}
+
+
 ?>
