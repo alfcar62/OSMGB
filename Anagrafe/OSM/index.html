@@ -78,7 +78,6 @@ body {
     <script src="//cdn.jsdelivr.net/openlayers.popup/1.0.1/ol3-popup.js"></script>
     <script src="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
 	    
-
     <script >
     (function (win, doc) {
   'use strict';
@@ -100,7 +99,6 @@ body {
       return resp ;
   }
 
-
   var settings;
   var settingsstring = "";
   settingsstring = getJSON("settings.json");
@@ -109,10 +107,10 @@ body {
   if (settingsstring == '') {
       settingsstring = '{'+
       '"newpoint":"Aggiungi punto",'+
-      '"editpoint":"Modifica punto",'+
+      '"editpoint":"Modifica casa",'+
       '"title":"Mappa di Ntchangue",'+
       '"center": [12.00705,-15.50897],'+
-      '"zoom":14,'+
+      '"zoom":15,'+
       '"zoomto":15,'+
       '"tags": ["NORD","SUD", "OVEST"],'+
       '"datasource":"points.php"'+
@@ -222,10 +220,10 @@ body {
       var wgs84 = ol.proj.transform(pointcoordinates, 'EPSG:3857', 'EPSG:4326');
       var lon = wgs84[0];
       var lat = wgs84[1];
+	  // preparo chiamata per edit
       var urledit = "javascript:window.open('edit.php?ID="+pointname+"&lon="+lon+"&lat="+lat+"','"+settings.editpoint+"','scrollbars=no,resizable=yes, width=200,height=500,status=no,location=no,toolbar=no')";
 
 	  // visualizzo i dati della casa nella text area
-
 	 var text = '';
      if (pointname != 'new') text = text + '<b>id casa:' + pointname + '</b><br>';
      if (pointaddress != '') text = text + pointaddress + '<br>';
@@ -248,7 +246,7 @@ body {
      map.setView(olview);
   }
 
-
+// barra di ricerca su OSM
   //Instantiate with some options and add the Control
   var geocoder = new Geocoder('nominatim', {
       provider: 'osm',
@@ -287,7 +285,8 @@ body {
           }
       }
   });
-/*
+
+
   var emptySource = new ol.source.Vector({wrapX: false});
 
   var emptyVector = new ol.layer.Vector({
@@ -297,6 +296,7 @@ body {
 
   map.addLayer(emptyVector);
 
+// double click per nuovo punto
   map.on('dblclick', function(evt) {
       var newfeature = new ol.Feature({
           geometry: new ol.geom.Point(evt.coordinate)
@@ -305,7 +305,7 @@ body {
       pointinfo(evt.coordinate, "new", "", "", "");
   });
 
-*/
+
 
 })(window, document);
 

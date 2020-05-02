@@ -70,14 +70,23 @@ if ($ID != "" && $lon != "" && $lat != "") {
     $n = 0;
     foreach ($pointsarray["features"][$i]["properties"]["description"] as $key => $item) {
         print '<b>'.$key.':</b><br>';
-        if ($ID == "new") $item = "";
+        if ($ID == "new") $item = "";		// nuova casa da identificare
 		switch ($key) 
 		 {
            case "Nome Casa":
 			 print '&nbsp;<input type="text" name="D'.$n.'" value="'.$item.'" required>* obbl.<br>';
 			 break;
 			case "id OSM":
-			 print '#<input type="number" name="D'.$n.'" value="'.$item.'" min=0 required>* obbl.<br>';
+			 $id_osm = $item;
+			 if ($ID == "new")
+			   {
+				$result = get_osm_id($lat, $lon, $id_osm); // a partire da lat e lon, recupero id_osm
+		        if ($result<0)
+                   echo "errore accesso a OpenStreetMap";
+			   }
+			 else
+				  $id_osm = $item;
+			 print '#<input type="number" name="D'.$n.'" value="'.$id_osm.'" min=0 required>* obbl.<br>';
 			 break;
 		  default:
 			 print '&nbsp;<input type="text" class="onlyread" name="D'.$n.'" value="'.$item.'" readonly><br>';

@@ -73,19 +73,19 @@ $geojson = array(
 				'Nome Casa' => utf8_encode ($row['nome']),
 				'Moranca' => utf8_encode ($row['nome_moranca']),
 				'Capo Famiglia' => utf8_encode ($row['capo_famiglia']),
-				'Numero persone' => $row2['num_persone']
+				'Numero Persone' => $row2['num_persone']
             ))
         );
     # Add feature arrays to feature collection array
     array_push($geojson['features'], $feature);
    }
-header('Content-type: application/json');
-//echo json_encode($geojson, JSON_NUMERIC_CHECK);
+  header('Content-type: application/json');
+  //echo json_encode($geojson, JSON_NUMERIC_CHECK);
 
-/* free result set */
-    mysqli_free_result($result);
-/* close connection */
-mysqli_close($conn);
+  /* free result set */
+  mysqli_free_result($result);
+  /* close connection */
+  mysqli_close($conn);
 
 
 //write json data into data.json file
