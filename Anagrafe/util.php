@@ -170,7 +170,6 @@ function stampaIntestazione()
     <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
 	<link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
 </head>
 <?php
 }
