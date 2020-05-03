@@ -2,8 +2,14 @@
 $config_path = __DIR__;
 $util1 = $config_path .'/../util.php';
 $util2 = $config_path .'/../db/db_conn.php';
+$util4 = $config_path .'/../db/db_util.php';
+$util3 = $config_path .'/db_osm_util.php';
+
+
 require_once $util1;
 require_once $util2;
+require_once $util3;
+require_once $util4;
 setup();
 
 
@@ -15,8 +21,6 @@ print '<link rel="stylesheet" type="text/css" href="styleOSM.css">';
 
 <?php
 print '</head> <body>';
-
-include "../db/db_util.php";		// funzioni di utilità sul DB
 
 $ID = "";
 if( isset($_GET["ID"]) )
@@ -63,7 +67,7 @@ if ($ID != "" && $lon != "" && $lat != "") {
         $i = count($pointsarray["features"])-1;
     }
 
-    print "<h3> Modifica casa id=".$ID."</h3>";
+    print "<h3> Modifica casa (id=".$ID.")</h3>";
 
     print '<form action="edit_ins.php" method="post">';
 
@@ -93,11 +97,14 @@ if ($ID != "" && $lon != "" && $lat != "") {
 			   {
 				$result = get_osm_id($lat, $lon, $id_osm); // a partire da lat e lon, recupero id_osm
 			    if ($result<0)
-                  echo "errore accesso a OpenStreetMap";
+					{
+					 $msg = "(punto non trovato su OpenStreetMap)";
+                     echo $msg ."<br>";
+				    }
 			   }
 			 else
 				  $id_osm = $item;
-			 print '#<input type="number" name="D'.$n.'" value="'.$id_osm.'" min=0 required>* obbl.<br>';
+			 print '#<input type="number" name="D'.$n.'" value="'.$id_osm.'" min=0 required> *<br>';
 			 break;
 
 			case "Nome Casa":	//D1
@@ -146,7 +153,7 @@ if ($ID != "" && $lon != "" && $lat != "") {
 			  {			// modifica punto
 //			       echo "modifica punto";
 //				   echo "item=". $item;
-				   print '&nbsp;<input type="text" name="D'.$n.'" value="'.$item.'" required>* obbl.<br>';
+				   print '&nbsp;<input type="text" name="D'.$n.'" value="'.$item.'" required> * <br>';
 			  }
 			 break;
 		
@@ -163,7 +170,7 @@ if ($ID != "" && $lon != "" && $lat != "") {
 
     print '<input type="text" class="onlyread" name="verified" value="'.$verified.'" readonly="readonly"><br>';
 	
- //   if ($ID != "new") print '<input type="checkbox" name="delete" value="delete"> Cancella<br>';
+    if ($ID != "new") print '<input type="checkbox" name="delete" value="delete">Cancella dalla mappa<br>';
 
     print ' <br><input type="submit" class = "button" value="Salva">';
     print '</form>';
@@ -194,32 +201,35 @@ if( isset($_POST["ID"]) ){
         $i++;
     }
 
-    if( isset($_POST["delete"]) )
+   if( isset($_POST["delete"]) )
  	{
-    if ($_POST['delete'] == 'delete' && $ID != "new") {
+     if ($_POST['delete'] == 'delete' && $ID != "new")
+	  {
         print "<b>Cancellazione...".$ID."</b><br>";
         $new = json_decode('{"type":"FeatureCollection","features":[]}', true);
-        foreach ($pointsarray["features"] as $item) {
-            if($item["properties"]["name"] != $ID) {
+        foreach ($pointsarray["features"] as $item)
+		  {
+            if($item["properties"]["name"] != $ID)
+			 {
                 $new["features"][] = $item;
-            }
+             }
             $i++;
-        }
-        print "<b>Da cancellare su DB casa id = ". $ID;
+          }
+        print "<b>Da cancellare sulla mappa casa id = ". $ID;
 
         $geojson = json_encode($new);
         file_put_contents('points.geojson', $geojson);
 
         print '<h3>Cancellazione effettuata su file json</h3>';
-		$ret = cancella_casa($ID);
+		$ret = delete_assoc_casa($ID);
 		if ($ret == -1)
-		   print "<h3>Errore in cancella_casa()  casa id=". $ID . "</h3>";
-					//header("Location: mod_db.php?ID=".$ID);
+		   print "<h3>Errore in delete_assoc_casa()  casa id=". $ID . "</h3>";
 		else
-		   print "<h3>Cancellazione casa effettuato: casa id=". $ID . "</h3>";
+		   print "<h3>casa (id=". $ID . ") cancellata dalla mappa correttamente</h3>";	   
       }
-
-    } else {
+    } //delete casa sulla mappa
+   else 
+	{
         $INS = 0;
 //		echo "ID=". $ID;
         if ($ID == "new")
@@ -278,7 +288,7 @@ if( isset($_POST["ID"]) ){
 				 print "<h3>Errore in inserisci_casa()  casa id=". $id_casa . "</h3>";
 					//header("Location: mod_db.php?ID=".$ID);
 			  else
-		        print "<h3>Casa id=". $id_casa . " associata a id_OSM  correttamente</h3>";
+		        print "<h3>Casa (id=". $id_casa . ") inserita sulla mappa  correttamente</h3>";
 		    }
         else
 			{   
@@ -286,12 +296,11 @@ if( isset($_POST["ID"]) ){
 			  if ($ret == -1)
 				 print "<h3>Errore in Modifica  casa id=". $id_casa . "</h3>";
 			  else
-		         print "<h3>Modifica casa id=". $id_casa . "effettuata correttamente</h3>";
+		         print "<h3>Modifica casa (id=". $id_casa . ")effettuata correttamente</h3>";
 
 		    }
         //print $geojson;
     }
-
 }
 
 print '  </body> </html>';
