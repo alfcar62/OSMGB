@@ -599,7 +599,13 @@ function get_osm_id($lat, $lon, &$id_osm)
     $arr = json_decode($response,true);
 //    var_dump($arr);
  //   $id_osm = $arr['osm_id'];		// vale  per nominatim
-	$id_osm =  $arr['elements'][0]['id'];
+	 if (isset($arr['elements'][0]['id']))
+		 $id_osm = $arr['elements'][0]['id'];
+	 else
+     { 
+      //	 echo "<br>get_osm_id(): punto non trovato";
+	  return -1;
+     }
  // echo "id_osm".  $id_osm;
     curl_close($client);
   }
