@@ -10,12 +10,12 @@
 */
 
 $config_path = __DIR__;
-//$util1 = "E:/xampp/htdocs/OSM/Anagrafe/util.php";
 $util1="../util.php";
-//$util2 = "E:/xampp/htdocs/OSM/Anagrafe/db/db_conn.php";
- $util2="../db/db_conn.php";
-require_once $util2;
+$util2="../db/db_conn.php";
+$util3="../OSM/db_osm_util.php";
 require_once $util1;
+require_once $util2;
+require_once $util3;
 setup();
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_p']);
@@ -198,6 +198,9 @@ try
     $mymsg = "Errore modifica  casa" . $conn->error;
     EchoMessage($mymsg, "gest_case.php?pag=$pag");
   }
-   $mymsg = "Modifica casa effettuata correttamente";
+  if ($upd)
+    $mymsg = "Modifica casa effettuata correttamente";
+  else
+    $mymsg = "Non sono apportate modifiche";
    EchoMessage($mymsg, "gest_case.php?pag=$pag");
 ?>
