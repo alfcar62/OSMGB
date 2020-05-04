@@ -61,7 +61,7 @@ inner join pers_casa on pers_casa.ID_PERS=persone.ID
 inner join casa on pers_casa.ID_casa=casa.ID
 inner join morance on casa.ID_moranca=morance.ID
 inner join zone on morance.cod_zona=zone.COD
-where persone.sesso='f' and zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)>5475 and DATEDIFF('$oraoggi',data_nascita)<16425 
+where persone.sesso='f' and zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)>4745 and DATEDIFF('$oraoggi',data_nascita)<14600 
 ";
 $result=$conn->query($query);
 //echo  $query;

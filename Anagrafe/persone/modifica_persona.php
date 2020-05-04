@@ -123,7 +123,7 @@ try
   $currentdate=date('Y/m/d');
 
 
-  // se la nuova casa ha già un capo famiglia, non posso scegliere come ruolo capo famiglia
+  // se la nuova casa ha giï¿½ un capo famiglia, non posso scegliere come ruolo capo famiglia
   if ($ruolo_cambiato  && $id_ruolo_modifica_new == 'CF')
    {
     $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc ";
@@ -166,15 +166,15 @@ try
  $query .= "'".$nominativo_old."',";
  $query .= "'".$sesso_old."',";
 
- if ($data_nascita == "0000-00-00")
+ if ($data_nascita_new == "0000-00-00")
     $query .= "NULL,";
  else
-    $query .= "'".$data_nascita."',";
+    $query .= "'".$data_nascita_new."',";
 
- if ($data_morte == "0000-00-00")
+ if ($data_morte_new == "0000-00-00")
     $query .= "NULL,";
  else
-    $query .= "'".$data_morte."',";
+    $query .= "'".$data_morte_new."',";
 
  $query .= $id_casa_old .",";
  $query .= "'".$nome_casa_old."',";
@@ -222,7 +222,7 @@ try
 
     $query .= " where id= ".$id_pers_modifica;
 	
-//	echo "q3 ".$query."<br>";
+	echo "q3 ".$query."<br>";
 
     $result = $conn->query($query);
     if (!$result)

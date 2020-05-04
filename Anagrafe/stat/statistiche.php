@@ -111,7 +111,7 @@ $etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
 
 
 //donne  in età fertile 
-$query = "SELECT count(id) from persone where DATEDIFF('$oraoggi',data_nascita)>5475 and DATEDIFF('$oraoggi',data_nascita)<16425 and sesso='f' ";
+$query = "SELECT count(id) from persone where DATEDIFF('$oraoggi',data_nascita)>4745 and DATEDIFF('$oraoggi',data_nascita)<14600 and sesso='f' ";
 $result=$conn->query($query);
 //echo  $query;
 echo $conn->error;
