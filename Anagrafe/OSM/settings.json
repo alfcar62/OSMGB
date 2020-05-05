@@ -2,7 +2,7 @@
     "newpoint":"Aggiungi punto",
     "editpoint":"Modifica",
     "title":"Mappa di NTchangue",
-    "center": [-15.515260457489,12.005264631179],
+    "center": [12.0068,-15.4732],
     "zoom":15,
     "zoomto":15,
     "tags": ["NORD","SUD", "OVEST"],

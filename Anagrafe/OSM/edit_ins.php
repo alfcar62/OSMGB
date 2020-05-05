@@ -66,8 +66,10 @@ if ($ID != "" && $lon != "" && $lat != "") {
     if ($i >= count($pointsarray["features"])) {
         $i = count($pointsarray["features"])-1;
     }
-
-    print "<h3> Modifica casa (id=".$ID.")</h3>";
+    if ($ID == "new")
+	    print "<h3> Aggiungi casa sulla mappa </h3>";
+    else
+        print "<h3> Modifica casa (id=".$ID.")</h3>";
 
     print '<form action="edit_ins.php" method="post">';
 
