@@ -22,8 +22,14 @@ require_once $util2;
 <?php stampaIntestazione(); ?>
 <body onload="myFunction()">
 <?php stampaNavbar(); 
-   
-$id_casa=$_POST['id_casa'];
+if(!isset($_POST['id_casa'])){//Mi salvo l'id della casa dello storico che sto analizzando in sessione
+    $id_casa=$_SESSION['pag_c']['sto'];
+}else {
+    $id_casa=$_POST['id_casa'];
+    $_SESSION['pag_c']['sto']=$id_casa;
+      }
+ 
+
 // Creo una variabile dove imposto il numero di record 
 // da mostrare in ogni pagina
 $x_pag = 10;

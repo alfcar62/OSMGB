@@ -55,16 +55,13 @@ if($result)
 }
 
 
-
-
-
 //donne  in età fertile 
 $query = "SELECT count(persone.id) from persone  
 inner join pers_casa on pers_casa.ID_PERS=persone.ID 
 inner join casa on pers_casa.ID_casa=casa.ID
 inner join morance on casa.ID_moranca=morance.ID
 inner join zone on morance.cod_zona=zone.COD
-where persone.sesso='f' and zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)>5475 and DATEDIFF('$oraoggi',data_nascita)<16425 
+where persone.sesso='f' and zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)>4745 and DATEDIFF('$oraoggi',data_nascita)<14600 
 ";
 $result=$conn->query($query);
 //echo  $query;
@@ -76,10 +73,6 @@ $row = $result->fetch_array();
 $etafertile= $row ["count(persone.id)"];
 $nonfertile=$numero_persone_f-$etafertile;
 }
-
-
-
-
 
 
 //media età delle persone 
@@ -94,48 +87,38 @@ $row = $result->fetch_array();
 $etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
 }
 
-
-
-
-
-
-
 ?>
 
 <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-<div position="absolute"  align="center">
+<div>
 <div id="chartContainer1"   style="width: 70%;  height: 500px;  display: inline-block;"></div> 
+<div>
 <?php
 echo "<form action='' method='GET' >";
 
 echo "<select name='zona_richiesta'>";
-echo "<option value='$zona'>$zona</option>";
 echo "<option value='nord'>nord</option>";
 echo "<option value='ovest'>ovest</option>";
-echo "<option value='sud'>sud</option>
-</select>
-<input type='submit' name='invia'>
-</form>";
+echo "<option value='sud'>sud</option>";
+echo "</select>";
+echo "<input type='submit' name='invia'>";
+echo "</form>";
 
 ?>
 
 </div>
-<div style=' text-align: center;'>
+<div>
 <?php
 echo "</h2>";
 echo "</br></br>Età media : ".(ceil($etamedia*10))/10;
 echo "</h2>";
 echo "</br>";
-
-
 ?>
 <form action="statistiche.php"> <input type="submit" value=TORNA> </form>
 <div>
 
-
 </form>
-
 
 <script>
 var chart = new CanvasJS.Chart("chartContainer1",

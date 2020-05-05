@@ -35,7 +35,8 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $query = "SELECT c.id, c.nome as nome_casa,";
     $query .= " z.nome zona, c.id_moranca as id_moranca,";
     $query .= " m.nome nome_moranca, ";
-    $query .= " p.id  as id_capo_famiglia, p.nominativo as capo_famiglia, c.id_osm, ";
+    $query .= " p.id  as id_capo_famiglia, p.nominativo as capo_famiglia,";
+	$query .= " c.id_osm, c.lat, c.lon,";
     $query .= " c.data_inizio_val data_inizio, c.data_fine_val as data_fine";
     $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
     $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
@@ -55,24 +56,35 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $data_fine=$row["data_fine"];
     $id_moranca=$row["id_moranca"]; 
 	
+	$lat=$row["lat"]; 
+	$lon=$row["lon"]; 
+	
     $nome_moranca=utf8_encode ($row['nome_moranca']);
     $id_osm=$row["id_osm"];
     if ($id_osm == '')
         $id_osm = 0;
+
+	if ($lat == '')
+        $lat = 0;
+
+	if ($lon == '')
+        $lon = 0;
+
     $capo_famiglia=$row["capo_famiglia"];
     $id_capo_famiglia=$row["id_capo_famiglia"];
 
     echo "<h3>Modifica casa: $nome_casa  (id= $id_casa)</h3>";
-    echo "<form action='modifica_casa.php' method='POST'>";
+	echo "<br>";
+    echo "<form action='modifica_casa.php' name='form' id='form' method='POST'>";
     echo   " <input type='hidden' name='id_casa' value='$id_casa' >";
     echo   " <input type='hidden' name='data_inizio' value='$data_inizio' >";
     echo   " <input type='hidden' name='data_fine' value='$data_fine' >";
-    echo "nome casa:&nbsp;&nbsp;<input type='text' name='nome_casa' value='$nome_casa' required><br>";         
+    echo "<label for='nome'>nome casa:</label><input type='text' name='nome_casa' value='$nome_casa' required><br>";         
 
 /*
 *** selezione moranca
 */
-    echo 'moranca:&nbsp;';
+    echo "<label for='moranca'>moranca:</label>";
 
     $query  = "SELECT id, nome FROM morance ";
     $query .= "WHERE nome != '$nome_moranca'";
@@ -93,8 +105,13 @@ $pag=$_SESSION['pag_c']['pag_c'];
         } 
     }
     echo "</select><br>";
+ 
+  echo  " <label for='lat'>Latitudine : </label><input type='number' name='lat' value = ".$lat ." readonly><br>";
+  echo  " <label for='lon'>Longitudine : </label><input type='number' name='lon' value = ".$lon ." readonly><br>";
+
+
  ?>
-sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> ><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
+<label for='mappa'>sulla mappa: </label><input type='text' name='id_osm' value= <?php echo $id_osm ?> ><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
  <span id="error" style="visibility:hidden">Identificativo della casa sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la casa,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>
 
 <?php
@@ -103,7 +120,7 @@ sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> ><spa
 
 
     //----------------------------UPLOAD DELLA FOTO-------------------------
-    echo "<h2>MODIFICA LA FOTO DELLA CASA :</h2>";
+    echo "<h2>Modifica la foto della casa:</h2>";
 
     if(isset($_POST["caricaFoto"])) {
         $target_dir = "immagini/";
@@ -156,8 +173,8 @@ sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> ><spa
     }
 
 
-    echo '  <form action="mod_casa.php" method="post" enctype="multipart/form-data">';//form per caricare la foto
-    echo "Seleziona una foto da caricare:";
+    echo '  <form action="mod_casa.php" name="form" id="form" method="post" enctype="multipart/form-data">';//form per caricare la foto
+    echo "<label for='sel'>Seleziona una foto da caricare:</label>";
     echo   " <input type='hidden' name='id_casa' value='$id_casa' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
     echo '<input type="file" name="fileToUpload" id="fileToUpload" required>
     <input type="submit" value="Carica foto" name="caricaFoto">
@@ -165,30 +182,26 @@ sulla mappa: <input type='text' name='id_osm' value= <?php echo $id_osm ?> ><spa
     $immagine=glob('immagini/'.$id_casa.'.*');//uso la funzione glob al posto di if_exist perchè permette di mettere * al posto dell'estensione.Se restituisce qualcosa ha trovato l'immagine
     if($immagine != null){
 
-        echo "Foto attuale:";
-        echo "<img src='$immagine[0]'  width='120'
+        echo "<br>Foto attuale:";
+        echo "<img src='$immagine[0]'  width='150'
     height='120' id='image' style=' display: block;
     margin-left:0;'  > ";
         echo '  <form action="mod_casa.php" method="post" enctype="multipart/form-data">';//form per caricare la foto
         echo   " <input type='hidden' name='id_casa' value='$id_casa' >";//parametro che mi serve mantenere dopo aver ricaricato la pagina
-        echo '<input type="submit" value="Elimina foto" name="eliminaFoto"></form>   ';
+        echo "<input type='submit' value='Elimina foto' name='eliminaFoto'></form>   ";
     }
     else{
-        echo 'Attualmente non è presente alcuna foto';
+        echo '<br>Attualmente non è presente alcuna foto';
     }
 
 
 
     //----------------------------FINE UPLOAD DELLA FOTO-------------------------
 
-    echo "<br><a href='gest_case.php?pag=$pag'>Torna a gestione case</a>" 
+    echo "<br><a href='gest_case.php?pag=$pag'>Torna a gestione case</a>"; 
     ?>
 
-
-
-
-    </a>
-
+</div>
 </body>
 
 <script>

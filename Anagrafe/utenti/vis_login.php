@@ -3,7 +3,8 @@
     <?php
     /*
 *** Autore:Ferraiuolo
-*** Descrizione:Login logs
+*** Descrizione:vis_login.php
+*** visualizzazione accessi al sistema
 */
     $config_path = __DIR__;
     $util = $config_path .'/../util.php';
@@ -70,14 +71,14 @@
             // Calcolo da quale record iniziare
             $first = ($pag - 1) * $x_pag; 
 
-            echo "<h3> Elenco dei logs di accesso</h3>";
+            echo "<h2><center> <i class='fa fa-user'></i> Accessi effettuati nel sistema</center></h2>";
             //Select option per la scelta della zona
-            echo "<form action='login_logs.php' method='POST'><br>";
-            echo   "Filtro : <select name='filtro'>";
+            echo "<form action='vis_login.php' method='POST'><br>";
+            echo   "Visualizza : <select name='filtro'>";
             if($filtro=="")
-                echo "<option value='disattivato' selected>Disattivato </option>"; //opzione selected
+                echo "<option value='disattivato' selected>Tutti </option>"; //opzione selected
             else
-                echo "<option value='disattivato' >Disattivato </option>";
+                echo "<option value='disattivato' >Tutti </option>";
 
             if($filtro==" WHERE USER IS NOT NULL")
                 echo "<option value='riusciti' selected>Login riusciti</option>"; //opzione selected
@@ -128,8 +129,8 @@
                 echo "</table>";
             }
             else
-                echo " Nessun log &egrave; presente nel database.";
-            echo "<br> Numero di logs: $all_rows<br>";
+                echo " Nessun accesso al sistema &egrave; presente nel database.";
+            echo "<br> Numero di accessi: $all_rows<br>";
 
             // visualizza pagine
             $vis_pag = $config_path .'/../vis_pag.php';

@@ -36,7 +36,8 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
     echo "<h2>".$jsonObj->{$lang."Index"}[1]."</h2>";
  echo "</div>";
  echo "<div align='center'>";
- echo " <IMG SRC='img/logo_OSMGB.jpeg' WIDTH='227' HEIGHT='192' BORDER='0' ALT=''>";
+ echo " <IMG SRC='img/schermata.jpg' align='center'>";
+// echo " <IMG SRC='img/logo_OSMGB.jpeg' WIDTH='227' HEIGHT='192' BORDER='0' ALT=''>";
  //echo "<IMG SRC='img/abalalite.jpg' WIDTH='227' HEIGHT='192' BORDER='0' ALT='abalalite'>";
 // echo "<IMG SRC='img/logo_avogadro.jpg' WIDTH='227' BORDER='0' ALT='avogadro'>";
  echo "</div>";

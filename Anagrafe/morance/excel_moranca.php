@@ -38,7 +38,7 @@ if($zona=="%"){
     $zona="tutte";
 }
 $output=" Questa tabella e stata generata dall'applicazione web<br>";
-$output .= "Questa tabella contiene le morance della zona '$zona': creata il '$oraoggi'<br>";
+$output .= "Questa tabella contiene le moran&ccedil;as della zona '$zona': creata il '$oraoggi'<br>";
 $output .= ("<table id=\"table\" border=\"1\"><tr id=\"riga\">");
 foreach ($righe as $chiave => $valore) {
 $output .=( "<th align=\"center\">" . $chiave . "</th>");

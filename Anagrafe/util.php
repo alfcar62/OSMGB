@@ -5,9 +5,11 @@
 //Descrizione:Gestione degli utenti Autore:Ferraiuolo Pasquale
 //25/03/2020: Ferraiuolo: Aggiunta menu a tendina e nome utente nella videata
 ?>
-
-<link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
 <?php
+
+/* definizione di costanti */
+define("OK", 0);
+define("KO", -1);
 
 /***************************** StampaNavbar *****************************/
 
@@ -20,35 +22,29 @@ function stampaNavbar()
     $jsonFile=file_get_contents(__DIR__ ."/gestione_lingue/translations.json");//Converto il file json in una stringa
     $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la salvo in un oggetto
 ?>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <ul>
-    <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>Ntchangue<br> AnagrafeWEB</a></li>
-        <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-        <?php
-    if (login())
-    {
-     if($_SESSION['tipo']!="utente")
-	  {
-        ?>   
-    <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;e</a></li>
-    <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?></a></li><!--Case --> 
-    <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?></a></li><!--Persone --> 
-    <!--   <li><a href="/OSM/Anagrafe/OSM/index.html" target="catasto"><?php echo $jsonObj->{$lang."Navbar"}[6]."<br>".$jsonObj->{$lang."Navbar"}[7] ?></a></li> --Mappa Catastale --> 
-    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM</a></li>
+ <li class="titolo"><a href="/OSM/Anagrafe/index.php"><b>N'Tchangue<br> AnagrafeWEB<br></a></li>           
+ <?php
+ if (login())
+   {
+    if($_SESSION['tipo']!="utente")
+	 {
+ ?>   
+    <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;as<br><i class="fa fa-home"></i><i class="fa fa-home"></i><i class="fa fa-home"></i></a></li>
+    <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?><br><i class="fa fa-home"></i></a></li><!--Case --> 
+    <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?><br><i class='fa fa-male'></i><i class='fa fa-female'><i class='fa fa-male'><i class='fa fa-female'></i></i></i></a></li><!--Persone --> 
+    <li><a href="/OSM/Anagrafe/OSM/db2geojson.php" target='mapcase'> Mappa case<br><i class="fa fa-home"></i><i class='fa fa-globe'></i> </a></li>-->
+    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM<br><i class='fa fa-globe'></i></a></li>
 
     <?php
       } ?>
-
-    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!-- statistiche --> 
+    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?><br><i class="fa fa-pie-chart"></i></a></li>
     <?php  if($_SESSION['tipo']=="admin")
 	 {
-	  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."</a></li>";// Utenti
+	  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."<br><i class='fa fa-user'></i></a></li>";// Utenti
 
-       //echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
-      echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
+     //echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
+     // echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
     ?>
     <?php
       }  
@@ -69,15 +65,11 @@ function stampaNavbar()
     </a>
     </li>
     <div id="dropMenu">
-        <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
-
-        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
-            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
-        </a><br>
-        <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA"   >
-            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
-
-        </a>
+     <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
+     <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
+     <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" WIDTH='30' HEIGHT='15' class="flag" alt="EN"></a><br>
+     <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
+     <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png" WIDTH='30' HEIGHT='15' class="flag" alt="ITA"></a>
     </div>
     <?php
     }
@@ -86,7 +78,7 @@ function stampaNavbar()
     ?>
     <li><a href="/OSM/Anagrafe/info/chisiamo.php"><?php echo ($jsonObj->{$lang."Navbar"}[0])?></a></li><!--Chi siamo --> 
     <li><a href="/OSM/Anagrafe/info/progetto.php"><?php echo ($jsonObj->{$lang."Navbar"}[1])?></a></li><!--Il progetto --> 
-    <li><a href="/OSM/Anagrafe/login.php"><?php echo ($jsonObj->{$lang."Navbar"}[2])?><IMG SRC="/OSM/Anagrafe/img/ico-login.png" WIDTH="36" HEIGHT="33" BORDER="0" ALT="Entra"></a></li> <!--Entra -->      
+    <li><a href="/OSM/Anagrafe/login.php"><IMG SRC="/OSM/Anagrafe/img/ico-login.png" ALT="Entra"></a></li> <!--Entra -->      
     <li>
         <a href="#" onclick="myFx()" class="globe">
             <img src="/OSM/Anagrafe/gestione_lingue/output-onlinepngtools.png" WIDTH='36' HEIGHT='33' BORDER='0' ALT="LANG" class="globe">
@@ -95,10 +87,10 @@ function stampaNavbar()
     <div id="dropMenu">
         <!--Il tag option del select non supporta le img,ho optato quindi per la rimozione di un form e al posto di esso ho messo dei link con href una pagina php con richiesta get -->
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=EN" >
-            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png" class="flag" alt="EN">
-        </a><br>
+            <img src="/OSM/Anagrafe/gestione_lingue/en_flag.png"  WIDTH='30' HEIGHT='15' class="flag" alt="EN">
+        </a>
         <a href="/OSM/Anagrafe/gestione_lingue/gestione_lingue.php?lang=ITA">
-            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"  class="flag" alt="ITA">
+            <img src="/OSM/Anagrafe/gestione_lingue/ita_flag.png"   WIDTH='30' HEIGHT='15' class="flag" alt="ITA">
         </a>
     </div>
 </ul>
@@ -159,7 +151,7 @@ function PwChecker()		// controllo password
   var isStrong=pattern.test(pw);
   if(isStrong){
   console.log("strong");
-  $("#login").submit();
+  $("#form").submit();
   }
   else 
    alert("Password non valida!\nInserire una password di 8 caratteri con un carattere maiuscolo,minuscolo,un numero e un carattere speciale tra questi:'!' '@' '#' '\$' '%' '\^' '&' '\*' '\_'");
@@ -175,11 +167,14 @@ function stampaIntestazione()
 {
 ?>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="shortcut icon" type="image/x-icon" href="/OSM/Anagrafe/img/favicon.ico" />
     <title>N'Tchangue - Anagrafe Web</title>
-    <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
+	<link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 <?php
 }
@@ -360,4 +355,5 @@ function EchoMessage($msg, $redirect)
 
         return $output;
    }
+
 ?>

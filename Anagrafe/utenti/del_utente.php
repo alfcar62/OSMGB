@@ -24,8 +24,8 @@ echo "<br>CANCELLAZIONE utente : $idElimina <br><br>";
 
 echo "<form  method='POST' action='gestione_utenti.php'>";
 echo "Si vuole davvero cancellare?<br>";
-echo "<input type='submit' name='no' value='no'>&nbsp;";
-echo "<input type='submit' name='si' value='si'>";
+echo "<input type='submit' class='button' name='no' value='no'>&nbsp;";
+echo "<input type='submit' class='button'  name='si' value='si'>";
 echo "<input type='hidden' name='idElimina' value='$idElimina'>";
 
 echo "</form>";

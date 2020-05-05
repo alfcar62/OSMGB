@@ -10,12 +10,12 @@
 */
 
 $config_path = __DIR__;
-//$util1 = "E:/xampp/htdocs/OSM/Anagrafe/util.php";
 $util1="../util.php";
-//$util2 = "E:/xampp/htdocs/OSM/Anagrafe/db/db_conn.php";
- $util2="../db/db_conn.php";
-require_once $util2;
+$util2="../db/db_conn.php";
+$util3="../OSM/db_osm_util.php";
 require_once $util1;
+require_once $util2;
+require_once $util3;
 setup();
 $pag=$_SESSION['pag_c']['pag_c'];
 unset($_SESSION['pag_p']);
@@ -85,17 +85,30 @@ try
 
    $id_osm = $row['id_osm'];
    if($id_osm == '')
-     $id_osm =0;
+     $id_osm = 0;
+  
+  if($id_osm != $id_osm_new)
+	   $upd = true;
 
-  if (($nome_casa_new !=  $row['nome_casa']) ||
+   if (($nome_casa_new !=  $row['nome_casa']) ||
       ($id_moranca_new != $row['id_moranca']) ||
       ($id_osm_new != $id_osm))
      $upd = true;
-  else
+   else
      $upd = false;
   
+
    if ($upd)
    { 
+	 $lat_new = 0.0;
+     $lon_new = 0.0;
+	 if ($id_osm_new !=0)
+	  {	  
+	   $result = get_latlon($id_osm_new, $lat_new, $lon_new);   // recupero lat e lon a partire dall'id_osm
+       if ($result<0)
+        echo "errore accesso a OpenStreetMap";
+      }
+	
   /* 
 	*** Insert su "casa_sto"
 	*** sullo storico "casa_sto" teniamo traccia dei cambiamenti di una casa.
@@ -151,10 +164,22 @@ try
    $query=   "UPDATE casa " ;
    $query .= "SET casa.nome = '". $nome_casa_new."',";
    $query .= "id_moranca   = ". $id_moranca_new.",";
-   $query .= "id_osm       = ". $id_osm_new.",";
+   if ($id_osm_new != 0)
+	{
+	  $query .= "id_osm    = ". $id_osm_new.",";
+      $query .= "lat       = ". $lat_new.",";
+	  $query .= "lon       = ". $lon_new.",";
+    }
+   else 
+	{
+	   $query .= "id_osm  = NULL,";
+	   $query .= "lat  = NULL,";
+	   $query .= "lon  = NULL,";
+    }
+    
    $query .= "data_inizio_val='".$data_attuale."'";
    $query .= " WHERE casa.id = ".$id_casa;
-   //echo "q4 ".$query;
+//   echo "q4 ".$query;
    $result = $conn->query($query); 
    if (!$result)
       throw new Exception($conn->error);
@@ -173,6 +198,9 @@ try
     $mymsg = "Errore modifica  casa" . $conn->error;
     EchoMessage($mymsg, "gest_case.php?pag=$pag");
   }
-   $mymsg = "Modifica casa effettuata correttamente";
+  if ($upd)
+    $mymsg = "Modifica casa effettuata correttamente";
+  else
+    $mymsg = "Non sono apportate modifiche";
    EchoMessage($mymsg, "gest_case.php?pag=$pag");
 ?>

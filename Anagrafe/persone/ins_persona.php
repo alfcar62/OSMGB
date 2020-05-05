@@ -13,16 +13,18 @@ require_once $util2;
 require_once $util1;
 setup();
 isLogged("gestore");
+$pag=$_SESSION['pag_p']['pag_p'];
 stampaIntestazione(); ?>
 <body>
 <?php stampaNavbar(); ?>
 
 <?php
 echo "<h3>Inserimento di una nuova persona</h3>";
-echo "<form action='insert_persona.php' method='post'>";
-echo  " Nominativo : <input type='text' name='nome_persona' placeholder='inserire nome ' required><br>";
-echo  " Data nascita : <input type='date' name='data_nascita' required><br>";
-echo   "Seleziona sesso : <select name='sesso' required>";
+echo "<br><br>";
+echo "<form action='insert_persona.php' name='form' id = 'form' method='post'>";
+echo  " <label for='nominativo'>Nominativo : </label><input type='text' name='nome_persona' placeholder='inserire nome ' required><br>";
+echo  " <label for='data_nascita'>Data nascita : </label><input type='date' name='data_nascita' required><br>";
+echo   "<label for='sesso'>Seleziona sesso :</label> <select name='sesso' required>";
 echo "<option></option><br>";
 echo "<option value=m>maschio</option>";
 echo "<option value=f>femmina</option>";
@@ -40,14 +42,12 @@ $query .= " WHERE c.DATA_FINE_VAL is null";
 $query .= " ORDER BY c.nome ASC";
 $result = $conn->query($query);  
 
-$result = $conn->query($query);
-
 //echo $query;
 /*
 *** form  per la scelta della casa
 */ 
-echo "<form action='ins_persona.php' method='POST'><br>";
-echo   "Residente nella casa: <select name='id_casa_nuova' required>";
+echo "<form action='ins_persona.php' name='form' id='form' method='POST'><br>";
+echo   "<label for='casa'> Residente nella casa:</label> <select name='id_casa_nuova' required>";
 $nr=$result->num_rows;
 echo "<option></option><br>";
 for($i=0;$i<$nr;$i++)
@@ -68,7 +68,7 @@ echo "</select><br>";
 $result = $conn->query("SELECT distinct cod, descrizione FROM ruolo_pers_fam");
 $nr=$result->num_rows;
 
-echo   "Ruolo: <select name='id_ruolo_nuovo' required>";
+echo   "<label for='ruolo'>Ruolo:</label> <select name='id_ruolo_nuovo' required>";
 echo "<option></option><br>";
 
 for($i=0;$i<$nr;$i++)
@@ -83,6 +83,8 @@ for($i=0;$i<$nr;$i++)
 echo "</select><br>";
 echo "<button type='submit' class='button'>Conferma</button>";
 echo "</form>";    
+echo "<br><a href='gest_persone.php?pag=$pag'>Torna a gestione persone</a>" 
+
 ?>
 
 </body>
