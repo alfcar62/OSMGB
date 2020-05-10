@@ -127,7 +127,7 @@ var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "DONNE FERTILI nella zona",
+            text: "DONNE IN ETA' FERTILE (da 13 a 40 anni) nella zona",
         },
         data: [
         {
