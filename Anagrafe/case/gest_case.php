@@ -83,7 +83,7 @@ isLogged("gestore");
      else
 	   $pag= 0;
 	?>
-	  <h2> <center><IMG SRC="../img/house.png"> Elenco case <IMG SRC='../img/house.png'> </center></h2>
+	  <h2> <center><IMG SRC="../img/casa3.png" WIDTH="40" HEIGHT="30"> Elenco case <IMG SRC="../img/casa3.png" WIDTH="40" HEIGHT="30"> </center></h2>
     <?php
       echo "<div style='float:left'>";
 	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";

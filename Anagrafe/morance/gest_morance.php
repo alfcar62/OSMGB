@@ -87,7 +87,7 @@ $_SESSION['errore']=null;
      else
 	   $pag= 1;
 	?>
-	    <h2><center><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" > Elenco moran&ccedil;as <IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ></center></h2>
+	    <h2><center><IMG SRC="/OSM/Anagrafe/img/moranca3.png"  WIDTH="50" HEIGHT="30"> Elenco moran&ccedil;as <IMG SRC="/OSM/Anagrafe/img/moranca3.png" WIDTH="50" HEIGHT="30" ></center></h2>
    <?php
     echo "<div style='float:left'>";
 		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;as <IMG SRC='../img/history.png'></a>";

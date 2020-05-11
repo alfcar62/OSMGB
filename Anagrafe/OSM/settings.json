@@ -2,8 +2,8 @@
     "newpoint":"Aggiungi punto",
     "editpoint":"Modifica",
     "title":"Mappa di NTchangue",
-    "center": [12.0068,-15.4732],
-    "zoom":15,
+    "center": [-15.4548,12.0073],
+    "zoom":14,
     "zoomto":15,
     "tags": ["NORD","SUD", "OVEST"],
     "datasource":"points.php"
