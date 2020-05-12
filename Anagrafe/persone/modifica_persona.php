@@ -58,7 +58,7 @@ try
     $query .=  " p.matricola_stud as matricola,";
     $query .=  " s.data_inizio_val as inizio_matricola,";
     $query .=  " s.data_fine_val as fine_matricola";
-    $query .=  " FROM persone p, pers_casa pc, casa c, ruolo_pers_fam rpf,studenti s";
+    $query .=  " FROM persone p LEFT JOIN studenti s ON s.matricola=p.matricola_stud, pers_casa pc, casa c, ruolo_pers_fam rpf";
     $query .= " WHERE p.id =$id_pers_modifica";
     $query .= " AND pc.id_pers = p.id";
     $query .= " AND c.id = pc.id_casa";
@@ -95,7 +95,6 @@ try
     $matricola_old=$row['matricola'];
     $inizio_matricola_old=$row['inizio_matricola'];
     $fine_matricola_old=$row['fine_matricola'];
-
     if($nominativo_new != $row['nominativo'])
     {
         $tipo_operazione.="-nominativo-";
@@ -106,8 +105,8 @@ try
     {
         $tipo_operazione.="-ruolo-";
         $ruolo_cambiato=true;
-        //	echo $row['cod_ruolo'];
-        //	echo "ruolo cambiato";
+        	//echo $row['cod_ruolo'];
+       // 	echo "ruolo cambiato";
     }
 
     $data_nascita =($row['data_nascita'] != '') ? $row['data_nascita']:"0000-00-00";
@@ -191,13 +190,13 @@ try
     $query .= "  DATA_NASCITA, DATA_MORTE,";
     $query .= "  ID_CASA, NOME_CASA,";
     $query .= "  COD_RUOLO_PERS_FAM, DESC_RUOLO_PERS_FAM,";
-    $query .= "  DATA_INIZIO_VAL,DATA_FINE_VAL,MATRICOLA_STUD ";
+    $query .= "  DATA_INIZIO_VAL,MATRICOLA_STUD,DATA_FINE_VAL ";
     $query .= "  )";
     $query .= " VALUES(";
     $query .= "'$tipo_operazione',";
-    $query .= $id_pers_modifica.",";
-    $query .= "'".$nominativo_old."',";
-    $query .= "'".$sesso_old."',";
+    $query .= "'$id_pers_modifica',";
+    $query .= "'$nominativo_old',";
+    $query .= "'$sesso_old',";
 
     if ($data_nascita_new == "0000-00-00")
         $query .= "NULL,";
@@ -214,20 +213,25 @@ try
     $query .= "'".$cod_ruolo_old."',";
     $query .= "'".$desc_ruolo_old."',";
     $query .= "'$data_inizio_val',";
-    $query .= "'$currentdate',";
-    $query .= "'$matricola_old')";
+    if($matricola_old!=null and $matricola_old!='')
+    $query .= "'$matricola_old',";
+    else
+        $query .= "NULL,";
+    $query .= "'$currentdate'";
+    $query .= ")";
 
     // echo "q2 ".$query."<br>";
     $result = $conn->query($query);
 
     if (!$result)
     {
-        $msg_err = "Errore insert persone_sto";
+        $msg_err = "Errore insert persone_sto".$query;
         throw new Exception($conn->error);
     }
 
     $upd_pers = false;
     $upd_pers_casa = false;
+    $upd_matricola=false;
 
     if ($nominativo_cambiato || $data_nascita_cambiata || $data_morte_cambiata)
         $upd_pers=true;
