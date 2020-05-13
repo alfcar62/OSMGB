@@ -20,7 +20,7 @@ unsetPag(basename(__FILE__));
 <br>
 
 <div align="center">Leggi gli articoli sul progetto<br>
- <A HREF="https://wiki.openstreetmap.org/wiki/OsmGuineaBissau_Avogadro" target='new'> <IMG SRC="../img/wikiosm.png"  alt="la nostra pagina Wiki"></A>
+ <A HREF="https://wiki.openstreetmap.org/wiki/OsmGuineaBissau_Avogadro" target='new'> <IMG SRC="../img/wikiosm.png"  ALT="la nostra pagina Wiki"></A>
 
 <A HREF="https://www.diregiovani.it/2020/04/20/309317-torino-studenti-creano-anagrafe-digitale-per-guinea-bissau.dg/" target='new'> <IMG SRC="../img/diregiovani.jpg"  alt="dicono di noi"></A>
 
@@ -28,8 +28,11 @@ unsetPag(basename(__FILE__));
 " target='new'> <IMG SRC="../img/wikimedia.jpg"  alt="dicono di noi"></A>
 
 <br>
+<A HREF="https://foss4g-it2020.gfoss.it/programm"> <IMG SRC="../img/foss4g.jpg"  alt="FOSS4G"></A>
+
 <A HREF="https://www.storiedialternanza.it/"> <IMG SRC="../img/storiedialternanza.jpg"  alt="concorso storiedialternanza"></A>
 <A HREF="sintesi_OSMGB.pdf" download> <IMG SRC="../img/pdf.png"></A>
+<br>
 
 </div>
 </body>
