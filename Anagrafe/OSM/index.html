@@ -13,6 +13,7 @@
 -->
 <html>
   <head>
+  <title>Mappa delle case su OSM e associate con id_OSM sul database gestionale</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.css">
@@ -129,8 +130,8 @@ body {
 	  image: new ol.style.Icon({
 	  crossOrigin: 'anonymous',
 //	  src: 'https://openlayers.org/en/v3.20.1/examples/data/dot.png',
-	  src: '/OSM/Anagrafe/img/house_red.png',
-//	  color: 'red'
+	  src: '/OSM/Anagrafe/img/casa5.png',
+	  color: 'red'
         })
 	  }),
 /*	 vecchio punto giallo/rosso
@@ -230,7 +231,7 @@ body {
 	  // visualizzo i dati della casa nella text area
 	 var text = '';
 	 if (pointname == 'new') 
-	    text = text + '<b>aggiungi casa sulla mappa:</b><br>';
+	    text = text + '<b>associa casa sulla mappa:</b><br>';
      else
 	    text = text + '<b>id casa:' + pointname + '</b><br>';
      if (pointaddress != '') text = text + pointaddress + '<br>';
