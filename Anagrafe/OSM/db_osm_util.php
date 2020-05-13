@@ -562,11 +562,14 @@ function get_osm_id($lat, $lon, &$id_osm)
  $url .= "&email=".$email;
 */
 
-
+/*
  $url="http://overpass-api.de/api/interpreter?data=[out:json];";
  $url .= "way['building'='house'](around:5,";
  $url .= $lat .",". $lon . ");out;";
-
+*/
+$url="http://overpass-api.de/api/interpreter?data=[out:json];";
+$url .= "way['building'](around:5,";
+$url .= $lat .",". $lon . ");out;";
 // echo "url=". $url;
 
  $client = curl_init($url);		// inizializzazione
