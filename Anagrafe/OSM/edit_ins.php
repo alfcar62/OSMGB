@@ -12,7 +12,6 @@ require_once $util3;
 require_once $util4;
 setup();
 
-
 print '<!DOCTYPE html><html>  <head>';
 header('Content-Type: text/html; charset=utf-8');
 print '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />';   
@@ -75,11 +74,12 @@ if ($ID != "" && $lon != "" && $lat != "") {
 
     print '<input type="hidden" name="ID" value="'.$ID.'">';
 
-    $mytag = $pointsarray["features"][$i]["properties"]["tag"];
-
-
+    if ($ID != "new")
+       $mytag = $pointsarray["features"][$i]["properties"]["tag"];
+    else 
+		$mytag = "";
+	
 	print '<b>zona:</b><br>&nbsp <input type="text" class="onlyread" name="tag" value="'.$mytag.'" readonly><br>';
-
 
     print '<b>Latitudine:</b><br>';
     print '&nbsp;<input type="text" class="onlyread" name="lat" value="'.$lat.'" readonly><br>';
@@ -149,7 +149,7 @@ if ($ID != "" && $lon != "" && $lat != "") {
                  echo "<option value=".$row['id_casa'].">casa (id:". $row['id_casa'].")-nome:".$nome_casa." (capo famiglia:".$myCapoFam. ") - moranca:".$myMoranca."  </option>";  					 
                 }
 				echo "<input type='submit' value='Scegli'>";
-			    echo "</select>";
+			    echo "</select><br>";
                }
 			 else
 			  {			// modifica punto
