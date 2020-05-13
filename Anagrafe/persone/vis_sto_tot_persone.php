@@ -118,6 +118,7 @@ require_once $util2;
         echo "<th>nome casa</th>";
         echo "<th>cod ruolo</th>";
         echo "<th>desc ruolo</th>";
+		echo "<th>matricola studente</th>";
         echo "</tr>";
 
         while ($row = $result->fetch_array()) {
@@ -134,6 +135,8 @@ require_once $util2;
             echo "<td>$row[nome_casa]</td>";
             echo "<td>$row[cod_ruolo_pers_fam]</td>";
             echo "<td>$row[desc_ruolo_pers_fam]</td>";
+			echo "<td>$row[matricola_stud]</td>";
+
         }
         echo "</table>";
     } else
