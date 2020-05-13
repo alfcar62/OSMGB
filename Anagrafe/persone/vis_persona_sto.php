@@ -75,9 +75,10 @@ $query.=" p.nominativo,";
 $query.=" sesso, matricola_stud,";
 $query.=" data_nascita,data_morte,";
 $query.=" c.id as id_casa, c.nome as nome_casa,";
-$query.=" pc.cod_ruolo_pers_fam, rpf.descrizione as desc_ruolo_pers_fam";
+$query.=" pc.cod_ruolo_pers_fam, rpf.descrizione as desc_ruolo_pers_fam,s.matricola";
 $query.=" FROM ";
-$query.=" persone p, pers_casa pc, casa c, ruolo_pers_fam rpf";   
+$query.=" persone p LEFT JOIN studenti s ON  s.matricola = p.matricola_stud,";
+$query.= "pers_casa pc, casa c, ruolo_pers_fam rpf";   
 $query.= " WHERE id_pers = $id_persona";
 $query.= " AND p.id = pc.id_pers";
 $query.= " AND c.id = pc.id_casa";
@@ -99,6 +100,7 @@ if ($result->num_rows ==1)
     echo "<th>nome_casa</th>";
     echo "<th>cod ruolo</th>";
     echo "<th>desc ruolo</th>";
+     echo "<th>matricola</th>";
     echo "</tr>";
 
     echo "<tr>";
@@ -111,6 +113,7 @@ if ($result->num_rows ==1)
     echo "<td>$row[nome_casa]</td>";
     echo "<td>$row[cod_ruolo_pers_fam]</td>";
     echo "<td>$row[desc_ruolo_pers_fam]</td>";
+     echo "<td>$row[matricola]</td>";
     echo "</tr>";
     echo "</table>";
    }
@@ -134,7 +137,8 @@ $query.=" data_nascita,data_morte,";
 $query.=" id_casa, nome_casa,";
 $query.=" cod_ruolo_pers_fam, desc_ruolo_pers_fam,";
 $query.=" data_inizio_val,";
-$query.=" data_fine_val ";
+$query.=" data_fine_val, ";
+$query.=" matricola_stud ";
 $query.=" FROM ";
 $query.=" persone_sto "; 
 $query.= " WHERE id_persona = $id_persona";
@@ -158,6 +162,7 @@ if ($result->num_rows !=0)
 		echo "<th>nome casa</th>";
 		echo "<th>cod ruolo</th>";
 		echo "<th>desc ruolo</th>";
+        echo "<th>matricola</th>";
 	    echo "</tr>";
 
 	    while ($row = $result->fetch_array())
@@ -175,6 +180,7 @@ if ($result->num_rows !=0)
             echo "<td>$row[nome_casa]</td>";
             echo "<td>$row[cod_ruolo_pers_fam]</td>";
             echo "<td>$row[desc_ruolo_pers_fam]</td>";
+            echo "<td>$row[matricola_stud]</td>";
 		 }
 		 echo "</table>";
 	}
