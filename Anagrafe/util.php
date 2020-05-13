@@ -327,6 +327,7 @@ function isLogged($perm_rich=null)
  }
 
 
+
 /***************** Alert *********************/
 
 function alert($msg)
