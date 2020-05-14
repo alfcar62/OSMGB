@@ -49,12 +49,11 @@ echo $conn->error;
 if($result)
 {
 $row = $result->fetch_array();
-//echo " persone maggiorenni e minorenni ";
+
 $matricolati= $row ["count(persone.ID)"];
 $no_matricola=$numero_persone-$matricolati;
 
-//echo "minorenni".$minorenni;
-//echo "maggiorenni".$maggiorenni;
+
 }
 
 
