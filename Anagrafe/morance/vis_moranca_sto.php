@@ -60,7 +60,7 @@ else
 </script>
 <?php
 
-echo "<h2>Situazione attuale della moranca</h2>";
+echo "<h2>Situazione attuale della moran&ccedil;a</h2>";
 
 // visualizzazione situazione attuale
 
@@ -115,13 +115,13 @@ if ($result->num_rows ==1)
 
 // visualizzazione situazione storica
 
-echo "<h2>Storia della moranca</h2>";
+echo "<h2>Storia della moran&ccedil;a</h2>";
       
 $query =  "SELECT tipo_op, id_moranca, id_mor_zona,id_osm,";
 $query .= " nome as nome_moranca, cod_zona, data_inizio_val, data_fine_val ";
 $query .= " FROM morance_sto ";
 $query .= " WHERE  id_moranca = $id_moranca ";
-$query .= " ORDER BY id ASC, data_fine_val DESC";
+$query .= " ORDER BY id DESC, data_fine_val DESC";
 $query .= " LIMIT $first, $x_pag";
 
 //echo $query;

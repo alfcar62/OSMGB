@@ -55,23 +55,25 @@ if($result)
 }
 
 
-//donne  in età fertile 
+//donne  in età fertile: si considera età fertile tra 13 anni e 40 anni: 
+// 13 anni = 365 * 13 = 4745 giorni
+// 40 anni = 365 * 40 = 14600 giorni
 $query = "SELECT count(persone.id) from persone  
 inner join pers_casa on pers_casa.ID_PERS=persone.ID 
 inner join casa on pers_casa.ID_casa=casa.ID
 inner join morance on casa.ID_moranca=morance.ID
 inner join zone on morance.cod_zona=zone.COD
-where persone.sesso='f' and zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)>5475 and DATEDIFF('$oraoggi',data_nascita)<16425 
+where persone.sesso='f' and zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)>4745 and DATEDIFF('$oraoggi',data_nascita)<14600 
 ";
 $result=$conn->query($query);
 //echo  $query;
 echo $conn->error;
 if($result)
 {
-$row = $result->fetch_array();
-//echo " donne in eta fertile ";
-$etafertile= $row ["count(persone.id)"];
-$nonfertile=$numero_persone_f-$etafertile;
+ $row = $result->fetch_array();
+ //echo " donne in eta fertile ";
+ $etafertile= $row ["count(persone.id)"];
+ $nonfertile=$numero_persone_f-$etafertile;
 }
 
 
@@ -125,7 +127,7 @@ var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "DONNE FERTILI nella zona",
+            text: "DONNE IN ETA' FERTILE (da 13 a 40 anni) nella zona",
         },
         data: [
         {

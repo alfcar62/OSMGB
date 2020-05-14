@@ -54,7 +54,7 @@ if($result)
   $numero_persone=$result->num_rows;
 }
 
-
+// 7300 giorni = 20 anni = 365 * 20
 //persone con età minore  di 20 anni
 $query = "SELECT count(persone.id) as indice from persone 
 inner join pers_casa on pers_casa.ID_PERS=persone.ID 
