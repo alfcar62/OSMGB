@@ -20,7 +20,7 @@ require $util;
 $oraoggi=date("Y/m/d");
 $zona=$_GET["zona_richiesta"];
 //media età delle persone 
-$query = "select avg(DATEDIFF('2020/2/29',data_nascita)) from persone 
+$query = "select avg(DATEDIFF($oraoggi,data_nascita)) from persone 
 inner join pers_casa on pers_casa.ID_PERS=persone.ID 
 inner join casa on pers_casa.ID_casa=casa.ID
 inner join morance on casa.ID_moranca=morance.ID
@@ -33,7 +33,7 @@ if($result)
 {
 $row = $result->fetch_array();
 //echo " media eta delle persone: ";
-$etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
+$etamedia=floor(($row ["avg(DATEDIFF($oraoggi,data_nascita))"]/365));
 }
 
 
