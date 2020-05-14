@@ -35,7 +35,8 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $query = "SELECT c.id, c.nome as nome_casa,";
     $query .= " z.nome zona, c.id_moranca as id_moranca,";
     $query .= " m.nome nome_moranca, ";
-    $query .= " p.id  as id_capo_famiglia, p.nominativo as capo_famiglia, c.id_osm, ";
+    $query .= " p.id  as id_capo_famiglia, p.nominativo as capo_famiglia,";
+	$query .= " c.id_osm, c.lat, c.lon,";
     $query .= " c.data_inizio_val data_inizio, c.data_fine_val as data_fine";
     $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
     $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
@@ -55,10 +56,20 @@ $pag=$_SESSION['pag_c']['pag_c'];
     $data_fine=$row["data_fine"];
     $id_moranca=$row["id_moranca"]; 
 	
+	$lat=$row["lat"]; 
+	$lon=$row["lon"]; 
+	
     $nome_moranca=utf8_encode ($row['nome_moranca']);
     $id_osm=$row["id_osm"];
     if ($id_osm == '')
         $id_osm = 0;
+
+	if ($lat == '')
+        $lat = 0;
+
+	if ($lon == '')
+        $lon = 0;
+
     $capo_famiglia=$row["capo_famiglia"];
     $id_capo_famiglia=$row["id_capo_famiglia"];
 
@@ -94,6 +105,11 @@ $pag=$_SESSION['pag_c']['pag_c'];
         } 
     }
     echo "</select><br>";
+ 
+  echo  " <label for='lat'>Latitudine : </label><input type='number' name='lat' value = ".$lat ." readonly><br>";
+  echo  " <label for='lon'>Longitudine : </label><input type='number' name='lon' value = ".$lon ." readonly><br>";
+
+
  ?>
 <label for='mappa'>sulla mappa: </label><input type='text' name='id_osm' value= <?php echo $id_osm ?> ><span id="info"><img onmouseover="tooltip(event)" onmouseout="tooltip(event)" src="../img/infoIcon.png" style="height:25px;width:50px;"></span>
  <span id="error" style="visibility:hidden">Identificativo della casa sulla mappa OpenStreetMap:<br> 1. vai sulla mappa OSM,<br> 2. cerca la casa,<br> 3. clicca con il pulsante destro del mouse, scegli 'ricerca di elementi' <br>4.  copia qui il numero dell'oggetto relativo (il numero senza #)</span><br>

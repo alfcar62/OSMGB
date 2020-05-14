@@ -1,21 +1,21 @@
 {
     "Commento":["Json non supporta i commenti","Data ultima modifica:12/03/2020","Autore:Gobbi Dennis","Descrizione:Completamento traduzione Morance e parziale traduzione Case"],
     
-    "ENIndex":["Web Registry Office and OpenStreetMap Map of Morançe,houses and streets<br> from N'Tchangue Village(Guinea Bissau)","A project made for AbalaLite onlus from the class 5°A Informatica A.S. 2019/20 of I.I.S. Amedeo Avogadro"],
+    "ENIndex":["Web Registry Office and OpenStreetMap Map of Morançes,houses and streets<br> from N'Tchangue Village(Guinea Bissau)","A project made for AbalaLite onlus from the class 5°A Informatica A.S. 2019/20 of I.I.S. Amedeo Avogadro"],
     
     "ENNavbar":["About us","About the project","Enter","Select your language","Houses","Inhabitants","Cadastran","Map","Stats","Report","User Management","Utility","Log out"],
     
-    "ENMorance":["Ntchangue Village","Moran&ccedil;e list","Add a new morança","Morança Zone","Confirm","Morança's name","Zone","progr nella zona","Validity Date","Modify","Delete","Houses","Change History","Number of morançe","Next page","Previous page","ADDING NEW MORANCA","Insert a name","Morança's new name","Morança's data change","Morança's ID","Search a morança","Select Zone"],
+    "ENMorance":["Ntchangue Village","Moran&ccedil;as list","Add a new morança","Morança Zone","Confirm","Morança's name","Zone","progr nella zona","Validity Date","Modify","Delete","Houses","Change History","Number of moranças","Next page","Previous page","ADDING NEW MORANCA","Insert a name","Morança's new name","Morança's data change","Morança's ID","Search a morança","Select Zone"],
     
     "ENCase":["Picture","Houses List","Add a new house","Name","Family's Head ID ","Family's Head","Osm ID","Inhabitants","Change History","Select Operation","Select Value","No operation has been done on the current house","Number of Operations","Everything","Operation","Operation's Date","Search a house","Number of Houses"],
     
     "ENPersone":["Inhabitants List in the Village","Search people","Add a new person","Gender","Birth Date","Age","Family Role","House","Number of people"],
     
-    "ITAIndex":["Anagrafe Web e Mappa OpenStreetMap di morançe, case e strade<br> del villaggio N'Tchangue (Guinea Bissau)","Un progetto realizzato per AbalaLite onlus dalla classe 5A sez. Informatica a.s. 2019/20 dell'IIS A.Avogadro di Torino"],
+    "ITAIndex":["Anagrafe Web e Mappa OpenStreetMap di moranças, case e strade<br> del villaggio N'Tchangue (Guinea Bissau)","Un progetto realizzato per AbalaLite onlus dalla classe 5A sez. Informatica a.s. 2019/20 dell'IIS A.Avogadro di Torino"],
     
     "ITANavbar":["Chi siamo","Il progetto","Entra","Seleziona la lingua","Case","Persone","Mappa","Catastale","Report","Statistiche","Utenti","Utilit&agrave;","Esci"],
     
-    "ITAMorance":["Villaggio di Ntchangue","Elenco Morançe","Inserisci una nuova morança","Selezione Zona","Conferma","Nome morança","Zona","progr nella zona","data val","Modifica","Elimina","Case","Storico","Numero morançe","Pagina avanti","Pagina indietro","INSERIMENTO NUOVA MORANCA","Inserisci un nome","Nuovo nome morança","Modifica Morança","Identificativo Morança","Ricerca morança","Selezione Zona"],
+    "ITAMorance":["Villaggio di Ntchangue","Elenco Moranças","Inserisci una nuova morança","Selezione Zona","Conferma","Nome morança","Zona","progr nella zona","data val","Modifica","Elimina","Case","Storico","Numero moranças","Pagina avanti","Pagina indietro","INSERIMENTO NUOVA MORANCA","Inserisci un nome","Nuovo nome morança","Modifica Morança","Identificativo Morança","Ricerca morança","Selezione Zona"],
     
     "ITACase":["Foto","Elenco Case","Inserisci una nuova casa","Nome","Id Capo Famiglia","Capo Famiglia","ID su OpenStreetMap","Persone","Visualizzazione Storico","Selezione Operazione","Selezione Valore","Nessuna operazione è stata effettuata sulla casa","Numero operazioni","Qualsiasi","Operazione","Data Operazione","Ricerca casa","Numbero di case"],
     

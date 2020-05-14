@@ -70,7 +70,7 @@ require_once $util2;
 
     // visualizzazione situazione storica
 
-    echo "<h2>Storia delle variazioni delle moran&ccedil;e nel tempo</h2>";
+    echo "<h2>Storia delle variazioni delle moran&ccedil;as nel tempo</h2>";
     //echo $_POST['codice_zona'];
 
     $query =  "SELECT tipo_op, id_moranca, id_mor_zona,id_osm,";
@@ -124,7 +124,7 @@ require_once $util2;
         }
         echo "</tr></table>";
     } else
-        echo " Non vi sono variazioni sulle morance.";
+        echo " Non vi sono variazioni sulle moran&ccedil;as.";
     echo "<br> Numero operazioni: $all_rows<br>";
 	
 	// visualizza pagine
@@ -134,7 +134,7 @@ require_once $util2;
     $result->free();
     $conn->close();
 
-	echo "<br><a href='gest_morance.php'>Torna a gestione moran&ccedil;e</a>" 
+	echo "<br><a href='gest_morance.php'>Torna a gestione moran&ccedil;as</a>" 
 
     ?>
     

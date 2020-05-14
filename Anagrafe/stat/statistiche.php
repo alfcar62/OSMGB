@@ -110,7 +110,9 @@ $etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
 }
 
 
-//donne  in età fertile 
+//donne  in età fertile  (si intende tra 13 e 40 anni)
+//365 * 13 = 4745		
+//365 * 40 = 14600
 $query = "SELECT count(id) from persone where DATEDIFF('$oraoggi',data_nascita)>4745 and DATEDIFF('$oraoggi',data_nascita)<14600 and sesso='f' ";
 $result=$conn->query($query);
 //echo  $query;
@@ -223,7 +225,7 @@ var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "PERCENTUALI  MASCHILE  E FEMMINILE",
+            text: "PERCENTUALI  MASCHI  E FEMMINE",
         },
         data: [
         {
@@ -283,7 +285,7 @@ var chart = new CanvasJS.Chart("chartContainer4",
     {
         animationEnabled: true,
         title: {
-            text: "DONNE FERTILI ",
+            text: "DONNE IN ETA' FERTILE (13 - 40 anni) ",
         },
         data: [
         {
@@ -291,8 +293,8 @@ var chart = new CanvasJS.Chart("chartContainer4",
             showInLegend: true,
             dataPoints: [
                 
-                { y:<?php echo (($etafertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " fertili : ".$etafertile ?>", indexLabel: "% donne in età fertile" },
-                { y:<?php echo (($nonfertile/$numero_persone_f)*100) ?>, legendText: "<?php echo "non fertili : ".$nonfertile ?>", indexLabel: "% donne non in età fertile" },
+                { y:<?php echo (($etafertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " età fertile : ".$etafertile ?>", indexLabel: "% donne in età fertile" },
+                { y:<?php echo (($nonfertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " età non fertile : ".$nonfertile ?>", indexLabel: "% donne non in età fertile" },
                 
             ]
         },

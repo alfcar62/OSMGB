@@ -87,10 +87,10 @@ $_SESSION['errore']=null;
      else
 	   $pag= 1;
 	?>
-	    <h2><center><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" > Elenco moran&ccedil;e <IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ><IMG SRC="../img/house.png" ></center></h2>
+	    <h2><center><IMG SRC="/OSM/Anagrafe/img/moranca3.png"  WIDTH="50" HEIGHT="30"> Elenco moran&ccedil;as <IMG SRC="/OSM/Anagrafe/img/moranca3.png" WIDTH="50" HEIGHT="30" ></center></h2>
    <?php
     echo "<div style='float:left'>";
-		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;e <IMG SRC='../img/history.png'></a>";
+		echo "<a href='vis_sto_tot_morance.php'> Storia delle moran&ccedil;as <IMG SRC='../img/history.png'></a>";
 		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		echo"<a href='export_moranca.php'>Export su excel <IMG SRC='../img/excel_2.png'></a>&nbsp;";		
     echo "</div>";

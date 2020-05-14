@@ -1,7 +1,15 @@
 <?php
+$config_path = __DIR__;
+$util1 = $config_path .'/../util.php';
+require_once $util1;
+setup();
+
 print '<!DOCTYPE html><html>  <head>';
 header('Content-Type: text/html; charset=utf-8');
-print '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />';
+print '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />';   
+print '<link rel="stylesheet" type="text/css" href="styleOSM.css">';
+?>
+<?php
 print '</head> <body>';
 
 include "../db/db_util.php";		// funzioni di utilità sul DB
@@ -12,12 +20,12 @@ if( isset($_GET["ID"]) )
      $ID = htmlspecialchars($_GET["ID"]);
     }
 $lon = "";
-if( isset($_GET["ID"]) )
+if( isset($_GET["lon"]) )
 	{
      $lon = htmlspecialchars($_GET["lon"]);
 	}
 $lat = "";
-if( isset($_GET["ID"]) )
+if( isset($_GET["lat"]) )
  	{
      $lat = htmlspecialchars($_GET["lat"]);
     }
@@ -41,7 +49,7 @@ if ($ID != "" && $lon != "" && $lat != "") {
         $i = count($pointsarray["features"])-1;
     }
 
-    print "<h3> id casa=".$ID."</h3>";
+    print "<h3> Modifica casa id=".$ID."</h3>";
 
     print '<form action="edit.php" method="post">';
 
@@ -49,36 +57,53 @@ if ($ID != "" && $lon != "" && $lat != "") {
 
     $mytag = $pointsarray["features"][$i]["properties"]["tag"];
 
-    print '<b>Tag:</b> <select name="tag">';
-    foreach ($settingsarray["tags"] as $item) {
-        $selected = "";
-        if ($item == $mytag) $selected = "selected";
-        print '<option value="'.$item.'" '.$selected.'>'.$item.'</option>';
-    }
-    print '</select><br><br>';
+
+	print '<b>zona:</b><br>&nbsp <input type="text" class="onlyread" name="tag" value="'.$mytag.'" readonly><br>';
 
 
     print '<b>Latitudine:</b><br>';
-    print '<input type="text" name="lat" value="'.$lat.'"><br>';
+    print '&nbsp;<input type="text" class="onlyread" name="lat" value="'.$lat.'" readonly><br>';
 
     print '<b>Longitudine:</b><br>';
-    print '<input type="text" name="lon" value="'.$lon.'"><br>';
+	print '&nbsp;<input type="text" class="onlyread" name="lon" value="'.$lon.'" readonly><br>';
 
     $n = 0;
     foreach ($pointsarray["features"][$i]["properties"]["description"] as $key => $item) {
         print '<b>'.$key.':</b><br>';
-        if ($ID == "new") $item = "";
-        print '<input type="text" name="D'.$n.'" value="'.$item.'"><br>';
-        $n++;
+        if ($ID == "new") $item = "";		// nuova casa da identificare
+		switch ($key) 
+		 {
+           case "Nome Casa":
+			 print '&nbsp;<input type="text" name="D'.$n.'" value="'.$item.'" required>* obbl.<br>';
+			 break;
+			case "id OSM":
+			 $id_osm = $item;
+			 if ($ID == "new")
+			   {
+				$result = get_osm_id($lat, $lon, $id_osm); // a partire da lat e lon, recupero id_osm
+		        if ($result<0)
+                   echo "errore accesso a OpenStreetMap";
+			   }
+			 else
+				  $id_osm = $item;
+			 print '#<input type="number" name="D'.$n.'" value="'.$id_osm.'" min=0 required>* obbl.<br>';
+			 break;
+		  default:
+			 print '&nbsp;<input type="text" class="onlyread" name="D'.$n.'" value="'.$item.'" readonly><br>';
+			 break;
+         }
+       $n++;
     }
 
     $verified = $pointsarray["features"][$i]["properties"]["verified"];
     if ($ID == "new") $verified = "";
-    print '<b>Ultima modifica:</b><br>';
-    print '<input type="text" name="verified" value="'.$verified.'" readonly="readonly"><br>';
-    if ($ID != "new") print '<input type="checkbox" name="delete" value="delete"> Cancella<br>';
+       print '<b>Ultima modifica:</b><br>';
 
-    print ' <br><input type="submit" value="Salva">';
+    print '<input type="text" class="onlyread" name="verified" value="'.$verified.'" readonly="readonly"><br>';
+	
+ //   if ($ID != "new") print '<input type="checkbox" name="delete" value="delete"> Cancella<br>';
+
+    print ' <br><input type="submit" class = "button" value="Salva">';
     print '</form>';
 }
 
@@ -144,21 +169,12 @@ if( isset($_POST["ID"]) ){
             $pointsarray["features"][$i]["properties"]["description"][$key] = $_POST["D".$n];
             $n++;
         }
-
-        if ($INS == 1) 
-			{
-             print "<b>Da inserire su DB casa id = ". $ID;
-		    }
-         else
-			{
-              print "<b>Da modificare su DB casa id = ". $ID;
-		    }
           
 
         $geojson = json_encode($pointsarray);
         file_put_contents('points.geojson', $geojson);
 
-        if ($INS == 1) 
+        if ($INS == 1)  // da inserire casa su DB
 			{         
 			  $ret = inserisci_casa($ID);
 			  if ($ret == -1)
@@ -169,12 +185,13 @@ if( isset($_POST["ID"]) ){
 		    }
         else
 			{   
-			  $ret = modifica_casa($ID);
+			  $ret = modifica_casa($ID);		// da modificare casa su DB
 			  if ($ret == -1)
 				 print "<h3>Errore in Modifica  casa id=". $ID . "</h3>";
-	//		  header("Location: mod_db.php?ID=".$ID);
-			  else
-		        print "<h3>Modifica effettuata casa id=". $ID . "</h3>";
+	//		  else
+
+//		           print "<h3>Modifica effettuata casa id=". $ID . "</h3>";
+
 		    }
         //print $geojson;
     }
