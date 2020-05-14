@@ -85,7 +85,7 @@ echo "</br></br>Età media : ".(ceil($etamedia*10))/10;
 echo "</h2>";
 
 echo "</br>";
-echo "<form action='' method='post' >";
+echo "<form action='' method='get' >";
 
 echo "<select name='zona_richiesta'>";
 echo "<option value='nord'>nord</option>";
