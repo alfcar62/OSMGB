@@ -5,30 +5,40 @@
 *** Se le pagine totali sono più di 1...
 *** stampo i link per andare avanti e indietro tra le diverse pagine!
 */
-   if($pag < 1){"<li class='page-item disabled'>
-         <span class='page-link'>previous</span> </li>
-         ";}
-        if ($all_pages > 1){
-            if ($pag > 1){
-                echo " <li class='page-item'> <a class='page-link' href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag -$pag+1) . "\">";
-                echo "Prima Pagina</a></li>&nbsp;";
-            }
-            // faccio un ciclo di tutte le pagine
-        
-      if($pag!=1){
-      echo "<li class='page-item'><a class='page-link' href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag-1).     "\">";
-      echo ($pag - 1 )."</a></li>&nbsp";}
-      echo "<li class='page-item active'>  <span class='page-link'>" . $pag . "<span class='sr-only'>(current)</span>
-      </span></li>&nbsp";
-            for($i=1;$i<5 && $i<$all_pages;$i++){
-      if($all_pages!=$pag && $all_pages >( $i+$pag)){
-      echo "<li class='page-item'><a class='page-link' href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag+$i)  ."\">";
-       
-      echo ($pag + $i )."</a></li>&nbsp";}}
-            if ($all_pages > $pag)
-            {
-                echo "<li class='page-item'><a class='page-link' href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($all_pages) . "\">";
-                echo "Ultima pagina";
-            } 
-        }
+ if ($all_pages > 1)
+ {
+  echo "Pagina:".$pag. "/". $all_pages."&nbsp;&nbsp;";
+  if ($pag > 1)
+   {
+      echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag - 1) . "\">";
+      echo "<<- Indietro</a>&nbsp;&nbsp;&nbsp;";
+   }
+  if ($all_pages > $pag)
+   {
+         echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . ($pag + 1) . "\">";
+         echo "Avanti ->><br><br></a>";
+   } 
+   // faccio un ciclo di tutte le pagine
+  $cont=0;
+  for ($p=1; $p<=$all_pages; $p++) 
+   {
+    if ($cont>=50)
+     {
+       echo "<br>";
+       $cont=0;
+     }
+    $cont++;
+       // per la pagina corrente non mostro nessun link ma la evidenzio in bold
+       // all'interno della sequenza delle pagine
+    if ($p == $pag)
+		echo "<mark><b> " . $p . "</b></mark>";
+       // per tutte le altre pagine stampo il link
+    else
+      { 
+         echo "<a href=\"" . $_SERVER['PHP_SELF'] . "?pag=" . $p . "\">";
+         echo $p . "</a>&nbsp;";
+      } 
+    }
+
+  }
 ?>

@@ -76,14 +76,14 @@ isLogged("gestore");
 	 if (isset($_SESSION['campo_c']))		// campo sul cui fare ordinamento
 	   $campo = $_SESSION['campo_c'];
 	 else
-       $campo = "nome";
+       $campo = "id";
 
 	 if(isset($_GET['pag']))			// pagina corrente
 	   $pag= $_GET['pag'];
      else
 	   $pag= 0;
 	?>
-	  <h2> <center><IMG SRC="../img/house.png"> Elenco case <IMG SRC='../img/house.png'> </center></h2>
+	  <h2> <center><IMG SRC="../img/casa3.png" WIDTH="40" HEIGHT="30"> Elenco case <IMG SRC="../img/casa3.png" WIDTH="40" HEIGHT="30"> </center></h2>
     <?php
       echo "<div style='float:left'>";
 	  echo "<a href='vis_sto_tot_case.php'> Storia delle case <IMG SRC='../img/history.png'></a>";
@@ -207,7 +207,7 @@ isLogged("gestore");
 	   if (isset($_SESSION['campo_c']))
 				$campo = $_SESSION['campo_c'];
 		else 
-				$campo = "nome";
+				$campo = "id";
       
 	   if (isset($_POST['ord_id']) ||
 		    isset($_POST['ord_nome']))
@@ -233,7 +233,8 @@ isLogged("gestore");
 */
         $query = "SELECT c.id, c.nome,";
         $query .= " z.nome zona, c.id_moranca, m.nome nome_moranca,";
-        $query .= " c.nome, p.id id_pers, p.nominativo, c.id_osm as id_osm, ";
+        $query .= " c.nome, p.id id_pers, p.nominativo,";
+		$query .= " c.id_osm, c.lat, c.lon,";
         $query .= " c.data_inizio_val data_val, c.data_fine_val";
         $query .= " FROM morance m INNER JOIN casa c ON m.id = c.id_moranca ";
         $query .= " INNER JOIN zone z  ON  z.cod = m.cod_zona ";
@@ -309,17 +310,27 @@ isLogged("gestore");
                 $result2 = $conn->query($query2);
                 $row2 = $result2->fetch_array();
                 echo "<td>$row2[persone]</th>";
-
-                $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
-                if ($row['id_osm'] != null && $row['id_osm'] != "0")
-                { 
-                    echo "<td>$row[id_osm]<a href=$osm_link target=new><img src='../img/marker.png' ></a></td>"; 
-                }
+				
+				if (($row['id_osm'] != null) && ($row['id_osm'] != "0"))	// priorità a id_osm
+                 { 
+				  $osm_link = "https://www.openstreetmap.org/way/$row[id_osm]";
+                  echo "<td>$row[id_osm]<a href=$osm_link target=new><img src='../img/marker.png' ></a></td>"; 
+                 }
                 else
-                { 
-                    echo "<td>&nbsp;</td>";
-                }
-                echo "<td>$row[data_val]</td>";
+                 {	
+				  if ((($row['lat'] != null) && ($row['lat'] != "0")) &&
+					(($row['lon'] != null) && ($row['lon'] != "0")))
+                   {						
+				    $osm_link = "http://www.openstreetmap.org/";
+				    $osm_link .= "#map=19/".$row['lat']. "/". $row['lon'];
+                    echo "<td><a href=$osm_link target=new><img src='../img/marker.png' ></a></td>"; 
+                   }  
+                  else
+                   { 
+                     echo "<td>&nbsp;</td>";
+                   }
+			     }
+                 echo "<td>$row[data_val]</td>";
 
                 echo " <form method='post' action='mod_casa.php'>";
                 echo "<th><button class='btn center-block' name='id_casa'  value='$row[id]' type='submit';'><img src='../img/wrench.png' > </button> ". "</th></form>";

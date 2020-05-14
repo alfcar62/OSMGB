@@ -6,6 +6,11 @@
 //25/03/2020: Ferraiuolo: Aggiunta menu a tendina e nome utente nella videata
 ?>
 <?php
+
+/* definizione di costanti */
+define("OK", 0);
+define("KO", -1);
+
 /***************************** StampaNavbar *****************************/
 
 function stampaNavbar()
@@ -25,18 +30,18 @@ function stampaNavbar()
     if($_SESSION['tipo']!="utente")
 	 {
  ?>   
-    <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;e<br><i class="fa fa-home"></i><i class="fa fa-home"></i><i class="fa fa-home"></i></a></li>
-    <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?><br><i class="fa fa-home"></i></a></li><!--Case --> 
-    <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?><br><i class='fa fa-male'></i><i class='fa fa-female'><i class='fa fa-male'><i class='fa fa-female'></i></i></i></a></li><!--Persone --> 
-    <li><a href="/OSM/Anagrafe/OSM/db2geojson.php" target='new'> Mappa case<br><i class="fa fa-home"></i><i class='fa fa-globe'></i> </a></li>-->
-    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM<br><i class='fa fa-globe'></i></a></li>
+    <li><a href="/OSM/Anagrafe/morance/gest_morance.php">Moran&ccedil;as<br><IMG SRC="/OSM/Anagrafe/img/moranca4.png" WIDTH="50" HEIGHT="40"></a></li>
+    <li><a href="/OSM/Anagrafe/case/gest_case.php"><?php echo ($jsonObj->{$lang."Navbar"}[4])?><br><IMG SRC="/OSM/Anagrafe/img/casa4.png" WIDTH="50" HEIGHT="40"></a></li><!--Case --> 
+    <li><a href="/OSM/Anagrafe/persone/gest_persone.php"><?php echo ($jsonObj->{$lang."Navbar"}[5])?><br><i class='fa fa-male  fa-2x'></i><i class='fa fa-female  fa-2x'></i><i class='fa fa-male'></i><i class='fa fa-female'></i></a></li><!--Persone --> 
+    <li><a href="/OSM/Anagrafe/OSM/db2geojson.php" target='mapcase'> Mappa case<br><IMG SRC="/OSM/Anagrafe/img/casa4.png" WIDTH="50" HEIGHT="30"><i class='fa fa-globe  fa-2x'></i></a></li>
+    <li><a href="https://www.openstreetmap.org/search?query=ntchangue#map=16/12.0039/-15.5081" target="osm">OSM<br><i class='fa fa-globe  fa-2x'></i></a></li>
 
     <?php
       } ?>
-    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?><br><i class="fa fa-pie-chart"></i></a></li>
+    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?><br><i class="fa fa-pie-chart  fa-2x"></i></a></li>
     <?php  if($_SESSION['tipo']=="admin")
 	 {
-	  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."<br><i class='fa fa-user'></i></a></li>";// Utenti
+	  echo "<li><a href='/OSM/Anagrafe/utenti/gestione_utenti.php'>".$jsonObj->{$lang."Navbar"}[10]."<br><i class='fa fa-user  fa-2x'></i></a></li>";// Utenti
 
      //echo "<li><a href='/OSM/Anagrafe/utility.php'>".$jsonObj->{$lang."Navbar"}[11]."</a></li>";
      // echo "<li><a href='https://drive.google.com/file/d/1VOXNtxo_ULb5xbqlJeVmjNz9vhz2insi/view?usp=sharing' target=new>Segnalazioni</a></li>";
@@ -170,7 +175,6 @@ function stampaIntestazione()
     <link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/style1.css">
 	<link rel="stylesheet" type="text/css" href="/OSM/Anagrafe/css/utilcss.css">
 	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
 </head>
 <?php
 }
@@ -323,6 +327,7 @@ function isLogged($perm_rich=null)
  }
 
 
+
 /***************** Alert *********************/
 
 function alert($msg)
@@ -351,4 +356,5 @@ function EchoMessage($msg, $redirect)
 
         return $output;
    }
+
 ?>
