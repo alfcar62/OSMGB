@@ -42,7 +42,7 @@ inner join casa on pers_casa.ID_casa=casa.ID
 inner join morance on casa.ID_moranca=morance.ID
 inner join zone on morance.cod_zona=zone.COD
 where  zone.NOME='$zona' and persone.matricola_stud is not null ";
-echo $query;    
+//echo $query;    
 $result=$conn->query($query);
 //echo  $query;
 echo $conn->error;
