@@ -30,7 +30,7 @@ $_SESSION['errore']=null;
     <link rel="stylesheet" type="text/css" href="../css/style1.css">
     <link rel="stylesheet" type="text/css" href="gest_morance_temp_css.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -325,9 +325,10 @@ $_SESSION['errore']=null;
         echo "<br> Numero moran&ccedil;e risultanti: $all_rows<br>";
 
 		// visualizza pagine
+		echo "<div class='pagi'><nav aria-label='...' > <ul class='pagination'>";
         $vis_pag = $config_path .'/../vis_pag.php';
         require $vis_pag;
-
+		echo "</div></ul></nav>";
 
         $result->free();
         $conn->close();	
