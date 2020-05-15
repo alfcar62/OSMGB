@@ -13,6 +13,9 @@ if ($valore == "maschi") {
     header("Location:fasce.php?zona_richiesta=$zona");
 } elseif ($valore == "abitanti") {
     header("Location:abitanti.php?zona_richiesta=$zona");
-} else {
+} elseif ($valore == "matricolati") {
+    header("Location:matricolati.php?zona_richiesta=$zona");
+}
+else {
     header("Location:stat.php?errore=error");
 }

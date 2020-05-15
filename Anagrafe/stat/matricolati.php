@@ -18,7 +18,7 @@ require $util;
 <?php
 
 $oraoggi=date("Y/m/d");
-$zona=$_GET["zona_richiesta"];
+$zona=strtoupper($_GET["zona_richiesta"]);
 
 //persone in totale
 $query = "SELECT *  from persone 
@@ -35,26 +35,25 @@ if($result)
 {
   $numero_persone=$result->num_rows;
 }
-//persone maggiorenni per zona
+//persone con matricola per zona
 $query = "SELECT count(persone.ID) from persone 
 inner join pers_casa on pers_casa.ID_PERS=persone.ID 
 inner join casa on pers_casa.ID_casa=casa.ID
 inner join morance on casa.ID_moranca=morance.ID
 inner join zone on morance.cod_zona=zone.COD
-where  zone.NOME='$zona' and DATEDIFF('$oraoggi',data_nascita)<6570 ";
-//echo $query;
+where  zone.NOME='$zona' and persone.matricola_stud is not null ";
+//echo $query;    
 $result=$conn->query($query);
 //echo  $query;
 echo $conn->error;
 if($result)
 {
 $row = $result->fetch_array();
-//echo " persone maggiorenni e minorenni ";
-$minorenni= $row ["count(persone.ID)"];
-$maggiorenni=$numero_persone-$minorenni;
 
-//echo "minorenni".$minorenni;
-//echo "maggiorenni".$maggiorenni;
+$matricolati= $row ["count(persone.ID)"];
+$no_matricola=$numero_persone-$matricolati;
+
+
 }
 
 
@@ -106,7 +105,7 @@ var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "MAGGIORENNI E MINORENNI nella zona <?php echo $zona ?>",
+            text: "MATRICOLATI NELLA ZONA <?php echo $zona ?>",
         },
         data: [
         {
@@ -114,9 +113,8 @@ var chart = new CanvasJS.Chart("chartContainer1",
             showInLegend: true,
             dataPoints: [
                 
-                { y:<?php echo (($maggiorenni/$numero_persone)*100) ?>, legendText: "<?php echo " maggiorenni : ".$maggiorenni ?>", indexLabel: "% persone maggiorenni" },
-                { y:<?php echo (($minorenni/$numero_persone)*100) ?>, legendText: "<?php echo "minorenni : ".$minorenni ?>", indexLabel: "% di persone minorenni" },
-                
+                { y:<?php echo (($matricolati/$numero_persone)*100) ?>, legendText: "<?php echo " matricolati : ".$matricolati ?>", indexLabel: "% persone matricolate" },
+                { y:<?php echo (($no_matricola/$numero_persone)*100) ?>, legendText: "<?php echo "non matricolati : ".$no_matricola ?>", indexLabel: "% di persone non matricolate" },       
             ]
         },
         ]
