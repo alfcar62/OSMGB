@@ -105,7 +105,7 @@ var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "MATRICOLATI NELLA ZONA <?php echo $zona ?>",
+            text: "STUDENTI IMMATRICOLATI NELLA ZONA <?php echo $zona ?>",
         },
         data: [
         {
@@ -113,8 +113,8 @@ var chart = new CanvasJS.Chart("chartContainer1",
             showInLegend: true,
             dataPoints: [
                 
-                { y:<?php echo (($matricolati/$numero_persone)*100) ?>, legendText: "<?php echo " matricolati : ".$matricolati ?>", indexLabel: "% persone matricolate" },
-                { y:<?php echo (($no_matricola/$numero_persone)*100) ?>, legendText: "<?php echo "non matricolati : ".$no_matricola ?>", indexLabel: "% di persone non matricolate" },       
+                { y:<?php echo (($matricolati/$numero_persone)*100) ?>, legendText: "<?php echo " immatricolati : ".$matricolati ?>", indexLabel: "% immatricolati" },
+                { y:<?php echo (($no_matricola/$numero_persone)*100) ?>, legendText: "<?php echo "non immatricolati : ".$no_matricola ?>", indexLabel: "% non immatricolati" },       
             ]
         },
         ]

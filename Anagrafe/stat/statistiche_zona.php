@@ -38,7 +38,7 @@ require $util;
 <option value="fertili">fertili</option>
 <option value="fasce">fasce</option>
 <option value="abitanti">numero persone</option>
-<option value="matricolati">matricolati</option>
+<option value="matricolati">studenti immatricolati</option>
 </select>
 <input type='submit' class='button' name='invia'>
 </form>
