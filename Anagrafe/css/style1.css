@@ -5,7 +5,7 @@ body {
     background-color: #C0DBF7;
 	margin: 4px;
 	font-family: 'Raleway', sans-serif;
-}
+    }
 
 h {
 	font-size: 20px; 	
@@ -46,10 +46,11 @@ th {
 
 /* barra di navigazione */
 ul {
+    overflow: hidden;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    height: 15%;
     background-color: #01295F;
 	border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
@@ -166,6 +167,18 @@ form {
   font-weight: 500;
   position: relative;
 }
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: #dfe2ea;
+    border-radius: 8px 8px 0 0;
+    opacity: 0;
+    transition: .3s;
+  }
 
 /*contiene le tabelle di persone morance e case*/
 .resto{
@@ -255,3 +268,17 @@ top:5%;
         width:100px;
         padding: 10px 0;
     }
+.pagination {
+
+    height: 0%;
+    width:100%;
+    z-index: 1;
+    overflow: visible;
+}
+.pagi{
+ position:absolute;
+// top:32%;
+ left: -18%; 
+ width:35%;
+}
+
