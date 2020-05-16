@@ -84,15 +84,21 @@ if($result)
 
 
 //media età delle persone 
-$query = "select avg(DATEDIFF('2020/2/29',data_nascita)) from persone";
+$query = " select avg(DATEDIFF(CURDATE(),data_nascita)) as etamedia from persone";
+$query .= " inner join pers_casa on pers_casa.ID_PERS=persone.ID ";
+$query .= " inner join casa on pers_casa.ID_casa=casa.ID";
+$query .= " inner join morance on casa.ID_moranca=morance.ID";
+$query .= " inner join zone on morance.cod_zona=zone.COD";
+$query .= " where  zone.NOME='$zona'";
+
 $result=$conn->query($query);
 //echo  $query;
 echo $conn->error;
 if($result)
 {
-$row = $result->fetch_array();
+ $row = $result->fetch_array();
 //echo " media eta delle persone: ";
-$etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
+ $etamedia = floor($row['etamedia']/365);
 }
 
 ?>
