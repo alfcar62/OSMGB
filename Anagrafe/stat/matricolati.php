@@ -72,6 +72,11 @@ $etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
 ?>
 
 <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<br>
+<a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
+&nbsp;&nbsp;
+<a href='statistiche_zona.php'>Statistiche per zona <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
+<br>
 
 <div position="absolute"  align="center">
 <div id="chartContainer1"   style="width: 70%;  height: 500px;  display: inline-block;"></div> 
