@@ -14,6 +14,7 @@
     ?>
     <html>
         <link rel="stylesheet" type="text/css" href="../css/style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
         <?php
         $util2 = $config_path .'/../db/db_conn.php';
@@ -133,8 +134,11 @@
             echo "<br> Numero di accessi: $all_rows<br>";
 
             // visualizza pagine
+			echo "<div class='pagi'><nav aria-label='...' > <ul class='pagination'>";
             $vis_pag = $config_path .'/../vis_pag.php';
             require $vis_pag;
+		    echo "</div></ul></nav>";
+
 
             $result->free();
             $conn->close();	
