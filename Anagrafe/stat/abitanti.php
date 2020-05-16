@@ -23,17 +23,17 @@ isLogged();
     ?>
 
     <?php
-    $oraoggi = date("Y/m/d");
    
     //media età delle persone
-    $query = "select avg(DATEDIFF('2020/2/29',data_nascita)) from persone";
+    $query = "select avg(DATEDIFF(CURDATE(),data_nascita)) as etamedia from persone";
     $result = $conn->query($query);
     //echo  $query;
     echo $conn->error;
     if ($result) {
         $row = $result->fetch_array();
         //echo " media eta delle persone: ";
-        $etamedia = floor(($row["avg(DATEDIFF('2020/2/29',data_nascita))"] / 365));
+		$etamedia = floor($row['etamedia']/365);
+//        $etamedia = floor(($row["avg(DATEDIFF('2020/2/29',data_nascita))"] / 365));
     }
 
 
@@ -89,7 +89,7 @@ GROUP BY zone.NOME ";
                 var chart = new CanvasJS.Chart("chartContainer1", {
                     animationEnabled: true,
                     title: {
-                        text: "PERSONE PER ZONA",
+                        text: "PERSONE ABITANTI PER ZONA",
                     },
                     data: [{
                         type: "pie",
