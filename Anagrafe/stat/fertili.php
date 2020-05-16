@@ -11,6 +11,12 @@ isLogged();
 <body>
 <?php stampaNavbar(); 
 ?>
+<br>
+<a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
+&nbsp;&nbsp;
+<a href='statistiche_zona.php'>Statistiche per zona <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
+<br>
+
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
@@ -127,7 +133,7 @@ var chart = new CanvasJS.Chart("chartContainer1",
     {
         animationEnabled: true,
         title: {
-            text: "DONNE IN ETA' FERTILE (da 13 a 40 anni) nella zona",
+            text: "DONNE IN ETA' FERTILE (da 13 a 40 anni) nella zona <?php echo $zona ?>",
         },
         data: [
         {
