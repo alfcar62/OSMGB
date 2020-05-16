@@ -25,21 +25,23 @@ require $util;
 <?php
 $oraoggi=date("Y/m/d");
 $zona=$_GET["zona_richiesta"];
+
 //media età delle persone 
-$query = "select avg(DATEDIFF($oraoggi,data_nascita)) from persone 
-inner join pers_casa on pers_casa.ID_PERS=persone.ID 
-inner join casa on pers_casa.ID_casa=casa.ID
-inner join morance on casa.ID_moranca=morance.ID
-inner join zone on morance.cod_zona=zone.COD
-where  zone.NOME='$zona'";
+$query = " select avg(DATEDIFF(CURDATE(),data_nascita)) as etamedia from persone";
+$query .= " inner join pers_casa on pers_casa.ID_PERS=persone.ID ";
+$query .= " inner join casa on pers_casa.ID_casa=casa.ID";
+$query .= " inner join morance on casa.ID_moranca=morance.ID";
+$query .= " inner join zone on morance.cod_zona=zone.COD";
+$query .= " where  zone.NOME='$zona'";
+
 $result=$conn->query($query);
 //echo  $query;
 echo $conn->error;
 if($result)
 {
-$row = $result->fetch_array();
-//echo " media eta delle persone: ";
-$etamedia=floor(($row ["avg(DATEDIFF($oraoggi,data_nascita))"]/365));
+ $row = $result->fetch_array();
+ //echo " media eta delle persone: ";
+ $etamedia = floor($row['etamedia']/365);
 }
 
 
@@ -172,7 +174,6 @@ echo "</br>";
 echo "<form action='' method='GET' >";
 
 echo "<select name='zona_richiesta'>";
-echo "<option value='$zona'>$zona</option>";
 echo "<option value='nord'>nord</option>";
 echo "<option value='ovest'>ovest</option>";
 echo "<option value='sud'>sud</option>
