@@ -355,9 +355,10 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
 
                 if ($ord == "ASC")
-                    $myclass = "fa fa-arrow-circle-down";
+                   $myclass = "fa fa-arrow-circle-down";
                 else
-                    $myclass = "fa fa-arrow-circle-up";
+                   $myclass = "fa fa-arrow-circle-up";
+
                 echo " <form method='post' action='gest_persone.php'>";
                 echo "<th> nominativo <button class='btn center-block'  name='ord_nominativo'  value='nominativo' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
 
