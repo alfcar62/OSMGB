@@ -134,9 +134,11 @@ div {
 input:focus, select:focus {
     border: 3px solid #555;
 }
+
 form {
     display: inline-block;
 }
+
 .pagination {
     position:absolute;
     top:-90%;
@@ -268,8 +270,8 @@ top:5%;
         width:100px;
         padding: 10px 0;
     }
-.pagination {
-
+.pagination
+ {
     height: 0%;
     width:100%;
     z-index: 1;
@@ -277,7 +279,7 @@ top:5%;
 }
 .pagi{
  position:absolute;
-// top:32%;
+/* top:32%;*/
  left: -18%; 
  width:35%;
 }
