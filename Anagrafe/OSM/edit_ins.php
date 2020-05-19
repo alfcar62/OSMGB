@@ -291,20 +291,18 @@ if( isset($_POST["ID"]) ){
 					//header("Location: mod_db.php?ID=".$ID);
 			  else
 		        print "<h3>Casa (id=". $id_casa . ") inserita sulla mappa  correttamente</h3>";
-		    }
+			}
         else
 			{   
 			  $ret = modifica_casa($ID);		// da modificare casa su DB
 			  if ($ret == -1)
 				 print "<h3>Errore in Modifica  casa id=". $id_casa . "</h3>";
-			  else{
+			  else
 		         print "<h3>Modifica casa (id=". $id_casa . ")effettuata correttamente</h3>";
-                  echo "<script>window.opener.location.reload();</script>";//refresho la parent window che ha aperto edit_ins.php
-                  }
-		    }
+			}
         //print $geojson;
+		echo "<script>window.opener.location.reload();</script>";//refresho la parent window che ha aperto edit_ins.php
     }
 }
-
 print '  </body> </html>';
 ?>
