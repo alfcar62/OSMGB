@@ -1,12 +1,12 @@
 /*Descrizione:css di util.php momentaneo
 /25/03/2020: Ferraiuolo: aggiunta css*/
-.dropdown {
+.droppdown {
   float: left;
   overflow: hidden;
 }
 
 /* Dropdown button */
-.dropdown .dropbtn {
+.droppdown .droppbtn {
   font-size: 18px;
   border: none;
   outline: none;
@@ -19,7 +19,7 @@
 
 
 /* Dropdown content (hidden by default) */
-.dropdown-content {
+.droppdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -29,7 +29,7 @@
 }
 
 /* Links inside the dropdown */
-.dropdown-content a {
+.droppdown-content a {
   float: none;
   color: black;
   padding: 12px 16px;
@@ -39,11 +39,11 @@
 }
 
 /* Add a grey background color to dropdown links on hover */
-.dropdown-content a:hover {
+.droppdown-content a:hover {
   background-color: #ddd;
 }
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
+.droppdown:hover .droppdown-content {
   display: block;
 }
