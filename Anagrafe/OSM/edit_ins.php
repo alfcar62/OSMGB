@@ -11,7 +11,7 @@ require_once $util2;
 require_once $util3;
 require_once $util4;
 setup();
-
+isLogged("gestore");
 print '<!DOCTYPE html><html>  <head>';
 header('Content-Type: text/html; charset=utf-8');
 print '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />';   
