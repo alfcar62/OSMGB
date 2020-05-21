@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--
+-- index.html: Visualizza su OSM le case che hanno id_osm valorizzato
+-- viene richiamato da db2geojson.php  che prepara il file  points.geojson a partire dal DB
+--
+-- legge da points.geojson le case del villaggio e le visualizza sulla mappa, indicandone i dati
+-- Eliminato ins/mod/del, per ora solo visualizzazione dati
+--
+-- Si ringrazia
+- Amerigo has been developed by Luca Tringali 
+- TRINGALINVENT@libero.it https://github.com/zorbaproject/amerigo 
+- Riveduto e modificato by A. Carlone
+-->
+<html>
+  <head>
+  <title>Mappa delle case su OSM e associate con id_OSM sul database gestionale</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/openlayers.popup/1.0.1/ol3-popup.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto">
+    <link href="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="styleOSM.css">
+<style>
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  min-width: 280px;
+  z-index:3;
+}
+html, body, #map{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+body {
+  font: 1em/1.5 'Roboto', sans-serif;
+  color: #222;
+  font-weight: 400;
+}
+#controls{
+  position:absolute;
+  z-index:4;
+  top:0;
+  right:0;
+  border: 5px solid white;
+  text-align: right;
+  color: black;
+  background-color: white;
+}
+#map{
+  position:absolute;
+  z-index:1;
+  top:0; bottom:0;
+  left:0;
+}
+
+
+.ol-control button{
+  background-color: rgba(40, 40, 40, 0.8) !important;
+}
+.ol-control button:hover{
+  background-color: rgba(40, 40, 40, 1) !important;
+}
+</style>
+</head>
+<body>
+<div id="map" tabindex="0"></div>
+<div id="controls">  </div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.js"></script>
+<script src="//cdn.jsdelivr.net/openlayers.popup/1.0.1/ol3-popup.js"></script>
+<script src="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
+	    
+<script>
+(function (win, doc) 
+{
+  'use strict';
+
+  function getJSON(url) 
+  {
+      var resp ;
+      var xmlHttp ;
+
+      resp  = '' ;
+      xmlHttp = new XMLHttpRequest();
+
+      if(xmlHttp != null)
+      {
+          xmlHttp.open( "GET", url, false );
+          xmlHttp.send( null );
+          resp = xmlHttp.responseText;
+      }
+
+      return resp ;
+  }
+
+  var settings;
+  var settingsstring = "";
+  settingsstring = getJSON("settings.json");
+
+
+  if (settingsstring == '') {
+      settingsstring = '{'+
+      '"newpoint":"Aggiungi punto",'+
+      '"editpoint":"Modifica",'+
+      '"title":"Mappa di Ntchangue",'+
+      '"center": [-15.4548,12.0073],'+
+      '"zoom":14,'+
+      '"zoomto":15,'+
+      '"tags": ["NORD","SUD", "OVEST"],'+
+      '"datasource":"points.php"'+
+      '}';
+  }
+
+ settings = JSON.parse(settingsstring);
+
+  document.title = settings.title;
+
+  // definisco lo stile dei  punti sulla mappa
+ 
+  let temp_point =  new ol.style.Style({
+         image: new ol.style.Circle({
+             radius: 5,
+             fill: new ol.style.Fill({ color: 'red' }),
+                                    stroke: new ol.style.Stroke({color: 'yellow', width: 2})
+         })
+     })//temp_point
+
+  // Vector Layers
+  // Styling of vector features
+  // Points Style
+  const pointStyle = new ol.style.Style({
+    image: new ol.style.Circle({
+      fill: new ol.style.Fill({
+        color: [245, 10, 14, 1]
+      }),
+      radius: 7,
+      stroke: new ol.style.Stroke({
+        color: [245, 10, 14, 1],
+        width: 2
+      })
+
+    })
+  })
+
+   const myStyle= function(feature){
+    let featureID = feature.get('name');    
+    let featureIDString = featureID.toString();
+    let point = new ol.style.Style({
+	  image: new ol.style.Icon({
+	  crossOrigin: 'anonymous',
+	  src: '/OSM/Anagrafe/img/casa5.png',
+	  color: 'red'
+        }),
+  	  text: new ol.style.Text({
+        text: featureIDString,
+        scale: 1.3,
+        fill: new ol.style.Fill({
+          color: '#000000'
+        }),
+        stroke: new ol.style.Stroke({
+          color: '#FFFF99',
+          width: 1.5
+        })
+      })
+	  })
+     
+      feature.setStyle([pointStyle, point]);
+}
+  
+var popup = new ol.Overlay.Popup({
+      panMapIfOutOfView: false
+  });
+
+  var olview = new ol.View({
+      center: ol.proj.transform(settings.center, 'EPSG:4326', 'EPSG:3857'),
+                           zoom: settings.zoom
+  }),
+  baseLayer = new ol.layer.Tile({
+      source: new ol.source.OSM()
+  }),
+  map = new ol.Map({
+      target: doc.getElementById('map'),
+                   view: olview,
+                   layers: [baseLayer],
+                   overlays: [popup]
+  });
+
+
+// carico il layer  vettoriale con i punti letti da points.geojson
+  var vector = new Array(settings.tags.length);
+
+  for(var i=0; i< vector.length; i++) {
+
+      var sourcet = new ol.source.Vector({
+          url: settings.datasource+'?tag='+settings.tags[i],
+          format: new ol.format.GeoJSON()
+      });
+
+      vector[i] = new ol.layer.Vector({
+          source: new ol.source.Vector({
+              url: settings.datasource+'?tag='+settings.tags[i],
+              format: new ol.format.GeoJSON()
+          }),
+          style: myStyle
+      });
+      map.addLayer(vector[i]);
+
+  }
+
+
+  
+//check box con la scelta della zona
+  var controlshtml = "Visualizza le case della Zona:";
+  for(var i=0; i< settings.tags.length; i++) {
+      controlshtml = controlshtml + '<input type="checkbox" class="controlCheckbox" id="'+settings.tags[i]+'" value="'+i+'" checked>'+settings.tags[i];
+  }
+
+
+  doc.getElementById('controls').innerHTML = controlshtml;
+  var inputElements = document.getElementsByClassName('controlCheckbox');
+  for(var i=0; inputElements[i]; ++i){
+      inputElements[i].addEventListener("click", function(evt){
+
+          var id = evt.target.value;
+          map.removeLayer(vector[id]);
+          if (evt.target.checked) {
+              map.addLayer(vector[id]);
+          }
+      });
+
+  }
+
+/*
+*** poininfo: funzione per la visualizzazione del popup sulla mappa con le informazioni
+*** a disposizione.
+*/
+  function pointinfo(pointcoordinates, pointname, pointdescription, pointaddress, pointverified)
+  {
+      var wgs84 = ol.proj.transform(pointcoordinates, 'EPSG:3857', 'EPSG:4326');
+      var lon = wgs84[0];
+      var lat = wgs84[1];
+	  // preparo chiamata per edit
+      var urledit = "javascript:window.open('edit_ins.php?ID="+pointname+"&lon="+lon+"&lat="+lat+"','"+settings.editpoint+"','scrollbars=no,resizable=yes, width=200,height=500,status=no,location=no,toolbar=no')";
+
+	  // visualizzo i dati della casa nella text area
+	 var text = '';
+	 if (pointname == 'new') 
+	    text = text + '<b>associa casa sulla mappa:</b><br>';
+     else
+	    text = text + '<b>id casa:' + pointname + '</b><br>';
+     if (pointaddress != '') text = text + pointaddress + '<br>';
+     if (pointdescription != "") 
+	 {
+         for (var key in pointdescription)
+		 {
+             if (typeof pointdescription[key] !== 'function')
+			 {
+                 text = text + key + ': ' + pointdescription[key] +'<br>';
+             }
+         }
+     }
+     if (pointverified != "") text = text + 'Ultima modifica: ' + pointverified;
+     text = text +'<br><a href="'+urledit+'">'+settings.editpoint+'</a>';
+    
+
+     popup.show(pointcoordinates, text);
+     olview = new ol.View({
+         center: pointcoordinates,
+         zoom: settings.zoomto
+     });
+     map.setView(olview);
+  }			// end pointinfo
+
+// barra di ricerca su OSM
+  //Instantiate with some options and add the Control
+  var geocoder = new Geocoder('nominatim', {
+      provider: 'osm',
+      targetType: 'text-input',
+      lang: 'it-IT',
+      placeholder: 'Cerca ...',
+      limit: 5,
+      featureStyle: temp_point,
+      keepOpen: false
+  });
+  map.addControl(geocoder);
+
+  //in ascolto dell'evento addresschosen
+  geocoder.on('addresschosen', function (evt)
+  {
+      window.setTimeout(function ()
+	  {
+          pointinfo(evt.coordinate, "new", "", evt.address.formatted, "");
+      }, 1000);
+  });
+
+
+/*
+*** gestione click su un punto  per far apparire il popup con i dettagli
+*/
+  var selectClick = new ol.interaction.Select({
+      condition: ol.events.condition.click,
+      multi: false
+  });
+
+
+  map.addInteraction(selectClick);
+  selectClick.on('select', function(e)
+  {
+      if (e.selected.length>0)
+	  {
+          var point = e.selected[0].H;
+
+          if (point.name == undefined) // non � stato selezionato nessun punto
+		   {
+              pointinfo(point.geometry.v, "new", "", "", "");	
+           } 
+		  else						// � stato selezionato un punto
+           {
+              pointinfo(point.geometry.v, point.name, point.description, "", point.verified);
+           }
+      }
+  });
+
+/*
+*** gestione doppio click - serve per creare un nuovo punto sulla mappa
+*** per associare casa a id_osm (temporaneamente)
+ */
+  var emptySource = new ol.source.Vector({wrapX: false});
+
+  var emptyVector = new ol.layer.Vector({
+      source: emptySource,
+      style: myStyle
+  });
+
+  map.addLayer(emptyVector);
+
+// double click per nuovo punto
+  map.on('dblclick', function(evt) {
+      var newfeature = new ol.Feature({
+          geometry: new ol.geom.Point(evt.coordinate)
+      });
+      emptySource.addFeature(newfeature);
+      pointinfo(evt.coordinate, "new", "", "", "");
+  });
+
+})(window, document);
+
+</script>
+</body>
+</html>
