@@ -180,18 +180,18 @@ if ($ID != "" && $lon != "" && $lat != "") {
 
 if( isset($_POST["ID"]) ){
 //if ($_POST["ID"] != ""){
-    $ID = $_POST["ID"];
-    $lon = $_POST["lon"];
-    $lat = $_POST["lat"];
-    $tag = $_POST["tag"];
-    $verified = $_POST["verified"];
+    $ID = htmlspecialchars($_POST["ID"]);
+    $lon = htmlspecialchars($_POST["lon"]);
+    $lat = htmlspecialchars($_POST["lat"]);
+    $tag = htmlspecialchars($_POST["tag"]);
+    $verified = htmlspecialchars($_POST["verified"]);
     $verified = date("d/m/Y");
 
 //   echo "POST: ID = ". $ID;
    if (isset($_POST['casa']))
 	 {
 //	   echo "POST: id_casa = ". $_POST['casa'];
-       $id_casa = $_POST['casa'];
+       $id_casa = htmlspecialchars($_POST['casa']);
      }
 	else
 		$id_casa = $ID;
