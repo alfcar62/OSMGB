@@ -134,6 +134,8 @@ body {
          })
      })//temp_point
 
+
+
   // Vector Layers
   // Styling of vector features
   // Points Style
@@ -154,11 +156,20 @@ body {
    const myStyle= function(feature){
     let featureID = feature.get('name');    
     let featureIDString = featureID.toString();
+    let featureZona = feature.get('tag'); 
+    let myColor ='red';     // zona OVEST
+    if (featureZona === 'NORD'){
+         myColor = 'green'
+        }
+      if (featureZona === 'SUD'){
+        myColor = 'yellow';
+        }
+    
     let point = new ol.style.Style({
 	  image: new ol.style.Icon({
 	  crossOrigin: 'anonymous',
 	  src: '/OSM/Anagrafe/img/casa5.png',
-	  color: 'red'
+	  color: myColor
         }),
   	  text: new ol.style.Text({
         text: featureIDString,
@@ -172,8 +183,12 @@ body {
         })
       })
 	  })
-     
+    
       feature.setStyle([pointStyle, point]);
+
+     
+      
+        
 }
   
 var popup = new ol.Overlay.Popup({
