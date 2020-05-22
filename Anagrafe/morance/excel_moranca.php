@@ -33,7 +33,6 @@ $query .= " FROM morance m, zone z ";
 $query .= " WHERE m.cod_zona like '$zona';";
 
 $result = $conn->query($query);
-$righe = $result->fetch_array(MYSQLI_ASSOC);
 if($zona=="%"){
     $zona="tutte";
 }

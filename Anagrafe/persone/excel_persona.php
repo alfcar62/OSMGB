@@ -61,7 +61,6 @@ if($sesso=="%"){
 }
 $output="Questa tabella e stata generata dall'applicazione web<br>";
 $output .= "Questa tabella contiene le persone della zona '$zona', di sesso '$sesso', con eta '$eta', in ordine di '$ordine': creata il '$oraoggi'<br>";
-$righe = $result->fetch_array(MYSQLI_ASSOC);
         $output .= ("<table id=\"table\" border=\"1\"><tr id=\"riga\">");
         foreach ($righe as $chiave => $valore) {
             $output .=( "<th align=\"center\">" . $chiave . "</th>");
