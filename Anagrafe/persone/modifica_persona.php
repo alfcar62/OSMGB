@@ -40,6 +40,8 @@ $inizio_matricola_new=$_POST['inizio_matricola'];//fine_matricola pers modifica
 
 $fine_matricola_new=$_POST['fine_matricola'];//inizio_matricola pers modifica
 
+$desc_matricola_new=$_POST['desc_matricola'];//desc_matricola pers modifica
+
 try 
 {
     // $conn->query("START TRANSACTION"); //inizio transazione
@@ -56,6 +58,7 @@ try
     $query .=  " pc.cod_ruolo_pers_fam as cod_ruolo,";
     $query .=  " rpf.descrizione as desc_ruolo,";
     $query .=  " p.matricola_stud as matricola,";
+    $query .=  " s.descrizione as descrizione_mat,";
     $query .=  " s.data_inizio_val as inizio_matricola,";
     $query .=  " s.data_fine_val as fine_matricola";
     $query .=  " FROM persone p LEFT JOIN studenti s ON s.matricola=p.matricola_stud, pers_casa pc, casa c, ruolo_pers_fam rpf";
@@ -68,12 +71,13 @@ try
     $result=$conn->query($query);
     if (!$result)
     {
-        $msg_err = "Errore select n.1";
+        $msg_err = "Errore select n.1 ";
         throw new Exception($conn->error);
     }
     $row=$result->fetch_array();
 
     $tipo_operazione="MOD (";
+    $tipo_operazione_matricola="MOD (";
     $casa_cambiata=false;
     $ruolo_cambiato=false;
     $nominativo_cambiato = false;
@@ -95,6 +99,7 @@ try
     $matricola_old=$row['matricola'];
     $inizio_matricola_old=$row['inizio_matricola'];
     $fine_matricola_old=$row['fine_matricola'];
+    $desc_matricola_old=$row['descrizione_mat'];
     if($nominativo_new != $row['nominativo'])
     {
         $tipo_operazione.="-nominativo-";
@@ -105,8 +110,8 @@ try
     {
         $tipo_operazione.="-ruolo-";
         $ruolo_cambiato=true;
-        	//echo $row['cod_ruolo'];
-       // 	echo "ruolo cambiato";
+        //echo $row['cod_ruolo'];
+        // 	echo "ruolo cambiato";
     }
 
     $data_nascita =($row['data_nascita'] != '') ? $row['data_nascita']:"0000-00-00";
@@ -134,22 +139,31 @@ try
     if($matricola_new != $row['matricola'])
     {
         $tipo_operazione.="-matricola-";
+        $tipo_operazione_matricola.="-matricola-";
         $matricola_cambiata=true; 
     }
     if($inizio_matricola_new != $row['inizio_matricola'] && $inizio_matricola_new !="")
     {
-        
-        $tipo_operazione.="-inizio_matricola-";
+        $tipo_operazione_matricola.="-inizio_matricola-";
         $inizio_matricola_cambiato=true; 
     }
     if($fine_matricola_new != $row['fine_matricola'] && $fine_matricola_new !="")
     {
-        $tipo_operazione.="-fine_matricola-";
+        $tipo_operazione_matricola.="-fine_matricola-";
         $fine_matricola_cambiato=true; 
     }
+    if($desc_matricola_new != $row['descrizione_mat'] && $desc_matricola_new !="")
+    {
+        $tipo_operazione_matricola.="-desc_matricola-";
+        $desc_matricola_cambiato=true; 
+    }
+    if($inizio_matricola_cambiato || $fine_matricola_cambiato || $desc_matricola_cambiato)
+        $tipo_operazione.="-dati_matricola-";
+
 
 
     $tipo_operazione.=")";
+     $tipo_operazione_matricola.=")";
 
     $data_inizio_val=$row['data_inizio_val'];
     $currentdate=date('Y/m/d');
@@ -214,7 +228,7 @@ try
     $query .= "'".$desc_ruolo_old."',";
     $query .= "'$data_inizio_val',";
     if($matricola_old!=null and $matricola_old!='')
-    $query .= "'$matricola_old',";
+        $query .= "'$matricola_old',";
     else
         $query .= "NULL,";
     $query .= "'$currentdate'";
@@ -236,39 +250,39 @@ try
     if ($nominativo_cambiato || $data_nascita_cambiata || $data_morte_cambiata)
         $upd_pers=true;
 
-    if($matricola_cambiata || $inizio_matricola_cambiato || $fine_matricola_cambiato)
+    if($matricola_cambiata || $inizio_matricola_cambiato || $fine_matricola_cambiato || $desc_matricola_new)
         $upd_matricola=true;
-    
+
     if ($casa_cambiata || $ruolo_cambiato)
         $upd_pers_casa = true;
 
-if($upd_matricola){
-if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
-	{							//verifico se la matricola è già esistente in quanto deve essere univoca
-        $query  =  " SELECT count(s.matricola) as count from studenti s "; 
-        $query .=  " WHERE s.matricola ='$matricola_new'";
-        //	echo $query;
+    if($upd_matricola){
+        if($matricola_cambiata && ($matricola_new!=null && $matricola_new!=''))
+        {							//verifico se la matricola è già esistente in quanto deve essere univoca
+            $query  =  " SELECT count(s.matricola) as count from studenti s "; 
+            $query .=  " WHERE s.matricola ='$matricola_new'";
+            //	echo $query;
 
-        $result = $conn->query($query);
-       
+            $result = $conn->query($query);
 
-        if (!$result)
-        {
-            $msg_err = "Errore count matricola";
-            throw new Exception($conn->error);
+
+            if (!$result)
+            {
+                $msg_err = "Errore count matricola";
+                throw new Exception($conn->error);
+            }
+            $row = $result->fetch_array();
+            if ($row['count']>0) 
+            {
+                $msg_err = "Esiste già un altra persona con la stessa matricola: verificarne la correttezza";
+                throw new Exception($msg_err);
+            }
         }
-        $row = $result->fetch_array();
-        if ($row['count']>0) 
-        {
-            $msg_err = "Esiste già un altra persona con la stessa matricola: verificarne la correttezza";
-            throw new Exception($msg_err);
-        }
-    }
 
 
-    if($matricola_old==null || $matricola_old=="")
-	  { //se la matricola è da inserire e non da modificare
-            $query= "INSERT INTO studenti(matricola,data_inizio_val,data_fine_val) ";
+        if($matricola_old==null || $matricola_old=="")
+        { //se la matricola è da inserire e non da modificare
+            $query= "INSERT INTO studenti(matricola,data_inizio_val,data_fine_val,descrizione) ";
             $query.="VALUES('$matricola_new'";
             if ($inizio_matricola_new == "0000-00-00")
                 $query .= ",'NULL'";
@@ -277,7 +291,11 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
             if ($fine_matricola_new == "0000-00-00")
                 $query .= ",'NULL'";
             else
-                $query .=",'$fine_matricola_new')";
+                $query .=",'$fine_matricola_new'";
+            if ($desc_matricola_new == "" || $desc_matricola_new==NULL)
+                $query .= ",'NULL')";
+            else
+                $query .=",'$desc_matricola_new')";
 
             $result = $conn->query($query);
             if (!$result)
@@ -287,8 +305,30 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
             }
             $nuova_matricola=true;//variabile che indica che deve essere esserci anche la matricola nell'update
         }
-		else
-		 {// se c'è da fare un update o delete
+        else
+        {// se c'è da fare un update o delete
+            $query= "INSERT INTO studenti_sto(matricola,id_persona,tipo_op,data_inizio_val,data_fine_val,descrizione) "; //aggiungo allo storico
+            $query.="VALUES('$matricola_old','$id_pers_modifica','$tipo_operazione_matricola'";
+            if ($inizio_matricola_old == "0000-00-00")
+                $query .= ",'NULL'";
+            else
+                $query .=",'$inizio_matricola_old'";
+            if ($fine_matricola_old == "0000-00-00")
+                $query .= ",'NULL'";
+            else
+                $query .=",'$fine_matricola_old'";
+            if ($desc_matricola_old == "" || $desc_matricola_old==null)
+                $query .= ",'NULL')";
+            else
+                $query .=",'$desc_matricola_old')";
+
+            $result = $conn->query($query);
+            if (!$result)
+            {
+                $msg_err = "Errore insert studenti_sto";
+                throw new Exception($conn->error);
+            }
+
             if($matricola_new==null or $matricola_new==''){//se è da eliminare la matricola
                 $query ="DELETE from studenti where matricola='{$matricola_old}'";
                 $result = $conn->query($query);
@@ -298,12 +338,22 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
                     throw new Exception($conn->error);
                 }
             }
-		   else
-			{//se è da modificare la matricola
+            else
+            {//se è da modificare la matricola
                 $query= "UPDATE studenti SET ";
                 $query.="matricola="."'".$matricola_new."'";
-                $query.=",data_inizio_val="."'".$inizio_matricola_new."'";
-                $query.=",data_fine_val="."'".$fine_matricola_new."'";
+                if ($inizio_matricola_new == "0000-00-00")
+                    $query.=",data_inizio_val=NULL";
+                else
+                    $query.=",data_inizio_val="."'".$inizio_matricola_new."'";
+                if ($fine_matricola_new == "0000-00-00")
+                    $query.=",data_fine_val=NULL";
+                else
+                    $query.=",data_fine_val="."'".$fine_matricola_new."'";
+                if ($desc_matricola_new == "" || $desc_matricola_new==null)
+                    $query.=",descrizione=NULL";
+                else
+                    $query.=",descrizione="."'".$desc_matricola_new."'";
                 $query .= " where matricola= '$matricola_old'";
                 $result = $conn->query($query);
                 if (!$result)
@@ -315,7 +365,7 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
         }
 
     }
-    
+
     if($upd_pers || $nuova_matricola)//$nuova_matricola è settata a true in caso si dovesse fare l'update su persone(solo quando c'è una nuova matricola perchè negli altri casi grazie all' ON CASCADE UPDATE si aggiorna da sola) 
     {
         /*
@@ -338,7 +388,7 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
             $query .= ",matricola_stud= '". $matricola_new . "' ";
         $query .= " where id= ".$id_pers_modifica;
 
-   //     echo "q3 ".$query."<br>";
+        //     echo "q3 ".$query."<br>";
 
         $result = $conn->query($query);
         if (!$result)

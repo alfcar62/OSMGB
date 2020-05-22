@@ -91,30 +91,37 @@ $pag=$_SESSION['pag_p']['pag_p'];
             else
                 echo "<option value='".$row["cod"]."'>".$row["descrizione"]." </option>";
         }
-        if($matricola!=null){
-            $query = "SELECT data_inizio_val,data_fine_val FROM studenti where matricola='$matricola'";
+        echo "</select><br>";
+        
+        if($matricola!=null && $matricola!=''){
+            $query = "SELECT s.descrizione as descr,s.data_inizio_val,s.data_fine_val FROM studenti s where matricola='$matricola'";
             $result = $conn->query($query);
+            
             $row = $result->fetch_array();
         }else{
             $matricola="";
+            
         }
         $inizio_matricola="";
         $fine_matricola="";
-        if(isset ($row["data_inizio_val"])){
-            $inizio_matricola=$row["data_inizio_val"];
+        $desc_matricola="";
+
+        if(isset ($row["s.data_inizio_val"])){
+            $inizio_matricola=$row["s.data_inizio_val"];
         }
-        if(isset ($row["data_fine_val"])){
-            $fine_matricola=$row["data_fine_val"];
+        if(isset ($row["s.data_fine_val"])){
+            $fine_matricola=$row["s.data_fine_val"];
         }
-
-
-
-        echo "</select><br>";
+        if(isset ($row["descr"])){
+            $desc_matricola=$row["descr"];
+        }
         echo  " <label for='matricola'>Matricola : </label><input type='text' name='matricola' placeholder='Modifica matricola se è uno studente' value = '".$matricola."'><br>";
+        echo  " <label for='desc_matricola'>Descrizione matricola : </label><input type='text' name='desc_matricola' value = '".$desc_matricola."'><br>";
         echo  " <label for='inizio_matricola'>Data inizio matricola : </label><input type='date' name='inizio_matricola'  value = '".$inizio_matricola."'><br>";
         echo  " <label for='fine_matricola'>Data fine matricola : </label><input type='date' name='fine_matricola' value = '".$fine_matricola."'><br>";
         echo "<button type='submit' class='button'>Modifica</button>";
         echo "</form>";
+        
     }
     else 
     {

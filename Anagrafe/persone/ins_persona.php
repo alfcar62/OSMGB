@@ -83,6 +83,7 @@ stampaIntestazione(); ?>
     }
     echo "</select><br>";
     echo  " <label for='matricola'>Matricola : </label><input type='text' name='matricola' placeholder='Inserire matricola se è uno studente '><br>";
+        echo  " <label for='desc_matricola'>Descrizione matricola: </label><input type='text' name='desc_matricola'><br>";
     echo  " <label for='inizio_matricola'>Data inizio matricola : </label><input type='date' name='inizio_matricola'><br>";
     echo "<button type='submit' class='button'>Conferma</button>";
     echo "</form>";    
