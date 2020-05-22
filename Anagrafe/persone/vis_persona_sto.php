@@ -142,7 +142,7 @@ $query.=" matricola_stud ";
 $query.=" FROM ";
 $query.=" persone_sto "; 
 $query.= " WHERE id_persona = $id_persona";
-$query .= " ORDER BY id ASC,data_fine_val DESC";
+$query .= " ORDER BY id DESC,data_fine_val DESC";
 $query .= " LIMIT $first, $x_pag";
 $result = $conn->query($query);
 //echo $query;

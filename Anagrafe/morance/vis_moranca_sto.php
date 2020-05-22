@@ -121,7 +121,7 @@ $query =  "SELECT tipo_op, id_moranca, id_mor_zona,id_osm,";
 $query .= " nome as nome_moranca, cod_zona, data_inizio_val, data_fine_val ";
 $query .= " FROM morance_sto ";
 $query .= " WHERE  id_moranca = $id_moranca ";
-$query .= " ORDER BY id ASC, data_fine_val DESC";
+$query .= " ORDER BY id DESC, data_fine_val DESC";
 $query .= " LIMIT $first, $x_pag";
 
 //echo $query;

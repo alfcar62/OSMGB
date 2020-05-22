@@ -109,5 +109,5 @@ if(file_put_contents($myFile, $jsondata))
 	echo "Errore nel salvataggio dati su  file  points.geojson";
 
 header('Content-Type: text/html; charset=utf-8');
-header("Location:index.html");
+header("Location:index_text.html");
 ?>

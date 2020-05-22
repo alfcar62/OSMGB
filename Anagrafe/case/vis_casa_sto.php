@@ -152,7 +152,7 @@ $query .= "id_casa, nome, id_moranca, nome_moranca,";
 $query .= "nome_capo_famiglia, id_osm ";
 $query .= " FROM casa_sto ";
 $query .= " WHERE id_casa=$id_casa";
-$query .= " ORDER BY id_casa ASC, data_fine_val DESC";
+$query .= " ORDER BY id_casa DESC, data_fine_val DESC";
 $query .= " LIMIT $first, $x_pag";
 //echo $query;
 $result = $conn->query($query);

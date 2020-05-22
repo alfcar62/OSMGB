@@ -10,6 +10,12 @@ isLogged();
 <body>
 <?php stampaNavbar(); 
 ?>
+<br>
+<a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
+&nbsp;&nbsp;
+<a href='statistiche_zona.php'>Statistiche per zona <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
+<br>
+
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
@@ -59,15 +65,21 @@ $maggiorenni=$numero_persone-$minorenni;
 
 
 //media età delle persone 
-$query = "select avg(DATEDIFF('2020/2/29',data_nascita)) from persone";
+$query = " select avg(DATEDIFF(CURDATE(),data_nascita)) as etamedia from persone";
+$query .= " inner join pers_casa on pers_casa.ID_PERS=persone.ID ";
+$query .= " inner join casa on pers_casa.ID_casa=casa.ID";
+$query .= " inner join morance on casa.ID_moranca=morance.ID";
+$query .= " inner join zone on morance.cod_zona=zone.COD";
+$query .= " where  zone.NOME='$zona'";
+
 $result=$conn->query($query);
 //echo  $query;
 echo $conn->error;
 if($result)
 {
-$row = $result->fetch_array();
-//echo " media eta delle persone: ";
-$etamedia=floor(($row ["avg(DATEDIFF('2020/2/29',data_nascita))"]/365));
+ $row = $result->fetch_array();
+ //echo " media eta delle persone: ";
+ $etamedia = floor($row['etamedia']/365);
 }
 
 ?>
@@ -85,7 +97,7 @@ echo "</br></br>Età media : ".(ceil($etamedia*10))/10;
 echo "</h2>";
 
 echo "</br>";
-echo "<form action='' method='post' >";
+echo "<form action='' method='get' >";
 
 echo "<select name='zona_richiesta'>";
 echo "<option value='nord'>nord</option>";

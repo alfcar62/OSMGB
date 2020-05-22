@@ -80,7 +80,7 @@ try
     $data_nascita_cambiata = false;
     $data_morte_cambiata = false;
     $matricola_cambiata=false;
-    $nuova_matricola=false; //indica se la matricola precedentemente all'update non era presente.Utile per l'update della persona più avanti
+    $nuova_matricola=false; //indica se la matricola prima dell'update non era presente.
     $inizio_matricola_cambiato=false;
     $fine_matricola_cambiato=false;
 
@@ -155,7 +155,7 @@ try
     $currentdate=date('Y/m/d');
 
 
-    // se la nuova casa ha gi� un capo famiglia, non posso scegliere come ruolo capo famiglia
+    // se la nuova casa ha già un capo famiglia, non posso scegliere come ruolo capo famiglia
     if ($ruolo_cambiato  && $id_ruolo_modifica_new == 'CF')
     {
         $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc ";
@@ -243,7 +243,8 @@ try
         $upd_pers_casa = true;
 
 if($upd_matricola){
-if($matricola_cambiata and ($matricola_new!=null or $matricola_new!='')){//verifico se la matricola è già esistente in quanto deve essere univoca
+if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
+	{							//verifico se la matricola è già esistente in quanto deve essere univoca
         $query  =  " SELECT count(s.matricola) as count from studenti s "; 
         $query .=  " WHERE s.matricola ='$matricola_new'";
         //	echo $query;
@@ -262,10 +263,11 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!='')){//verif
             $msg_err = "Esiste già un altra persona con la stessa matricola: verificarne la correttezza";
             throw new Exception($msg_err);
         }
-}
+    }
 
 
-        if($matricola_old==null || $matricola_old==""){ //se la matricola è da inserire e non da modificare
+    if($matricola_old==null || $matricola_old=="")
+	  { //se la matricola è da inserire e non da modificare
             $query= "INSERT INTO studenti(matricola,data_inizio_val,data_fine_val) ";
             $query.="VALUES('$matricola_new'";
             if ($inizio_matricola_new == "0000-00-00")
@@ -284,7 +286,9 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!='')){//verif
                 throw new Exception($conn->error);
             }
             $nuova_matricola=true;//variabile che indica che deve essere esserci anche la matricola nell'update
-        }else{// se c'è da fare un update o delete
+        }
+		else
+		 {// se c'è da fare un update o delete
             if($matricola_new==null or $matricola_new==''){//se è da eliminare la matricola
                 $query ="DELETE from studenti where matricola='{$matricola_old}'";
                 $result = $conn->query($query);
@@ -293,7 +297,9 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!='')){//verif
                     $msg_err = "Errore delete studenti";
                     throw new Exception($conn->error);
                 }
-            }else{//se è da modificare la matricola
+            }
+		   else
+			{//se è da modificare la matricola
                 $query= "UPDATE studenti SET ";
                 $query.="matricola="."'".$matricola_new."'";
                 $query.=",data_inizio_val="."'".$inizio_matricola_new."'";
@@ -313,8 +319,8 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!='')){//verif
     if($upd_pers || $nuova_matricola)//$nuova_matricola è settata a true in caso si dovesse fare l'update su persone(solo quando c'è una nuova matricola perchè negli altri casi grazie all' ON CASCADE UPDATE si aggiorna da sola) 
     {
         /*
-    *** UPDATE persone
-    */
+        *** UPDATE persone
+        */
 
         $query= "UPDATE persone SET ";
         $query .= "nominativo="."'".$nominativo_new."'";
@@ -332,7 +338,7 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!='')){//verif
             $query .= ",matricola_stud= '". $matricola_new . "' ";
         $query .= " where id= ".$id_pers_modifica;
 
-        echo "q3 ".$query."<br>";
+   //     echo "q3 ".$query."<br>";
 
         $result = $conn->query($query);
         if (!$result)

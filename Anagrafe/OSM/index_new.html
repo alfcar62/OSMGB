@@ -72,18 +72,20 @@ body {
 </style>
 </head>
 <body>
-    <div id="map" tabindex="0"></div>
-    <div id="controls">  </div>
+<div id="map" tabindex="0"></div>
+<div id="controls">  </div>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.js"></script>
-    <script src="//cdn.jsdelivr.net/openlayers.popup/1.0.1/ol3-popup.js"></script>
-    <script src="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.js"></script>
+<script src="//cdn.jsdelivr.net/openlayers.popup/1.0.1/ol3-popup.js"></script>
+<script src="//cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
 	    
-    <script >
-    (function (win, doc) {
+<script>
+(function (win, doc) 
+{
   'use strict';
 
-  function getJSON(url) {
+  function getJSON(url) 
+  {
       var resp ;
       var xmlHttp ;
 
@@ -118,7 +120,7 @@ body {
       '}';
   }
 
-  settings = JSON.parse(settingsstring);
+ settings = JSON.parse(settingsstring);
 
 
 // definisco lo stile del punto
@@ -126,30 +128,31 @@ body {
 
   var styles = {
       'point': new ol.style.Style({
-// modificata immagine con icona della casa
 	  image: new ol.style.Icon({
 	  crossOrigin: 'anonymous',
-//	  src: 'https://openlayers.org/en/v3.20.1/examples/data/dot.png',
 	  src: '/OSM/Anagrafe/img/casa5.png',
 	  color: 'red'
+        }),
+  	  text: new ol.style.Text({
+        text: 'Hello',
+        scale: 1.3,
+        fill: new ol.style.Fill({
+          color: '#000000'
+        }),
+        stroke: new ol.style.Stroke({
+          color: '#FFFF99',
+          width: 3.5
         })
+      })
 	  }),
-/*	 vecchio punto giallo/rosso
-          image: new ol.style.Circle({
-              radius: 5,
-              fill: new ol.style.Fill({ color: 'yellow' }),
-                                     stroke: new ol.style.Stroke({color: 'red', width: 1})
-          })
-		  
-      }),*/
      'temp_point': new ol.style.Style({
          image: new ol.style.Circle({
              radius: 5,
              fill: new ol.style.Fill({ color: 'red' }),
                                     stroke: new ol.style.Stroke({color: 'yellow', width: 2})
          })
-     })
-  };
+     })//temp_point
+  };//styles
 
 
   var popup = new ol.Overlay.Popup({
@@ -171,7 +174,7 @@ body {
   });
 
 
-
+// carico il layer  vettoriale con i punti letti da points.geojson
   var vector = new Array(settings.tags.length);
 
   for(var i=0; i< vector.length; i++) {
@@ -188,9 +191,7 @@ body {
           }),
           style: styles["point"]
       });
-
       map.addLayer(vector[i]);
-
 
   }
 
@@ -221,7 +222,8 @@ body {
 *** poininfo: funzione per la visualizzazione del popup sulla mappa con le informazioni
 *** a disposizione.
 */
-  function pointinfo(pointcoordinates, pointname, pointdescription, pointaddress, pointverified) {
+  function pointinfo(pointcoordinates, pointname, pointdescription, pointaddress, pointverified)
+  {
       var wgs84 = ol.proj.transform(pointcoordinates, 'EPSG:3857', 'EPSG:4326');
       var lon = wgs84[0];
       var lat = wgs84[1];
@@ -235,9 +237,12 @@ body {
      else
 	    text = text + '<b>id casa:' + pointname + '</b><br>';
      if (pointaddress != '') text = text + pointaddress + '<br>';
-     if (pointdescription != "") {
-         for (var key in pointdescription){
-             if (typeof pointdescription[key] !== 'function') {
+     if (pointdescription != "") 
+	 {
+         for (var key in pointdescription)
+		 {
+             if (typeof pointdescription[key] !== 'function')
+			 {
                  text = text + key + ': ' + pointdescription[key] +'<br>';
              }
          }
@@ -252,7 +257,7 @@ body {
          zoom: settings.zoomto
      });
      map.setView(olview);
-  }
+  }			// end pointinfo
 
 // barra di ricerca su OSM
   //Instantiate with some options and add the Control
@@ -267,15 +272,19 @@ body {
   });
   map.addControl(geocoder);
 
-  //Listen when an address is chosen
-  geocoder.on('addresschosen', function (evt) {
-      window.setTimeout(function () {
+  //in ascolto dell'evento addresschosen
+  geocoder.on('addresschosen', function (evt)
+  {
+      window.setTimeout(function ()
+	  {
           pointinfo(evt.coordinate, "new", "", evt.address.formatted, "");
       }, 1000);
   });
 
 
-// gestione click su un punto  per far apparire il popup con i dettagli
+/*
+*** gestione click su un punto  per far apparire il popup con i dettagli
+*/
   var selectClick = new ol.interaction.Select({
       condition: ol.events.condition.click,
       multi: false
@@ -300,13 +309,15 @@ body {
       }
   });
 
- //gestione doppio click - serve per creare un nuovo punto sulla mappa
- // per associare casa a id_osm (temporaneamente)
+/*
+*** gestione doppio click - serve per creare un nuovo punto sulla mappa
+*** per associare casa a id_osm (temporaneamente)
+ */
   var emptySource = new ol.source.Vector({wrapX: false});
 
   var emptyVector = new ol.layer.Vector({
       source: emptySource,
-      style: styles["temp_point"]
+      style: styles["point"]
   });
 
   map.addLayer(emptyVector);
@@ -322,6 +333,6 @@ body {
 
 })(window, document);
 
-    </script>
-  </body>
+</script>
+</body>
 </html>

@@ -58,8 +58,8 @@ try
     $nome_casa =  $row['nome_casa'];
 
     $id_osm  = $row['id_osm'];
-	if ($id_osm == '')
-		$id_osm =0;
+	  if ($id_osm == '')
+	    	$id_osm =0;
     $id_moranca = $row['id_moranca'];
     $nome_moranca = $row['nome_moranca'];
     $data_inizio_val = $row['data_inizio_val'];
@@ -82,8 +82,8 @@ try
    $row = $result->fetch_array();
 
    if ($result->num_rows >0)
-	{
-	  $capo_famiglia = $row['capo_famiglia'];
+  	{
+	   $capo_famiglia = $row['capo_famiglia'];
     }
    else 
 	  $capo_famiglia = "";

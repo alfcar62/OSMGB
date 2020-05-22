@@ -26,8 +26,6 @@ if (isset($_POST['si']) && $_POST['si'] =='si')
 {	 
     try 
     {
-        $conn->query("START TRANSACTION"); //inizio transazione
-
         //query per prendere i valori della persona pre-modifica
 
         $query  =  " SELECT p.nominativo,";
