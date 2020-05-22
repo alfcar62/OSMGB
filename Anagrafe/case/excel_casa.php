@@ -18,6 +18,7 @@ isLogged("gestore");
  require_once $util2;
 ?>
 <?php
+error_reporting(0);
 $zona=$_POST["zona"] ;
 $filename=$_POST["file"];
 $oraoggi=date("Y/m/d");

@@ -24,6 +24,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
  require_once $util2;
 ?>
 <?php 
+error_reporting(0);
 $zona=$_POST["zona"] ;
 $sesso=$_POST["sesso"] ;
 $eta=$_POST["eta"] ;
