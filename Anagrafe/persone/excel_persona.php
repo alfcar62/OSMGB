@@ -24,6 +24,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
  require_once $util2;
 ?>
 <?php 
+error_reporting(0);
 $zona=$_POST["zona"] ;
 $sesso=$_POST["sesso"] ;
 $eta=$_POST["eta"] ;
@@ -61,7 +62,6 @@ if($sesso=="%"){
 }
 $output="Questa tabella e stata generata dall'applicazione web<br>";
 $output .= "Questa tabella contiene le persone della zona '$zona', di sesso '$sesso', con eta '$eta', in ordine di '$ordine': creata il '$oraoggi'<br>";
-$righe = $result->fetch_array(MYSQLI_ASSOC);
         $output .= ("<table id=\"table\" border=\"1\"><tr id=\"riga\">");
         foreach ($righe as $chiave => $valore) {
             $output .=( "<th align=\"center\">" . $chiave . "</th>");
