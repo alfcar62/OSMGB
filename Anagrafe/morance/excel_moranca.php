@@ -23,23 +23,23 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
  require_once $util2;
 ?>
 <?php
+error_reporting(0);
 $zona=$_POST["zona"] ;
 $filename=$_POST["file"];
 $oraoggi=date("Y/m/d");
 $query = "SELECT ";
 $query .= " m.id, m.nome, m.cod_zona ,m.id_mor_zona,";
 $query .= " m.data_inizio_val, m.data_fine_val";
-$query .= " FROM morance m, zone z ";
+$query .= " FROM morance m INNER JOIN zone z on z.COD = m.COD_ZONA ";
 $query .= " WHERE m.cod_zona like '$zona';";
 
 $result = $conn->query($query);
-$righe = $result->fetch_array(MYSQLI_ASSOC);
 if($zona=="%"){
     $zona="tutte";
 }
 $output=" Questa tabella e stata generata dall'applicazione web<br>";
 $output .= "Questa tabella contiene le moran&ccedil;as della zona '$zona': creata il '$oraoggi'<br>";
-$output .= ("<table id=\"table\" border=\"1\"><tr id=\"riga\">");
+$output .= "<table id=\"table\" border=\"1\"><tr id=\"riga\">";
 foreach ($righe as $chiave => $valore) {
 $output .=( "<th align=\"center\">" . $chiave . "</th>");
         }
@@ -50,7 +50,7 @@ while ($righe = $result->fetch_array(MYSQLI_ASSOC)) {
     $output .=("<tr id=\"rigaQuery\">");
     foreach ($righe as $chiave => $valore) {
 
-        $output .=("<td align=\"center\">" . $valore . "</td>");
+        $output .="<td align=\"center\">" . $valore . "</td>";
         }
      $output .=("</tr>");
     }
