@@ -18,6 +18,7 @@ isLogged("gestore");
  require_once $util2;
 ?>
 <?php
+error_reporting(0);
 $zona=$_POST["zona"] ;
 $filename=$_POST["file"];
 $oraoggi=date("Y/m/d");
@@ -34,7 +35,6 @@ $query .= " WHERE c.DATA_FINE_VAL is null AND";
 $query .= " m.cod_zona like '$zona';";
 
 $result = $conn->query($query);
-$righe = $result->fetch_array(MYSQLI_ASSOC);
 if($zona=="%"){
     $zona="tutte";
 }

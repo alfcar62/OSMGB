@@ -29,6 +29,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 ?>
 
 <html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -354,9 +355,10 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
 
                 if ($ord == "ASC")
-                    $myclass = "fa fa-arrow-circle-down";
+                   $myclass = "fa fa-arrow-circle-down";
                 else
-                    $myclass = "fa fa-arrow-circle-up";
+                   $myclass = "fa fa-arrow-circle-up";
+
                 echo " <form method='post' action='gest_persone.php'>";
                 echo "<th> nominativo <button class='btn center-block'  name='ord_nominativo'  value='nominativo' type='submit'><i class='".$myclass ."' title ='inverti ordinamento'></i> </button> </th></form>";
 
@@ -437,10 +439,12 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
                 echo "</table>";
             }       
             echo "<br> Numero abitanti risultanti da questa ricerca: $all_rows<br>";
+            echo "<div class='pagi'><nav aria-label='...' > <ul class='pagination'>";
 
             // visualizza pagine
             $vis_pag = $config_path .'/../vis_pag.php';
             require $vis_pag;
+			echo "</div></ul></nav>";
 
 
             $result->free();
@@ -448,7 +452,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
 
 
 
-            /*
+/*
 *** funzione che, a seguito di una nuova ricerca, imposta la prima pagina da visualizzare
 *** return: $pag (pagina da visualizzare)
 ***       

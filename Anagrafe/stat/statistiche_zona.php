@@ -13,6 +13,10 @@ isLogged();
 <body>
 <?php stampaNavbar(); 
 ?>
+<br>
+<a href='statistiche_det.php'> Dettaglio Statistiche <IMG SRC="../img/inserisci2.png"></a>
+&nbsp;&nbsp;
+
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
@@ -38,7 +42,7 @@ require $util;
 <option value="fertili">fertili</option>
 <option value="fasce">fasce</option>
 <option value="abitanti">numero persone</option>
-<option value="matricolati">matricolati</option>
+<option value="matricolati">studenti immatricolati</option>
 </select>
 <input type='submit' class='button' name='invia'>
 </form>

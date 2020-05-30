@@ -11,7 +11,7 @@ require_once $util2;
 require_once $util3;
 require_once $util4;
 setup();
-
+isLogged("gestore");
 print '<!DOCTYPE html><html>  <head>';
 header('Content-Type: text/html; charset=utf-8');
 print '<meta http-equiv="Content-type" content="text/html; charset=utf-8" />';   
@@ -180,18 +180,18 @@ if ($ID != "" && $lon != "" && $lat != "") {
 
 if( isset($_POST["ID"]) ){
 //if ($_POST["ID"] != ""){
-    $ID = $_POST["ID"];
-    $lon = $_POST["lon"];
-    $lat = $_POST["lat"];
-    $tag = $_POST["tag"];
-    $verified = $_POST["verified"];
+    $ID = htmlspecialchars($_POST["ID"]);
+    $lon = htmlspecialchars($_POST["lon"]);
+    $lat = htmlspecialchars($_POST["lat"]);
+    $tag = htmlspecialchars($_POST["tag"]);
+    $verified = htmlspecialchars($_POST["verified"]);
     $verified = date("d/m/Y");
 
 //   echo "POST: ID = ". $ID;
    if (isset($_POST['casa']))
 	 {
 //	   echo "POST: id_casa = ". $_POST['casa'];
-       $id_casa = $_POST['casa'];
+       $id_casa = htmlspecialchars($_POST['casa']);
      }
 	else
 		$id_casa = $ID;
@@ -291,7 +291,7 @@ if( isset($_POST["ID"]) ){
 					//header("Location: mod_db.php?ID=".$ID);
 			  else
 		        print "<h3>Casa (id=". $id_casa . ") inserita sulla mappa  correttamente</h3>";
-		    }
+			}
         else
 			{   
 			  $ret = modifica_casa($ID);		// da modificare casa su DB
@@ -299,11 +299,10 @@ if( isset($_POST["ID"]) ){
 				 print "<h3>Errore in Modifica  casa id=". $id_casa . "</h3>";
 			  else
 		         print "<h3>Modifica casa (id=". $id_casa . ")effettuata correttamente</h3>";
-
-		    }
+			}
         //print $geojson;
+		echo "<script>window.opener.location.reload();</script>";//refresho la parent window che ha aperto edit_ins.php
     }
 }
-
 print '  </body> </html>';
 ?>

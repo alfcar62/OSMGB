@@ -24,6 +24,7 @@ $jsonObj=json_decode($jsonFile);//effettuo il decode della stringa json e la sal
  require_once $util2;
 ?>
 <?php 
+error_reporting(0);
 $zona=$_POST["zona"] ;
 $sesso=$_POST["sesso"] ;
 $eta=$_POST["eta"] ;
@@ -43,12 +44,13 @@ $query = "SELECT ";
 $query .= " p.id, p.nominativo, p.sesso, p.data_nascita, p.data_morte,";
 $query .= " c.id as id_casa, c.id_moranca,c.nome nome_casa, m.nome nome_moranca,";
 $query .= " m.cod_zona,  c.id_casa_moranca, ";
-$query .= " pc.cod_ruolo_pers_fam, rpf.descrizione";
+$query .= " pc.cod_ruolo_pers_fam, rpf.descrizione,s.matricola, s.data_inizio_val, s.data_fine_val";
 $query .= " FROM persone p";
 $query .= " INNER JOIN pers_casa pc ON  pc.id_pers = p.id";
 $query .= " INNER JOIN casa c ON  pc.id_casa = c.id";
 $query .= " INNER JOIN morance m ON  c.id_moranca = m.id";
-$query .= " INNER JOIN ruolo_pers_fam rpf ON  pc.cod_ruolo_pers_fam = rpf.cod ";
+$query .= " INNER JOIN ruolo_pers_fam rpf ON  pc.cod_ruolo_pers_fam = rpf.cod";
+$query .= " LEFT JOIN studenti s ON  s.matricola = p.matricola_stud";
 $query .= " where p.sesso like '$sesso' and m.cod_zona like '$zona' ".$sceltaeta." order by '$ordine'; ";
 $result = $conn->query($query);
 $nr = $result->num_rows;
@@ -60,7 +62,6 @@ if($sesso=="%"){
 }
 $output="Questa tabella e stata generata dall'applicazione web<br>";
 $output .= "Questa tabella contiene le persone della zona '$zona', di sesso '$sesso', con eta '$eta', in ordine di '$ordine': creata il '$oraoggi'<br>";
-$righe = $result->fetch_array(MYSQLI_ASSOC);
         $output .= ("<table id=\"table\" border=\"1\"><tr id=\"riga\">");
         foreach ($righe as $chiave => $valore) {
             $output .=( "<th align=\"center\">" . $chiave . "</th>");
