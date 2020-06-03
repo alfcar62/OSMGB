@@ -75,12 +75,10 @@ $result=$conn->query($query);
 echo $conn->error;
 if($result)
 {
-$row = $result->fetch_array();
-echo " morti da 1 a 5 anni";
-$morti_1_5=$row ["MORTI"];
+ $row = $result->fetch_array();
+//echo " morti da 1 a 5 anni";
+ $morti_1_5=$row ["MORTI"];
 //echo $morti_1_5;
-
-
 }
 
 

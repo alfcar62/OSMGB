@@ -15,8 +15,8 @@ isLogged();
 ?>
 <br>
 <a href='statistiche_zona.php'>Statistiche per zona <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
+<a href='morti.php'>Statistiche decessi <i class="fa fa-pie-chart" aria-hidden="true"></i></a>
 <br>
-
 <?php
 $util = $config_path .'/../db/db_conn.php';
 require $util;
