@@ -1,1 +1,643 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-15.51526,12.005265]},"properties":{"name":"1","tag":"first category","verified":"31\/01\/2020","description":{"Casa":"CASA1","Moranca":"MORANCA1","Capo Famiglia":"Prova","Numero persone":"101"}}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-15.515035151932,12.004152245777]},"properties":{"name":"2","tag":"first category","verified":"31\/01\/2020","description":{"Casa":"farioli","Moranca":"m1","Capo Famiglia":"pippo","Numero persone":"3"}}}]}
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4879,
+                    12.0014
+                ]
+            },
+            "properties": {
+                "name": "1",
+                "tag": "NORD",
+                "verified": "06\/05\/2020",
+                "description": {
+                    "id OSM": "747450335",
+                    "Nome Casa": "CASA 1",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Armindo  Fassu",
+                    "Numero Persone": "7"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4886,
+                    12.0001
+                ]
+            },
+            "properties": {
+                "name": "2",
+                "tag": "NORD",
+                "verified": "04\/05\/2020",
+                "description": {
+                    "id OSM": "751277428",
+                    "Nome Casa": "CASA-2",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Fassu  Findam",
+                    "Numero Persone": "5"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4878,
+                    12.0012
+                ]
+            },
+            "properties": {
+                "name": "3",
+                "tag": "NORD",
+                "verified": "10\/05\/2020",
+                "description": {
+                    "id OSM": "747450333",
+                    "Nome Casa": "CASA-3",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Benedito  Biagu\u00e9",
+                    "Numero Persone": "2"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5034,
+                    11.9972
+                ]
+            },
+            "properties": {
+                "name": "4",
+                "tag": "NORD",
+                "verified": "27\/10\/2020",
+                "description": {
+                    "id OSM": "749728795",
+                    "Nome Casa": "CASA 4",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Nhangha Djilpum  Biagu\u00e9",
+                    "Numero Persone": "5"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4896,
+                    12.0017
+                ]
+            },
+            "properties": {
+                "name": "5",
+                "tag": "NORD",
+                "verified": "02\/05\/2020",
+                "description": {
+                    "id OSM": "751277428",
+                    "Nome Casa": "CASA 5",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Viriato  Biagu\u00e9",
+                    "Numero Persone": "9"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5023,
+                    11.9996
+                ]
+            },
+            "properties": {
+                "name": "7",
+                "tag": "NORD",
+                "verified": "02\/05\/2020",
+                "description": {
+                    "id OSM": "747273371",
+                    "Nome Casa": "CASA 7",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Buaham  Sitna",
+                    "Numero Persone": "8"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5035,
+                    11.9989
+                ]
+            },
+            "properties": {
+                "name": "8",
+                "tag": "NORD",
+                "verified": "02\/05\/2020",
+                "description": {
+                    "id OSM": "747273371",
+                    "Nome Casa": "CASA 8",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Cam-nate  N\u0092Daga",
+                    "Numero Persone": "6"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5022,
+                    11.9994
+                ]
+            },
+            "properties": {
+                "name": "9",
+                "tag": "NORD",
+                "verified": "02\/05\/2020",
+                "description": {
+                    "id OSM": "747273371",
+                    "Nome Casa": "CASA 9",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Nhin-na Quibunh",
+                    "Numero Persone": "17"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5027,
+                    11.9992
+                ]
+            },
+            "properties": {
+                "name": "10",
+                "tag": "NORD",
+                "verified": "02\/05\/2020",
+                "description": {
+                    "id OSM": "747273371",
+                    "Nome Casa": "CASA 10",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Wongha Quibunh",
+                    "Numero Persone": "5"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5027,
+                    11.9987
+                ]
+            },
+            "properties": {
+                "name": "11",
+                "tag": "NORD",
+                "verified": "03\/05\/2020",
+                "description": {
+                    "id OSM": "747273371",
+                    "Nome Casa": "CASA-11",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Biamate  Quebunh",
+                    "Numero Persone": "6"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5029,
+                    11.9989
+                ]
+            },
+            "properties": {
+                "name": "12",
+                "tag": "NORD",
+                "verified": "03\/05\/2020",
+                "description": {
+                    "id OSM": "747273371",
+                    "Nome Casa": "CASA 12",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Busna M\u0092Pul ",
+                    "Numero Persone": "8"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5123,
+                    12.0039
+                ]
+            },
+            "properties": {
+                "name": "13",
+                "tag": "NORD",
+                "verified": "03\/05\/2020",
+                "description": {
+                    "id OSM": "744568003",
+                    "Nome Casa": "CASA-13",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Glode  M\u0092Pul",
+                    "Numero Persone": "3"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5099,
+                    12.0074
+                ]
+            },
+            "properties": {
+                "name": "14",
+                "tag": "NORD",
+                "verified": "03\/05\/2020",
+                "description": {
+                    "id OSM": "749725819",
+                    "Nome Casa": "CASA 14",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Musa  Buasat",
+                    "Numero Persone": "3"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5154,
+                    12.0044
+                ]
+            },
+            "properties": {
+                "name": "15",
+                "tag": "NORD",
+                "verified": "04\/05\/2020",
+                "description": {
+                    "id OSM": "749601627",
+                    "Nome Casa": "CASA 15",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Quimor  Fogna",
+                    "Numero Persone": "4"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5174,
+                    11.9994
+                ]
+            },
+            "properties": {
+                "name": "16",
+                "tag": "NORD",
+                "verified": "12\/05\/2020",
+                "description": {
+                    "id OSM": "750516838",
+                    "Nome Casa": "CASA 16",
+                    "Moranca": "ANDAME",
+                    "Capo Famiglia": "Sumbique  Quimor",
+                    "Numero Persone": "14"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4806,
+                    12.0092
+                ]
+            },
+            "properties": {
+                "name": "17",
+                "tag": "NORD",
+                "verified": "21\/05\/2020",
+                "description": {
+                    "id OSM": "750897208",
+                    "Nome Casa": "CASA -17",
+                    "Moranca": "ANHINANE",
+                    "Capo Famiglia": "Lona  Nhass\u00e9",
+                    "Numero Persone": "6"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4726,
+                    11.9995
+                ]
+            },
+            "properties": {
+                "name": "18",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "749236925",
+                    "Nome Casa": "CASA18",
+                    "Moranca": "ANHINANE",
+                    "Capo Famiglia": "Beifa  N\u0092Dami",
+                    "Numero Persone": "7"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4726,
+                    11.9995
+                ]
+            },
+            "properties": {
+                "name": "19",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "749236925",
+                    "Nome Casa": "CASA-19",
+                    "Moranca": "ANHINANE",
+                    "Capo Famiglia": "Sifna  N\u0092Dami",
+                    "Numero Persone": "7"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4704,
+                    11.9998
+                ]
+            },
+            "properties": {
+                "name": "20",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "749236954",
+                    "Nome Casa": "CASA 20",
+                    "Moranca": "ANHINANE",
+                    "Capo Famiglia": "",
+                    "Numero Persone": "13"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5011,
+                    11.9997
+                ]
+            },
+            "properties": {
+                "name": "21",
+                "tag": "NORD",
+                "verified": "02\/05\/2020",
+                "description": {
+                    "id OSM": "747335856",
+                    "Nome Casa": "CASA 21",
+                    "Moranca": "ANHINANE",
+                    "Capo Famiglia": "Soma Nhass\u00e9",
+                    "Numero Persone": "4"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4707,
+                    12.0025
+                ]
+            },
+            "properties": {
+                "name": "23",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "747449514",
+                    "Nome Casa": "CASA 23",
+                    "Moranca": "AFANDA",
+                    "Capo Famiglia": "",
+                    "Numero Persone": "9"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4731,
+                    12.0002
+                ]
+            },
+            "properties": {
+                "name": "24",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "749236952",
+                    "Nome Casa": "CASA 24",
+                    "Moranca": "AFANDA",
+                    "Capo Famiglia": "Bisentchate  Quifug",
+                    "Numero Persone": "9"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4692,
+                    12.004
+                ]
+            },
+            "properties": {
+                "name": "25",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "749236941",
+                    "Nome Casa": "CASA 25",
+                    "Moranca": "AFANDA",
+                    "Capo Famiglia": "Ueret  Banghaba",
+                    "Numero Persone": "7"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4711,
+                    12.0011
+                ]
+            },
+            "properties": {
+                "name": "26",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "747449528",
+                    "Nome Casa": "CASA 26",
+                    "Moranca": "AFANDA",
+                    "Capo Famiglia": "Fiar\u00e9   Buota",
+                    "Numero Persone": "7"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4711,
+                    12.0011
+                ]
+            },
+            "properties": {
+                "name": "27",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "747449528",
+                    "Nome Casa": "CASA 27",
+                    "Moranca": "AFANDA",
+                    "Capo Famiglia": "Pambunh  Buota",
+                    "Numero Persone": "8"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4728,
+                    11.9995
+                ]
+            },
+            "properties": {
+                "name": "28",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "749236927",
+                    "Nome Casa": "CASA 28",
+                    "Moranca": "AFANDA",
+                    "Capo Famiglia": "",
+                    "Numero Persone": "2"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4693,
+                    12.0036
+                ]
+            },
+            "properties": {
+                "name": "29",
+                "tag": "NORD",
+                "verified": "16\/05\/2020",
+                "description": {
+                    "id OSM": "749236937",
+                    "Nome Casa": "CASA 29",
+                    "Moranca": "ABODNA",
+                    "Capo Famiglia": "Bidigande  Becpaz",
+                    "Numero Persone": "9"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.5035,
+                    11.997
+                ]
+            },
+            "properties": {
+                "name": "114",
+                "tag": "NORD",
+                "verified": "03\/05\/2020",
+                "description": {
+                    "id OSM": "747273371",
+                    "Nome Casa": "CASA 114",
+                    "Moranca": "ATIUAI",
+                    "Capo Famiglia": "Lona  Ial\u00e1",
+                    "Numero Persone": "7"
+                }
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -15.4988,
+                    12.0065
+                ]
+            },
+            "properties": {
+                "name": "118",
+                "tag": "OVEST",
+                "verified": "21\/05\/2020",
+                "description": {
+                    "id OSM": "751355496",
+                    "Nome Casa": "CASA 118",
+                    "Moranca": "AGUILANGUE",
+                    "Capo Famiglia": "Quime  Crima",
+                    "Numero Persone": "8"
+                }
+            }
+        }
+    ]
+}
