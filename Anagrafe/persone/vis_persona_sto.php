@@ -28,7 +28,7 @@ $id_persona=$_POST['id_persona'];
 // Creo una variabile dove imposto il numero di record 
 // da mostrare in ogni pagina
 $x_pag = 10;
-
+$_SESSION['id_persona']=$id_persona; //per il visualizza matricola
 // Recupero il numero di pagina corrente.
 // Generalmente si utilizza una querystring
 $pag = isset($_GET['pag']) ? $_GET['pag'] : 1;
@@ -101,6 +101,7 @@ if ($result->num_rows ==1)
     echo "<th>cod ruolo</th>";
     echo "<th>desc ruolo</th>";
      echo "<th>matricola</th>";
+
     echo "</tr>";
 
     echo "<tr>";
@@ -114,6 +115,7 @@ if ($result->num_rows ==1)
     echo "<td>$row[cod_ruolo_pers_fam]</td>";
     echo "<td>$row[desc_ruolo_pers_fam]</td>";
      echo "<td>$row[matricola]</td>";
+    
     echo "</tr>";
     echo "</table>";
    }
@@ -163,6 +165,7 @@ if ($result->num_rows !=0)
 		echo "<th>cod ruolo</th>";
 		echo "<th>desc ruolo</th>";
         echo "<th>matricola</th>";
+    
 	    echo "</tr>";
 
 	    while ($row = $result->fetch_array())
@@ -194,8 +197,11 @@ if ($result->num_rows !=0)
 
   $result->free();
   $conn->close();
-  
-  echo "<br><a href='gest_persone.php'>Torna a gestione persone</a>" 
+    
+    echo "<br><a href='vis_matricola_sto.php'>Visualizza lo storico della matricola</a><br>" ;
+    
+
+  echo "<br><a href='gest_persone.php'>Torna a gestione persone</a>" ;
 
  ?>  
  

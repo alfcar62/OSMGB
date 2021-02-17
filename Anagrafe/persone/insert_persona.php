@@ -17,6 +17,7 @@ $cod_ruolo=$_POST["id_ruolo_nuovo"];
 $sesso=$_POST["sesso"];
 $matricola=$_POST['matricola'];
 $inizio_matricola=$_POST['inizio_matricola'];
+$desc_matricola=$_POST['desc_matricola'];
 $data_odierna = date("y/m/d");
 
 try 
@@ -75,7 +76,11 @@ try
             throw new Exception($msg_err);
         }
         
-        $query="INSERT INTO studenti (matricola,data_inizio_val) values ('$matricola','$inizio_matricola')"; 
+        $query="INSERT INTO studenti (matricola,data_inizio_val,descrizione) values ('$matricola','$inizio_matricola',"; 
+        if($desc_matricola=="" || $desc_matricola==NULL)
+        $query.="NULL)";
+        else
+            $query.="'$desc_matricola')";
         $result = $conn->query($query);
         // echo $query."<br>";
         if (!$result)
@@ -132,5 +137,5 @@ catch (Exception $e )
     $mymsg = "Errore inserimento persona id=$id_pers " . $msg_err;
     EchoMessage($mymsg, "gest_persone.php");
 }
-EchoMessage("Inserimento  persona id=$id_pers effettuato correttamente", "gest_persone.php");
+EchoMessage("Inserimento  persona id=$id_pers effettuato correttamente $desc_matricola", "gest_persone.php");
 ?>
