@@ -230,12 +230,10 @@ var chart = new CanvasJS.Chart("chartContainer1",
         data: [
         {
             type: "pie",
-            showInLegend: false,
+            showInLegend: true,
             dataPoints: [
-                { y: 0, legendText: "360",  },
-                { y:0, legendText: "360", },
-                { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% numero femmine" ?>" }, 
-                { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% numero maschi" },
+                { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% femmine" ?>" }, 
+                { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% maschi" },
 
             ]
         },
