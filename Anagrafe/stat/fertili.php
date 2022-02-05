@@ -144,11 +144,13 @@ var chart = new CanvasJS.Chart("chartContainer1",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+		    indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
                 
-                { y:<?php echo (($etafertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " fertili : ".$etafertile ?>", indexLabel: "% donne in età fertile" },
-                { y:<?php echo (($nonfertile/$numero_persone_f)*100) ?>, legendText: "<?php echo "non fertili : ".$nonfertile ?>", indexLabel: "% donne non in età fertile" },
+                { y:<?php echo (($etafertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " fertili : ".$etafertile ?>", label: "% donne in età fertile" },
+                { y:<?php echo (($nonfertile/$numero_persone_f)*100) ?>, legendText: "<?php echo "non fertili : ".$nonfertile ?>", label: "% donne non in età fertile" },
                 
             ]
         },

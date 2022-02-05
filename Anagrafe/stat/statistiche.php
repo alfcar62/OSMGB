@@ -230,11 +230,12 @@ var chart = new CanvasJS.Chart("chartContainer1",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+	  	    indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
-                { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% femmine" ?>" }, 
-                { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% maschi" },
-
+                { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", label:" <?php echo "% femmine" ?>" }, 
+                { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", label: "%  maschi" },
             ]
         },
         ]
@@ -249,10 +250,12 @@ var chart = new CanvasJS.Chart("chartContainer2",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+	  	    indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
-                { y: <?php echo (($minorenni/$numero_persone)*100) ?>, legendText:" <?php echo "minorenni: ".$minorenni ?>", indexLabel:" <?php echo "% numero minorenni" ?>"}, 
-                { y: <?php echo(($maggiorenni/$numero_persone)*100) ?>, legendText: "<?php echo "maggiorenni: ". $maggiorenni ?>", indexLabel: "% numero maggiorenni" },
+                { y: <?php echo (($minorenni/$numero_persone)*100) ?>, legendText:" <?php echo "minorenni: ".$minorenni ?>", label:" <?php echo "%  minorenni" ?>"}, 
+                { y: <?php echo(($maggiorenni/$numero_persone)*100) ?>, legendText: "<?php echo "maggiorenni: ". $maggiorenni ?>", label: "%  maggiorenni" },
             ]
         },
         ]
@@ -267,13 +270,15 @@ var chart = new CanvasJS.Chart("chartContainer3",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+	  	    indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
-                { y: <?php echo (($minori20/$numero_persone)*100) ?>, legendText: "<?php echo "fino 20 anni: ".$minori20 ?>", indexLabel: "% numero dei minori di 20 anni" },
-                { y: <?php echo (($persone20_40/$numero_persone)*100) ?>, legendText: "<?php echo "20 / 40 anni: ".$persone20_40 ?>", indexLabel: "% numero delle persone tra 20 e 40 anni" },
-                { y: <?php echo (($persone_40_60/$numero_persone)*100) ?>, legendText: "<?php echo "40 / 60 anni: ".$persone_40_60 ?>", indexLabel: "% numero delle persone tra 40 e 60 anni" },
-                { y: <?php echo (($maggiori60/$numero_persone)*100) ?>, legendText:"<?php echo "60 o più: ".$maggiori60 ?>", indexLabel: "% numero di persone sopra 60 anni" },
-                { y: <?php echo (($sprovvisti/$numero_persone)*100) ?>, legendText:"<?php echo "senza età: ".$sprovvisti ?>", indexLabel: "% numero di persone senza età"}
+                { y: <?php echo (($minori20/$numero_persone)*100) ?>, legendText: "<?php echo "fino 20 anni: ".$minori20 ?>", label: "%  meno di 20 anni" },
+                { y: <?php echo (($persone20_40/$numero_persone)*100) ?>, legendText: "<?php echo "20 / 40 anni: ".$persone20_40 ?>", label: "%  tra 20 e 40 anni" },
+                { y: <?php echo (($persone_40_60/$numero_persone)*100) ?>, legendText: "<?php echo "40 / 60 anni: ".$persone_40_60 ?>", label: "%  tra 40 e 60 anni" },
+                { y: <?php echo (($maggiori60/$numero_persone)*100) ?>, legendText:"<?php echo "60 o più: ".$maggiori60 ?>", label: "% sopra 60 anni" },
+                { y: <?php echo (($sprovvisti/$numero_persone)*100) ?>, legendText:"<?php echo "senza età: ".$sprovvisti ?>", label: "% senza età"}
             ]
         },
         ]
@@ -288,11 +293,13 @@ var chart = new CanvasJS.Chart("chartContainer4",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+	  	    indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
                 
-                { y:<?php echo (($etafertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " età fertile : ".$etafertile ?>", indexLabel: "% donne in età fertile" },
-                { y:<?php echo (($nonfertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " età non fertile : ".$nonfertile ?>", indexLabel: "% donne non in età fertile" },
+                { y:<?php echo (($etafertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " età fertile : ".$etafertile ?>", label: "% donne in età fertile" },
+                { y:<?php echo (($nonfertile/$numero_persone_f)*100) ?>, legendText: "<?php echo " età non fertile : ".$nonfertile ?>", label: "% donne non in età fertile" },
                 
             ]
         },

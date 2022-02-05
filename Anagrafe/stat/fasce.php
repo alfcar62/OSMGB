@@ -199,13 +199,15 @@ var chart = new CanvasJS.Chart("chartContainer1",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+		    indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
-                { y: <?php echo (($minori20/$numero_persone)*100) ?>, legendText: "<?php echo "fino 20 anni: ".$minori20 ?>", indexLabel: "% numero dei minori di 20 anni" },
-                { y: <?php echo (($persone20_40/$numero_persone)*100) ?>, legendText: "<?php echo "20 / 40 anni: ".$persone20_40 ?>", indexLabel: "% numero delle persone tra 20 e 40 anni" },
-                { y: <?php echo (($persone_40_60/$numero_persone)*100) ?>, legendText: "<?php echo "40 / 60 anni: ".$persone_40_60 ?>", indexLabel: "% numero delle persone tra 40 e 60 anni" },
-                { y: <?php echo (($maggiori60/$numero_persone)*100) ?>, legendText:"<?php echo "60 o più: ".$maggiori60 ?>", indexLabel: "% numero di persone sopra 60 anni" },
-                { y: <?php echo (($sprovvisti/$numero_persone)*100) ?>, legendText:"<?php echo "senza età: ".$sprovvisti ?>", indexLabel: "% numero di persone senza età"}
+                { y: <?php echo (($minori20/$numero_persone)*100) ?>, legendText: "<?php echo "fino 20 anni: ".$minori20 ?>", label: "% numero dei minori di 20 anni" },
+                { y: <?php echo (($persone20_40/$numero_persone)*100) ?>, legendText: "<?php echo "20 / 40 anni: ".$persone20_40 ?>", label: "% numero delle persone tra 20 e 40 anni" },
+                { y: <?php echo (($persone_40_60/$numero_persone)*100) ?>, legendText: "<?php echo "40 / 60 anni: ".$persone_40_60 ?>", label: "% numero delle persone tra 40 e 60 anni" },
+                { y: <?php echo (($maggiori60/$numero_persone)*100) ?>, legendText:"<?php echo "60 o più: ".$maggiori60 ?>", label: "% numero di persone sopra 60 anni" },
+                { y: <?php echo (($sprovvisti/$numero_persone)*100) ?>, legendText:"<?php echo "senza età: ".$sprovvisti ?>", label: "% numero di persone senza età"}
             ]
         },
         ]

@@ -93,21 +93,23 @@ GROUP BY zone.NOME ";
                     },
                     data: [{
                         type: "pie",
+                        yValueFormatString: "##0.00\"%\"",
+		                indexLabel: "{label} {y}",
                         showInLegend: true,
                         dataPoints: [{
                                 y: <?php echo $elenco["SUD"] ?>,
                                 legendText: "<?php echo "abitanti zona sud: " . $elenco["SUD"] ?>",
-                                indexLabel: "numero di abitanti nella zona SUD"
+                                label: "numero di abitanti nella zona SUD"
                             },
                             {
                                 y: <?php echo $elenco["NORD"] ?>,
                                 legendText: "<?php echo "abitanti zona NORD: " . $elenco["NORD"] ?>",
-                                indexLabel: "numero di abitanti nella zona NORD"
+                                label: "numero di abitanti nella zona NORD"
                             },
                             {
                                 y: <?php echo $elenco["OVEST"] ?>,
                                 legendText: "<?php echo "abitanti zona NORD: " . $elenco["OVEST"] ?>",
-                                indexLabel: "numero di abitanti nella zona OVEST"
+                                label: "numero di abitanti nella zona OVEST"
                             },
                         ]
                     }, ]

@@ -146,11 +146,12 @@ var chart = new CanvasJS.Chart("chartContainer1",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+            indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
-                { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", indexLabel:" <?php echo "% femmine" ?>" }, 
-                { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", indexLabel: "% maschi" },
-
+                { y: <?php echo (ceil(($numero_persone_f/$numero_persone)*100)) ?>, legendText:" <?php echo "femmine ".$numero_persone_f ?>", label:" <?php echo "% numero femmine" ?>" }, 
+                { y: <?php echo(floor(($numero_persone_m/$numero_persone)*100)) ?>, legendText: "<?php echo "maschi ".$numero_persone_m ?>", label: "% numero maschi" },
             ]
         },
         ]
