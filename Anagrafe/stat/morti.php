@@ -252,15 +252,17 @@ var chart = new CanvasJS.Chart("chartContainer1",
         data: [
         {
             type: "pie",
+            yValueFormatString: "##0.00\"%\"",
+	    	indexLabel: "{label} {y}",
             showInLegend: true,
             dataPoints: [
-                { y: <?php echo (($morti_0_1/$morti_totali)*100) ?>, legendText: "<?php echo "deceduti neonatale: ".$morti_0_1 ?>", indexLabel: "% deceduti neonatale" },
-                { y: <?php echo (($morti_1_5/$morti_totali)*100) ?>, legendText: "<?php echo "deceduti 1 5 anni: ".$morti_1_5 ?>", indexLabel: "% deceduti da 1 a 5 anni" },
-                { y: <?php echo (($morti_5_10/$morti_totali)*100) ?>, legendText: "<?php echo "deceduti 5 10 anni: ".$morti_5_10 ?>", indexLabel: "% deceduti da 5 a 10 anni" },
-                { y: <?php echo (($morti_10_20/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti 10 20 anni: ".$morti_10_20 ?>", indexLabel: "% deceduti da 10 a 20 anni" },
-                { y: <?php echo (($morti_20_40/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti 20 40 anni: ".$morti_20_40 ?>", indexLabel: "% deceduti da 20 a 40 anni"},
-                { y: <?php echo (($morti_40_60/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti 40 60 anni: ".$morti_40_60 ?>", indexLabel: "% deceduti da 40 a 60 anni"},
-                { y: <?php echo (($morti_60/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti sopra 60 anni: ".$morti_60 ?>", indexLabel: "% deceduti da 60 anni in su"}
+                { y: <?php echo (($morti_0_1/$morti_totali)*100) ?>, legendText: "<?php echo "deceduti neonatale: ".$morti_0_1 ?>", label: "% deceduti neonatale" },
+                { y: <?php echo (($morti_1_5/$morti_totali)*100) ?>, legendText: "<?php echo "deceduti 1 5 anni: ".$morti_1_5 ?>", label: "% deceduti da 1 a 5 anni" },
+                { y: <?php echo (($morti_5_10/$morti_totali)*100) ?>, legendText: "<?php echo "deceduti 5 10 anni: ".$morti_5_10 ?>", label: "% deceduti da 5 a 10 anni" },
+                { y: <?php echo (($morti_10_20/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti 10 20 anni: ".$morti_10_20 ?>", label: "% deceduti da 10 a 20 anni" },
+                { y: <?php echo (($morti_20_40/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti 20 40 anni: ".$morti_20_40 ?>", label: "% deceduti da 20 a 40 anni"},
+                { y: <?php echo (($morti_40_60/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti 40 60 anni: ".$morti_40_60 ?>", label: "% deceduti da 40 a 60 anni"},
+                { y: <?php echo (($morti_60/$morti_totali)*100) ?>, legendText:"<?php echo "deceduti sopra 60 anni: ".$morti_60 ?>", label: "% deceduti da 60 anni in su"}
             ]
         },
         ]
