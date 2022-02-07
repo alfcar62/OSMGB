@@ -110,9 +110,9 @@ $pag=$_SESSION['pag_p']['pag_p'];
 
 
         echo "</select><br>";
-        echo  " <label for='matricola'>Matricola : </label><input type='text' name='matricola' placeholder='Modifica matricola se è uno studente' value = '".$matricola."'><br>";
-        echo  " <label for='inizio_matricola'>Data inizio matricola : </label><input type='date' name='inizio_matricola'  value = '".$inizio_matricola."'><br>";
-        echo  " <label for='fine_matricola'>Data fine matricola : </label><input type='date' name='fine_matricola' value = '".$fine_matricola."'><br>";
+        echo  " <label for='matricola'>Matricola : </label><input type='text' name='matricola' placeholder='Modifica matricola se è uno studente' value = '".$matricola."' required><br>";
+        echo  " <label for='inizio_matricola'>Data inizio matricola : </label><input type='date' name='inizio_matricola'  value = '".$inizio_matricola."' required><br>";
+        echo  " <label for='fine_matricola'>Data fine matricola : </label><input type='date' name='fine_matricola' value = '".$fine_matricola."' required><br>";
         echo "<button type='submit' class='button'>Modifica</button>";
         echo "</form>";
     }
