@@ -16,12 +16,11 @@ $pag=$_SESSION['pag_p']['pag_p'];
 ?>
 <?php stampaIntestazione(); ?>
 <body>
-    <?php stampaNavbar(); ?>
+   <?php stampaNavbar(); ?>
     <?php
     $id_pers = $_POST['id_pers'];
     //echo "id pers = ". $id_pers;
-    $_SESSION["id_persona_modifica"]= $_POST['id_pers'];
-
+   $_SESSION["id_persona_modifica"]= $_POST['id_pers'];
 
     //$result = $conn->query("START TRANSACTION");
     $conn->begin_transaction();
@@ -110,9 +109,9 @@ $pag=$_SESSION['pag_p']['pag_p'];
 
 
         echo "</select><br>";
-        echo  " <label for='matricola'>Matricola : </label><input type='text' name='matricola' placeholder='Modifica matricola se è uno studente' value = '".$matricola."'><br>";
-        echo  " <label for='inizio_matricola'>Data inizio matricola : </label><input type='date' name='inizio_matricola'  value = '".$inizio_matricola."'><br>";
-        echo  " <label for='fine_matricola'>Data fine matricola : </label><input type='date' name='fine_matricola' value = '".$fine_matricola."'><br>";
+        echo  " <label for='matricola'>Matricola scuola: </label><input type='text' name='matricola' placeholder='Modifica matricola se è uno studente' value = '".$matricola."' ><br>";
+        echo  " <label for='inizio_matricola'>Data inizio scuola: </label><input type='date' name='inizio_matricola'  value = '".$inizio_matricola."' ><br>";
+        echo  " <label for='fine_matricola'>Data fine scuola : </label><input type='date' name='fine_matricola' value = '".$fine_matricola."' <br>";
         echo "<button type='submit' class='button'>Modifica</button>";
         echo "</form>";
     }
