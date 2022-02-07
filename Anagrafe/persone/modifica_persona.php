@@ -66,7 +66,7 @@ try
     $query .= " AND c.id = pc.id_casa";
     $query .= " AND pc.cod_ruolo_pers_fam = rpf.cod";
 
-    echo "q1 ".$query."<br>";
+    //echo "q1 ".$query."<br>";
    
     $result=$conn->query($query);
     if (!$result)
@@ -223,7 +223,7 @@ try
     $query .= "'$currentdate'";
     $query .= ")";
 
-    echo "q2 ".$query."<br>";
+    //echo "q2 ".$query."<br>";
     
     $result = $conn->query($query);
 
