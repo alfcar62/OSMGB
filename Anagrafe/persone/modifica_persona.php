@@ -15,6 +15,8 @@ if (isset($_SESSION['pag_p']['pag_p']))
     $pag=$_SESSION['pag_p']['pag_p'];
 unset($_SESSION['pag_c']);
 
+
+
 // salvo i nuovi valori
 $nominativo_new=$_POST['nominativo'];
 //echo "nominativo nuovo:$nominativo_new<br>";
@@ -64,7 +66,8 @@ try
     $query .= " AND c.id = pc.id_casa";
     $query .= " AND pc.cod_ruolo_pers_fam = rpf.cod";
 
-    // echo "q1 ".$query."<br>";
+    echo "q1 ".$query."<br>";
+   
     $result=$conn->query($query);
     if (!$result)
     {
@@ -133,18 +136,18 @@ try
     }
     if($matricola_new != $row['matricola'])
     {
-        $tipo_operazione.="-matricola-";
+        $tipo_operazione.="-matr-";
         $matricola_cambiata=true; 
     }
     if($inizio_matricola_new != $row['inizio_matricola'] && $inizio_matricola_new !="")
     {
         
-        $tipo_operazione.="-inizio_matricola-";
+        $tipo_operazione.="-inizio_matr-";
         $inizio_matricola_cambiato=true; 
     }
     if($fine_matricola_new != $row['fine_matricola'] && $fine_matricola_new !="")
     {
-        $tipo_operazione.="-fine_matricola-";
+        $tipo_operazione.="-fine_matr-";
         $fine_matricola_cambiato=true; 
     }
 
@@ -179,7 +182,7 @@ try
         }
     }
 
-    /*
+/*
 *** INSERT su persone_sto (vecchi valori)
 */
     $query="INSERT INTO persone_sto (";
@@ -194,7 +197,7 @@ try
     $query .= "  )";
     $query .= " VALUES(";
     $query .= "'$tipo_operazione',";
-    $query .= "'$id_pers_modifica',";
+    $query .= $id_pers_modifica .",";
     $query .= "'$nominativo_old',";
     $query .= "'$sesso_old',";
 
@@ -220,7 +223,8 @@ try
     $query .= "'$currentdate'";
     $query .= ")";
 
-    // echo "q2 ".$query."<br>";
+    echo "q2 ".$query."<br>";
+    
     $result = $conn->query($query);
 
     if (!$result)
@@ -266,7 +270,7 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
     }
 
 
-    if($matricola_old==null || $matricola_old=="")
+    if($matricola_old==null || $matricola_old=='')
 	  { //se la matricola è da inserire e non da modificare
             $query= "INSERT INTO studenti(matricola,data_inizio_val,data_fine_val) ";
             $query.="VALUES('$matricola_new'";
@@ -280,6 +284,7 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
                 $query .=",'$fine_matricola_new')";
 
             $result = $conn->query($query);
+            
             if (!$result)
             {
                 $msg_err = "Errore insert studenti";
