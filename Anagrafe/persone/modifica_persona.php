@@ -161,7 +161,7 @@ try
     // se la nuova casa ha già un capo famiglia vivente, non posso scegliere come ruolo capo famiglia
     if ($ruolo_cambiato  && $id_ruolo_modifica_new == 'CF')
     {
-        $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc, persona p ";
+        $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc, persone p ";
         $query .=  " WHERE pc.id_casa = c.id ";
 	$query .=  " AND pc.id_pers = p.id ";  
         $query .=  " AND c.id =". $id_casa_new;
