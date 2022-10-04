@@ -23,13 +23,15 @@ try
 {
     $conn->query("START TRANSACTION"); //inizio transazione
 
-    // se la  casa ha gi‡ un capo famiglia, non posso scegliere come ruolo capo famiglia
+    // se la  casa ha gi√† un capo famiglia vivente, non posso scegliere come ruolo capo famiglia
     if ($cod_ruolo == 'CF')
     {
-        $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc ";
+        $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc, persona p ";
         $query .=  " WHERE pc.id_casa = c.id ";
+        $query .=  " AND pc.id_pers = p.id ";
         $query .=  " AND c.id =". $id_casa;
         $query .=  " AND pc.cod_ruolo_pers_fam = 'CF'";
+        $query .=  " AND p.data_morte IS NOT NULL ";
         //	echo $query;
 
         $result = $conn->query($query);
@@ -55,7 +57,7 @@ try
     $result->free();
     if(isset($matricola) and $matricola!=null){
 
-        $query  =  " SELECT count(s.matricola) as count from studenti s "; //verifico se la matricola Ë gi‡ esistente in quanto deve essere univoca,se si lancio un exception
+        $query  =  " SELECT count(s.matricola) as count from studenti s "; //verifico se la matricola √® gi√† esistente in quanto deve essere univoca,se si lancio un exception
         $query .=  " WHERE s.matricola ='$matricola'";
         //	echo $query;
 
@@ -71,7 +73,7 @@ try
         
         if ($row['count']>0) 
         {
-            $msg_err = "Esiste gi‡ un altra persona con la stessa matricola: verificarne la correttezza";
+            $msg_err = "Esiste gi√† un altra persona con la stessa matricola: verificarne la correttezza";
             throw new Exception($msg_err);
         }
         
