@@ -22,6 +22,25 @@ $data_odierna = date("y/m/d");
 try 
 {
     $conn->query("START TRANSACTION"); //inizio transazione
+    
+    $myNominativo =  trim(strtoupper($nominativo));
+    // controlla se esiste già una persona on quel nominativo
+    $query  =  " SELECT count(p.id) as cont FROM persone p ";
+    $query .=  " WHERE TRIM(UPPER(p.nominativo)) = '$myNominativo'";
+    $result = $conn->query($query);
+
+    if (!$result)
+        {
+            $msg_err = "Errore select n.1:".$query;
+            throw new Exception($conn->error);
+        }
+    $row = $result->fetch_array();
+    if ($row['cont']>0) 
+        {
+            $msg_err = "Esiste  una persona con lo stesso nominativo";
+            throw new Exception($msg_err);
+        }
+   
 
     // se la  casa ha già un capo famiglia vivente, non posso scegliere come ruolo capo famiglia
     if ($cod_ruolo == 'CF')
