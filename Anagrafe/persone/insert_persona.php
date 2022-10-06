@@ -23,10 +23,13 @@ try
 {
     $conn->query("START TRANSACTION"); //inizio transazione
     
-    $myNominativo =  trim(strtoupper($nominativo));
+    //elimino gli spazi e porto tutto maiuscolo il nominativo
+    $myNominativo = str_replace(' ', '', strtoupper($nominativo));
+    
     // controlla se esiste già una persona on quel nominativo
     $query  =  " SELECT count(p.id) as cont FROM persone p ";
-    $query .=  " WHERE TRIM(UPPER(p.nominativo)) = '$myNominativo'";
+    $query .=  " WHERE REPLACE(UPPER(p.nominativo),' ','') = '$myNominativo'";
+     
     $result = $conn->query($query);
 
     if (!$result)
