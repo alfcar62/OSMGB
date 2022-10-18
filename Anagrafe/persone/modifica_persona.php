@@ -163,10 +163,10 @@ try
     {
         $query  =  " SELECT count(pc.id) as cont FROM casa c, pers_casa pc, persone p ";
         $query .=  " WHERE pc.id_casa = c.id ";
-	$query .=  " AND pc.id_pers = p.id ";  
         $query .=  " AND c.id =". $id_casa_new;
+        $query .=  " AND pc.id_pers = p.id ";
         $query .=  " AND pc.cod_ruolo_pers_fam = 'CF'";
-	$query .=  " AND p.data_morte IS NOT NULL ";
+        $query .=  " AND p.data_morte IS NOT NULL ";
         //	echo $query;
 
         $result = $conn->query($query);
@@ -271,28 +271,40 @@ if($matricola_cambiata and ($matricola_new!=null or $matricola_new!=''))
         }
     }
 
-
-    if($matricola_old==null || $matricola_old=='')
+    if ($matricola_new!=null &&
+       $matricola_new!='' && 
+       $matricola_new != "0000-00-00")
+    {
+     if($matricola_old==null || 
+       $matricola_old=='' || 
+       $matricola_old == "0000-00-00")
 	  { //se la matricola è da inserire e non da modificare
             $query= "INSERT INTO studenti(matricola,data_inizio_val,data_fine_val) ";
             $query.="VALUES('$matricola_new'";
-            if ($inizio_matricola_new == "0000-00-00")
-                $query .= ",'NULL'";
+            if ($inizio_matricola_new ==  null ||
+                $inizio_matricola_new == ' ' ||
+                $inizio_matricola_new == "0000-00-00")
+                $query .= ",NULL";
             else
                 $query .=",'$inizio_matricola_new'";
-            if ($fine_matricola_new == "0000-00-00")
-                $query .= ",'NULL'";
+                
+            if ($fine_matricola_new ==  null ||
+                $fine_matricola_new == ' ' ||
+                $fine_matricola_new == "0000-00-00")
+                $query .= ",NULL)";
             else
                 $query .=",'$fine_matricola_new')";
 
             $result = $conn->query($query);
-            
+             
             if (!$result)
             {
-                $msg_err = "Errore insert studenti";
+                $msg_err = "Errore insert studenti". $query;
+                
                 throw new Exception($conn->error);
             }
             $nuova_matricola=true;//variabile che indica che deve essere esserci anche la matricola nell'update
+         }
         }
 		else
 		 {// se c'è da fare un update o delete
