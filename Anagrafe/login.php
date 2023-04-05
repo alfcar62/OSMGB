@@ -79,8 +79,10 @@ if (isset($_POST['user']) && isset($_POST['psw']))
         if($result){
             $fin= $result->fetch_array();
             $token=uniqid();
-            $query="update utenti set token='{$token}' where user='{$fin["USER"]}'";
-            $result2 = $conn->query($query);
+         /* Alf: strano, non esiste token sulla tabella utenti. A che voleva servire?
+	   $query="update utenti set token='{$token}' where user='{$fin["USER"]}'";
+           $result2 = $conn->query($query);
+	 */
         }
         if($fin)//se true l'accesso è andato a buon fine
         {
