@@ -63,7 +63,7 @@ $result=$conn->query($query);
 echo $conn->error;
 if($result)
 {
-  $numero_persone_m=$result->num_rows;
+  $numero_persone_f=$result->num_rows;
 }
 
 
@@ -82,7 +82,7 @@ $result=$conn->query($query);
 echo $conn->error;
 if($result)
 {
-  $numero_persone_f=$result->num_rows;
+  $numero_persone_m=$result->num_rows;
 }
 
 //$numero_nc=($numero_persone-($numero_persone_m+$numero_persone_f)); //persone strane
