@@ -78,6 +78,7 @@ function stampaNavbar()
     ?>
     <li><a href="/OSM/Anagrafe/info/chisiamo.php"><?php echo ($jsonObj->{$lang."Navbar"}[0])?></a></li><!--Chi siamo --> 
     <li><a href="/OSM/Anagrafe/info/progetto.php"><?php echo ($jsonObj->{$lang."Navbar"}[1])?></a></li><!--Il progetto --> 
+    <li><a href="/OSM/Anagrafe/stat/statistiche.php"><?php echo ($jsonObj->{$lang."Navbar"}[9])?></a></li><!--Statistiche --> 
     <li><a href="/OSM/Anagrafe/login.php"><IMG SRC="/OSM/Anagrafe/img/ico-login.png" ALT="Entra"></a></li> <!--Entra -->      
     <li>
         <a href="#" onclick="myFx()" class="globe">
