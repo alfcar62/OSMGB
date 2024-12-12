@@ -6,7 +6,7 @@ $config_path = __DIR__;
 $util = $config_path .'/../util.php';
 require $util;
 setup();
-isLogged();
+//isLogged(); //13/12/2024
 ?>
 
 <html>
